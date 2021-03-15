@@ -4,7 +4,7 @@
 #include <memory>
 #include <QElapsedTimer>
 
-#include "Controller//abstract_controller.h"
+#include "Controller/abstract_controller.h"
 #include "Model/model.h"
 #include "View/view.h"
 
@@ -19,7 +19,7 @@ class Controller : public AbstractController {
   void ClickAction() override;
   void GameProcess() override;
 
-  Cat* GetCat() override;
+  MovingObject* GetCat() override;
 
   void GenerateFood() override;
 

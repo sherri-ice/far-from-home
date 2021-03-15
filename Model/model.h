@@ -15,7 +15,7 @@ class Model {
   void SetModel(int level);
   void ClearGameModel();
 
-  Cat* GetCat();
+  MovingObject* GetCat();
 
  private:
   // TODO(anyone)
