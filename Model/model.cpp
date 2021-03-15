@@ -16,6 +16,6 @@ void Model::ClearGameModel() {
   map_.ClearMap();
 }
 
-Cat* Model::GetCat() {
+MovingObject* Model::GetCat() {
   return &cat_;
 }

@@ -35,6 +35,6 @@ int Controller::GetCurrentTime() {
   return current_game_time_;
 }
 
-Cat* Controller::GetCat() {
+MovingObject* Controller::GetCat() {
   return model_->GetCat();
 }

@@ -26,7 +26,7 @@ class AbstractController {
   virtual void ClickAction() = 0;
   virtual void GameProcess() = 0;
 
-  virtual Cat* GetCat() = 0;
+  virtual MovingObject* GetCat() = 0;
 
   virtual void GenerateFood() = 0;
 
