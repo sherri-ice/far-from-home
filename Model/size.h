@@ -2,6 +2,7 @@
 #define MODEL_SIZE_H_
 
 #include <cmath>
+#include <utility>
 
 class Size {
  public:

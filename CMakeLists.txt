@@ -39,7 +39,6 @@ set(SOURCES
         Model/constants.h
         View/view.cpp)
 
-#qt5_add_big_resources(RESOURCES database.qrc music.qrc images.qrc)
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 
 

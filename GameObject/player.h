@@ -1,7 +1,8 @@
-#ifndef MODEL_PLAYER_H_
-#define MODEL_PLAYER_H_
+#ifndef GAMEOBJECT_PLAYER_H_
+#define GAMEOBJECT_PLAYER_H_
 
 #include "GameObject/cat.h"
+#include <vector>
 
 class Player : public MovingObject {
  public:
@@ -22,4 +23,4 @@ class Player : public MovingObject {
   void SetPositionForEachCat();
 };
 
-#endif  // MODEL_PLAYER_H_
+#endif  // GAMEOBJECT_PLAYER_H_

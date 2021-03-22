@@ -25,7 +25,6 @@ void Player::Draw(QPainter* painter) {
 }
 
 void Player::Tick(int time) {
-
 }
 
 void Player::SetPositionForEachCat() {

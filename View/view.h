@@ -4,6 +4,7 @@
 #include <QElapsedTimer>
 #include <QMainWindow>
 #include <QTimer>
+#include <map>
 
 #include "Controller/abstract_controller.h"
 

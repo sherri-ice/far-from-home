@@ -15,7 +15,6 @@ void Cat::Draw(QPainter* painter) {
 }
 
 void Cat::Tick(int time) {
-
 }
 
 void Cat::Move(int time) {
