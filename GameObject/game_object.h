@@ -9,10 +9,9 @@
 class GameObject {
  public:
   explicit GameObject(const Size& size, const Point& position = Point(0, 0));
-  GameObject() = default;
   virtual ~GameObject() = default;
 
-  virtual void SetPosition(const Point& position);
+  virtual void SetPosition(const Point& position) = 0;
   virtual void Draw(QPainter* painter) = 0;
   virtual void Tick(int time) = 0;
 

@@ -38,3 +38,12 @@ bool Point::IsClose(const Point& lhs, const Point& rhs) {
       std::abs(lhs.GetY() - rhs.GetY()) < constants::kEpsilon);
 }
 
+Point Point::operator+(const Size& rhs) const {
+  return Point(x_ + rhs.GetWidth(), y_ + rhs.GetHeight());
+}
+
+Point& Point::operator+=(const Size& rhs) {
+  *this = *this + rhs;
+  return *this;
+}
+

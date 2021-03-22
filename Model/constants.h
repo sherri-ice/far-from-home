@@ -11,8 +11,7 @@ const int kGameHeight = 1080;
 
 const int kTimeBetweenTicks = 17;
 const int kTimeScale = 100;
-
-const double kFontSize = 32;
+const int kTimeOfPlayerMove = 3;
 
 const QString kApplicationName = "Far from home";
 }  // namespace constants

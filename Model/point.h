@@ -1,6 +1,8 @@
 #ifndef MODEL_POINT_H_
 #define MODEL_POINT_H_
 
+#include "Model/size.h"
+
 class Point {
  public:
   explicit Point(double x = 0., double y = 0.);
@@ -11,6 +13,10 @@ class Point {
   [[nodiscard]] double GetX() const;
   [[nodiscard]] double GetY() const;
   Point operator+(const Point& point);
+
+  Point operator+(const Size& rhs) const;
+
+  Point& operator+=(const Size& rhs);
 
   static bool IsClose(const Point& lhs, const Point& rhs);
  private:

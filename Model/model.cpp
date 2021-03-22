@@ -1,21 +1,14 @@
 #include "model.h"
 
-// TODO(anyone)
-// Model::Model() {
-// }
-
-void Model::SetModel(int level) {
-  level_ = level;
-  // TODO(anyone)
-  // Наверное в классе Level будут изменяться константы в соответствии с
-  // уровнем, а мы все, что надо будем получать из Level
-  // Нужно будет передать level GameMap для ее генерации
+Model::Model(int level) : level_generator_(level), current_level_(level),
+player_(Size(40, 40), double(0), Point()) {
+  player_.SetSpeed(level_generator_.GetPlayerSpeed());
 }
 
-void Model::ClearGameModel() {
-  map_.ClearMap();
+void Model::SetPlayerPosition(Point position) {
+  player_.SetPosition(position);
 }
 
-MovingObject* Model::GetCat() {
-  return &cat_;
+MovingObject * Model::GetPlayer() {
+  return &player_;
 }

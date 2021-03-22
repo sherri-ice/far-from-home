@@ -2,17 +2,17 @@
 #define GAMEOBJECT_CAT_H_
 
 #include "GameObject/moving_object.h"
+#include "Model/constants.h"
 
 class Cat : public MovingObject {
  public:
-  Cat() = default;
+  Cat(Size size, double speed, const Point& position);
   ~Cat() override = default;
 
   void Draw(QPainter* painter) override;
   void Tick(int time) override;
-  void Move(int direction) override;
-
- private:
+  void Move(int time) override;
+  void SetPosition(const Point& position) override;
 };
 
 #endif  // GAMEOBJECT_CAT_H_

@@ -5,36 +5,24 @@ Controller::Controller() {
   view_ = std::make_unique<View>(this);
 }
 
-void Controller::StartGame(int level) {
-  current_game_time_ = 0;
-  game_start_time_.start();
-  model_->SetModel(level);
-}
-
-void Controller::EndGame() {
-  model_->ClearGameModel();
-  current_game_time_ = 0;
-}
-
 void Controller::Tick(int time) {
+  Size player_velocity = view_->GetPlayerVelocity();
+  view_->ClearVelocity();
+  model_->GetPlayer()->SetVelocity(player_velocity);
+  int delta_time = time - current_game_time_;
+  model_->GetPlayer()->Tick(delta_time);
+  model_->GetPlayer()->Move(delta_time);
   current_game_time_ = time;
-  GameProcess();
 }
 
-void Controller::ClickAction() {
+MovingObject* Controller::GetPlayer() {
+  return model_->GetPlayer();
 }
 
-void Controller::GameProcess() {
-}
-
-
-void Controller::GenerateFood() {
+void Controller::SetPlayerPosition(Point position) {
+  model_->SetPlayerPosition(position);
 }
 
 int Controller::GetCurrentTime() {
   return current_game_time_;
-}
-
-MovingObject* Controller::GetCat() {
-  return model_->GetCat();
 }

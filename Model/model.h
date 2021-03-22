@@ -3,31 +3,25 @@
 
 #include <memory>
 #include <list>
+
 #include "GameObject/cat.h"
-#include "Model/game_map.h"
-#include "Model/level.h"
+#include "GameObject/player.h"
+#include "Model/level_generator.h"
 
 class Model {
  public:
-  Model() = default;
-  ~Model() = default;
+  explicit Model(int level = 0);
 
-  void SetModel(int level);
-  void ClearGameModel();
-
-  MovingObject* GetCat();
+  MovingObject* GetPlayer();
+  void SetPlayerPosition(Point position);
 
  private:
-  // TODO(anyone)
-  // void LoadLevel();
+  LevelGenerator level_generator_;
+  int current_level_;
+
   std::list<std::shared_ptr<Cat>> cats_;
-  int level_;
-  double visibility_radius_;
 
-  GameMap map_;
-  Level current_level_;
-
-  Cat cat_;
+  Player player_;
 };
 
 #endif  // MODEL_MODEL_H_
