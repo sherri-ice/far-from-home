@@ -26,3 +26,5 @@ void Controller::SetPlayerPosition(Point position) {
 int Controller::GetCurrentTime() {
   return current_game_time_;
 }
+
+

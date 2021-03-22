@@ -17,12 +17,12 @@ class View : public QMainWindow {
 
   Size GetPlayerVelocity();
   void ClearVelocity();
+  void DrawMap(QPainter* painter);
 
  private:
   int controller_timer_id_;
   QElapsedTimer time_between_ticks_;
   QElapsedTimer view_timer_;
-  QTimer player_move_timer_;
 
   AbstractController* controller_;
 

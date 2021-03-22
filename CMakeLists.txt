@@ -33,7 +33,6 @@ set(SOURCES
         main.cpp
         Model/model.cpp
         Model/level_generator.cpp
-        Model/game_map.cpp
         Model/size.cpp
         Model/point.cpp
         Model/constants.h

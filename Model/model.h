@@ -17,10 +17,9 @@ class Model {
 
  private:
   LevelGenerator level_generator_;
-  int current_level_;
+  // int current_level_;
 
   std::list<std::shared_ptr<Cat>> cats_;
-
   Player player_;
 };
 

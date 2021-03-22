@@ -1,6 +1,6 @@
 #include "model.h"
 
-Model::Model(int level) : level_generator_(level), current_level_(level),
+Model::Model(int level) : level_generator_(level),
                           player_(Size(40, 40),
                                   0.,
                                   Point()) {
@@ -14,3 +14,4 @@ void Model::SetPlayerPosition(Point position) {
 MovingObject* Model::GetPlayer() {
   return &player_;
 }
+

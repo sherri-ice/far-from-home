@@ -2,16 +2,19 @@
 #include <QDebug>
 #include <QKeyEvent>
 #include <Model/constants.h>
+#include <QGraphicsScene>
+#include <iostream>
 
 View::View(AbstractController* controller) : controller_(controller),
   player_velocity_(0, 0) {
+  setWindowTitle(constants::kApplicationName);
+  setMinimumSize(960, 540);
   show();
-  setMinimumSize(500, 500);
   controller_->SetPlayerPosition(Point(230, 230));
 
-  time_between_ticks_.start();
+  // time_between_ticks_.start();
   controller_timer_id_ = startTimer(constants::kTimeBetweenTicks);
-  view_timer_.start();
+  // view_timer_.start();
 
   ClearPressedKeys();
 }
@@ -19,6 +22,7 @@ View::View(AbstractController* controller) : controller_(controller),
 void View::paintEvent(QPaintEvent*) {
   QPainter painter(this);
   controller_->GetPlayer()->Draw(&painter);
+  // DrawMap(&painter);
 }
 
 void View::timerEvent(QTimerEvent* event) {
@@ -27,28 +31,24 @@ void View::timerEvent(QTimerEvent* event) {
     time_between_ticks_.restart();
     controller_->Tick(controller_->GetCurrentTime() + delta_time);
   } else {
-    controller_->Tick(controller_->GetCurrentTime() +
-    constants::kTimeOfPlayerMove);
+    controller_->Tick(controller_->GetCurrentTime());
   }
   repaint();
 }
 
 void View::keyPressEvent(QKeyEvent* event) {
+  std::cout << "You're pressing " << event->key() << std::endl;
   if (event->key() == Qt::Key_Up) {
     pressed_keys_[Qt::Key_Up] = true;
-    player_move_timer_.start(constants::kTimeOfPlayerMove);
   }
   if (event->key() == Qt::Key_Down) {
     pressed_keys_[Qt::Key_Down] = true;
-    player_move_timer_.start(constants::kTimeOfPlayerMove);
   }
   if (event->key() == Qt::Key_Left) {
     pressed_keys_[Qt::Key_Left] = true;
-    player_move_timer_.start(constants::kTimeOfPlayerMove);
   }
   if (event->key() == Qt::Key_Right) {
     pressed_keys_[Qt::Key_Right] = true;
-    player_move_timer_.start(constants::kTimeOfPlayerMove);
   }
 }
 
@@ -81,6 +81,12 @@ void View::ClearPressedKeys() {
 }
 
 void View::keyReleaseEvent(QKeyEvent* event) {
-  player_move_timer_.stop();
+  std::cout << "You're releasing " << event->key() << std::endl;
   ClearPressedKeys();
 }
+
+void View::DrawMap(QPainter* painter) {
+  painter->setBrush(Qt::red);
+  painter->setBackground(Qt::red);
+}
+
