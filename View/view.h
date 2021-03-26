@@ -5,6 +5,8 @@
 #include <QMainWindow>
 #include <QTimer>
 #include <map>
+#include <memory>
+#include <Model/model.h>
 
 #include "Controller/abstract_controller.h"
 
@@ -12,7 +14,7 @@ class View : public QMainWindow {
   Q_OBJECT
 
  public:
-  explicit View(AbstractController* controller);
+  explicit View(AbstractController* controller, std::shared_ptr<Model> model);
   ~View() override = default;
 
   Size GetPlayerVelocity();
@@ -25,6 +27,7 @@ class View : public QMainWindow {
   QElapsedTimer view_timer_;
 
   AbstractController* controller_;
+  std::shared_ptr<Model> model_;
 
   void paintEvent(QPaintEvent*) override;
   void keyPressEvent(QKeyEvent* event) override;
@@ -33,8 +36,6 @@ class View : public QMainWindow {
 
   Size player_velocity_;
   std::map<Qt::Key, bool> pressed_keys_;
-
-  void ClearPressedKeys();
 };
 
 #endif  // VIEW_VIEW_H_

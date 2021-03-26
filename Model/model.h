@@ -2,25 +2,32 @@
 #define MODEL_MODEL_H_
 
 #include <memory>
-#include <list>
+#include <vector>
 
 #include "GameObject/cat.h"
-#include "GameObject/player.h"
-#include "Model/level_generator.h"
+#include "player.h"
+
+enum GameState {
+  kGame,
+  kMenu
+};
 
 class Model {
  public:
-  explicit Model(int level = 0);
+  Model();
+  void LoadLevel(int level);
 
-  MovingObject* GetPlayer();
-  void SetPlayerPosition(Point position);
+  Player* GetPlayer();
+  std::vector<GameObject*> GetDrawableGameObjects() const;
+  Cat* MakeCat();
+  void SetGameState(int game_state);
 
  private:
-  LevelGenerator level_generator_;
-  // int current_level_;
+  int current_level_ = 0;
+  int game_state_ = GameState::kMenu;
 
-  std::list<std::shared_ptr<Cat>> cats_;
-  Player player_;
+  std::vector<Cat> cats_;
+  Player* player_;
 };
 
 #endif  // MODEL_MODEL_H_

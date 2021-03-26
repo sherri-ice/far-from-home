@@ -5,7 +5,7 @@
 
 class Point {
  public:
-  // TODO: player must appear in the center of the window
+  // TODO(anyone): player must appear in the center of the window
   explicit Point(double x = 0., double y = 0.);
   Point& operator=(const Point& point);
 

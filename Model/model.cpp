@@ -1,17 +1,35 @@
 #include "model.h"
+#include <vector>
 
-Model::Model(int level) : level_generator_(level),
-                          player_(Size(40, 40),
-                                  0.,
-                                  Point()) {
-  player_.SetSpeed(level_generator_.GetPlayerSpeed());
+Model::Model() {
+  auto main_cat = MakeCat();
+  player_ = new Player(main_cat);
 }
 
-void Model::SetPlayerPosition(Point position) {
-  player_.SetPosition(position);
+Player* Model::GetPlayer() {
+  return player_;
 }
 
-MovingObject* Model::GetPlayer() {
-  return &player_;
+std::vector<GameObject*> Model::GetDrawableGameObjects() const {
+  std::vector<GameObject*> result;
+  for (const auto& cat : player_->GetCats()) {
+    result.push_back(cat);
+  }
+  return result;
 }
+
+Cat* Model::MakeCat() {
+  Cat new_cat(Size(40, 40), 0., Point());
+  cats_.push_back(new_cat);
+  return &cats_.at(0);
+}
+
+void Model::LoadLevel(int level) {
+  // TODO(anyone)
+}
+
+void Model::SetGameState(int) {
+  // TODO(anyone)
+}
+
 

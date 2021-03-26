@@ -12,17 +12,19 @@ class Controller : public AbstractController {
   Controller();
   ~Controller() override = default;
 
+  void StartGame();
   void Tick(int time) override;
   int GetCurrentTime() override;
 
-  MovingObject* GetPlayer() override;
+  Player* GetPlayer() override;
 
-  void SetPlayerPosition(Point position) override;
+  void SetPlayerPosition(const Point& position) override;
 
  private:
+  Cat* MakeCat() override;
   int current_game_time_{0};
-  std::unique_ptr<Model> model_;
-  std::unique_ptr<View> view_;
+  std::shared_ptr<Model> model_;
+  std::shared_ptr<View> view_;
 };
 
 #endif  // CONTROLLER_CONTROLLER_H_

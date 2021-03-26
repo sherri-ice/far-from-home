@@ -29,10 +29,9 @@ set(SOURCES
         GameObject/game_object.cpp
         GameObject/cat.cpp
         GameObject/moving_object.cpp
-        GameObject/player.cpp
+        player.cpp
         main.cpp
         Model/model.cpp
-        Model/level_generator.cpp
         Model/size.cpp
         Model/point.cpp
         Model/constants.h
