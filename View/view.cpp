@@ -1,9 +1,10 @@
 #include "view.h"
+#include "Model/constants.h"
+
 #include <QDebug>
 #include <QKeyEvent>
-#include <Model/constants.h>
 #include <QGraphicsScene>
-#include <iostream>
+#include <vector>
 
 View::View(AbstractController* controller, std::shared_ptr<Model> model)
     : controller_(controller),
