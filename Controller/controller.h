@@ -12,7 +12,7 @@ class Controller : public AbstractController {
   Controller();
   ~Controller() override = default;
 
-  void StartGame();
+  void StartGame(int level) override;
   void Tick(int time) override;
   int GetCurrentTime() override;
 
@@ -24,7 +24,7 @@ class Controller : public AbstractController {
   Cat* MakeCat() override;
   int current_game_time_{0};
   std::shared_ptr<Model> model_;
-  std::shared_ptr<View> view_;
+  std::unique_ptr<View> view_;
 };
 
 #endif  // CONTROLLER_CONTROLLER_H_

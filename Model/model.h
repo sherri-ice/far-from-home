@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "GameObject/cat.h"
-#include "player.h"
+#include "GameObject/player.h"
 
 enum GameState {
   kGame,

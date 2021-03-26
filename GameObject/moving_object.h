@@ -16,9 +16,7 @@ class MovingObject : public GameObject {
   virtual void SetSpeed(double speed);
 
  protected:
-  Size size_;
   double speed_;
-  Point position_;
   Size velocity_;
 };
 

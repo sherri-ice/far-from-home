@@ -20,6 +20,7 @@ View::View(AbstractController* controller, std::shared_ptr<Model> model)
 void View::paintEvent(QPaintEvent*) {
   QPainter painter(this);
 
+  DrawGameObjects(&painter);
   // DrawMap(&painter);
 }
 
@@ -87,3 +88,9 @@ void View::DrawMap(QPainter* painter) {
   painter->setBackground(Qt::red);
 }
 
+void View::DrawGameObjects(QPainter* painter) {
+  std::vector<GameObject*> drawable_objects = model_->GetDrawableGameObjects();
+  for (auto object : drawable_objects) {
+    object->Draw(painter);
+  }
+}

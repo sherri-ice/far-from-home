@@ -27,3 +27,7 @@ void Cat::Move(int time) {
 void Cat::SetPosition(const Point& position) {
   position_ = position;
 }
+
+void Cat::SetVelocityFromPlayer(Size velocity) {
+  velocity_ = velocity;
+}

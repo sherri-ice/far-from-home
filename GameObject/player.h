@@ -1,5 +1,5 @@
-#ifndef PLAYER_H_
-#define PLAYER_H_
+#ifndef GAMEOBJECT_PLAYER_H_
+#define GAMEOBJECT_PLAYER_H_
 
 #include "GameObject/cat.h"
 #include <vector>
@@ -10,8 +10,10 @@ class Player {
   explicit Player(Cat* cat);
   [[nodiscard]] std::vector<Cat*> GetCats() const;
 
+  void OrderCatsToMove(Size velocity);
+
  private:
   std::vector<Cat*> cats_;
 };
 
-#endif  // PLAYER_H_
+#endif  // GAMEOBJECT_PLAYER_H_

@@ -3,7 +3,7 @@
 
 #include "GameObject/moving_object.h"
 #include "GameObject/cat.h"
-#include "player.h"
+#include "GameObject/player.h"
 
 class AbstractController {
  public:
@@ -11,6 +11,7 @@ class AbstractController {
 
   virtual void Tick(int time) = 0;
   virtual int GetCurrentTime() = 0;
+  virtual void StartGame(int level) = 0;
 
   virtual Player* GetPlayer() = 0;
 

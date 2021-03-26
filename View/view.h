@@ -19,7 +19,6 @@ class View : public QMainWindow {
 
   Size GetPlayerVelocity();
   void ClearVelocity();
-  void DrawMap(QPainter* painter);
 
  private:
   int controller_timer_id_;
@@ -33,6 +32,9 @@ class View : public QMainWindow {
   void keyPressEvent(QKeyEvent* event) override;
   void keyReleaseEvent(QKeyEvent* event) override;
   void timerEvent(QTimerEvent* event) override;
+
+  void DrawMap(QPainter* painter);
+  void DrawGameObjects(QPainter* painter);
 
   Size player_velocity_;
   std::map<Qt::Key, bool> pressed_keys_;

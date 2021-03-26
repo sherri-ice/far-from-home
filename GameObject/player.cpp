@@ -8,3 +8,8 @@ std::vector<Cat*> Player::GetCats() const {
   return cats_;
 }
 
+void Player::OrderCatsToMove(Size velocity) {
+  for (auto &cat : cats_) {
+    cat->SetVelocityFromPlayer(velocity);
+  }
+}

@@ -29,7 +29,7 @@ set(SOURCES
         GameObject/game_object.cpp
         GameObject/cat.cpp
         GameObject/moving_object.cpp
-        player.cpp
+        GameObject/player.cpp
         main.cpp
         Model/model.cpp
         Model/size.cpp
