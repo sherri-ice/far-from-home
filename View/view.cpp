@@ -4,11 +4,13 @@
 #include <QDebug>
 #include <QKeyEvent>
 #include <QGraphicsScene>
+#include <utility>
 #include <vector>
 
-View::View(AbstractController* controller, std::shared_ptr<Model> model)
+View::View(AbstractController* controller,
+           std::shared_ptr<Model> model)
     : controller_(controller),
-      model_(model), player_velocity_(0, 0) {
+      model_(std::move(model)), player_velocity_(0, 0) {
   setWindowTitle(constants::kApplicationName);
   setMinimumSize(960, 540);
   show();
@@ -20,7 +22,6 @@ View::View(AbstractController* controller, std::shared_ptr<Model> model)
 
 void View::paintEvent(QPaintEvent*) {
   QPainter painter(this);
-
   DrawGameObjects(&painter);
   // DrawMap(&painter);
 }
@@ -90,8 +91,9 @@ void View::DrawMap(QPainter* painter) {
 }
 
 void View::DrawGameObjects(QPainter* painter) {
-  std::vector<GameObject*> drawable_objects = model_->GetDrawableGameObjects();
-  for (auto object : drawable_objects) {
+  std::vector<std::shared_ptr<GameObject>>
+      drawable_objects = model_->GetDrawableGameObjects();
+  for (const auto& object : drawable_objects) {
     object->Draw(painter);
   }
 }

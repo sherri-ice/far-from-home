@@ -1,26 +1,21 @@
 #include "model.h"
 
 Model::Model() {
-  auto main_cat = MakeCat();
-  player_ = new Player(main_cat);
+  Cat main_cat(Size(40, 40), 0.001, Point());
+  cats_.push_back(main_cat);
+  player_ = std::make_shared<Player>(std::make_shared<Cat>(main_cat));
 }
 
-Player* Model::GetPlayer() {
+std::shared_ptr<Player> Model::GetPlayer() {
   return player_;
 }
 
-std::vector<GameObject*> Model::GetDrawableGameObjects() const {
-  std::vector<GameObject*> result;
+std::vector<std::shared_ptr<GameObject>> Model::GetDrawableGameObjects() const {
+  std::vector<std::shared_ptr<GameObject>> result;
   for (const auto& cat : player_->GetCats()) {
     result.push_back(cat);
   }
   return result;
-}
-
-Cat* Model::MakeCat() {
-  Cat new_cat(Size(40, 40), 0.001, Point());
-  cats_.push_back(new_cat);
-  return &cats_.at(0);
 }
 
 void Model::LoadLevel(int level) {

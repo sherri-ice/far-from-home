@@ -1,10 +1,11 @@
+#include <memory>
 #include "player.h"
 
-Player::Player(Cat* cat) {
+Player::Player(const std::shared_ptr<Cat>& cat) {
   cats_.push_back(cat);
 }
 
-std::vector<Cat*> Player::GetCats() const {
+std::vector<std::shared_ptr<Cat>> Player::GetCats() const {
   return cats_;
 }
 

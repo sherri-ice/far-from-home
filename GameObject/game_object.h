@@ -12,7 +12,7 @@ class GameObject {
   virtual ~GameObject() = default;
 
   virtual void SetPosition(const Point& position) = 0;
-  virtual void Draw(QPainter* painter) = 0;
+  virtual void Draw(QPainter* painter) const = 0;
   virtual void Tick(int time) = 0;
 
   virtual Size GetSize() const;

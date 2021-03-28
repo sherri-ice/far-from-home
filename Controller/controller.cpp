@@ -2,7 +2,7 @@
 
 Controller::Controller() {
   model_ = std::make_shared<Model>();
-  view_ = std::make_unique<View>(this, model_);
+  view_ = std::make_shared<View>(this, model_);
 }
 
 void Controller::Tick(int time) {
@@ -14,14 +14,12 @@ void Controller::Tick(int time) {
 
   for (auto &cat : model_->GetPlayer()->GetCats()) {
     cat->Tick(delta_time);
-  }
-  for (auto &cat : model_->GetPlayer()->GetCats()) {
     cat->Move(delta_time);
   }
   current_game_time_ = time;
 }
 
-Player* Controller::GetPlayer() {
+std::shared_ptr<Player> Controller::GetPlayer() {
   return model_->GetPlayer();
 }
 
@@ -35,11 +33,6 @@ int Controller::GetCurrentTime() {
   return current_game_time_;
 }
 
-Cat* Controller::MakeCat() {
-  auto new_cat = model_->MakeCat();
-  return new_cat;
-}
-
 void Controller::StartGame(int level) {
   // TODO(anyone)
   // Actually, wanted to start in the center of the screen
@@ -47,3 +40,4 @@ void Controller::StartGame(int level) {
   model_->LoadLevel(level);
   model_->SetGameState(GameState::kMenu);
 }
+

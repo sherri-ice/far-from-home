@@ -12,7 +12,7 @@ class Size {
   Size& operator=(const Size& rhs);
 
   std::pair<double, double> GetSize();
-  double GetLength() const;
+  [[nodiscard]] double GetLength() const;
 
   Size operator*(double rhs) const;
   Size operator/(double rhs) const;
@@ -27,8 +27,8 @@ class Size {
   bool operator==(Size rhs) const;
   bool operator!=(Size rhs) const;
 
-  double GetWidth() const;
-  double GetHeight() const;
+  [[nodiscard]] double GetWidth() const;
+  [[nodiscard]] double GetHeight() const;
 
  private:
   double width_ = 0;

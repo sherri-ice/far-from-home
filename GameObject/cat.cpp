@@ -4,13 +4,17 @@ Cat::Cat(Size size, double speed, const Point& position) :
     MovingObject(size, speed, position) {
 }
 
-void Cat::Draw(QPainter* painter) {
+void Cat::Draw(QPainter* painter) const {
   painter->save();
   auto position = GetPosition();
   painter->translate(position.GetX(), position.GetY());
   painter->setBrush(Qt::red);
-  painter->drawEllipse(0, 0, static_cast<int>(GetSize().GetWidth()),
-                       static_cast<int>(GetSize().GetHeight()));
+  int object_width = static_cast<int>(GetSize().GetWidth());
+  int object_height = static_cast<int>(GetSize().GetHeight());
+  painter->drawEllipse(-object_width / 2,
+                       -object_height / 2,
+                       object_width,
+                       object_height);
   painter->restore();
 }
 
