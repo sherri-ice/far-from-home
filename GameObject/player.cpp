@@ -14,3 +14,4 @@ void Player::OrderCatsToMove(Size velocity) {
     cat->SetVelocityFromPlayer(velocity);
   }
 }
+

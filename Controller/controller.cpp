@@ -16,6 +16,9 @@ void Controller::Tick(int time) {
     cat->Tick(delta_time);
     cat->Move(delta_time);
   }
+
+  model_->IsFoodNear();
+
   current_game_time_ = time;
 }
 
@@ -40,4 +43,8 @@ void Controller::StartGame(int level) {
   model_->LoadLevel(level);
   model_->SetGameState(GameState::kMenu);
 }
+const std::list<std::shared_ptr<Food>>& Controller::GetFood() const {
+  return *model_->GetFood();
+}
+
 

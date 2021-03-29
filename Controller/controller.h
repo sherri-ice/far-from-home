@@ -20,6 +20,8 @@ class Controller : public AbstractController {
 
   void SetPlayerPosition(const Point& position) override;
 
+  const std::list<std::shared_ptr<Food>>& GetFood() const override;
+
  private:
   int current_game_time_{0};
   std::shared_ptr<Model> model_;

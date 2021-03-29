@@ -23,6 +23,7 @@ View::View(AbstractController* controller,
 void View::paintEvent(QPaintEvent*) {
   QPainter painter(this);
   DrawGameObjects(&painter);
+  DrawFood(&painter);
   // DrawMap(&painter);
 }
 
@@ -88,6 +89,13 @@ void View::keyReleaseEvent(QKeyEvent* event) {
 void View::DrawMap(QPainter* painter) {
   painter->setBrush(Qt::red);
   painter->setBackground(Qt::red);
+}
+
+void View::DrawFood(QPainter* painter) {
+  const auto& food_list = controller_->GetFood();
+  for (const auto& cur_food : food_list) {
+    cur_food->Draw(painter);
+  }
 }
 
 void View::DrawGameObjects(QPainter* painter) {
