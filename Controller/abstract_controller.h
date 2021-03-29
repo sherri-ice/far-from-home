@@ -14,7 +14,7 @@ class AbstractController {
   virtual int GetCurrentTime() = 0;
   virtual void StartGame(int level) = 0;
 
-  virtual std::shared_ptr<Player> GetPlayer() = 0;
+  virtual Player* GetPlayer() = 0;
 
   virtual void SetPlayerPosition(const Point& position) = 0;
 };

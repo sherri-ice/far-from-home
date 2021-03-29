@@ -2,11 +2,12 @@
 
 Model::Model() {
   Cat main_cat(Size(40, 40), 0.001, Point());
-  cats_.push_back(main_cat);
-  player_ = std::make_shared<Player>(std::make_shared<Cat>(main_cat));
+  auto main_cat_ptr = std::make_shared<Cat>(main_cat);
+  cats_.push_back(main_cat_ptr);
+  player_ = new Player(main_cat_ptr);
 }
 
-std::shared_ptr<Player> Model::GetPlayer() {
+Player* Model::GetPlayer() {
   return player_;
 }
 

@@ -10,7 +10,7 @@
 View::View(AbstractController* controller,
            std::shared_ptr<Model> model)
     : controller_(controller),
-      model_(std::move(model)), player_velocity_(0, 0) {
+      model_(std::move(model)) {
   setWindowTitle(constants::kApplicationName);
   setMinimumSize(960, 540);
   show();

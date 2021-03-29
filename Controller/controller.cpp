@@ -19,7 +19,7 @@ void Controller::Tick(int time) {
   current_game_time_ = time;
 }
 
-std::shared_ptr<Player> Controller::GetPlayer() {
+Player* Controller::GetPlayer() {
   return model_->GetPlayer();
 }
 

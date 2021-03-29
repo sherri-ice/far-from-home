@@ -17,7 +17,7 @@ class Model {
   Model();
   void LoadLevel(int level);
 
-  std::shared_ptr<Player> GetPlayer();
+  Player* GetPlayer();
   std::vector<std::shared_ptr<GameObject>> GetDrawableGameObjects() const;
   void SetGameState(int game_state);
 
@@ -25,8 +25,8 @@ class Model {
   int current_level_ = 0;
   int game_state_ = GameState::kMenu;
 
-  std::vector<Cat> cats_;
-  std::shared_ptr<Player> player_;
+  std::vector<std::shared_ptr<Cat>> cats_;
+  Player* player_;
 };
 
 #endif  // MODEL_MODEL_H_

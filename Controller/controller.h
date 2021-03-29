@@ -16,7 +16,7 @@ class Controller : public AbstractController {
   void Tick(int time) override;
   int GetCurrentTime() override;
 
-  std::shared_ptr<Player> GetPlayer() override;
+  Player* GetPlayer() override;
 
   void SetPlayerPosition(const Point& position) override;
 
