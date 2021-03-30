@@ -9,8 +9,9 @@ void Cat::Draw(QPainter* painter) const {
   auto position = GetPosition();
   painter->translate(position.GetX(), position.GetY());
   painter->setBrush(Qt::red);
-  int object_width = static_cast<int>(GetSize().GetWidth());
-  int object_height = static_cast<int>(GetSize().GetHeight());
+  auto size = GetWindowSize();
+  int object_width = static_cast<int>(size.GetWidth());
+  int object_height = static_cast<int>(size.GetHeight());
   painter->drawEllipse(-object_width / 2,
                        -object_height / 2,
                        object_width,
@@ -34,4 +35,8 @@ void Cat::SetPosition(const Point& position) {
 
 void Cat::SetVelocityFromPlayer(Size velocity) {
   velocity_ = velocity;
+}
+
+void Cat::Resize(const Size& size) {
+  SetWindowSize(size);
 }

@@ -19,6 +19,7 @@ class View : public QMainWindow {
 
   Size GetPlayerVelocity();
   void ClearVelocity();
+  void Resize();
 
  private:
   int controller_timer_id_;
@@ -26,6 +27,7 @@ class View : public QMainWindow {
   QElapsedTimer view_timer_;
 
   AbstractController* controller_;
+  Resizer resizer_;
   std::shared_ptr<Model> model_;
 
   void paintEvent(QPaintEvent*) override;
@@ -38,6 +40,7 @@ class View : public QMainWindow {
 
   Size player_velocity_;
   std::map<Qt::Key, bool> pressed_keys_;
+  void resizeEvent(QResizeEvent*);
 };
 
 #endif  // VIEW_VIEW_H_

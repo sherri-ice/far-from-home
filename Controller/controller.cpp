@@ -41,3 +41,9 @@ void Controller::StartGame(int level) {
   model_->SetGameState(GameState::kMenu);
 }
 
+void Controller::RescaleObjects(const Resizer& resizer) {
+  model_->RescaleObjects(resizer);
+}
+
+
+

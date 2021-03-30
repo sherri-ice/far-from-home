@@ -1,0 +1,23 @@
+#ifndef VIEW_RESIZER_H_
+#define VIEW_RESIZER_H_
+
+#include "Model/point.h"
+#include "Model/constants.h"
+
+class Resizer {
+ public:
+  void ChangeSystem(double window_width, double window_height);
+
+  Point WindowToGameCoordinate(const Point& window_coordinate) const;
+  Point GameToWindowCoordinate(const Point& game_coordinate) const;
+  [[nodiscard]] Size GameToWindowSize(const Size& size) const;
+
+  [[nodiscard]] Size GetGameSize() const;
+
+ private:
+  Size origin_offset_{0., 0.};
+  double scaling_coefficient_ = 3;
+  const Size game_size_{constants::kGameWidth, constants::kGameHeight};
+};
+
+#endif  // VIEW_RESIZER_H_
