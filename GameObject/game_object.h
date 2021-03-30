@@ -20,7 +20,7 @@ class GameObject {
 
   virtual void SetRect(const Point&, const Size&);
   virtual QRectF GetRect() const;
-  virtual bool IsCollision(const GameObject& object) const ;
+  virtual bool IsCollision(const GameObject& object) const;
 
  protected:
   Size size_;
