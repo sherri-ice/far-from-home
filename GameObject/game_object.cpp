@@ -24,7 +24,7 @@ void GameObject::SetRect(const Point& pos, const Size& size) {
                  size.GetWidth(), size.GetHeight());
 }
 
-QRectF GameObject::GetRect() const{
+QRectF GameObject::GetRect() const {
   return rect_;
 }
 

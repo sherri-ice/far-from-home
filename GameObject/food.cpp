@@ -8,10 +8,10 @@ enum Meal {
   SUSHI
 };
 
-Food::Food() : GameObject(Size(20,20), Point(0, 0)) {
+Food::Food() : GameObject(Size(20, 20), Point(0, 0)) {
   meal_ =  rand() % ((5 + 1) - 1) + 1;
   int x = (rand() % (1000));
-  int y= (rand() % (1000));
+  int y = (rand() % (1000));
   position_ = Point(x, y);
   SetRect(position_, size_);
 }
@@ -49,5 +49,4 @@ void Food::Draw(QPainter* painter) const {
 }
 
 void Food::Tick(int time) {
-
 }

@@ -5,6 +5,7 @@
 #include "GameObject/moving_object.h"
 #include "GameObject/cat.h"
 #include "GameObject/player.h"
+#include<list>
 #include <memory>
 
 class AbstractController {
