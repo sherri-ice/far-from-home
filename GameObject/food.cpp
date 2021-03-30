@@ -1,5 +1,7 @@
 #include "food.h"
 
+#include <experimental/random>
+
 enum Meal {
   FISH,
   BURGER,
@@ -9,9 +11,9 @@ enum Meal {
 };
 
 Food::Food() : GameObject(Size(20, 20), Point(0, 0)) {
-  meal_ =  rand() % ((5 + 1) - 1) + 1;
-  int x = (rand() % (1000));
-  int y = (rand() % (1000));
+  meal_ =   std::experimental::randint(0, 4);
+  int x = std::experimental::randint(0, 1000);
+  int y = std::experimental::randint(0, 1000);
   position_ = Point(x, y);
   SetRect(position_, size_);
 }
