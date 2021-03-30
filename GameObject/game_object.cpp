@@ -16,3 +16,17 @@ Size GameObject::GetSize() const {
   return size_;
 }
 
+void GameObject::Resize(const Size& to_size) {
+  // TODO(sherri.ice)
+  // Should be changed after declaring animations
+}
+
+const Size& GameObject::GetWindowSize() const {
+  return window_size_;
+}
+
+void GameObject::SetWindowSize(const Size& window_size) {
+  window_size_ = window_size;
+}
+
+

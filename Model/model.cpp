@@ -26,3 +26,9 @@ void Model::LoadLevel(int level) {
 void Model::SetGameState(int) {
   // TODO(anyone)
 }
+
+void Model::RescaleObjects(const Resizer& resizer) {
+    for (auto& cat : cats_) {
+      cat->Resize(resizer.GameToWindowSize(cat->GetSize()));
+    }
+}

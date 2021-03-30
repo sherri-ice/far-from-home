@@ -1,7 +1,6 @@
 #include "view.h"
 #include "Model/constants.h"
 
-#include <QDebug>
 #include <QKeyEvent>
 #include <QGraphicsScene>
 #include <utility>
@@ -13,6 +12,7 @@ View::View(AbstractController* controller,
       model_(std::move(model)) {
   setWindowTitle(constants::kApplicationName);
   setMinimumSize(960, 540);
+  resizer_.ChangeSystem(width(), height());
   show();
 
   time_between_ticks_.start();
@@ -96,4 +96,13 @@ void View::DrawGameObjects(QPainter* painter) {
   for (const auto& object : drawable_objects) {
     object->Draw(painter);
   }
+}
+
+void View::Resize() {
+  resizer_.ChangeSystem(width(), height());
+  controller_->RescaleObjects(resizer_);
+}
+
+void View::resizeEvent(QResizeEvent*) {
+  Resize();
 }

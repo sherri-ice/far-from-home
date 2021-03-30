@@ -13,6 +13,7 @@ class Cat : public MovingObject {
   void Tick(int time) override;
   void Move(int time) override;
   void SetPosition(const Point& position) override;
+  void Resize(const Size& size) override;
 
   void SetVelocityFromPlayer(Size velocity);
 };

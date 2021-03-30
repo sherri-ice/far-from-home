@@ -5,6 +5,7 @@
 #include "GameObject/cat.h"
 #include "GameObject/player.h"
 #include <memory>
+#include <View/resizer.h>
 
 class AbstractController {
  public:
@@ -17,6 +18,8 @@ class AbstractController {
   virtual Player* GetPlayer() = 0;
 
   virtual void SetPlayerPosition(const Point& position) = 0;
+
+  virtual void RescaleObjects(const Resizer& resizer) = 0;
 };
 
 #endif  // CONTROLLER_ABSTRACT_CONTROLLER_H_

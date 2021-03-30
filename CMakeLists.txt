@@ -35,7 +35,7 @@ set(SOURCES
         Model/size.cpp
         Model/point.cpp
         Model/constants.h
-        View/view.cpp)
+        View/view.cpp View/resizer.cpp View/resizer.h)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 
