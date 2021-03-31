@@ -35,7 +35,7 @@ set(SOURCES
         Model/size.cpp
         Model/point.cpp
         Model/constants.h
-        View/view.cpp)
+        View/view.cpp GameObject/food.cpp GameObject/food.h)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 

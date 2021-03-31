@@ -1,6 +1,7 @@
 #ifndef CONTROLLER_CONTROLLER_H_
 #define CONTROLLER_CONTROLLER_H_
 
+#include <list>
 #include <memory>
 
 #include "Controller/abstract_controller.h"
@@ -16,9 +17,11 @@ class Controller : public AbstractController {
   void Tick(int time) override;
   int GetCurrentTime() override;
 
-  Player* GetPlayer() override;
+  std::shared_ptr<Player> GetPlayer() override;
 
   void SetPlayerPosition(const Point& position) override;
+
+  const std::list<std::shared_ptr<Food>>& GetFood() const override;
 
  private:
   int current_game_time_{0};

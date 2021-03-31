@@ -13,6 +13,7 @@ class Player {
 
   void OrderCatsToMove(Size velocity);
 
+
  private:
   std::vector<std::shared_ptr<Cat>> cats_;
 };

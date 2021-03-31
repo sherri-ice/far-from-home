@@ -7,10 +7,11 @@ Cat::Cat(Size size, double speed, const Point& position) :
 void Cat::Draw(QPainter* painter) const {
   painter->save();
   auto position = GetPosition();
+  painter->drawRect(rect_);
   painter->translate(position.GetX(), position.GetY());
-  painter->setBrush(Qt::red);
   int object_width = static_cast<int>(GetSize().GetWidth());
   int object_height = static_cast<int>(GetSize().GetHeight());
+  painter->setBrush(Qt::red);
   painter->drawEllipse(-object_width / 2,
                        -object_height / 2,
                        object_width,
@@ -26,6 +27,7 @@ void Cat::Move(int time) {
     velocity_ /= velocity_.GetLength();
     position_ += velocity_ * speed_ * time * constants::kTimeScale;
   }
+  SetRect(position_, size_);
 }
 
 void Cat::SetPosition(const Point& position) {

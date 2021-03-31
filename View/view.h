@@ -35,6 +35,7 @@ class View : public QMainWindow {
 
   void DrawMap(QPainter* painter);
   void DrawGameObjects(QPainter* painter);
+  void DrawFood(QPainter* painter);
 
   Size player_velocity_;
   std::map<Qt::Key, bool> pressed_keys_;

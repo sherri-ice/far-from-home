@@ -6,8 +6,8 @@
 
 class Size {
  public:
-  Size();
-  explicit Size(double x, double y) noexcept;
+  Size() = default;
+  Size(double x, double y) noexcept;
 
   Size& operator=(const Size& rhs);
 
