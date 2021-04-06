@@ -4,7 +4,6 @@ TargetMovingObject::TargetMovingObject(Size size,
                                        double speed,
                                        const Point& position) : MovingObject
                                        (size, speed, position) {
-
 }
 
 void TargetMovingObject::MoveToDestination(int time) {

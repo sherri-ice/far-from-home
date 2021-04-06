@@ -28,7 +28,6 @@ void Dog::Draw(QPainter* painter) const {
 }
 
 void Dog::Tick(int time) {
-
 }
 
 void Dog::Move(int time) {

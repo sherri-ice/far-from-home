@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "model.h"
 
 Model::Model() {
@@ -37,8 +39,8 @@ std::vector<std::shared_ptr<GameObject>> Model::GetDrawableGameObjects() const {
   for (const auto& food : food_) {
     result.push_back(food);
   }
-  std::sort(result.begin(), result.end(), [](const std::shared_ptr<GameObject>& lhs,
-      const std::shared_ptr<GameObject>& rhs) {
+  std::sort(result.begin(), result.end(), [](const
+  std::shared_ptr<GameObject>& lhs, const std::shared_ptr<GameObject>& rhs) {
     return lhs->GetPosition().GetY() < rhs->GetPosition().GetY();
   });
   return result;

@@ -1,10 +1,12 @@
 #ifndef GAMEOBJECT_PLAYER_H_
 #define GAMEOBJECT_PLAYER_H_
 
+#include <list>
+#include <memory>
+#include <vector>
+
 #include "GameObject/cat.h"
 #include "GameObject/dog.h"
-#include <vector>
-#include <memory>
 
 class Player {
  public:
