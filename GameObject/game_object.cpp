@@ -1,13 +1,12 @@
 #include "game_object.h"
-#include <iostream>
-
-void GameObject::SetSize(Size new_size) {
-  size_ = new_size;
-}
 
 GameObject::GameObject(const Size& size, const Point& position)
     : size_(size), position_(position) {
-  SetRect(position, size);
+  rigid_body_ = RigidBody(&size_, &position_);
+}
+
+void GameObject::SetSize(Size new_size) {
+  size_ = new_size;
 }
 
 void GameObject::SetPosition(const Point& position) {
@@ -18,17 +17,23 @@ Size GameObject::GetSize() const {
   return size_;
 }
 
-void GameObject::SetRect(const Point& pos, const Size& size) {
-  rect_ = QRectF(pos.GetX() - size.GetWidth() / 2,
-                 pos.GetY() - size.GetHeight() / 2,
-                 size.GetWidth(), size.GetHeight());
+const Point& GameObject::GetPosition() const {
+  return position_;
 }
 
-QRectF GameObject::GetRect() const {
-  return rect_;
+RigidBody GameObject::GetRigidBody() const {
+  return rigid_body_;
 }
 
-bool GameObject::IsCollision(const GameObject& object) const {
-  return rect_.intersects(object.GetRect());
+void GameObject::SetScaleCoefficientsInRigidBody(double coefficient_x, double
+  coefficient_y) {
+  rigid_body_.SetScaleCoefficients(coefficient_x, coefficient_y);
 }
 
+void GameObject::SetIsDead() {
+  is_dead_ = true;
+}
+
+bool GameObject::IsDead() const {
+  return is_dead_;
+}

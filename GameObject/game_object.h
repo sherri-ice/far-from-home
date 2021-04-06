@@ -3,6 +3,7 @@
 
 #include <QPainter>
 
+#include "GameObject/rigid_body.h"
 #include "Model/point.h"
 #include "Model/size.h"
 
@@ -17,15 +18,20 @@ class GameObject {
 
   virtual Size GetSize() const;
   virtual void SetSize(Size size);
+  const Point& GetPosition() const;
+  RigidBody GetRigidBody() const;
 
-  virtual void SetRect(const Point&, const Size&);
-  virtual QRectF GetRect() const;
-  virtual bool IsCollision(const GameObject& object) const;
+  void SetScaleCoefficientsInRigidBody(double coefficient_x, double
+  coefficient_y);
+
+  void SetIsDead();
+  bool IsDead() const;
 
  protected:
   Size size_;
   Point position_;
-  QRectF rect_;
+  RigidBody rigid_body_;
+  bool is_dead_{false};
 };
 
 #endif  // GAMEOBJECT_GAME_OBJECT_H_

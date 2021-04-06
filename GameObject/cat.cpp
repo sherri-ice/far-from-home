@@ -1,14 +1,13 @@
 #include "cat.h"
 
-Cat::Cat(Size size, double speed, const Point& position) :
+Cat::Cat(const Size& size, double speed, const Point& position) :
     MovingObject(size, speed, position) {
 }
 
 void Cat::Draw(QPainter* painter) const {
+  rigid_body_.Draw(painter);
   painter->save();
-  auto position = GetPosition();
-  painter->drawRect(rect_);
-  painter->translate(position.GetX(), position.GetY());
+  painter->translate(position_.GetX(), position_.GetY());
   int object_width = static_cast<int>(GetSize().GetWidth());
   int object_height = static_cast<int>(GetSize().GetHeight());
   painter->setBrush(Qt::red);
@@ -27,11 +26,6 @@ void Cat::Move(int time) {
     velocity_ /= velocity_.GetLength();
     position_ += velocity_ * speed_ * time * constants::kTimeScale;
   }
-  SetRect(position_, size_);
-}
-
-void Cat::SetPosition(const Point& position) {
-  position_ = position;
 }
 
 void Cat::SetVelocityFromPlayer(Size velocity) {

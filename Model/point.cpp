@@ -1,4 +1,5 @@
 #include <cmath>
+
 #include "point.h"
 #include "constants.h"
 
@@ -45,5 +46,17 @@ Point Point::operator+(const Size& rhs) const {
 Point& Point::operator+=(const Size& rhs) {
   *this = *this + rhs;
   return *this;
+}
+
+Size Point::GetVectorTo(const Point& destination) const {
+  return Size(destination.x_ - x_, destination.GetY() - y_);
+}
+
+bool Point::operator==(const Point& rhs) const {
+  return (x_ == rhs.x_) && (y_ == rhs.y_);
+}
+
+bool Point::operator!=(const Point& rhs) const {
+  return !(*this == rhs);
 }
 

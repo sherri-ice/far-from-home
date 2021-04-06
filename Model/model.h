@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "GameObject/cat.h"
+#include "GameObject/dog.h"
 #include "GameObject/food.h"
 #include "GameObject/player.h"
 
@@ -19,26 +20,23 @@ class Model {
   Model();
   void LoadLevel(int level);
 
-  std::shared_ptr<Player> GetPlayer();
+  Player* GetPlayer();
   std::vector<std::shared_ptr<GameObject>> GetDrawableGameObjects() const;
   void SetGameState(int game_state);
 
-  void CreateFood();
-  void DeleteFood(const std::shared_ptr<Food>& food);
-  void IsFoodNear();
+  std::list<std::shared_ptr<Food>> GetFood();
+  std::list<std::shared_ptr<Dog>> GetDogs() const;
 
-  std::list<std::shared_ptr<Food>>* GetFood();
-
-  friend class GameObject;
+  void ClearObjects();
 
  private:
   int current_level_ = 0;
   int game_state_ = GameState::kMenu;
 
-  std::vector<Cat> cats_;
-  std::shared_ptr<Player> player_;
-  std::list<std::shared_ptr<GameObject>> objects_;
+  std::list<std::shared_ptr<Cat>> cats_;
+  Player player_;
   std::list<std::shared_ptr<Food>> food_;
+  std::list<std::shared_ptr<Dog>> dogs_;
 };
 
 #endif  // MODEL_MODEL_H_

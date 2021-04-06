@@ -6,30 +6,16 @@ Controller::Controller() {
 }
 
 void Controller::Tick(int time) {
-  Size player_velocity = view_->GetPlayerVelocity();
-  view_->ClearVelocity();
-  model_->GetPlayer()->OrderCatsToMove(player_velocity);
-
   int delta_time = time - current_game_time_;
-
-  for (auto &cat : model_->GetPlayer()->GetCats()) {
-    cat->Tick(delta_time);
-    cat->Move(delta_time);
-  }
-
-  model_->IsFoodNear();
-
   current_game_time_ = time;
-}
 
-std::shared_ptr<Player> Controller::GetPlayer() {
-  return model_->GetPlayer();
-}
+  TickPlayer();
+  TickCats(delta_time);
+  TickDogs(delta_time);
+  CatsAndFoodIntersect();
+  TickFood(delta_time);
 
-void Controller::SetPlayerPosition(const Point& position) {
-  for (auto& cat : model_->GetPlayer()->GetCats()) {
-    cat->SetPosition(position);
-  }
+  model_->ClearObjects();
 }
 
 int Controller::GetCurrentTime() {
@@ -39,12 +25,56 @@ int Controller::GetCurrentTime() {
 void Controller::StartGame(int level) {
   // TODO(anyone)
   // Actually, wanted to start in the center of the screen
-  SetPlayerPosition(Point(0, 0));
   model_->LoadLevel(level);
   model_->SetGameState(GameState::kMenu);
 }
-const std::list<std::shared_ptr<Food>>& Controller::GetFood() const {
-  return *model_->GetFood();
+
+void Controller::TickPlayer() {
+  Size player_velocity = view_->GetPlayerVelocity();
+  view_->ClearVelocity();
+  model_->GetPlayer()->OrderCatsToMove(player_velocity);
 }
 
+void Controller::TickCats(int time) {
+  for (auto &cat : model_->GetPlayer()->GetCats()) {
+    cat->Tick(time);
+    cat->Move(time);
+  }
+}
 
+void Controller::TickDogs(int time) {
+  std::list<std::shared_ptr<Dog>> dogs = model_->GetDogs();
+  model_->GetPlayer()->CheckForDogsAround(dogs);
+  Point player_position = model_->GetPlayer()->GetCentralCatPosition();
+  double group_radius = model_->GetPlayer()->GetGroupRadius();
+  for (auto &dog : dogs) {
+    bool can_see = dog->CheckIfCanSeePlayer(player_position, group_radius);
+    if (can_see) {
+      dog->SetDestination(player_position);
+    } else {
+      dog->SetDestination(dog->GetHomePosition());
+    }
+    dog->Tick(time);
+    dog->Move(time);
+    for (auto &cat : model_->GetPlayer()->GetCats()) {
+      if (dog->GetRigidBody().IsCollide(cat->GetRigidBody())) {
+        model_->GetPlayer()->DismissCats();
+        break;
+      }
+    }
+  }
+}
+
+void Controller::TickFood(int time) {
+  // Food rots
+}
+
+void Controller::CatsAndFoodIntersect() {
+  for (const auto& player_cat : model_->GetPlayer()->GetCats()) {
+    for (auto& food : model_->GetFood()) {
+      if (player_cat->GetRigidBody().IsCollide(food->GetRigidBody())) {
+        food->SetIsDead();
+      }
+    }
+  }
+}

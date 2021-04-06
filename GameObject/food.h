@@ -5,14 +5,11 @@
 
 class Food : public GameObject {
  public:
-  Food();
+  Food(const Size& size, const Point& position);
   ~Food() override = default;
 
   void Draw(QPainter* painter) const override;
   void Tick(int time) override;
-
- private:
-  int meal_;
 };
 
 #endif  // GAMEOBJECT_FOOD_H_

@@ -1,25 +1,46 @@
-#include <iostream>
 #include "model.h"
 
 Model::Model() {
-  Cat main_cat(Size(40, 40), 0.001, Point());
-  cats_.push_back(main_cat);
-  player_ = std::make_shared<Player>(std::make_shared<Cat>(main_cat));
+  std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
+                                                            0.001, Point());
+  cats_.emplace_back(main_cat);
+  player_ = Player(main_cat);
 
-  for (int i = 0; i < 10; i++) {
-    CreateFood();
+  std::shared_ptr<Dog> dog = std::make_shared<Dog>(Size(40, 40), 0.00075,
+                                                   Point(250, 250), 80);
+  dogs_.emplace_back(dog);
+
+  food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(789, 65)));
+  food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(567, 455)));
+  food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(210, 270)));
+  food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(25, 500)));
+  food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(900, 333)));
+  food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(300, 100)));
+
+  for (auto &food : food_) {
+    food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
   }
 }
 
-std::shared_ptr<Player> Model::GetPlayer() {
-  return player_;
+Player* Model::GetPlayer() {
+  return &player_;
 }
 
 std::vector<std::shared_ptr<GameObject>> Model::GetDrawableGameObjects() const {
   std::vector<std::shared_ptr<GameObject>> result;
-  for (const auto& cat : player_->GetCats()) {
+  for (const auto& cat : player_.GetCats()) {
     result.push_back(cat);
   }
+  for (const auto& dog : dogs_) {
+    result.push_back(dog);
+  }
+  for (const auto& food : food_) {
+    result.push_back(food);
+  }
+  std::sort(result.begin(), result.end(), [](const std::shared_ptr<GameObject>& lhs,
+      const std::shared_ptr<GameObject>& rhs) {
+    return lhs->GetPosition().GetY() < rhs->GetPosition().GetY();
+  });
   return result;
 }
 
@@ -31,25 +52,28 @@ void Model::SetGameState(int) {
   // TODO(anyone)
 }
 
-void Model::CreateFood() {
-  std::shared_ptr<Food> food = std::make_shared<Food>();
-  food_.emplace_back(food);
+std::list<std::shared_ptr<Food>> Model::GetFood() {
+  return food_;
 }
 
-void Model::DeleteFood(const std::shared_ptr<Food>& food) {
+std::list<std::shared_ptr<Dog>> Model::GetDogs() const {
+  return dogs_;
+}
+
+void Model::ClearObjects() {
+  for (const auto& food : food_) {
+    if (food->IsDead()) {
       food_.remove(food);
-}
-
-void Model::IsFoodNear() {
-  for (const auto& player_cat : player_->GetCats()) {
-    for (const auto& cur_food : food_) {
-      if (player_cat->IsCollision(*cur_food)) {
-        DeleteFood(cur_food);
-      }
     }
   }
-}
-
-std::list<std::shared_ptr<Food>>* Model::GetFood() {
-  return &food_;
+  for (const auto& cat : cats_) {
+    if (cat->IsDead()) {
+      cats_.remove(cat);
+    }
+  }
+  for (const auto& dog : dogs_) {
+    if (dog->IsDead()) {
+      dogs_.remove(dog);
+    }
+  }
 }

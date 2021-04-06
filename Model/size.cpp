@@ -63,10 +63,3 @@ double Size::GetWidth() const {
 double Size::GetHeight() const {
   return height_;
 }
-
-Size& Size::operator=(const Size& rhs) {
-  width_ = rhs.width_;
-  height_ = rhs.height_;
-  return *this;
-}
-

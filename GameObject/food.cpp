@@ -1,49 +1,17 @@
-#include "food.h"
-
 #include <experimental/random>
 
-enum Meal {
-  FISH,
-  BURGER,
-  SAUSAGE,
-  PIZZA,
-  SUSHI
-};
+#include "food.h"
 
-Food::Food() : GameObject(Size(20, 20), Point(0, 0)) {
-  meal_ =   std::experimental::randint(0, 4);
-  int x = std::experimental::randint(0, 1000);
-  int y = std::experimental::randint(0, 1000);
-  position_ = Point(x, y);
-  SetRect(position_, size_);
+Food::Food(const Size& size, const Point& position) : GameObject(size,
+                                                                 position) {
 }
 
 void Food::Draw(QPainter* painter) const {
+  rigid_body_.Draw(painter);
   painter->save();
   auto position = position_;
-  painter->drawRect(rect_);
   painter->translate(position.GetX(), position.GetY());
-  switch (meal_) {
-    case FISH: {
-      painter->setBrush(Qt::blue);
-      break;
-    } case BURGER: {
-      painter->setBrush(Qt::yellow);
-      break;
-    } case SAUSAGE: {
-      painter->setBrush(Qt::darkMagenta);
-      break;
-    } case PIZZA: {
-      painter->setBrush(Qt::lightGray);
-      break;
-    } case SUSHI: {
-      painter->setBrush(Qt::darkGreen);
-      break;
-    } default: {
-      painter->setBrush(Qt::darkGreen);
-      break;
-    }
-  }
+  painter->setBrush(Qt::yellow);
   int width = static_cast<int>(GetSize().GetWidth());
   int height = static_cast<int>(GetSize().GetHeight());
   painter->drawEllipse(-width / 2, -height / 2, width, height);

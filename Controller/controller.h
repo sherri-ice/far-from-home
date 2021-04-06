@@ -17,13 +17,14 @@ class Controller : public AbstractController {
   void Tick(int time) override;
   int GetCurrentTime() override;
 
-  std::shared_ptr<Player> GetPlayer() override;
-
-  void SetPlayerPosition(const Point& position) override;
-
-  const std::list<std::shared_ptr<Food>>& GetFood() const override;
-
  private:
+  void TickPlayer() override;
+  void TickCats(int time) override;
+  void TickDogs(int time) override;
+  void TickFood(int time) override;
+
+  void CatsAndFoodIntersect() override;
+
   int current_game_time_{0};
   std::shared_ptr<Model> model_;
   std::shared_ptr<View> view_;

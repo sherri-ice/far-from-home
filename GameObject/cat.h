@@ -6,13 +6,12 @@
 
 class Cat : public MovingObject {
  public:
-  Cat(Size size, double speed, const Point& position);
+  Cat(const Size& size, double speed, const Point& position);
   ~Cat() override = default;
 
   void Draw(QPainter* painter) const override;
   void Tick(int time) override;
   void Move(int time) override;
-  void SetPosition(const Point& position) override;
 
   void SetVelocityFromPlayer(Size velocity);
 };
