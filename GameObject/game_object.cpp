@@ -21,12 +21,6 @@ void GameObject::Resize(const Size& to_size) {
   // Should be changed after declaring animations
 }
 
-const Size& GameObject::GetWindowSize() const {
-  return window_size_;
-}
 
-void GameObject::SetWindowSize(const Size& window_size) {
-  window_size_ = window_size;
-}
 
 

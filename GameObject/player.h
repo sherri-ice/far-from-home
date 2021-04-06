@@ -2,6 +2,7 @@
 #define GAMEOBJECT_PLAYER_H_
 
 #include "GameObject/cat.h"
+#include "view_circle.h"
 #include <vector>
 #include <memory>
 
@@ -13,8 +14,13 @@ class Player {
 
   void OrderCatsToMove(Size velocity);
 
+  const ViewCircle& GetViewCircle() const;
+  void SetViewCircle(const ViewCircle& view_circle);
+  const Point& GetPosition() const;
  private:
   std::vector<std::shared_ptr<Cat>> cats_;
+  ViewCircle view_circle_;
+  Point position_;
 };
 
 #endif  // GAMEOBJECT_PLAYER_H_

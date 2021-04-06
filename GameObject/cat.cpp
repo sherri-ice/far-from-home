@@ -4,18 +4,15 @@ Cat::Cat(Size size, double speed, const Point& position) :
     MovingObject(size, speed, position) {
 }
 
-void Cat::Draw(QPainter* painter) const {
+void Cat::Draw(QPainter* painter, Resizer* resizer) const {
+  auto position = resizer->GameToWindowCoordinate(position_);
+  auto size = resizer->GameToWindowSize(size_);
   painter->save();
-  auto position = GetPosition();
-  painter->translate(position.GetX(), position.GetY());
   painter->setBrush(Qt::red);
-  auto size = GetWindowSize();
-  int object_width = static_cast<int>(size.GetWidth());
-  int object_height = static_cast<int>(size.GetHeight());
-  painter->drawEllipse(-object_width / 2,
-                       -object_height / 2,
-                       object_width,
-                       object_height);
+  painter->drawEllipse(position.GetX() - size.GetWidth()/2,
+                       position.GetY() - size.GetHeight()/2,
+                       size.GetWidth(),
+                       size.GetHeight());
   painter->restore();
 }
 
@@ -37,6 +34,3 @@ void Cat::SetVelocityFromPlayer(Size velocity) {
   velocity_ = velocity;
 }
 
-void Cat::Resize(const Size& size) {
-  SetWindowSize(size);
-}

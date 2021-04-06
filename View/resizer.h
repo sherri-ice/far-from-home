@@ -13,11 +13,12 @@ class Resizer {
   [[nodiscard]] Size GameToWindowSize(const Size& size) const;
 
   [[nodiscard]] Size GetGameSize() const;
+  void Update(double radius, const Point& point);
 
  private:
   Size origin_offset_{0., 0.};
-  double scaling_coefficient_ = 3;
-  const Size game_size_{constants::kGameWidth, constants::kGameHeight};
+  double scaling_coefficient_ = 1;
+  Size game_size_{constants::kGameWidth, constants::kGameHeight};
 };
 
 #endif  // VIEW_RESIZER_H_

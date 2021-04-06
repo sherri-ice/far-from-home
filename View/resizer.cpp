@@ -2,12 +2,8 @@
 #include <algorithm>
 
 void Resizer::ChangeSystem(double window_width, double window_height) {
-  scaling_coefficient_ = std::max(game_size_.GetWidth() / window_width,
-                                  game_size_.GetHeight() / window_height);
-  Size real_size(game_size_.GetWidth() / scaling_coefficient_,
-                 game_size_.GetHeight() / scaling_coefficient_);
-  origin_offset_.SetWidth((window_width - real_size.GetWidth()));
-  origin_offset_.SetHeight((window_height - real_size.GetHeight()));
+  game_size_.SetWidth(window_width);
+  game_size_.SetHeight(window_height);
 }
 
 Point Resizer::WindowToGameCoordinate(const Point& window_coordinate) const {
@@ -18,13 +14,21 @@ Point Resizer::GameToWindowCoordinate(const Point& game_coordinate) const {
   return Point(game_coordinate / scaling_coefficient_ + origin_offset_);
 }
 
-
 Size Resizer::GetGameSize() const {
   return game_size_;
 }
 
 Size Resizer::GameToWindowSize(const Size& size) const {
-  auto t = size / scaling_coefficient_;
-  return size / scaling_coefficient_;
+  return Size(size / scaling_coefficient_);
 }
+
+void Resizer::Update(double radius, const Point& position) {
+  scaling_coefficient_ = scaling_coefficient_
+      + (radius / std::min(game_size_.GetWidth(), game_size_.GetHeight())
+          - scaling_coefficient_) / 30;
+  auto pos_size = Size(position.GetX(), position.GetY());
+  origin_offset_ = pos_size / scaling_coefficient_ * -1 + game_size_ / 2;
+}
+
+
 

@@ -21,8 +21,9 @@ class Model {
   Player* GetPlayer();
   std::vector<std::shared_ptr<GameObject>> GetDrawableGameObjects() const;
   void SetGameState(int game_state);
-
-  void RescaleObjects(const Resizer& resizer);
+  std::shared_ptr<Cat> MakeNewCat(const Size& size,
+                                  double speed,
+                                  const Point& point);
 
  private:
   int current_level_ = 0;

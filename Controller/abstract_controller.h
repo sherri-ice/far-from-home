@@ -18,8 +18,6 @@ class AbstractController {
   virtual Player* GetPlayer() = 0;
 
   virtual void SetPlayerPosition(const Point& position) = 0;
-
-  virtual void RescaleObjects(const Resizer& resizer) = 0;
 };
 
 #endif  // CONTROLLER_ABSTRACT_CONTROLLER_H_

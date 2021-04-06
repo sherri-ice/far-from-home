@@ -9,7 +9,9 @@ const double kEpsilon = 0.0001;
 const int kGameWidth = 960;
 const int kGameHeight = 540;
 
-const int kTimeBetweenTicks = 17;
+const double kViewCircleDefault = 540;
+
+const int kTimeBetweenTicks = 10;
 const int kTimeScale = 100;
 
 const QString kApplicationName = "Far from home";
