@@ -28,10 +28,8 @@ double Point::GetY() const {
   return y_;
 }
 
-Point Point::operator+(const Point& point) {
-  SetX(x_ + point.GetX());
-  SetY(y_ + point.GetY());
-  return *this;
+Point Point::operator+(const Point& point) const {
+  return Point(x_ + point.GetX(), y_ + point.GetY());
 }
 
 bool Point::IsClose(const Point& lhs, const Point& rhs) {
@@ -48,6 +46,7 @@ Point& Point::operator+=(const Size& rhs) {
   return *this;
 }
 
+
 Size Point::GetVectorTo(const Point& destination) const {
   return Size(destination.x_ - x_, destination.GetY() - y_);
 }
@@ -58,5 +57,16 @@ bool Point::operator==(const Point& rhs) const {
 
 bool Point::operator!=(const Point& rhs) const {
   return !(*this == rhs);
+
+Point Point::operator-(const Size& rhs) const {
+  return Point(x_ - rhs.GetWidth(), y_ - rhs.GetHeight());
+}
+
+Point Point::operator*(double rhs) const {
+  return Point(x_ * rhs, y_ * rhs);
+}
+
+Point Point::operator/(double rhs) const {
+  return Point(x_ / rhs, y_ / rhs);
 }
 

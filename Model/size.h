@@ -28,6 +28,9 @@ class Size {
   [[nodiscard]] double GetWidth() const;
   [[nodiscard]] double GetHeight() const;
 
+  void SetWidth(double width);
+  void SetHeight(double height);
+
  private:
   double width_ = 0;
   double height_ = 0;

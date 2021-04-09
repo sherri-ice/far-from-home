@@ -4,6 +4,7 @@
 #include <list>
 #include <memory>
 #include <vector>
+#include <View/resizer.h>
 
 #include "GameObject/cat.h"
 #include "GameObject/dog.h"
@@ -23,6 +24,9 @@ class Model {
   Player* GetPlayer();
   std::vector<std::shared_ptr<GameObject>> GetDrawableGameObjects() const;
   void SetGameState(int game_state);
+  std::shared_ptr<Cat> MakeNewCat(const Size& size,
+                                  double speed,
+                                  const Point& point);
 
   std::list<std::shared_ptr<Food>> GetFood();
   std::list<std::shared_ptr<Dog>> GetDogs() const;

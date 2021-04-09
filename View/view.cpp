@@ -1,18 +1,18 @@
 #include "view.h"
 #include "Model/constants.h"
 
-#include <QDebug>
 #include <QKeyEvent>
 #include <QGraphicsScene>
 #include <utility>
 #include <vector>
+#include <algorithm>
 
 View::View(AbstractController* controller,
            std::shared_ptr<Model> model)
     : controller_(controller),
       model_(std::move(model)) {
   setWindowTitle(constants::kApplicationName);
-  setMinimumSize(960, 540);
+  resizer_.ChangeSystem(width(), height());
   show();
 
   time_between_ticks_.start();
@@ -22,6 +22,7 @@ View::View(AbstractController* controller,
 
 void View::paintEvent(QPaintEvent*) {
   QPainter painter(this);
+
   DrawGameObjects(&painter);
   // DrawMap(&painter);
 }
@@ -44,18 +45,7 @@ void View::timerEvent(QTimerEvent* event) {
 }
 
 void View::keyPressEvent(QKeyEvent* event) {
-  if (event->key() == Qt::Key_Up) {
-    pressed_keys_[Qt::Key_Up] = true;
-  }
-  if (event->key() == Qt::Key_Down) {
-    pressed_keys_[Qt::Key_Down] = true;
-  }
-  if (event->key() == Qt::Key_Left) {
-    pressed_keys_[Qt::Key_Left] = true;
-  }
-  if (event->key() == Qt::Key_Right) {
-    pressed_keys_[Qt::Key_Right] = true;
-  }
+  pressed_keys_[event->key()] = true;
 }
 
 Size View::GetPlayerVelocity() {
@@ -79,21 +69,44 @@ void View::ClearVelocity() {
 }
 
 void View::keyReleaseEvent(QKeyEvent* event) {
-  if (event->key() == Qt::Key_Up) {
-    pressed_keys_[Qt::Key_Up] = false;
-  }
-  if (event->key() == Qt::Key_Down) {
-    pressed_keys_[Qt::Key_Down] = false;
-  }
-  if (event->key() == Qt::Key_Left) {
-    pressed_keys_[Qt::Key_Left] = false;
-  }
-  if (event->key() == Qt::Key_Right) {
-    pressed_keys_[Qt::Key_Right] = false;
-  }
+  pressed_keys_[event->key()] = false;
 }
 
 void View::DrawMap(QPainter* painter) {
   painter->setBrush(Qt::red);
   painter->setBackground(Qt::red);
+}
+
+void View::DrawGameObjects(QPainter* painter) {
+  controller_->GetPlayer()->GetViewCircle().Draw(painter, &resizer_);
+  std::vector<std::shared_ptr<GameObject>>
+      drawable_objects = model_->GetDrawableGameObjects();
+  for (const auto& object : drawable_objects) {
+    object->Draw(painter, &resizer_);
+  }
+}
+
+void View::Resize() {
+  resizer_.ChangeSystem(width(), height());
+}
+
+void View::resizeEvent(QResizeEvent*) {
+  Resize();
+}
+
+void View::UpdateResizer(double radius, const Point& position) {
+  resizer_.Update(radius, position);
+}
+
+double View::GetViewSize() {
+  if (pressed_keys_[Qt::Key_E]) {
+    return model_->GetPlayer()->GetViewCircle().GetWantedRadius()
+        + constants::kResizerScale;
+  }
+  if (pressed_keys_[Qt::Key_Q]) {
+    return std::max(model_->GetPlayer()->GetViewCircle().GetWantedRadius()
+                        - constants::kResizerScale,
+                    constants::kResizerScale);
+  }
+  return model_->GetPlayer()->GetViewCircle().GetWantedRadius();
 }

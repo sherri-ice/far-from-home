@@ -6,11 +6,16 @@
 namespace constants {
 const double kEpsilon = 0.0001;
 
-const int kGameWidth = 1920;
-const int kGameHeight = 1080;
+const int kGameWidth = 960;
+const int kGameHeight = 540;
 
-const int kTimeBetweenTicks = 17;
+const double kViewCircleDefault = 540;
+
+const int kTimeBetweenTicks = 10;
 const int kTimeScale = 100;
+
+const double kResizerSpeed = 60.;
+const double kResizerScale = 50.;
 
 const QString kApplicationName = "Far from home";
 }  // namespace constants
