@@ -28,6 +28,7 @@ class Model {
   std::list<std::shared_ptr<Dog>> GetDogs() const;
 
   void ClearObjects();
+  void ClearObjects(std::list<std::shared_ptr<GameObject>>* objects);
 
  private:
   int current_level_ = 0;

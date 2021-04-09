@@ -9,21 +9,21 @@ std::vector<std::shared_ptr<Cat>> Player::GetCats() const {
 }
 
 void Player::OrderCatsToMove(Size velocity) {
-  for (auto &cat : cats_) {
+  for (auto& cat : cats_) {
     cat->SetVelocityFromPlayer(velocity);
   }
 }
 
 void Player::CheckForDogsAround(std::list<std::shared_ptr<Dog>> dogs) {
   Point central_cat_position = cats_.at(0)->GetPosition();
-  for (auto &dog : dogs) {
+  for (auto& dog : dogs) {
     Size distance = central_cat_position.GetVectorTo(dog->GetPosition());
     if (distance.GetLength() < visibility_radius_ ||
         std::abs(distance.GetLength() - visibility_radius_) <=
-        constants::kEpsilon) {
-      dog->SetIfIsVisibleToPlayer(true);
+            constants::kEpsilon) {
+      dog->UpdateDogsAround(true);
     } else {
-      dog->SetIfIsVisibleToPlayer(false);
+      dog->UpdateDogsAround(false);
     }
   }
 }

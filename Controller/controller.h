@@ -19,9 +19,9 @@ class Controller : public AbstractController {
 
  private:
   void TickPlayer() override;
-  void TickCats(int time) override;
-  void TickDogs(int time) override;
-  void TickFood(int time) override;
+  void TickCats(int time);
+  void TickDogs(int time);
+  void TickFood(int time);
 
   void CatsAndFoodIntersect() override;
 

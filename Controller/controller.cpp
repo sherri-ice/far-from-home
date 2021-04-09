@@ -44,9 +44,10 @@ void Controller::TickCats(int time) {
 
 void Controller::TickDogs(int time) {
   std::list<std::shared_ptr<Dog>> dogs = model_->GetDogs();
-  model_->GetPlayer()->CheckForDogsAround(dogs);
-  Point player_position = model_->GetPlayer()->GetCentralCatPosition();
-  double group_radius = model_->GetPlayer()->GetGroupRadius();
+  auto* player = model_->GetPlayer();
+  player->CheckForDogsAround(dogs);
+  Point player_position = player->GetCentralCatPosition();
+  double group_radius = player->GetGroupRadius();
   for (auto &dog : dogs) {
     bool can_see = dog->CheckIfCanSeePlayer(player_position, group_radius);
     if (can_see) {
@@ -56,9 +57,9 @@ void Controller::TickDogs(int time) {
     }
     dog->Tick(time);
     dog->Move(time);
-    for (auto &cat : model_->GetPlayer()->GetCats()) {
+    for (auto &cat : player->GetCats()) {
       if (dog->GetRigidBody().IsCollide(cat->GetRigidBody())) {
-        model_->GetPlayer()->DismissCats();
+        player->DismissCats();
         break;
       }
     }

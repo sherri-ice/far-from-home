@@ -3,8 +3,8 @@
 Dog::Dog(const Size& size,
          double speed,
          const Point& position, double visibility_radius) :
-         TargetMovingObject(size, speed, position), visibility_radius_
-         (visibility_radius), home_position_(position) {
+    TargetMovingObject(size, speed, position), visibility_radius_
+    (visibility_radius), home_position_(position) {
 }
 
 void Dog::Draw(QPainter* painter) const {
@@ -30,20 +30,21 @@ void Dog::Draw(QPainter* painter) const {
 void Dog::Tick(int time) {
 }
 
-void Dog::Move(int time) {
-  MoveToDestination(time);
+void Dog::Move(int delta_time) {
+  MoveToDestination(delta_time);
 }
 
-void Dog::SetIfIsVisibleToPlayer(bool is_visible) {
+void Dog::UpdateDogsAround(bool is_visible) {
   is_visible_to_player_ = is_visible;
 }
 
 bool Dog::CheckIfCanSeePlayer(const Point& player_position, double
-  group_radius) {
+group_radius) {
   Size distance = position_.GetVectorTo(player_position);
-  if (distance.GetLength() < group_radius + visibility_radius_ || (std::abs
-  (distance.GetLength() - group_radius - visibility_radius_) <
-    constants::kEpsilon)) {
+  auto needed_distance = group_radius + visibility_radius_;
+  if (distance.GetLength() < needed_distance
+      || (std::abs(distance.GetLength() - needed_distance)
+          < constants::kEpsilon)) {
     return true;
   }
   return false;

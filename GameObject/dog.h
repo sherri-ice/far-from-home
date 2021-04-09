@@ -11,9 +11,9 @@ class Dog : public TargetMovingObject {
 
   void Draw(QPainter* painter) const override;
   void Tick(int time) override;
-  void Move(int time) override;
+  void Move(int delta_time) override;
 
-  void SetIfIsVisibleToPlayer(bool is_visible);
+  void UpdateDogsAround(bool is_visible);
   bool CheckIfCanSeePlayer(const Point& player_position, double group_radius);
   Point GetHomePosition() const;
 
