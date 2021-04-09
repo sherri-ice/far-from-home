@@ -5,6 +5,7 @@
 #include "GameObject/cat.h"
 #include "GameObject/player.h"
 #include <memory>
+#include <View/resizer.h>
 
 class AbstractController {
  public:

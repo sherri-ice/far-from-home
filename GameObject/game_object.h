@@ -5,6 +5,7 @@
 
 #include "Model/point.h"
 #include "Model/size.h"
+#include "View/resizer.h"
 
 class GameObject {
  public:
@@ -12,14 +13,16 @@ class GameObject {
   virtual ~GameObject() = default;
 
   virtual void SetPosition(const Point& position) = 0;
-  virtual void Draw(QPainter* painter) const = 0;
+  virtual void Draw(QPainter* painter, Resizer* resizer) const = 0;
   virtual void Tick(int time) = 0;
 
-  virtual Size GetSize() const;
+  virtual void Resize(const Size& to_size);
+
+  [[nodiscard]] virtual Size GetSize() const;
   virtual void SetSize(Size size);
 
  protected:
-  Size size_;
+  Size size_ = Size(40, 40);
   Point position_;
 };
 

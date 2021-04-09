@@ -10,9 +10,15 @@ void Controller::Tick(int time) {
   view_->ClearVelocity();
   model_->GetPlayer()->OrderCatsToMove(player_velocity);
 
+  double player_view = view_->GetViewSize();
+  auto view_circle = GetPlayer()->GetViewCircle();
+  view_circle.SetWantedRadius(player_view);
+  model_->GetPlayer()->SetViewCircle(view_circle);
+  GetPlayer()->Tick();
+  view_->UpdateResizer(GetPlayer()->GetViewCircle().GetRadius(),
+                       GetPlayer()->GetPosition());
   int delta_time = time - current_game_time_;
-
-  for (auto &cat : model_->GetPlayer()->GetCats()) {
+  for (auto& cat : model_->GetPlayer()->GetCats()) {
     cat->Tick(delta_time);
     cat->Move(delta_time);
   }
@@ -40,4 +46,7 @@ void Controller::StartGame(int level) {
   model_->LoadLevel(level);
   model_->SetGameState(GameState::kMenu);
 }
+
+
+
 

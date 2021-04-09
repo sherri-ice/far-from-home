@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <vector>
+#include <View/resizer.h>
 
 #include "GameObject/cat.h"
 #include "GameObject/player.h"
@@ -20,6 +21,9 @@ class Model {
   Player* GetPlayer();
   std::vector<std::shared_ptr<GameObject>> GetDrawableGameObjects() const;
   void SetGameState(int game_state);
+  std::shared_ptr<Cat> MakeNewCat(const Size& size,
+                                  double speed,
+                                  const Point& point);
 
  private:
   int current_level_ = 0;

@@ -73,5 +73,13 @@ Size& Size::operator=(const Size& rhs) {
   return *this;
 }
 
+void Size::SetWidth(double width) {
+  width_ = width;
+}
+
+void Size::SetHeight(double height) {
+  height_ = height;
+}
+
 
 

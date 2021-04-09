@@ -14,3 +14,19 @@ void Player::OrderCatsToMove(Size velocity) {
     cat->SetVelocityFromPlayer(velocity);
   }
 }
+
+const ViewCircle& Player::GetViewCircle() const {
+  return view_circle_;
+}
+
+void Player::SetViewCircle(const ViewCircle& view_circle) {
+  view_circle_ = view_circle;
+}
+
+const Point& Player::GetPosition() const {
+  return cats_.at(0)->GetPosition();
+}
+
+void Player::Tick() {
+  view_circle_.Tick();
+}
