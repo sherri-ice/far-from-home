@@ -23,9 +23,8 @@ Size Resizer::GameToWindowSize(const Size& size) const {
 }
 
 void Resizer::Update(double radius, const Point& position) {
-  scaling_coefficient_ = scaling_coefficient_
-      + (radius / std::min(game_size_.GetWidth(), game_size_.GetHeight())
-          - scaling_coefficient_) / 30;
+  scaling_coefficient_ =
+      radius / std::min(game_size_.GetWidth(), game_size_.GetHeight());
   auto pos_size = Size(position.GetX(), position.GetY());
   origin_offset_ = pos_size / scaling_coefficient_ * -1 + game_size_ / 2;
 }

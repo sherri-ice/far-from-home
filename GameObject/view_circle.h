@@ -14,10 +14,14 @@ class ViewCircle  {
   [[nodiscard]] double GetRadius() const;
   void SetRadius(double radius);
   void Draw(QPainter* painter, Resizer* resizer) const;
+  void SetWantedRadius(double wanted_radius);
+  void Tick();
+  [[nodiscard]] double GetWantedRadius() const;
 
  private:
   Point center_;
-  double radius_ = 20.;
+  double radius_ = 0.;
+  double wanted_radius_ = constants::kViewCircleDefault;
 };
 
 #endif  // GAMEOBJECT_VIEW_CIRCLE_H_

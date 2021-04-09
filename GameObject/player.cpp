@@ -26,3 +26,7 @@ void Player::SetViewCircle(const ViewCircle& view_circle) {
 const Point& Player::GetPosition() const {
   return cats_.at(0)->GetPosition();
 }
+
+void Player::Tick() {
+  view_circle_.Tick();
+}

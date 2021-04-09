@@ -37,7 +37,7 @@ void View::timerEvent(QTimerEvent* event) {
 }
 
 void View::keyPressEvent(QKeyEvent* event) {
-    pressed_keys_[event->key()] = true;
+  pressed_keys_[event->key()] = true;
 }
 
 Size View::GetPlayerVelocity() {
@@ -92,11 +92,13 @@ void View::UpdateResizer(double radius, const Point& position) {
 
 double View::GetViewSize() {
   if (pressed_keys_[Qt::Key_E]) {
-    return model_->GetPlayer()->GetViewCircle().GetRadius() + 100;
+    return model_->GetPlayer()->GetViewCircle().GetWantedRadius()
+        + constants::kResizerScale;
   }
   if (pressed_keys_[Qt::Key_Q]) {
-    return std::max(model_->GetPlayer()->GetViewCircle().GetRadius() - 100,
-                    100.);
+    return std::max(model_->GetPlayer()->GetViewCircle().GetWantedRadius()
+                        - constants::kResizerScale,
+                    constants::kResizerScale);
   }
-  return model_->GetPlayer()->GetViewCircle().GetRadius();
+  return model_->GetPlayer()->GetViewCircle().GetWantedRadius();
 }

@@ -17,6 +17,8 @@ class Player {
   const ViewCircle& GetViewCircle() const;
   void SetViewCircle(const ViewCircle& view_circle);
   const Point& GetPosition() const;
+
+  void Tick();
  private:
   std::vector<std::shared_ptr<Cat>> cats_;
   ViewCircle view_circle_;

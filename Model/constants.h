@@ -14,6 +14,9 @@ const double kViewCircleDefault = 540;
 const int kTimeBetweenTicks = 10;
 const int kTimeScale = 100;
 
+const double kResizerSpeed = 60.;
+const double kResizerScale = 50.;
+
 const QString kApplicationName = "Far from home";
 }  // namespace constants
 
