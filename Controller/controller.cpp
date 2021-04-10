@@ -31,34 +31,29 @@ void Controller::StartGame(int level) {
 
 void Controller::TickPlayer() {
   Size player_velocity = view_->GetPlayerVelocity();
+  auto player = model_->GetPlayer();
   view_->ClearVelocity();
-  model_->GetPlayer()->OrderCatsToMove(player_velocity);
+  player->OrderCatsToMove(player_velocity);
+  player->CheckForDogsAround(model_->GetDogs());
 }
 
 void Controller::TickCats(int time) {
-  for (auto &cat : model_->GetPlayer()->GetCats()) {
+  for (auto& cat : model_->GetPlayer()->GetCats()) {
     cat->Tick(time);
     cat->Move(time);
   }
 }
 
-void Controller::TickDogs(int time) {
+void Controller::TickDogs(int delta_time) {
   std::list<std::shared_ptr<Dog>> dogs = model_->GetDogs();
-  model_->GetPlayer()->CheckForDogsAround(dogs);
-  Point player_position = model_->GetPlayer()->GetCentralCatPosition();
-  double group_radius = model_->GetPlayer()->GetGroupRadius();
-  for (auto &dog : dogs) {
-    bool can_see = dog->CheckIfCanSeePlayer(player_position, group_radius);
-    if (can_see) {
-      dog->SetDestination(player_position);
-    } else {
-      dog->SetDestination(dog->GetHomePosition());
-    }
-    dog->Tick(time);
-    dog->Move(time);
-    for (auto &cat : model_->GetPlayer()->GetCats()) {
+  auto player = model_->GetPlayer();
+  for (auto& dog : dogs) {
+    dog->SetReachableCat(player->GetCats());
+    dog->Tick(delta_time);
+    dog->Move(delta_time);
+    for (auto &cat : player->GetCats()) {
       if (dog->GetRigidBody().IsCollide(cat->GetRigidBody())) {
-        model_->GetPlayer()->DismissCats();
+        player->DismissCats();
         break;
       }
     }

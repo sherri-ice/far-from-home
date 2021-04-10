@@ -63,37 +63,24 @@ std::list<std::shared_ptr<Dog>> Model::GetDogs() const {
 }
 
 void Model::ClearObjects() {
-  auto it = food_.end();
-  --it;
-  while (it != food_.begin()) {
+  for (auto it = food_.rbegin(); it != food_.rend(); ++it) {
     if ((*it)->IsDead()) {
-      food_.remove(*it);
+          food_.remove(*it);
+        }
+  }
+
+  for (auto it = cats_.rbegin(); it != cats_.rend(); ++it) {
+    if ((*it)->IsDead()) {
+      cats_.remove(*it);
     }
-    --it;
   }
-  if ((*it)->IsDead()) {
-    food_.remove(*it);
-  }
-  auto cat_it = cats_.end();
-  --cat_it;
-  while (cat_it != cats_.begin()) {
-    if ((*cat_it)->IsDead()) {
-      cats_.remove(*cat_it);
+
+  for (auto it = dogs_.rbegin(); it != dogs_.rend(); ++it) {
+    if ((*it)->IsDead()) {
+      dogs_.remove(*it);
     }
-    --cat_it;
-  }
-  if ((*cat_it)->IsDead()) {
-    cats_.remove(*cat_it);
-  }
-  auto dog_it = dogs_.end();
-  --dog_it;
-  while (dog_it != dogs_.begin()) {
-    if ((*dog_it)->IsDead()) {
-      dogs_.remove(*dog_it);
-    }
-    --dog_it;
-  }
-  if ((*dog_it)->IsDead()) {
-    dogs_.remove(*dog_it);
   }
 }
+
+
+

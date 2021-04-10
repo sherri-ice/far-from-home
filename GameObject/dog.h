@@ -2,6 +2,7 @@
 #define GAMEOBJECT_DOG_H_
 
 #include "GameObject/target_moving_object.h"
+#include "cat.h"
 
 class Dog : public TargetMovingObject {
  public:
@@ -11,16 +12,19 @@ class Dog : public TargetMovingObject {
 
   void Draw(QPainter* painter) const override;
   void Tick(int time) override;
-  void Move(int time) override;
+  void Move(int delta_time) override;
 
-  void SetIfIsVisibleToPlayer(bool is_visible);
+  void UpdateDogsAround(bool is_visible);
   bool CheckIfCanSeePlayer(const Point& player_position, double group_radius);
+  bool CheckIfCanSeeCat(const Cat* cat) const;
   Point GetHomePosition() const;
+  void SetReachableCat(const std::vector<std::shared_ptr<Cat>>& cats);
 
  private:
   double visibility_radius_;
   Point home_position_;
   bool is_visible_to_player_{false};
+  const Cat* reachable_cat_{nullptr};
 };
 
 #endif  // GAMEOBJECT_DOG_H_

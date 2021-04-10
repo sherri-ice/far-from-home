@@ -27,23 +27,26 @@ void Dog::Draw(QPainter* painter) const {
   painter->restore();
 }
 
-void Dog::Tick(int time) {
+void Dog::Tick(int delta_time) {
+  if (reachable_cat_) {
+    SetDestination(reachable_cat_->GetPosition());
+  } else {
+    SetDestination(GetHomePosition());
+  }
 }
 
-void Dog::Move(int time) {
-  MoveToDestination(time);
+void Dog::Move(int delta_time) {
+  MoveToDestination(delta_time);
 }
 
-void Dog::SetIfIsVisibleToPlayer(bool is_visible) {
+void Dog::UpdateDogsAround(bool is_visible) {
   is_visible_to_player_ = is_visible;
 }
 
 bool Dog::CheckIfCanSeePlayer(const Point& player_position, double
   group_radius) {
   Size distance = position_.GetVectorTo(player_position);
-  if (distance.GetLength() < group_radius + visibility_radius_ || (std::abs
-  (distance.GetLength() - group_radius - visibility_radius_) <
-    constants::kEpsilon)) {
+  if (distance.GetLength() < group_radius + visibility_radius_) {
     return true;
   }
   return false;
@@ -52,3 +55,26 @@ bool Dog::CheckIfCanSeePlayer(const Point& player_position, double
 Point Dog::GetHomePosition() const {
   return home_position_;
 }
+
+void Dog::SetReachableCat(const std::vector<std::shared_ptr<Cat>>& cats) {
+  reachable_cat_ = nullptr;
+  Size min_distance = Size(visibility_radius_, visibility_radius_);
+  for (const auto& cat : cats) {
+    Size cat_distance = position_.GetVectorTo(cat->GetPosition());
+    if (CheckIfCanSeeCat(&(*cat)) &&
+        cat_distance.GetLength() < min_distance.GetLength()) {
+      reachable_cat_ = &(*cat);
+      min_distance = cat_distance;
+    }
+  }
+}
+
+bool Dog::CheckIfCanSeeCat(const Cat* cat) const {
+  Size distance = position_.GetVectorTo(cat->GetPosition());
+  if (distance.GetLength() < visibility_radius_ +
+      cat->GetSize().GetWidth() / 2) {
+    return true;
+  }
+  return false;
+}
+

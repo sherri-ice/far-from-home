@@ -17,9 +17,6 @@ class AbstractController {
   virtual void StartGame(int level) = 0;
 
   virtual void TickPlayer() = 0;
-  virtual void TickCats(int time) = 0;
-  virtual void TickDogs(int time) = 0;
-  virtual void TickFood(int time) = 0;
 
   virtual void CatsAndFoodIntersect() = 0;
 };
