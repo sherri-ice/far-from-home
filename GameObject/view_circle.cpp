@@ -41,3 +41,4 @@ void ViewCircle::Tick() {
 double ViewCircle::GetWantedRadius() const {
   return wanted_radius_;
 }
+

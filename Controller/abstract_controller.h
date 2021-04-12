@@ -19,6 +19,8 @@ class AbstractController {
 
   virtual void TickPlayer() = 0;
 
+  virtual Player* GetPlayer() = 0;
+
   virtual void CatsAndFoodIntersect() = 0;
 };
 

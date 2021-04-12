@@ -16,7 +16,6 @@ class Player {
   [[nodiscard]] std::vector<std::shared_ptr<Cat>> GetCats() const;
 
   void OrderCatsToMove(Size velocity);
-  
   void CheckForDogsAround(std::list<std::shared_ptr<Dog>> dogs);
 
   void DismissCats();
@@ -24,11 +23,12 @@ class Player {
   double GetGroupRadius() const;
   Point GetCentralCatPosition() const;
 
-  const ViewCircle& GetViewCircle() const;
+  [[nodiscard]] const ViewCircle& GetViewCircle() const;
   void SetViewCircle(const ViewCircle& view_circle);
-  const Point& GetPosition() const;
+  [[nodiscard]] const Point& GetPosition() const;
 
   void Tick();
+
  private:
   std::vector<std::shared_ptr<Cat>> cats_;
   ViewCircle view_circle_;

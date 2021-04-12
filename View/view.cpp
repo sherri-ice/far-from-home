@@ -27,14 +27,6 @@ void View::paintEvent(QPaintEvent*) {
   // DrawMap(&painter);
 }
 
-void View::DrawGameObjects(QPainter* painter) {
-  std::vector<std::shared_ptr<GameObject>>
-      drawable_objects = model_->GetDrawableGameObjects();
-  for (const auto& object : drawable_objects) {
-    object->Draw(painter);
-  }
-}
-
 void View::timerEvent(QTimerEvent* event) {
   if (event->timerId() == controller_timer_id_) {
     int delta_time = time_between_ticks_.elapsed();

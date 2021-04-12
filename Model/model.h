@@ -39,7 +39,7 @@ class Model {
   int game_state_ = GameState::kMenu;
 
   std::list<std::shared_ptr<Cat>> cats_;
-  Player player_;
+  Player* player_;
   std::list<std::shared_ptr<Food>> food_;
   std::list<std::shared_ptr<Dog>> dogs_;
 };

@@ -9,7 +9,7 @@ class Dog : public TargetMovingObject {
   visibility_radius);
   ~Dog() override = default;
 
-  void Draw(QPainter* painter) const override;
+  void Draw(QPainter* painter, Resizer* resizer) const override;
   void Tick(int time) override;
   void Move(int delta_time) override;
 

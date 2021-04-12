@@ -5,7 +5,7 @@ Cat::Cat(const Size& size, double speed, const Point& position) :
 }
 
 void Cat::Draw(QPainter* painter, Resizer* resizer) const {
-  rigid_body_.Draw(painter);
+  rigid_body_.Draw(painter, resizer);
   painter->save();
   auto position = resizer->GameToWindowCoordinate(position_);
   auto size = resizer->GameToWindowSize(size_);

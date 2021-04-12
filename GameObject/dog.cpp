@@ -7,12 +7,14 @@ Dog::Dog(const Size& size,
     (visibility_radius), home_position_(position) {
 }
 
-void Dog::Draw(QPainter* painter) const {
-  rigid_body_.Draw(painter);
+void Dog::Draw(QPainter* painter, Resizer* resizer) const {
+  rigid_body_.Draw(painter, resizer);
   painter->save();
-  painter->translate(position_.GetX(), position_.GetY());
-  int object_width = static_cast<int>(GetSize().GetWidth());
-  int object_height = static_cast<int>(GetSize().GetHeight());
+  auto position = resizer->GameToWindowCoordinate(position_);
+  auto size = resizer->GameToWindowSize(size_);
+  painter->translate(position.GetX(), position.GetY());
+  int object_width = static_cast<int>(size.GetWidth());
+  int object_height = static_cast<int>(size.GetHeight());
   if (is_visible_to_player_) {
     painter->drawEllipse(static_cast<int>(-visibility_radius_),
                          static_cast<int>(-visibility_radius_),

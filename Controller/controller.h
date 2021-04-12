@@ -17,6 +17,8 @@ class Controller : public AbstractController {
   void Tick(int time) override;
   int GetCurrentTime() override;
 
+  Player* GetPlayer() override;
+
  private:
   void TickPlayer() override;
   void TickCats(int time);

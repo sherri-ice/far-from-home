@@ -57,6 +57,7 @@ bool Point::operator==(const Point& rhs) const {
 
 bool Point::operator!=(const Point& rhs) const {
   return !(*this == rhs);
+}
 
 Point Point::operator-(const Size& rhs) const {
   return Point(x_ - rhs.GetWidth(), y_ - rhs.GetHeight());

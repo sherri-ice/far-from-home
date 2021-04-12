@@ -6,7 +6,6 @@ Model::Model() {
   std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
                                                             0.001, Point());
   cats_.emplace_back(main_cat);
-  player_ = Player(main_cat);
 
   std::shared_ptr<Dog> dog = std::make_shared<Dog>(Size(40, 40), 0.00075,
                                                    Point(250, 250), 80);
@@ -22,11 +21,8 @@ Model::Model() {
   for (auto &food : food_) {
     food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
   }
-  
-  Cat main_cat(Size(40, 40), 0.001, Point());
-  auto main_cat_ptr = std::make_shared<Cat>(main_cat);
-  cats_.push_back(main_cat_ptr);
-  player_ = new Player(main_cat_ptr);
+
+  player_ = new Player(main_cat);
   // Temporary
   MakeNewCat(Size(60, 60), 0.001, Point(1000, 0));
   MakeNewCat(Size(10, 10), 0.001, Point(500, 500));
@@ -36,7 +32,7 @@ Model::Model() {
 }
 
 Player* Model::GetPlayer() {
-  return &player_;
+  return player_;
 }
 
 std::vector<std::shared_ptr<GameObject>> Model::GetDrawableGameObjects() const {

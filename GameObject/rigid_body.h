@@ -2,6 +2,7 @@
 #define GAMEOBJECT_RIGID_BODY_H_
 
 #include <QPainter>
+#include <View/resizer.h>
 
 #include "Model/point.h"
 #include "Model/size.h"
@@ -14,7 +15,7 @@ class RigidBody {
 
   QRect GetRect() const;
   bool IsCollide(const RigidBody& other_rigid_body) const;
-  void Draw(QPainter* painter) const;
+  void Draw(QPainter* painter, Resizer* resizer) const;
 
   void SetScaleCoefficients(double coefficient_x, double coefficient_y);
 

@@ -38,6 +38,7 @@ double Player::GetGroupRadius() const {
 
 Point Player::GetCentralCatPosition() const {
   return cats_.at(0)->GetPosition();
+}
 
 const ViewCircle& Player::GetViewCircle() const {
   return view_circle_;
