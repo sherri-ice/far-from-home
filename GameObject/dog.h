@@ -3,6 +3,8 @@
 
 #include "GameObject/target_moving_object.h"
 #include "cat.h"
+#include <memory>
+#include <vector>
 
 class Dog : public TargetMovingObject {
  public:
