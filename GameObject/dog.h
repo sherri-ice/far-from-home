@@ -10,11 +10,11 @@ class Dog : public TargetMovingObject {
   visibility_radius);
   ~Dog() override = default;
 
-  void Draw(QPainter* painter) const override;
+  void Draw(QPainter* painter, Resizer* resizer) const override;
   void Tick(int time) override;
   void Move(int delta_time) override;
 
-  void SetIfItVisibleToPlayer(bool is_visible);
+  void SetIfIsVisibleToPlayer(bool is_visible);
   bool CheckIfCanSeePlayer(const Point& player_position, double group_radius);
   bool CheckIfCanSeeCat(const Cat* cat) const;
   Point GetHomePosition() const;

@@ -6,8 +6,10 @@
 
 class Size {
  public:
-  Size() = default;
-  Size(double x, double y) noexcept;
+  Size();
+  explicit Size(double x, double y) noexcept;
+
+  Size& operator=(const Size& rhs);
 
   std::pair<double, double> GetSize();
   [[nodiscard]] double GetLength() const;
@@ -28,9 +30,13 @@ class Size {
   [[nodiscard]] double GetWidth() const;
   [[nodiscard]] double GetHeight() const;
 
+  void SetWidth(double width);
+  void SetHeight(double height);
+
  private:
   double width_ = 0;
   double height_ = 0;
 };
 
 #endif  // MODEL_SIZE_H_
+

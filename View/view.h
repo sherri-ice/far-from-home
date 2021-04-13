@@ -18,7 +18,10 @@ class View : public QMainWindow {
   ~View() override = default;
 
   Size GetPlayerVelocity();
+  double GetViewSize();
   void ClearVelocity();
+  void Resize();
+  void UpdateResizer(double radius, const Point& position);
 
  private:
   int controller_timer_id_;
@@ -26,6 +29,7 @@ class View : public QMainWindow {
   QElapsedTimer view_timer_;
 
   AbstractController* controller_;
+  Resizer resizer_;
   std::shared_ptr<Model> model_;
 
   void paintEvent(QPaintEvent*) override;
@@ -36,8 +40,9 @@ class View : public QMainWindow {
   void DrawMap(QPainter* painter);
   void DrawGameObjects(QPainter* painter);
 
-  Size player_velocity_{Size(0, 0)};
-  std::map<Qt::Key, bool> pressed_keys_;
+  Size player_velocity_;
+  std::map<int, bool> pressed_keys_;
+  void resizeEvent(QResizeEvent*) override;
 };
 
 #endif  // VIEW_VIEW_H_

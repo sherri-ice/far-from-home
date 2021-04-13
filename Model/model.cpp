@@ -6,7 +6,6 @@ Model::Model() {
   std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
                                                             0.001, Point());
   cats_.emplace_back(main_cat);
-  player_ = Player(main_cat);
 
   std::shared_ptr<Dog> dog = std::make_shared<Dog>(Size(40, 40), 0.00075,
                                                    Point(250, 250), 80);
@@ -22,15 +21,23 @@ Model::Model() {
   for (auto &food : food_) {
     food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
   }
+
+  player_ = new Player(main_cat);
+  // Temporary
+  MakeNewCat(Size(60, 60), 0.001, Point(1000, 0));
+  MakeNewCat(Size(10, 10), 0.001, Point(500, 500));
+
+  player_->SetViewCircle(ViewCircle(player_->GetPosition(),
+                                    constants::kViewCircleDefault));
 }
 
 Player* Model::GetPlayer() {
-  return &player_;
+  return player_;
 }
 
 std::vector<std::shared_ptr<GameObject>> Model::GetDrawableGameObjects() const {
   std::vector<std::shared_ptr<GameObject>> result;
-  for (const auto& cat : player_.GetCats()) {
+  for (const auto& cat : cats_) {
     result.push_back(cat);
   }
   for (const auto& dog : dogs_) {
@@ -44,6 +51,15 @@ std::vector<std::shared_ptr<GameObject>> Model::GetDrawableGameObjects() const {
     return lhs->GetPosition().GetY() < rhs->GetPosition().GetY();
   });
   return result;
+}
+
+std::shared_ptr<Cat> Model::MakeNewCat(const Size& size,
+                                       double speed,
+                                       const Point& point) {
+  Cat new_cat(size, speed, point);
+  auto new_cat_ptr = std::make_shared<Cat>(new_cat);
+  cats_.push_back(new_cat_ptr);
+  return cats_.back();
 }
 
 void Model::LoadLevel(int level) {
@@ -81,6 +97,3 @@ void Model::ClearObjects() {
     }
   }
 }
-
-
-

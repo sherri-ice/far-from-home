@@ -7,6 +7,14 @@ Controller::Controller() {
 
 void Controller::Tick(int time) {
   int delta_time = time - current_game_time_;
+  double player_view = view_->GetViewSize();
+  auto view_circle = GetPlayer()->GetViewCircle();
+  view_circle.SetCenter(GetPlayer()->GetPosition());
+  view_circle.SetWantedRadius(player_view);
+  model_->GetPlayer()->SetViewCircle(view_circle);
+  GetPlayer()->Tick();
+  view_->UpdateResizer(GetPlayer()->GetViewCircle().GetRadius(),
+                       GetPlayer()->GetPosition());
   current_game_time_ = time;
 
   TickPlayer();
@@ -27,6 +35,10 @@ void Controller::StartGame(int level) {
   // Actually, wanted to start in the center of the screen
   model_->LoadLevel(level);
   model_->SetGameState(GameState::kMenu);
+}
+
+Player* Controller::GetPlayer() {
+  return model_->GetPlayer();
 }
 
 void Controller::TickPlayer() {

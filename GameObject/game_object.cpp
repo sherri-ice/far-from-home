@@ -37,3 +37,9 @@ void GameObject::SetIsDead() {
 bool GameObject::IsDead() const {
   return is_dead_;
 }
+
+void GameObject::Resize(const Size& to_size) {
+  // TODO(sherri.ice)
+  // Should be changed after declaring animations
+}
+

@@ -13,9 +13,13 @@ class Point {
   void SetY(double y);
   [[nodiscard]] double GetX() const;
   [[nodiscard]] double GetY() const;
-  Point operator+(const Point& point);
+  Point operator+(const Point& point) const;
+
+  Point operator*(double rhs) const;
+  Point operator/(double rhs) const;
 
   Point operator+(const Size& rhs) const;
+  Point operator-(const Size& rhs) const;
 
   Point& operator+=(const Size& rhs);
   bool operator==(const Point& rhs) const;

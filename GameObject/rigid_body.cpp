@@ -14,8 +14,17 @@ bool RigidBody::IsCollide(const RigidBody& other_rigid_body) const {
   return GetRect().intersects(other_rigid_body.GetRect());
 }
 
-void RigidBody::Draw(QPainter* painter) const {
-  painter->drawRect(GetRect());
+void RigidBody::Draw(QPainter* painter, Resizer* resizer) const {
+  auto rect = GetRect();
+  auto game_size = Size(rect.width(), rect.height());
+  auto window_size = resizer->GameToWindowSize(game_size);
+  auto game_coordinate = Point(rect.x(), rect.y());
+  auto window_coordinates = resizer->GameToWindowCoordinate(game_coordinate);
+  rect.setX(window_coordinates.GetX());
+  rect.setY(window_coordinates.GetY());
+  rect.setWidth(window_size.GetWidth());
+  rect.setHeight(window_size.GetHeight());
+  painter->drawRect(rect);
 }
 
 RigidBody::RigidBody(const Size* size, const Point* position) : object_size_

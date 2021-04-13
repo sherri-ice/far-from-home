@@ -1,6 +1,9 @@
 #include "size.h"
 #include "constants.h"
 
+Size::Size() : width_(0.), height_(0.) {
+}
+
 Size::Size(double x, double y) noexcept : width_(x), height_(y) {}
 
 Size Size::operator*(double rhs) const {
@@ -63,3 +66,18 @@ double Size::GetWidth() const {
 double Size::GetHeight() const {
   return height_;
 }
+
+Size& Size::operator=(const Size& rhs) {
+  width_ = rhs.width_;
+  height_ = rhs.height_;
+  return *this;
+}
+
+void Size::SetWidth(double width) {
+  width_ = width;
+}
+
+void Size::SetHeight(double height) {
+  height_ = height;
+}
+

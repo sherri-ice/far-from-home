@@ -7,6 +7,7 @@
 #include "GameObject/player.h"
 #include<list>
 #include <memory>
+#include <View/resizer.h>
 
 class AbstractController {
  public:
@@ -17,6 +18,8 @@ class AbstractController {
   virtual void StartGame(int level) = 0;
 
   virtual void TickPlayer() = 0;
+
+  virtual Player* GetPlayer() = 0;
 
   virtual void CatsAndFoodIntersect() = 0;
 };
