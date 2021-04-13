@@ -9,7 +9,6 @@ void Cat::Draw(QPainter* painter, Resizer* resizer) const {
   painter->save();
   auto position = resizer->GameToWindowCoordinate(position_);
   auto size = resizer->GameToWindowSize(size_);
-  painter->save();
   painter->setBrush(Qt::red);
   painter->drawEllipse(position.GetX() - size.GetWidth()/2,
                        position.GetY() - size.GetHeight()/2,
