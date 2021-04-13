@@ -14,7 +14,7 @@ class Dog : public TargetMovingObject {
   void Tick(int time) override;
   void Move(int delta_time) override;
 
-  void UpdateDogsAround(bool is_visible);
+  void SetIfItVisibleToPlayer(bool is_visible);
   bool CheckIfCanSeePlayer(const Point& player_position, double group_radius);
   bool CheckIfCanSeeCat(const Cat* cat) const;
   Point GetHomePosition() const;

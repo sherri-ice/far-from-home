@@ -16,7 +16,7 @@ class Player {
 
   void OrderCatsToMove(Size velocity);
 
-  void CheckForDogsAround(std::list<std::shared_ptr<Dog>> dogs);
+  void UpdateDogsAround(std::list<std::shared_ptr<Dog>> dogs);
 
   void DismissCats();
 

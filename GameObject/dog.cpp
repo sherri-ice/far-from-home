@@ -39,7 +39,7 @@ void Dog::Move(int delta_time) {
   MoveToDestination(delta_time);
 }
 
-void Dog::UpdateDogsAround(bool is_visible) {
+void Dog::SetIfItVisibleToPlayer(bool is_visible) {
   is_visible_to_player_ = is_visible;
 }
 

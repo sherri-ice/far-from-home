@@ -34,7 +34,7 @@ void Controller::TickPlayer() {
   auto player = model_->GetPlayer();
   view_->ClearVelocity();
   player->OrderCatsToMove(player_velocity);
-  player->CheckForDogsAround(model_->GetDogs());
+  player->UpdateDogsAround(model_->GetDogs());
 }
 
 void Controller::TickCats(int time) {

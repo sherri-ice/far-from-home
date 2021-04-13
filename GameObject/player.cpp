@@ -14,14 +14,14 @@ void Player::OrderCatsToMove(Size velocity) {
   }
 }
 
-void Player::CheckForDogsAround(std::list<std::shared_ptr<Dog>> dogs) {
+void Player::UpdateDogsAround(std::list<std::shared_ptr<Dog>> dogs) {
   Point central_cat_position = cats_.at(0)->GetPosition();
   for (auto &dog : dogs) {
     Size distance = central_cat_position.GetVectorTo(dog->GetPosition());
     if (distance.GetLength() < visibility_radius_) {
-      dog->UpdateDogsAround(true);
+      dog->SetIfItVisibleToPlayer(true);
     } else {
-      dog->UpdateDogsAround(false);
+      dog->SetIfItVisibleToPlayer(false);
     }
   }
 }
