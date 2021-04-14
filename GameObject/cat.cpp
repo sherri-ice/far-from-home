@@ -30,4 +30,3 @@ void Cat::Move(int time) {
 void Cat::SetVelocityFromPlayer(Size velocity) {
   velocity_ = velocity;
 }
-

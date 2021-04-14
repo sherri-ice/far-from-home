@@ -17,7 +17,7 @@ Size GameObject::GetSize() const {
   return size_;
 }
 
-const Point& GameObject::GetPosition() const {
+const Point& GameObject::GetDrawPosition() const {
   return position_;
 }
 
@@ -43,3 +43,6 @@ void GameObject::Resize(const Size& to_size) {
   // Should be changed after declaring animations
 }
 
+Point GameObject::GetRigidPosition() const {
+  return rigid_body_.GetCenterOfRigidBody();
+}

@@ -25,4 +25,3 @@ class ViewCircle  {
 };
 
 #endif  // GAMEOBJECT_VIEW_CIRCLE_H_
-

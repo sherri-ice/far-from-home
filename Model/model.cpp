@@ -8,7 +8,7 @@ Model::Model() {
   cats_.emplace_back(main_cat);
 
   std::shared_ptr<Dog> dog = std::make_shared<Dog>(Size(40, 40), 0.00075,
-                                                   Point(250, 250), 80);
+                                                   Point(250, 250), 100);
   dogs_.emplace_back(dog);
 
   food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(789, 65)));
@@ -48,7 +48,7 @@ std::vector<std::shared_ptr<GameObject>> Model::GetDrawableGameObjects() const {
   }
   std::sort(result.begin(), result.end(), [](const
   std::shared_ptr<GameObject>& lhs, const std::shared_ptr<GameObject>& rhs) {
-    return lhs->GetPosition().GetY() < rhs->GetPosition().GetY();
+    return lhs->GetDrawPosition().GetY() < rhs->GetDrawPosition().GetY();
   });
   return result;
 }
@@ -74,8 +74,12 @@ std::list<std::shared_ptr<Food>> Model::GetFood() {
   return food_;
 }
 
-std::list<std::shared_ptr<Dog>> Model::GetDogs() const {
+std::list<std::shared_ptr<Dog>> Model::GetDogs() {
   return dogs_;
+}
+
+std::list<std::shared_ptr<Cat>> Model::GetCats() {
+  return cats_;
 }
 
 void Model::ClearObjects() {

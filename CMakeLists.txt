@@ -33,14 +33,14 @@ set(SOURCES
         GameObject/moving_object.cpp
         GameObject/player.cpp
         GameObject/rigid_body.cpp
-        GameObject/target_moving_object.cpp
         main.cpp
         Model/model.cpp
         Model/size.cpp
         Model/point.cpp
         Model/constants.h
         View/view.cpp
-        View/resizer.cpp GameObject/view_circle.cpp GameObject/view_circle.h)
+        View/resizer.cpp
+        GameObject/view_circle.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 

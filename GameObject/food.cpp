@@ -1,5 +1,3 @@
-#include <experimental/random>
-
 #include "food.h"
 
 Food::Food(const Size& size, const Point& position) : GameObject(size,

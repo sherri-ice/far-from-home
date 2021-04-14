@@ -28,6 +28,7 @@ class Point {
   static bool IsClose(const Point& lhs, const Point& rhs);
 
   Size GetVectorTo(const Point& destination) const;
+  bool IsInEllipse(Point position, double ellipse_radius) const;
 
  private:
   double x_;

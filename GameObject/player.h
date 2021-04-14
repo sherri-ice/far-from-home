@@ -21,9 +21,6 @@ class Player {
 
   void DismissCats();
 
-  double GetGroupRadius() const;
-  Point GetCentralCatPosition() const;
-
   [[nodiscard]] const ViewCircle& GetViewCircle() const;
   void SetViewCircle(const ViewCircle& view_circle);
   [[nodiscard]] const Point& GetPosition() const;

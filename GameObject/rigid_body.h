@@ -19,6 +19,8 @@ class RigidBody {
 
   void SetScaleCoefficients(double coefficient_x, double coefficient_y);
 
+  Point GetCenterOfRigidBody() const;
+
  private:
   const Size* object_size_;
   const Point* object_position_;

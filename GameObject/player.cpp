@@ -15,9 +15,9 @@ void Player::OrderCatsToMove(Size velocity) {
 }
 
 void Player::UpdateDogsAround(std::list<std::shared_ptr<Dog>> dogs) {
-  Point central_cat_position = cats_.at(0)->GetPosition();
+  Point central_cat_position = cats_.at(0)->GetDrawPosition();
   for (auto& dog : dogs) {
-    Size distance = central_cat_position.GetVectorTo(dog->GetPosition());
+    Size distance = central_cat_position.GetVectorTo(dog->GetDrawPosition());
     if (distance.GetLength() < visibility_radius_) {
       dog->SetIfItVisibleToPlayer(true);
     } else {
@@ -30,14 +30,6 @@ void Player::DismissCats() {
   cats_.at(0)->SetPosition(Point(0, 0));
 }
 
-double Player::GetGroupRadius() const {
-  return group_radius_;
-}
-
-Point Player::GetCentralCatPosition() const {
-  return cats_.at(0)->GetPosition();
-}
-
 const ViewCircle& Player::GetViewCircle() const {
   return view_circle_;
 }
@@ -47,7 +39,7 @@ void Player::SetViewCircle(const ViewCircle& view_circle) {
 }
 
 const Point& Player::GetPosition() const {
-  return cats_.at(0)->GetPosition();
+  return cats_.at(0)->GetDrawPosition();
 }
 
 void Player::Tick() {

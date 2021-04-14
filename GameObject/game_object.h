@@ -21,7 +21,8 @@ class GameObject {
 
   [[nodiscard]] virtual Size GetSize() const;
   virtual void SetSize(Size size);
-  const Point& GetPosition() const;
+  const Point& GetDrawPosition() const;
+  Point GetRigidPosition() const;
   RigidBody GetRigidBody() const;
 
   void SetScaleCoefficientsInRigidBody(double coefficient_x, double

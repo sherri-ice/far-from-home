@@ -29,10 +29,10 @@ class Model {
                                   const Point& point);
 
   std::list<std::shared_ptr<Food>> GetFood();
-  std::list<std::shared_ptr<Dog>> GetDogs() const;
+  std::list<std::shared_ptr<Dog>> GetDogs();
+  std::list<std::shared_ptr<Cat>> GetCats();
 
   void ClearObjects();
-  void ClearObjects(std::list<std::shared_ptr<GameObject>>* objects);
 
  private:
   int current_level_ = 0;

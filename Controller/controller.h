@@ -20,12 +20,12 @@ class Controller : public AbstractController {
   Player* GetPlayer() override;
 
  private:
-  void TickPlayer() override;
+  void TickPlayer();
   void TickCats(int time);
   void TickDogs(int delta_time);
   void TickFood(int time);
 
-  void CatsAndFoodIntersect() override;
+  void CatsAndFoodIntersect();
 
   int current_game_time_{0};
   std::shared_ptr<Model> model_;

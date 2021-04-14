@@ -36,3 +36,9 @@ void RigidBody::SetScaleCoefficients(double coefficient_x,
   scale_coefficient_x_ = coefficient_x;
   scale_coefficient_y_ = coefficient_y;
 }
+
+Point RigidBody::GetCenterOfRigidBody() const {
+  double y = object_position_->GetY() + object_size_->GetHeight() / 2 -
+      object_size_->GetHeight() * scale_coefficient_y_ / 2;
+  return Point(object_position_->GetX(), y);
+}

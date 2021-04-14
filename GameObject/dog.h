@@ -1,12 +1,12 @@
 #ifndef GAMEOBJECT_DOG_H_
 #define GAMEOBJECT_DOG_H_
 
-#include "GameObject/target_moving_object.h"
+#include "GameObject/moving_object.h"
 #include "cat.h"
 #include <memory>
 #include <vector>
 
-class Dog : public TargetMovingObject {
+class Dog : public MovingObject {
  public:
   Dog(const Size& size, double speed, const Point& position, double
   visibility_radius);
@@ -17,9 +17,7 @@ class Dog : public TargetMovingObject {
   void Move(int delta_time) override;
 
   void SetIfItVisibleToPlayer(bool is_visible);
-  bool CheckIfCanSeePlayer(const Point& player_position, double group_radius);
   bool CheckIfCanSeeCat(const Cat* cat) const;
-  Point GetHomePosition() const;
   void SetReachableCat(const std::vector<std::shared_ptr<Cat>>& cats);
 
  private:
@@ -27,6 +25,7 @@ class Dog : public TargetMovingObject {
   Point home_position_;
   bool is_visible_to_player_{false};
   const Cat* reachable_cat_{nullptr};
+  Point destination_;
 };
 
 #endif  // GAMEOBJECT_DOG_H_

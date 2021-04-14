@@ -17,11 +17,7 @@ class AbstractController {
   virtual int GetCurrentTime() = 0;
   virtual void StartGame(int level) = 0;
 
-  virtual void TickPlayer() = 0;
-
   virtual Player* GetPlayer() = 0;
-
-  virtual void CatsAndFoodIntersect() = 0;
 };
 
 #endif  // CONTROLLER_ABSTRACT_CONTROLLER_H_
