@@ -1,4 +1,5 @@
 #include <cmath>
+
 #include "point.h"
 #include "constants.h"
 
@@ -45,6 +46,18 @@ Point& Point::operator+=(const Size& rhs) {
   return *this;
 }
 
+Size Point::GetVectorTo(const Point& destination) const {
+  return Size(destination.x_ - x_, destination.GetY() - y_);
+}
+
+bool Point::operator==(const Point& rhs) const {
+  return (x_ == rhs.x_) && (y_ == rhs.y_);
+}
+
+bool Point::operator!=(const Point& rhs) const {
+  return !(*this == rhs);
+}
+
 Point Point::operator-(const Size& rhs) const {
   return Point(x_ - rhs.GetWidth(), y_ - rhs.GetHeight());
 }
@@ -57,3 +70,14 @@ Point Point::operator/(double rhs) const {
   return Point(x_ / rhs, y_ / rhs);
 }
 
+bool Point::IsInEllipse(Point center, double ellipse_radius) const {
+  double foci_coefficient = std::sqrt(
+      1 - constants::kSemiMinorCoefficient * constants::kSemiMinorCoefficient);
+  Point first_foci(center.GetX() + foci_coefficient * ellipse_radius,
+                        center.GetY());
+  Point second_foci(center.GetX() - foci_coefficient * ellipse_radius,
+                    center.GetY());
+  return GetVectorTo(first_foci).GetLength() +
+      GetVectorTo(second_foci).GetLength()
+      <= 2 * ellipse_radius + constants::kEpsilon;
+}

@@ -28,6 +28,3 @@ void Resizer::Update(double radius, const Point& position) {
   auto pos_size = Size(position.GetX(), position.GetY());
   origin_offset_ = pos_size / scaling_coefficient_ * -1 + game_size_ / 2;
 }
-
-
-

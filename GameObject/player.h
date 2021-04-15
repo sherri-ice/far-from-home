@@ -1,10 +1,13 @@
 #ifndef GAMEOBJECT_PLAYER_H_
 #define GAMEOBJECT_PLAYER_H_
 
-#include "GameObject/cat.h"
-#include "view_circle.h"
-#include <vector>
+#include <list>
 #include <memory>
+#include <vector>
+
+#include "GameObject/cat.h"
+#include "GameObject/dog.h"
+#include "view_circle.h"
 
 class Player {
  public:
@@ -14,15 +17,23 @@ class Player {
 
   void OrderCatsToMove(Size velocity);
 
-  const ViewCircle& GetViewCircle() const;
+  void UpdateDogsAround(std::list<std::shared_ptr<Dog>> dogs);
+
+  void DismissCats();
+
+  [[nodiscard]] const ViewCircle& GetViewCircle() const;
   void SetViewCircle(const ViewCircle& view_circle);
-  const Point& GetPosition() const;
+  [[nodiscard]] const Point& GetPosition() const;
 
   void Tick();
+
  private:
   std::vector<std::shared_ptr<Cat>> cats_;
   ViewCircle view_circle_;
   Point position_;
+
+  double visibility_radius_{150};
+  double group_radius_{20};
 };
 
 #endif  // GAMEOBJECT_PLAYER_H_

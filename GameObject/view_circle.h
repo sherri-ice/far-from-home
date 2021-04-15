@@ -19,7 +19,7 @@ class ViewCircle  {
   [[nodiscard]] double GetWantedRadius() const;
 
  private:
-  Point center_;
+  Point center_ = Point(0, 0);
   double radius_ = 0.;
   double wanted_radius_ = constants::kViewCircleDefault;
 };

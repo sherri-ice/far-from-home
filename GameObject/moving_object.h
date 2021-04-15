@@ -5,14 +5,12 @@
 
 class MovingObject : public GameObject {
  public:
-  MovingObject(Size size,
+  MovingObject(const Size& size,
                double speed,
                const Point& position = Point(0, 0));
   ~MovingObject() override = default;
   virtual void Move(int time) = 0;
-  [[nodiscard]] const Point& GetPosition() const;
 
-  virtual void SetVelocity(Size velocity);
   virtual void SetSpeed(double speed);
 
  protected:

@@ -40,7 +40,6 @@ class View : public QMainWindow {
   void DrawMap(QPainter* painter);
   void DrawGameObjects(QPainter* painter);
 
-
   Size player_velocity_;
   std::map<int, bool> pressed_keys_;
   void resizeEvent(QResizeEvent*) override;

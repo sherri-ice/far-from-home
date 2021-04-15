@@ -39,3 +39,4 @@ class Size {
 };
 
 #endif  // MODEL_SIZE_H_
+

@@ -26,17 +26,21 @@ set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-Wall -Wextra -O3")
 
 set(SOURCES
         Controller/controller.cpp
-        GameObject/game_object.cpp
         GameObject/cat.cpp
+        GameObject/dog.cpp
+        GameObject/food.cpp
+        GameObject/game_object.cpp
         GameObject/moving_object.cpp
         GameObject/player.cpp
+        GameObject/rigid_body.cpp
         main.cpp
         Model/model.cpp
         Model/size.cpp
         Model/point.cpp
         Model/constants.h
         View/view.cpp
-        View/resizer.cpp GameObject/view_circle.cpp GameObject/view_circle.h)
+        View/resizer.cpp
+        GameObject/view_circle.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 

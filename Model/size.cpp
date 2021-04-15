@@ -81,5 +81,3 @@ void Size::SetHeight(double height) {
   height_ = height;
 }
 
-
-

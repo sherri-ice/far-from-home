@@ -1,11 +1,14 @@
 #ifndef MODEL_MODEL_H_
 #define MODEL_MODEL_H_
 
+#include <list>
 #include <memory>
 #include <vector>
 #include <View/resizer.h>
 
 #include "GameObject/cat.h"
+#include "GameObject/dog.h"
+#include "GameObject/food.h"
 #include "GameObject/player.h"
 
 enum GameState {
@@ -25,12 +28,20 @@ class Model {
                                   double speed,
                                   const Point& point);
 
+  std::list<std::shared_ptr<Food>> GetFood();
+  std::list<std::shared_ptr<Dog>> GetDogs();
+  std::list<std::shared_ptr<Cat>> GetCats();
+
+  void ClearObjects();
+
  private:
   int current_level_ = 0;
   int game_state_ = GameState::kMenu;
 
-  std::vector<std::shared_ptr<Cat>> cats_;
+  std::list<std::shared_ptr<Cat>> cats_;
   Player* player_;
+  std::list<std::shared_ptr<Food>> food_;
+  std::list<std::shared_ptr<Dog>> dogs_;
 };
 
 #endif  // MODEL_MODEL_H_

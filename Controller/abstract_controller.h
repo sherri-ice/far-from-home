@@ -1,9 +1,11 @@
 #ifndef CONTROLLER_ABSTRACT_CONTROLLER_H_
 #define CONTROLLER_ABSTRACT_CONTROLLER_H_
 
+#include "GameObject/food.h"
 #include "GameObject/moving_object.h"
 #include "GameObject/cat.h"
 #include "GameObject/player.h"
+#include<list>
 #include <memory>
 #include <View/resizer.h>
 
@@ -16,8 +18,6 @@ class AbstractController {
   virtual void StartGame(int level) = 0;
 
   virtual Player* GetPlayer() = 0;
-
-  virtual void SetPlayerPosition(const Point& position) = 0;
 };
 
 #endif  // CONTROLLER_ABSTRACT_CONTROLLER_H_

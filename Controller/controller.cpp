@@ -6,33 +6,24 @@ Controller::Controller() {
 }
 
 void Controller::Tick(int time) {
-  Size player_velocity = view_->GetPlayerVelocity();
-  view_->ClearVelocity();
-  model_->GetPlayer()->OrderCatsToMove(player_velocity);
-
+  int delta_time = time - current_game_time_;
   double player_view = view_->GetViewSize();
   auto view_circle = GetPlayer()->GetViewCircle();
+  view_circle.SetCenter(GetPlayer()->GetPosition());
   view_circle.SetWantedRadius(player_view);
   model_->GetPlayer()->SetViewCircle(view_circle);
   GetPlayer()->Tick();
   view_->UpdateResizer(GetPlayer()->GetViewCircle().GetRadius(),
                        GetPlayer()->GetPosition());
-  int delta_time = time - current_game_time_;
-  for (auto& cat : model_->GetPlayer()->GetCats()) {
-    cat->Tick(delta_time);
-    cat->Move(delta_time);
-  }
   current_game_time_ = time;
-}
 
-Player* Controller::GetPlayer() {
-  return model_->GetPlayer();
-}
+  TickPlayer();
+  TickCats(delta_time);
+  TickDogs(delta_time);
+  CatsAndFoodIntersect();
+  TickFood(delta_time);
 
-void Controller::SetPlayerPosition(const Point& position) {
-  for (auto& cat : model_->GetPlayer()->GetCats()) {
-    cat->SetPosition(position);
-  }
+  model_->ClearObjects();
 }
 
 int Controller::GetCurrentTime() {
@@ -42,11 +33,55 @@ int Controller::GetCurrentTime() {
 void Controller::StartGame(int level) {
   // TODO(anyone)
   // Actually, wanted to start in the center of the screen
-  SetPlayerPosition(Point(0, 0));
   model_->LoadLevel(level);
   model_->SetGameState(GameState::kMenu);
 }
 
+Player* Controller::GetPlayer() {
+  return model_->GetPlayer();
+}
 
+void Controller::TickPlayer() {
+  Size player_velocity = view_->GetPlayerVelocity();
+  auto player = model_->GetPlayer();
+  view_->ClearVelocity();
+  player->OrderCatsToMove(player_velocity);
+  player->UpdateDogsAround(model_->GetDogs());
+}
 
+void Controller::TickCats(int time) {
+  for (auto& cat : model_->GetPlayer()->GetCats()) {
+    cat->Tick(time);
+    cat->Move(time);
+  }
+}
 
+void Controller::TickDogs(int delta_time) {
+  std::list<std::shared_ptr<Dog>> dogs = model_->GetDogs();
+  auto player = model_->GetPlayer();
+  for (auto& dog : dogs) {
+    dog->SetReachableCat(player->GetCats());
+    dog->Tick(delta_time);
+    dog->Move(delta_time);
+    for (auto &cat : player->GetCats()) {
+      if (dog->GetRigidBody().IsCollide(cat->GetRigidBody())) {
+        player->DismissCats();
+        break;
+      }
+    }
+  }
+}
+
+void Controller::TickFood(int time) {
+  // Food rots
+}
+
+void Controller::CatsAndFoodIntersect() {
+  for (const auto& player_cat : model_->GetPlayer()->GetCats()) {
+    for (auto& food : model_->GetFood()) {
+      if (player_cat->GetRigidBody().IsCollide(food->GetRigidBody())) {
+        food->SetIsDead();
+      }
+    }
+  }
+}
