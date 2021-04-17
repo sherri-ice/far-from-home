@@ -8,3 +8,7 @@ MovingObject::MovingObject(
 void MovingObject::SetSpeed(double speed) {
   speed_ = speed;
 }
+
+bool MovingObject::IsMoving() {
+    return is_moving_;
+}

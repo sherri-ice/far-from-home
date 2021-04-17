@@ -45,6 +45,7 @@ void Dog::Tick(int delta_time) {
 
 void Dog::Move(int delta_time) {
   if (velocity_.GetLength() > constants::kEpsilon) {
+      is_moving_ = true;
     velocity_ /= velocity_.GetLength();
     velocity_ *= delta_time * speed_ * constants::kTimeScale;
   }

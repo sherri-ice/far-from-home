@@ -40,7 +40,9 @@ set(SOURCES
         Model/constants.h
         View/view.cpp
         View/resizer.cpp
-        GameObject/view_circle.cpp)
+        GameObject/view_circle.cpp
+        View/animation.cpp
+        View/animation.h)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 

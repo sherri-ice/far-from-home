@@ -12,10 +12,14 @@ class MovingObject : public GameObject {
   virtual void Move(int time) = 0;
 
   virtual void SetSpeed(double speed);
+  bool IsMoving();
 
- protected:
-  double speed_;
-  Size velocity_;
+
+
+protected:
+    double speed_;
+    Size velocity_;
+    bool is_moving_ = false;
 };
 
 #endif  // GAMEOBJECT_MOVING_OBJECT_H_

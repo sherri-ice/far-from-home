@@ -4,9 +4,9 @@
 #include <list>
 #include <memory>
 
-#include "Controller/abstract_controller.h"
-#include "Model/model.h"
-#include "View/view.h"
+#include "../Controller/abstract_controller.h"
+#include "../Model/model.h"
+#include "../View/view.h"
 
 class Controller : public AbstractController {
  public:

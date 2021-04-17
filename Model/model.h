@@ -4,12 +4,12 @@
 #include <list>
 #include <memory>
 #include <vector>
-#include <View/resizer.h>
+#include "../View/resizer.h"
 
-#include "GameObject/cat.h"
-#include "GameObject/dog.h"
-#include "GameObject/food.h"
-#include "GameObject/player.h"
+#include "../GameObject/cat.h"
+#include "../GameObject/dog.h"
+#include "../GameObject/food.h"
+#include "../GameObject/player.h"
 
 enum GameState {
   kGame,
@@ -34,8 +34,14 @@ class Model {
 
   void ClearObjects();
 
+
+    void LoadAnimation(const std::vector<int>& timings, const std::vector<QString>& paths);
+    std::vector<std::vector<QPixmap>> GetImagesByFramePath(const QString& animation_last_frames = "", const QString& picture_type = ".png") const;
+
  private:
-  int current_level_ = 0;
+
+    std::map<std::string, std::vector<std::vector<QPixmap>>> animations_;
+    int current_level_ = 0;
   int game_state_ = GameState::kMenu;
 
   std::list<std::shared_ptr<Cat>> cats_;

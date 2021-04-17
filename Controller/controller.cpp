@@ -16,6 +16,7 @@ void Controller::Tick(int time) {
   view_->UpdateResizer(GetPlayer()->GetViewCircle().GetRadius(),
                        GetPlayer()->GetPosition());
   current_game_time_ = time;
+    std::cout << "controllertick\n";
 
   TickPlayer();
   TickCats(delta_time);
@@ -54,6 +55,9 @@ void Controller::TickCats(int time) {
     cat->Tick(time);
     cat->Move(time);
   }
+    for (auto& cat : model_->GetDrawableGameObjects()) {
+        cat->Tick(time);
+    }
 }
 
 void Controller::TickDogs(int delta_time) {

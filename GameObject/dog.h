@@ -1,7 +1,7 @@
 #ifndef GAMEOBJECT_DOG_H_
 #define GAMEOBJECT_DOG_H_
 
-#include "GameObject/moving_object.h"
+#include "../GameObject/moving_object.h"
 #include "cat.h"
 #include <memory>
 #include <vector>
@@ -20,7 +20,7 @@ class Dog : public MovingObject {
   bool CheckIfCanSeeCat(const Cat* cat) const;
   void SetReachableCat(const std::vector<std::shared_ptr<Cat>>& cats);
 
- private:
+private:
   double visibility_radius_;
   Point home_position_;
   bool is_visible_to_player_{false};

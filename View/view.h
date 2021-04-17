@@ -7,8 +7,8 @@
 #include <map>
 #include <memory>
 
-#include "Controller/abstract_controller.h"
-#include <Model/model.h>
+#include "../Controller/abstract_controller.h"
+#include "../Model/model.h"
 
 class View : public QMainWindow {
   Q_OBJECT
