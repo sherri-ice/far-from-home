@@ -13,7 +13,7 @@ class Controller : public AbstractController {
   Controller();
   ~Controller() override = default;
 
-  void StartGame(int level) override;
+  void StartGame() override;
   void Tick(int time) override;
   int GetCurrentTime() override;
 

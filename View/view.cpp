@@ -13,6 +13,7 @@ View::View(AbstractController* controller,
       model_(std::move(model)) {
   setWindowTitle(constants::kApplicationName);
   resizer_.ChangeSystem(width(), height());
+  controller->StartGame();
   show();
 
   time_between_ticks_.start();

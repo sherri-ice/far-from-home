@@ -30,11 +30,9 @@ int Controller::GetCurrentTime() {
   return current_game_time_;
 }
 
-void Controller::StartGame(int level) {
-  // TODO(anyone)
-  // Actually, wanted to start in the center of the screen
-  model_->LoadLevel(level);
-  model_->SetGameState(GameState::kMenu);
+void Controller::StartGame() {
+  model_->SetGameState(GameState::kGame);
+  model_->LoadMap();
 }
 
 Player* Controller::GetPlayer() {

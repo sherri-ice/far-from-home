@@ -5,7 +5,7 @@
 #include "GameObject/moving_object.h"
 #include "GameObject/cat.h"
 #include "GameObject/player.h"
-#include<list>
+#include <list>
 #include <memory>
 #include <View/resizer.h>
 
@@ -15,7 +15,7 @@ class AbstractController {
 
   virtual void Tick(int time) = 0;
   virtual int GetCurrentTime() = 0;
-  virtual void StartGame(int level) = 0;
+  virtual void StartGame() = 0;
 
   virtual Player* GetPlayer() = 0;
 };
