@@ -24,16 +24,15 @@ class Model {
   void LoadMap();
 
   Player* GetPlayer();
-  [[nodiscard]] std::vector<std::shared_ptr<GameObject>> GetDrawableGameObjects() const;
+  [[nodiscard]] std::vector<std::shared_ptr<GameObject>>
+  GetDrawableGameObjects() const;
   void SetGameState(int game_state);
-
 
   std::list<std::shared_ptr<Food>> GetFood();
   std::list<std::shared_ptr<Dog>> GetDogs();
   std::list<std::shared_ptr<Cat>> GetCats();
 
   void ClearObjects();
-
 
  private:
   int game_state_ = GameState::kMenu;

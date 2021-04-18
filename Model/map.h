@@ -5,6 +5,8 @@
 #include <GameObject/cat.h>
 #include <GameObject/dog.h>
 #include <GameObject/food.h>
+#include <list>
+#include <memory>
 
 class Map {
  public:
@@ -13,11 +15,9 @@ class Map {
   void RandomlyMakeDog();
   void RandomlyMakeFood();
 
-
   Point RandomizePoint();
 
   void MakeMap();
-
 
  private:
   std::list<std::shared_ptr<Cat>> cats_;
