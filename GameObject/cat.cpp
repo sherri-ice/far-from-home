@@ -17,13 +17,13 @@ void Cat::Draw(QPainter* painter, Resizer* resizer) const {
   painter->restore();
 }
 
-void Cat::Tick(int time) {
+void Cat::Tick(int delta_time) {
 }
 
-void Cat::Move(int time) {
+void Cat::Move(int delta_time) {
   if (velocity_.GetLength() > constants::kEpsilon) {
     velocity_ /= velocity_.GetLength();
-    position_ += velocity_ * speed_ * time * constants::kTimeScale;
+    position_ += velocity_ * speed_ * delta_time * constants::kTimeScale;
   }
 }
 
