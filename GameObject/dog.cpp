@@ -71,7 +71,7 @@ void Dog::Tick(int delta_time) {
   if (reachable_cat_) {
     destination_ = reachable_cat_->GetDrawPosition();
     dog_state_ = DogState::kChasingCat;
-    position_.VelocityVector(destination_, velocity_, delta_time * speed_ /
+    position_.VelocityVector(destination_, &velocity_, delta_time * speed_ /
     constants::kTimeScale);
   }
 
@@ -81,13 +81,13 @@ void Dog::Tick(int delta_time) {
       if (!reachable_cat_) {
         destination_ = home_position_;
         dog_state_ = DogState::kIsComingHome;
-        position_.VelocityVector(destination_, velocity_, delta_time *
+        position_.VelocityVector(destination_, &velocity_, delta_time *
         walking_speed_ / constants::kTimeScale);
       }
       break;
     }
     case DogState::kIsComingHome: {
-      position_.VelocityVector(destination_, velocity_, delta_time *
+      position_.VelocityVector(destination_, &velocity_, delta_time *
       walking_speed_ / constants::kTimeScale);
       break;
     }
@@ -153,7 +153,8 @@ void Dog::ChangeVelocity() {
 
 void Dog::TimeOut() {
   std::uniform_int_distribution<> times_to_change_directions
-  (constants::kTimesToChangeDirectionMin, constants::kTimesToChangeDirectionsMax);
+  (constants::kTimesToChangeDirectionMin,
+   constants::kTimesToChangeDirectionsMax);
   if (dog_state_ == DogState::kIsResting) {
     dog_state_ = DogState::kIsWalking;
     change_directions_count_ = times_to_change_directions(random_generator_);
