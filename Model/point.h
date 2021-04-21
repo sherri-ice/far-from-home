@@ -30,6 +30,9 @@ class Point {
   Size GetVectorTo(const Point& destination) const;
   bool IsInEllipse(Point position, double ellipse_radius) const;
 
+  void VelocityVector(const Point& destination, Size& velocity, double
+  coefficient);
+
  private:
   double x_;
   double y_;

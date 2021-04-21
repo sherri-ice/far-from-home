@@ -81,3 +81,20 @@ bool Point::IsInEllipse(Point center, double ellipse_radius) const {
       GetVectorTo(second_foci).GetLength()
       <= 2 * ellipse_radius + constants::kEpsilon;
 }
+
+void Point::VelocityVector(const Point& destination, Size& velocity, double
+  coefficient) {
+  velocity = this->GetVectorTo(destination);
+  if (velocity.GetLength() > constants::kEpsilon) {
+    velocity /= velocity.GetLength();
+    velocity *= coefficient;
+  }
+  Size first_vector = (*this + velocity).GetVectorTo(destination);
+  Size second_vector = this->GetVectorTo(destination);
+  if (first_vector.GetWidth() * second_vector.GetWidth() <=
+  constants::kEpsilon && first_vector.GetHeight() * second_vector.GetHeight()
+  <= constants::kEpsilon) {
+    *this = destination;
+    velocity = Size(0, 0);
+  }
+}

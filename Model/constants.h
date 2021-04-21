@@ -19,6 +19,13 @@ const double kResizerScale = 50.;
 
 const double kSemiMinorCoefficient = 0.8;
 
+const int kTimeToRestMin = 5000;
+const int kTimeToRestMax = 7000;
+const int kTimeToWalkMin = 1500;
+const int kTimeToWalkMax = 3500;
+const int kTimesToChangeDirectionMin = 2;
+const int kTimesToChangeDirectionsMax = 5;
+
 const QString kApplicationName = "Far from home";
 }  // namespace constants
 

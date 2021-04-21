@@ -10,7 +10,6 @@ class MovingObject : public GameObject {
                const Point& position = Point(0, 0));
   ~MovingObject() override = default;
   virtual void Move(int time) = 0;
-  virtual void MoveToDestination(int delta_time);
   virtual void SetSpeed(double speed);
 
  protected:
