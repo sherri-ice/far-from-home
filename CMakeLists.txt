@@ -46,7 +46,7 @@ set(SOURCES
         View/resizer.cpp
         GameObject/view_circle.cpp
         View/animation.cpp
-        View/animation.h)
+        images.qrc)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 

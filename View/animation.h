@@ -1,7 +1,3 @@
-//
-// Created by Yana on 15.04.21.
-//
-
 #ifndef VIEW_ANIMATION_H
 #define VIEW_ANIMATION_H
 

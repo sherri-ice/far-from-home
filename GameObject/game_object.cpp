@@ -49,5 +49,4 @@ Point GameObject::GetRigidPosition() const {
 
 void GameObject::SetAnimations(std::vector<std::vector<QPixmap>> animation) {
     object_animation_ = new Animation(animation);
-
 }

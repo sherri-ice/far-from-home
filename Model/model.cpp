@@ -3,17 +3,17 @@
 #include "model.h"
 
 Model::Model() {
-    std::vector<int> path;
-    std::vector<QString> time;
-    LoadAnimation(path, time);
+  std::vector<int> path;
+  std::vector<QString> time;
+  LoadAnimation(path, time);
 
-    std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(animations_["cat"][1][0].width(), animations_["cat"][1][0].height()),
-                                                            0.001, Point());
+  std::shared_ptr<Cat> main_cat =
+      std::make_shared<Cat>(Size(animations_["cat"][1][0].width(),
+                                 animations_["cat"][1][0].height()),
+                            0.001, Point());
 
   //------------------
   main_cat->SetAnimations(animations_["cat"]);
-
-
 
   cats_.emplace_back(main_cat);
 
@@ -28,18 +28,20 @@ Model::Model() {
   food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(900, 333)));
   food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(300, 100)));
 
-  for (auto &food : food_) {
+  for (auto& food : food_) {
     food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
   }
 
   player_ = new Player(main_cat);
 
   // Temporary
-    std::cout << "model constructor\n";
-    MakeNewCat(Size(animations_["cat"][1][0].width(), animations_["cat"][1][0].height()), 0.001, Point(1000, 0));
-    MakeNewCat(Size(animations_["cat"][1][0].width(), animations_["cat"][1][0].height()), 0.001, Point(500, 500));
+  std::cout << "model constructor\n";
+  MakeNewCat(Size(animations_["cat"][1][0].width(),
+                  animations_["cat"][1][0].height()), 0.001, Point(1000, 0));
+  MakeNewCat(Size(animations_["cat"][1][0].width(),
+                  animations_["cat"][1][0].height()), 0.001, Point(500, 500));
 
-    player_->SetViewCircle(ViewCircle(player_->GetPosition(),
+  player_->SetViewCircle(ViewCircle(player_->GetPosition(),
                                     constants::kViewCircleDefault));
 
 }
@@ -50,9 +52,9 @@ Player* Model::GetPlayer() {
 
 std::vector<std::shared_ptr<GameObject>> Model::GetDrawableGameObjects() const {
   std::vector<std::shared_ptr<GameObject>> result;
-    std::cout << "getdrawableobject1\n";
+  std::cout << "getdrawableobject1\n";
 
-    for (const auto& cat : cats_) {
+  for (const auto& cat : cats_) {
     result.push_back(cat);
   }
   for (const auto& dog : dogs_) {
@@ -62,7 +64,8 @@ std::vector<std::shared_ptr<GameObject>> Model::GetDrawableGameObjects() const {
     result.push_back(food);
   }
   std::sort(result.begin(), result.end(), [](const
-  std::shared_ptr<GameObject>& lhs, const std::shared_ptr<GameObject>& rhs) {
+                                             std::shared_ptr<GameObject>& lhs,
+                                             const std::shared_ptr<GameObject>& rhs) {
     return lhs->GetDrawPosition().GetY() < rhs->GetDrawPosition().GetY();
   });
   std::cout << "getdrawableobject\n";
@@ -73,14 +76,14 @@ std::shared_ptr<Cat> Model::MakeNewCat(const Size& size,
                                        double speed,
                                        const Point& point) {
   Cat new_cat(size, speed, point);
-    new_cat.SetAnimations(animations_["cat"]);
-    auto new_cat_ptr = std::make_shared<Cat>(new_cat);
-    std::cout << "new cat setting anim before\n";
+  new_cat.SetAnimations(animations_["cat"]);
+  auto new_cat_ptr = std::make_shared<Cat>(new_cat);
+  std::cout << "new cat setting anim before\n";
 
-    cats_.push_back(new_cat_ptr);
-    std::cout << "new cat setting anim after\n";
+  cats_.push_back(new_cat_ptr);
+  std::cout << "new cat setting anim after\n";
 
-    return cats_.back();
+  return cats_.back();
 }
 
 void Model::LoadLevel(int level) {
@@ -106,8 +109,8 @@ std::list<std::shared_ptr<Cat>> Model::GetCats() {
 void Model::ClearObjects() {
   for (auto it = food_.rbegin(); it != food_.rend(); ++it) {
     if ((*it)->IsDead()) {
-          food_.remove(*it);
-        }
+      food_.remove(*it);
+    }
   }
 
   for (auto it = cats_.rbegin(); it != cats_.rend(); ++it) {
@@ -123,17 +126,17 @@ void Model::ClearObjects() {
   }
 }
 
-void Model::LoadAnimation(const std::vector<int> &timings,
-                          const std::vector<QString> &paths) { // todo i dont know what im doing
-    //  todo  somehow fill map with animations
+void Model::LoadAnimation(const std::vector<int>& timings,
+                          const std::vector<QString>& paths) { // todo i dont know what images doing
+  //  todo  somehow fill map with animations
 
-    //-----------------
+  //-----------------
 
-    std::vector<std::vector<QPixmap>> temp;
-    temp.resize(7);
-    temp = GetImagesByFramePath();
-    animations_["cat"] = temp;
-    //-----------------
+  std::vector<std::vector<QPixmap>> temp;
+  temp.resize(7);
+  temp = GetImagesByFramePath();
+  animations_["cat"] = temp;
+  //-----------------
 
 //    std::vector<AnimationPlayer> animations;
 //    animations.reserve(timings.size());
@@ -144,36 +147,44 @@ void Model::LoadAnimation(const std::vector<int> &timings,
 }
 
 std::vector<std::vector<QPixmap>> Model::GetImagesByFramePath(
-        const QString& animation_last_frames, const QString& picture_type) const { // todo
-//    QString clear_path = "../im/Group " + animation_last_frames;
+
+    const QString& animation_last_frames,
+    const QString& picture_type) const { //// todo
+//    QString clear_path = "../images/Group " + animation_last_frames;
 //    QStringList splitted_path = clear_path.split("_");
 // todo sleeping cat is moving
 
-    auto images = std::vector<std::vector<QPixmap>>();
-    images.resize(7);
+  Q_INIT_RESOURCE(images);
+
+  auto images = std::vector<std::vector<QPixmap>>();
+  images.resize(7);
 
 //    int count = splitted_path.back().toInt();
 
 //    for (int j = 0; j < 9; ++j) {
+  std::vector<QPixmap> animation{};
+  for (int i = 1; i <= 27; i++) {
+//        splitted_path.back() = QString::number(i);
+//        images.emplace_back(clear_path + QString(i) + ".png");
+    QString path =
+        ":images/cat/Frame" + QString::number(1) + " " + QString::number(i)
+            + ".png";
+    animation.emplace_back(path);
+  }
+  images[0] = animation;
+
+  for (int j = 1; j < 7; ++j) {
     std::vector<QPixmap> animation{};
     for (int i = 1; i <= 27; i++) {
 //        splitted_path.back() = QString::number(i);
 //        images.emplace_back(clear_path + QString(i) + ".png");
-        QString path ="../im/Frame" + QString::number(1) + " " + QString::number(i) + ".png";
-        animation.emplace_back(path);
+      QString path =
+          ":images/cat/Frame" + QString::number(j) + " " + QString::number(i)
+              + ".png";
+      animation.emplace_back(path);
     }
-    images[0] = animation;
-
-    for (int j = 1; j < 7; ++j) {
-        std::vector<QPixmap> animation{};
-        for (int i = 1; i <= 27; i++) {
-//        splitted_path.back() = QString::number(i);
-//        images.emplace_back(clear_path + QString(i) + ".png");
-            QString path ="../im/Frame" + QString::number(j) + " " + QString::number(i) + ".png";
-            animation.emplace_back(path);
-        }
-        images[j] = animation;
-    }
-    return images;
+    images[j] = animation;
+  }
+  return images;
 }
 
