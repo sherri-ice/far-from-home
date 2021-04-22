@@ -11,7 +11,7 @@ const int kGameHeight = 540;
 
 const double kViewCircleDefault = 540;
 
-const int kTimeBetweenTicks = 150;
+const int kTimeBetweenTicks = 100;
 const int kTimeScale = 100;
 
 const double kResizerSpeed = 60.;

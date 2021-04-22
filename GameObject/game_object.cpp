@@ -40,7 +40,7 @@ bool GameObject::IsDead() const {
 
 void GameObject::Resize(const Size& to_size) {
     size_ = to_size;
-    object_animation_->Rescale(to_size);
+//    object_animation_->Rescale(to_size);
 }
 
 Point GameObject::GetRigidPosition() const {

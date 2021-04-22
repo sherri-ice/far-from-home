@@ -7,7 +7,7 @@ Model::Model() {
     std::vector<QString> time;
     LoadAnimation(path, time);
 
-    std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(50, 60),
+    std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(animations_["cat"][1][0].width(), animations_["cat"][1][0].height()),
                                                             0.001, Point());
 
   //------------------
@@ -36,8 +36,8 @@ Model::Model() {
 
   // Temporary
     std::cout << "model constructor\n";
-    MakeNewCat(Size(50, 60), 0.001, Point(1000, 0));
-    MakeNewCat(Size(50, 60), 0.001, Point(500, 500));
+    MakeNewCat(Size(animations_["cat"][1][0].width(), animations_["cat"][1][0].height()), 0.001, Point(1000, 0));
+    MakeNewCat(Size(animations_["cat"][1][0].width(), animations_["cat"][1][0].height()), 0.001, Point(500, 500));
 
     player_->SetViewCircle(ViewCircle(player_->GetPosition(),
                                     constants::kViewCircleDefault));
@@ -147,19 +147,29 @@ std::vector<std::vector<QPixmap>> Model::GetImagesByFramePath(
         const QString& animation_last_frames, const QString& picture_type) const { // todo
 //    QString clear_path = "../im/Group " + animation_last_frames;
 //    QStringList splitted_path = clear_path.split("_");
-//
+// todo sleeping cat is moving
+
     auto images = std::vector<std::vector<QPixmap>>();
     images.resize(7);
 
 //    int count = splitted_path.back().toInt();
 
 //    for (int j = 0; j < 9; ++j) {
-    for (int j = 5; j < 7; ++j) {
+    std::vector<QPixmap> animation{};
+    for (int i = 1; i <= 27; i++) {
+//        splitted_path.back() = QString::number(i);
+//        images.emplace_back(clear_path + QString(i) + ".png");
+        QString path ="../im/Frame" + QString::number(1) + " " + QString::number(i) + ".png";
+        animation.emplace_back(path);
+    }
+    images[0] = animation;
+
+    for (int j = 1; j < 7; ++j) {
         std::vector<QPixmap> animation{};
         for (int i = 1; i <= 27; i++) {
 //        splitted_path.back() = QString::number(i);
 //        images.emplace_back(clear_path + QString(i) + ".png");
-            QString path ="../im/Frame" + QString::number(j - 4) + " " + QString::number(i) + ".png";
+            QString path ="../im/Frame" + QString::number(j) + " " + QString::number(i) + ".png";
             animation.emplace_back(path);
         }
         images[j] = animation;

@@ -5,6 +5,8 @@ Cat::Cat(const Size& size, double speed, const Point& position) :
 }
 
 void Cat::Draw(QPainter* painter, Resizer* resizer) const {
+    std::cout << "draw rect of cat" << std::endl;
+//   Resize(object_animation_->GetCurrentFrame().width(), object_animation_->GetCurrentFrame().height());
     rigid_body_.Draw(painter, resizer);
     painter->save();
     auto position = resizer->GameToWindowCoordinate(position_);
@@ -12,7 +14,8 @@ void Cat::Draw(QPainter* painter, Resizer* resizer) const {
 //    object_animation_->Rescale(size);
     std::cout << "cat draw 1\n";
     painter->drawPixmap(position.GetX(),
-                       position.GetY(), object_animation_->GetCurrentFrame());
+                       position.GetY(), size.GetWidth(), size.GetHeight(), object_animation_->GetCurrentFrame());
+
     std::cout << "cat draw 2\n";
     painter->restore();
 }
@@ -22,7 +25,8 @@ void Cat::Tick(int time) {
         // todo catch keys and set animation road
         object_animation_->SetCurrentRoad(5);
     }
-   object_animation_->Tick(time, is_moving_);
+   object_animation_->Tick(time, velocity_, is_moving_);
+    Resize(Size(object_animation_->GetCurrentFrame().width(), object_animation_->GetCurrentFrame().height()));
 }
 
 void Cat::Move(int time) {
