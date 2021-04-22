@@ -11,7 +11,8 @@ Dog::Dog(const Size& size,
          home_position_(position), visibility_radius_(visibility_radius),
          walking_speed_(walking_speed), timer_to_walk_() {
   destination_ = home_position_;
-  StartTimer();
+  timer_to_walk_.StartTimerWithRandom(constants::kTimeToRestMin,
+                                      constants::kTimeToRestMax);
 }
 
 void Dog::Draw(QPainter* painter, Resizer* resizer) const {
@@ -55,46 +56,71 @@ void Dog::Draw(QPainter* painter, Resizer* resizer) const {
 void Dog::Tick(int delta_time) {
   timer_to_walk_.Tick(delta_time);
 
-  if (dog_state_ == DogState::kIsComingHome && position_ == home_position_) {
-    dog_state_ = DogState::kIsResting;
-  }
-
-  if (timer_to_walk_.IsNotActive()) {
-    StartTimer();
-    ChangeVelocity();
-  }
-  if (timer_to_walk_.IsTimeOut()) {
-    timer_to_walk_.Stop();
-    TimeOut();
-  }
-
   if (reachable_cat_) {
-    destination_ = reachable_cat_->GetDrawPosition();
+    destination_ = reachable_cat_->GetRigidPosition();
     dog_state_ = DogState::kChasingCat;
-    position_.VelocityVector(destination_, &velocity_, delta_time * speed_ /
-    constants::kTimeScale);
+    velocity_ = position_.GetVelocityVector(destination_, delta_time *
+    speed_ / constants::kTimeScale);
   }
 
+  std::uniform_int_distribution<> velocity(-1, 1);
   switch (dog_state_) {
+    case DogState::kIsResting: {
+      if (timer_to_walk_.IsTimeOut()) {
+        dog_state_ = DogState::kIsWalking;
+        std::uniform_int_distribution<> times_to_change_directions
+            (constants::kTimesToChangeDirectionMin,
+             constants::kTimesToChangeDirectionsMax);
+        change_directions_count_ = times_to_change_directions
+            (random_generator_);
+        velocity_ = Size(velocity(random_generator_), velocity
+        (random_generator_));
+        --change_directions_count_;
+        timer_to_walk_.StartTimerWithRandom(constants::kTimeToWalkMin,
+                                            constants::kTimeToWalkMax);
+      }
+      break;
+    }
+    case DogState::kIsWalking: {
+      if (timer_to_walk_.IsTimeOut()) {
+        if (change_directions_count_ != 0) {
+          velocity_ = Size(velocity(random_generator_), velocity
+              (random_generator_));
+          --change_directions_count_;
+          timer_to_walk_.StartTimerWithRandom(constants::kTimeToWalkMin,
+                                              constants::kTimeToWalkMax);
+        } else {
+          timer_to_walk_.Stop();
+          dog_state_ = DogState::kIsComingHome;
+          destination_ = home_position_;
+          velocity_ = Size(0, 0);
+        }
+      }
+      if (velocity_.GetLength() > constants::kEpsilon) {
+        velocity_ /= velocity_.GetLength();
+        velocity_ *= delta_time * walking_speed_ / constants::kTimeScale;
+      }
+      break;
+    }
     case DogState::kChasingCat: {
       timer_to_walk_.Stop();
       if (!reachable_cat_) {
         destination_ = home_position_;
         dog_state_ = DogState::kIsComingHome;
-        position_.VelocityVector(destination_, &velocity_, delta_time *
+        velocity_ = position_.GetVelocityVector(destination_,delta_time *
         walking_speed_ / constants::kTimeScale);
       }
       break;
     }
     case DogState::kIsComingHome: {
-      position_.VelocityVector(destination_, &velocity_, delta_time *
-      walking_speed_ / constants::kTimeScale);
-      break;
-    }
-    case DogState::kIsWalking: {
-      if (velocity_.GetLength() > constants::kEpsilon) {
-        velocity_ /= velocity_.GetLength();
-        velocity_ *= delta_time * walking_speed_ / constants::kTimeScale;
+      if (position_ == home_position_) {
+        dog_state_ = DogState::kIsResting;
+        velocity_ = Size(0, 0);
+        timer_to_walk_.StartTimerWithRandom(constants::kTimeToRestMin,
+                                            constants::kTimeToRestMax);
+      } else {
+        velocity_ = position_.GetVelocityVector(destination_, delta_time *
+        walking_speed_ / constants::kTimeScale);
       }
       break;
     }
@@ -102,10 +128,6 @@ void Dog::Tick(int delta_time) {
       break;
     }
   }
-}
-
-void Dog::Move(int delta_time) {
-  position_ += velocity_;
 }
 
 void Dog::SetIfItVisibleToPlayer(bool is_visible) {
@@ -128,45 +150,4 @@ void Dog::SetReachableCat(const std::vector<std::shared_ptr<Cat>>& cats) {
 bool Dog::CheckIfCanSeeCat(const Cat* cat) const {
   return cat->GetRigidPosition().IsInEllipse(position_,
                                              visibility_radius_);
-}
-
-void Dog::StartTimer() {
-  std::uniform_int_distribution<> time_to_rest(constants::kTimeToRestMin,
-                                               constants::kTimeToRestMax);
-  std::uniform_int_distribution<> time_to_walk(constants::kTimeToWalkMin,
-                                               constants::kTimeToWalkMax);
-  if (dog_state_ == DogState::kIsResting) {
-    timer_to_walk_.Start(time_to_rest(random_generator_));
-  } else if (dog_state_ == DogState::kIsWalking && change_directions_count_
-  != 0) {
-    timer_to_walk_.Start(time_to_walk(random_generator_));
-  }
-}
-
-void Dog::ChangeVelocity() {
-  std::uniform_int_distribution<> velocity(-1, 1);
-  if (dog_state_ == DogState::kIsWalking && change_directions_count_ != 0) {
-    velocity_ = Size(velocity(random_generator_), velocity(random_generator_));
-    --change_directions_count_;
-  }
-}
-
-void Dog::TimeOut() {
-  std::uniform_int_distribution<> times_to_change_directions
-  (constants::kTimesToChangeDirectionMin,
-   constants::kTimesToChangeDirectionsMax);
-  if (dog_state_ == DogState::kIsResting) {
-    dog_state_ = DogState::kIsWalking;
-    change_directions_count_ = times_to_change_directions(random_generator_);
-    StartTimer();
-    ChangeVelocity();
-  } else if (dog_state_ == DogState::kIsWalking && change_directions_count_
-  != 0) {
-    StartTimer();
-    ChangeVelocity();
-  } else if (dog_state_ == DogState::kIsWalking && change_directions_count_
-  == 0) {
-    dog_state_ = DogState::kIsComingHome;
-    destination_ = home_position_;
-  }
 }
