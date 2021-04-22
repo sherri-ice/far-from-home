@@ -8,6 +8,8 @@
 #include "Model/model.h"
 #include "View/view.h"
 
+#include <Model/generator.h>
+
 class Controller : public AbstractController {
  public:
   Controller();
@@ -30,6 +32,7 @@ class Controller : public AbstractController {
   int current_game_time_{0};
   std::shared_ptr<Model> model_;
   std::shared_ptr<View> view_;
+  Generator map_generator_;
 };
 
 #endif  // CONTROLLER_CONTROLLER_H_

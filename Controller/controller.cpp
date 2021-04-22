@@ -3,6 +3,8 @@
 Controller::Controller() {
   model_ = std::make_shared<Model>();
   view_ = std::make_shared<View>(this, model_);
+  map_generator_.SetModel(model_);
+  map_generator_.GenerateMap();
 }
 
 void Controller::Tick(int time) {
@@ -32,7 +34,6 @@ int Controller::GetCurrentTime() {
 
 void Controller::StartGame() {
   model_->SetGameState(GameState::kGame);
-  model_->LoadMap();
 }
 
 Player* Controller::GetPlayer() {

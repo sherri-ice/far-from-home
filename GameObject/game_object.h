@@ -10,12 +10,13 @@
 
 class GameObject {
  public:
+  GameObject() = default;
   explicit GameObject(const Size& size, const Point& position = Point(0, 0));
   virtual ~GameObject() = default;
 
   virtual void SetPosition(const Point& position);
-  virtual void Draw(QPainter* painter, Resizer* resizer) const = 0;
-  virtual void Tick(int time) = 0;
+  virtual void Draw(QPainter* painter, Resizer* resizer) const;
+  virtual void Tick(int time);
 
   virtual void Resize(const Size& to_size);
 
@@ -30,6 +31,7 @@ class GameObject {
 
   void SetIsDead();
   bool IsDead() const;
+
 
  protected:
   Size size_ = Size(40, 40);

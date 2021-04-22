@@ -6,6 +6,7 @@
 #include <utility>
 #include <vector>
 #include <algorithm>
+#include <QDebug>
 
 View::View(AbstractController* controller,
            std::shared_ptr<Model> model)
@@ -25,7 +26,6 @@ void View::paintEvent(QPaintEvent*) {
   QPainter painter(this);
 
   DrawGameObjects(&painter);
-  // DrawMap(&painter);
 }
 
 void View::timerEvent(QTimerEvent* event) {
@@ -65,15 +65,11 @@ void View::keyReleaseEvent(QKeyEvent* event) {
   pressed_keys_[event->key()] = false;
 }
 
-void View::DrawMap(QPainter* painter) {
-  painter->setBrush(Qt::red);
-  painter->setBackground(Qt::red);
-}
-
 void View::DrawGameObjects(QPainter* painter) {
   controller_->GetPlayer()->GetViewCircle().Draw(painter, &resizer_);
   std::vector<std::shared_ptr<GameObject>>
       drawable_objects = model_->GetDrawableGameObjects();
+  // qDebug() << drawable_objects.size();
   for (const auto& object : drawable_objects) {
     object->Draw(painter, &resizer_);
   }

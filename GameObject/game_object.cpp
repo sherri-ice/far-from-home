@@ -46,3 +46,9 @@ void GameObject::Resize(const Size& to_size) {
 Point GameObject::GetRigidPosition() const {
   return rigid_body_.GetCenterOfRigidBody();
 }
+
+void GameObject::Draw(QPainter* painter, Resizer* resizer) const {
+}
+
+void GameObject::Tick(int time) {
+}

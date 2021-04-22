@@ -12,7 +12,7 @@ class MovingObject : public GameObject {
   virtual void Move(int time) = 0;
 
   virtual void SetSpeed(double speed);
-
+  double GetSpeed() const;
  protected:
   double speed_;
   Size velocity_;

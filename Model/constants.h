@@ -11,10 +11,7 @@ const int kGameHeight = 540;
 
 const int kGameMapWidth = 10'000;
 const int kGameMapHeight = 10'000;
-
-const Size kDogSize = Size(60, 60);
-const Size kCatSize = Size(40, 40);
-const Size kFoodSize = Size(20, 20);
+const int kTileSize = 250;
 
 const double kViewCircleDefault = 540;
 

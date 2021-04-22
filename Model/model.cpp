@@ -1,22 +1,20 @@
 #include <algorithm>
 
 #include "model.h"
-
 #include <QDebug>
 
 Model::Model() {
-  Point central_pos =
-      Point(constants::kGameMapWidth / 2, constants::kGameMapHeight / 2);
-  std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(constants::kCatSize,
-                                                        0.001, central_pos);
-  map_.cats_.emplace_back(main_cat);
+  std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
+                                                            0.001, Point(0, 0));
+  cats_.emplace_back(main_cat);
+  MakeNewCat(Size(40, 40), 0.01, Point(100, 0));
+  cats_.emplace_back(std::make_shared<Cat>(Size(40, 40), 0.001, Point(0, 100)));
 
-  // for (auto &food : food_) {
-  //   food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
-  // }
+  for (auto &food : food_) {
+    food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
+  }
 
   player_ = new Player(main_cat);
-
   player_->SetViewCircle(ViewCircle(player_->GetPosition(),
                                     constants::kViewCircleDefault));
 }
@@ -27,22 +25,32 @@ Player* Model::GetPlayer() {
 
 std::vector<std::shared_ptr<GameObject>> Model::GetDrawableGameObjects() const {
   std::vector<std::shared_ptr<GameObject>> result;
-  for (const auto& cat : map_.cats_) {
+  for (const auto& cat : cats_) {
     result.push_back(cat);
   }
-  for (const auto& dog : map_.dogs_) {
+  for (const auto& dog : dogs_) {
     result.push_back(dog);
   }
-  for (const auto& food : map_.food_) {
+  for (const auto& food : food_) {
     result.push_back(food);
   }
   std::sort(result.begin(), result.end(), [](const
-                                             std::shared_ptr<GameObject>& lhs,
-                                             const std::shared_ptr<GameObject>&
-                                             rhs) {
+  std::shared_ptr<GameObject>& lhs, const std::shared_ptr<GameObject>& rhs) {
     return lhs->GetDrawPosition().GetY() < rhs->GetDrawPosition().GetY();
   });
   return result;
+}
+
+std::shared_ptr<Cat> Model::MakeNewCat(const Size& size,
+                                       double speed,
+                                       const Point& point) {
+  auto new_cat_ptr = std::make_shared<Cat>(size, speed, point);
+  cats_.push_back(new_cat_ptr);
+  return cats_.back();
+}
+
+void Model::LoadLevel(int level) {
+  // TODO(anyone)
 }
 
 void Model::SetGameState(int) {
@@ -50,37 +58,43 @@ void Model::SetGameState(int) {
 }
 
 std::list<std::shared_ptr<Food>> Model::GetFood() {
-  return map_.food_;
+  return food_;
 }
 
 std::list<std::shared_ptr<Dog>> Model::GetDogs() {
-  return map_.dogs_;
+  return dogs_;
 }
 
 std::list<std::shared_ptr<Cat>> Model::GetCats() {
-  return map_.cats_;
+  return cats_;
 }
 
 void Model::ClearObjects() {
-  for (auto it = map_.food_.rbegin(); it != map_.food_.rend(); ++it) {
+  for (auto it = food_.rbegin(); it != food_.rend(); ++it) {
     if ((*it)->IsDead()) {
-      map_.food_.remove(*it);
+          food_.remove(*it);
+        }
+  }
+
+  for (auto it = cats_.rbegin(); it != cats_.rend(); ++it) {
+    if ((*it)->IsDead()) {
+      cats_.remove(*it);
     }
   }
 
-  for (auto it = map_.cats_.rbegin(); it != map_.cats_.rend(); ++it) {
+  for (auto it = dogs_.rbegin(); it != dogs_.rend(); ++it) {
     if ((*it)->IsDead()) {
-      map_.cats_.remove(*it);
-    }
-  }
-
-  for (auto it = map_.dogs_.rbegin(); it != map_.dogs_.rend(); ++it) {
-    if ((*it)->IsDead()) {
-      map_.dogs_.remove(*it);
+      dogs_.remove(*it);
     }
   }
 }
 
-void Model::LoadMap() {
-  map_.MakeMap();
+std::shared_ptr<Dog> Model::MakeNewDog(const Size& size,
+                                       double speed,
+                                       const Point& point, double visibility_radius) {
+  Dog new_dog(size, speed, point, visibility_radius);
+  auto new_dog_ptr = std::make_shared<Dog>(new_dog);
+  dogs_.push_back(new_dog_ptr);
+  return dogs_.back();
 }
+

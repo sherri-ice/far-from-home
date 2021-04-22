@@ -1,0 +1,5 @@
+<RCC>
+    <qresource>
+        <file>resourses/tiles_templates.json</file>
+    </qresource>
+</RCC>

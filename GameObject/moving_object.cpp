@@ -8,3 +8,7 @@ MovingObject::MovingObject(
 void MovingObject::SetSpeed(double speed) {
   speed_ = speed;
 }
+
+double MovingObject::GetSpeed() const {
+  return speed_;
+}

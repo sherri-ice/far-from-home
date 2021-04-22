@@ -10,7 +10,6 @@
 #include "GameObject/dog.h"
 #include "GameObject/food.h"
 #include "GameObject/player.h"
-#include "map.h"
 
 enum GameState {
   kGame,
@@ -20,14 +19,17 @@ enum GameState {
 class Model {
  public:
   Model();
-
-  void LoadMap();
+  void LoadLevel(int level);
 
   Player* GetPlayer();
-  [[nodiscard]] std::vector<std::shared_ptr<GameObject>>
-  GetDrawableGameObjects() const;
+  std::vector<std::shared_ptr<GameObject>> GetDrawableGameObjects() const;
   void SetGameState(int game_state);
-
+  std::shared_ptr<Cat> MakeNewCat(const Size& size,
+                                  double speed,
+                                  const Point& point);
+  std::shared_ptr<Dog> MakeNewDog(const Size& size,
+                                  double speed,
+                                  const Point& point, double visibility_radius);
   std::list<std::shared_ptr<Food>> GetFood();
   std::list<std::shared_ptr<Dog>> GetDogs();
   std::list<std::shared_ptr<Cat>> GetCats();
@@ -35,11 +37,13 @@ class Model {
   void ClearObjects();
 
  private:
+  int current_level_ = 0;
   int game_state_ = GameState::kMenu;
 
+  std::list<std::shared_ptr<Cat>> cats_;
   Player* player_;
-
-  Map map_;
+  std::list<std::shared_ptr<Food>> food_;
+  std::list<std::shared_ptr<Dog>> dogs_;
 };
 
 #endif  // MODEL_MODEL_H_
