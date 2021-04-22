@@ -107,7 +107,7 @@ void Dog::Tick(int delta_time) {
       if (!reachable_cat_) {
         destination_ = home_position_;
         dog_state_ = DogState::kIsComingHome;
-        velocity_ = position_.GetVelocityVector(destination_,delta_time *
+        velocity_ = position_.GetVelocityVector(destination_, delta_time *
         walking_speed_ / constants::kTimeScale);
       }
       break;
