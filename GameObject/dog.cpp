@@ -8,8 +8,9 @@ Dog::Dog(const Size& size,
          const Point& position,
          double visibility_radius,
          double walking_speed) : MovingObject(size, speed, position),
-                                 home_position_(position), visibility_radius_(visibility_radius),
-                                 walking_speed_(walking_speed), timers_(2) {
+                                 home_position_(position), visibility_radius_
+                                 (visibility_radius), walking_speed_
+                                 (walking_speed), timers_(2) {
   destination_ = home_position_;
   timers_.StartTimerWithRandom(constants::kTimeToRestMin,
                                constants::kTimeToRestMax);
