@@ -3,7 +3,7 @@
 std::mt19937 Timer::random_generator_ = std::mt19937
     (std::chrono::system_clock::now().time_since_epoch().count());
 
-Timer::Timer(int number_of_timers) : number_of_timers_(number_of_timers) {
+Timer::Timer(int number_of_timers) {
   timers_.resize(number_of_timers);
   is_active_.resize(number_of_timers);
   for (int i = 0; i < number_of_timers; ++i) {
@@ -13,7 +13,7 @@ Timer::Timer(int number_of_timers) : number_of_timers_(number_of_timers) {
 }
 
 void Timer::Tick(int delta_time) {
-  for (int i = 0; i < number_of_timers_; ++i) {
+  for (size_t i = 0; i < timers_.size(); ++i) {
     if (is_active_.at(i)) {
       timers_.at(i) -= delta_time;
     }

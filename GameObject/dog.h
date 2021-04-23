@@ -46,7 +46,7 @@ class Dog : public MovingObject {
   DogState dog_state_{DogState::kIsResting};
   int change_directions_count_{0};
   double walking_speed_;
-  Timer timer_to_walk_;
+  Timer timers_;
 
   static std::mt19937 random_generator_;
 };

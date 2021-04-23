@@ -8,11 +8,11 @@ Dog::Dog(const Size& size,
          const Point& position,
          double visibility_radius,
          double walking_speed) : MovingObject(size, speed, position),
-         home_position_(position), visibility_radius_(visibility_radius),
-         walking_speed_(walking_speed), timer_to_walk_() {
+                                 home_position_(position), visibility_radius_(visibility_radius),
+                                 walking_speed_(walking_speed), timers_(2) {
   destination_ = home_position_;
-  timer_to_walk_.StartTimerWithRandom(constants::kTimeToRestMin,
-                                      constants::kTimeToRestMax);
+  timers_.StartTimerWithRandom(constants::kTimeToRestMin,
+                               constants::kTimeToRestMax);
 }
 
 void Dog::Draw(QPainter* painter, Resizer* resizer) const {
@@ -44,6 +44,7 @@ void Dog::Draw(QPainter* painter, Resizer* resizer) const {
     }
     default: {
       painter->setBrush(Qt::blue);
+      break;
     }
   }
   painter->drawEllipse(-object_width / 2,
@@ -54,19 +55,22 @@ void Dog::Draw(QPainter* painter, Resizer* resizer) const {
 }
 
 void Dog::Tick(int delta_time) {
-  timer_to_walk_.Tick(delta_time);
+  timers_.Tick(delta_time);
 
   if (reachable_cat_) {
+    timers_.Stop(static_cast<int>(DogState::kIsResting));
+    timers_.Stop(static_cast<int>(DogState::kIsWalking));
     destination_ = reachable_cat_->GetRigidPosition();
     dog_state_ = DogState::kChasingCat;
-    velocity_ = position_.GetVelocityVector(destination_, delta_time *
-    speed_ / constants::kTimeScale);
+    velocity_ = GetRigidPosition().GetVelocityVector(destination_, delta_time
+    * speed_ / constants::kTimeScale);
   }
 
   std::uniform_int_distribution<> velocity(-1, 1);
   switch (dog_state_) {
     case DogState::kIsResting: {
-      if (timer_to_walk_.IsTimeOut()) {
+      if (timers_.IsTimeOut(static_cast<int>(DogState::kIsResting))) {
+        timers_.Stop(static_cast<int>(DogState::kIsResting));
         dog_state_ = DogState::kIsWalking;
         std::uniform_int_distribution<> times_to_change_directions
             (constants::kTimesToChangeDirectionMin,
@@ -76,24 +80,25 @@ void Dog::Tick(int delta_time) {
         velocity_ = Size(velocity(random_generator_), velocity
         (random_generator_));
         --change_directions_count_;
-        timer_to_walk_.StartTimerWithRandom(constants::kTimeToWalkMin,
-                                            constants::kTimeToWalkMax);
+        timers_.StartTimerWithRandom(constants::kTimeToWalkMin,
+                                     constants::kTimeToWalkMax,
+                                     static_cast<int>(DogState::kIsWalking));
       }
       break;
     }
     case DogState::kIsWalking: {
-      if (timer_to_walk_.IsTimeOut()) {
+      if (timers_.IsTimeOut(static_cast<int>(DogState::kIsWalking))) {
         if (change_directions_count_ != 0) {
           velocity_ = Size(velocity(random_generator_), velocity
               (random_generator_));
           --change_directions_count_;
-          timer_to_walk_.StartTimerWithRandom(constants::kTimeToWalkMin,
-                                              constants::kTimeToWalkMax);
+          timers_.StartTimerWithRandom(constants::kTimeToWalkMin,
+                                       constants::kTimeToWalkMax,
+                                       static_cast<int>(DogState::kIsWalking));
         } else {
-          timer_to_walk_.Stop();
+          timers_.Stop(static_cast<int>(DogState::kIsWalking));
           dog_state_ = DogState::kIsComingHome;
           destination_ = home_position_;
-          velocity_ = Size(0, 0);
         }
       }
       if (velocity_.GetLength() > constants::kEpsilon) {
@@ -103,7 +108,6 @@ void Dog::Tick(int delta_time) {
       break;
     }
     case DogState::kChasingCat: {
-      timer_to_walk_.Stop();
       if (!reachable_cat_) {
         destination_ = home_position_;
         dog_state_ = DogState::kIsComingHome;
@@ -113,11 +117,14 @@ void Dog::Tick(int delta_time) {
       break;
     }
     case DogState::kIsComingHome: {
-      if (position_ == home_position_) {
+      if (std::abs(position_.GetX() - home_position_.GetX()) <
+      constants::kEpsilon && std::abs(position_.GetY() - home_position_.GetY
+      ()) < constants::kEpsilon) {
         dog_state_ = DogState::kIsResting;
         velocity_ = Size(0, 0);
-        timer_to_walk_.StartTimerWithRandom(constants::kTimeToRestMin,
-                                            constants::kTimeToRestMax);
+        timers_.StartTimerWithRandom(constants::kTimeToRestMin,
+                                     constants::kTimeToRestMax,
+                                     static_cast<int>(DogState::kIsResting));
       } else {
         velocity_ = position_.GetVelocityVector(destination_, delta_time *
         walking_speed_ / constants::kTimeScale);
