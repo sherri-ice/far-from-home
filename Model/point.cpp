@@ -51,7 +51,8 @@ Size Point::GetVectorTo(const Point& destination) const {
 }
 
 bool Point::operator==(const Point& rhs) const {
-  return (x_ == rhs.x_) && (y_ == rhs.y_);
+  return (std::abs(x_ - rhs.x_) < constants::kEpsilon) && (std::abs(y_ - rhs
+  .y_) < constants::kEpsilon);
 }
 
 bool Point::operator!=(const Point& rhs) const {

@@ -10,7 +10,8 @@ Dog::Dog(const Size& size,
          double walking_speed) : MovingObject(size, speed, position),
                                  home_position_(position), visibility_radius_
                                  (visibility_radius), walking_speed_
-                                 (walking_speed), timers_(2) {
+                                 (walking_speed), timers_(static_cast<int>
+                                 (DogState::SIZE)) {
   destination_ = home_position_;
   timers_.StartTimerWithRandom(constants::kTimeToRestMin,
                                constants::kTimeToRestMax);
@@ -118,9 +119,7 @@ void Dog::Tick(int delta_time) {
       break;
     }
     case DogState::kIsComingHome: {
-      if (std::abs(position_.GetX() - home_position_.GetX()) <
-      constants::kEpsilon && std::abs(position_.GetY() - home_position_.GetY
-      ()) < constants::kEpsilon) {
+      if (position_ == home_position_) {
         dog_state_ = DogState::kIsResting;
         velocity_ = Size(0, 0);
         timers_.StartTimerWithRandom(constants::kTimeToRestMin,

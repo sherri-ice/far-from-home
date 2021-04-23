@@ -22,7 +22,8 @@ enum class DogState {
   kIsResting,
   kIsWalking,
   kChasingCat,
-  kIsComingHome
+  kIsComingHome,
+  SIZE
 };
 
 class Dog : public MovingObject {
