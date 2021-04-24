@@ -92,8 +92,8 @@ Size Point::GetVelocityVector(const Point& destination,
   Size first_vector = (*this + velocity).GetVectorTo(destination);
   Size second_vector = this->GetVectorTo(destination);
   if (first_vector.GetWidth() * second_vector.GetWidth() <=
-      constants::kEpsilon && first_vector.GetHeight() * second_vector.GetHeight()
-      <= constants::kEpsilon) {
+      constants::kEpsilon && first_vector.GetHeight() *
+      second_vector.GetHeight() <= constants::kEpsilon) {
     velocity = this->GetVectorTo(destination);
   }
   return velocity;

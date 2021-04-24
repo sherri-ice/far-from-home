@@ -24,7 +24,3 @@ void MovingObject::SetVelocity(Size velocity) {
 void MovingObject::Move(int delta_time) {
   position_ += velocity_;
 }
-
-void MovingObject::IncSpeed(double coef) {
-  speed_ *= coef;
-}

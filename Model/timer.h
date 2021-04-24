@@ -19,10 +19,9 @@ class Timer {
   void Remove();
   bool IsActive(int index_of_timer = 0);
 
- //private:
+ private:
   std::vector<int> timers_;
   std::vector<bool> is_active_;
-
   static std::mt19937 random_generator_;
 };
 

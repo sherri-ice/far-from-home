@@ -12,7 +12,6 @@ class MovingObject : public GameObject {
   virtual void Move(int delta_time);
 
   virtual void SetSpeed(double speed);
-  virtual void IncSpeed(double coef);
   virtual void SetVelocity(Size velocity);
   virtual Size GetVelocity() const;
   void SetDestination(const Point& destination);

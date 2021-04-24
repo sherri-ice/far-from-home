@@ -1,6 +1,8 @@
 #ifndef GAMEOBJECT_CAT_H_
 #define GAMEOBJECT_CAT_H_
 
+#include <memory>
+
 #include "GameObject/moving_object.h"
 #include "Model/constants.h"
 
