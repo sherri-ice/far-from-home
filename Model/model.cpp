@@ -35,7 +35,8 @@ std::vector<std::shared_ptr<GameObject>> Model::GetDrawableGameObjects() const {
   }
   std::sort(result.begin(), result.end(), [](const
                                              std::shared_ptr<GameObject>& lhs,
-                                             const std::shared_ptr<GameObject>& rhs) {
+                                             const std::shared_ptr<GameObject>&
+                                                 rhs) {
     return lhs->GetDrawPosition().GetY() < rhs->GetDrawPosition().GetY();
   });
   return result;

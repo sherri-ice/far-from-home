@@ -1,5 +1,5 @@
-#ifndef GENERATOR_H
-#define GENERATOR_H
+#ifndef MODEL_GENERATOR_H_
+#define MODEL_GENERATOR_H_
 
 #include <memory>
 #include "model.h"
@@ -7,9 +7,10 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <random>
+#include <algorithm>
+#include <vector>
 
 class Generator {
-
  public:
   Generator() = default;
 
@@ -35,4 +36,4 @@ class Generator {
   static std::mt19937 random_generator;
 };
 
-#endif //GENERATOR_H
+#endif  // MODEL_GENERATOR_H_

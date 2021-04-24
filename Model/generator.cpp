@@ -1,6 +1,6 @@
 #include <QFile>
-#include <iostream>
 #include "generator.h"
+
 
 std::mt19937 Generator::random_generator = std::mt19937
     (std::chrono::system_clock::now().time_since_epoch().count());
@@ -44,7 +44,7 @@ left_corner) {
     model_->MakeNewStaticObject(static_object.GetSize(),
                                 static_object.GetDrawPosition() + left_corner);
   }
-  for(const auto& food : new_tile.food) {
+  for (const auto& food : new_tile.food) {
     model_->MakeNewFood(food.GetSize(), food.GetDrawPosition() + left_corner);
   }
 }
@@ -81,10 +81,11 @@ void Generator::ParseTiles() {
         Size size(object["size"].toDouble(), object["size"].toDouble());
         Point point(object["point"].toArray().at(0)["x"].toDouble(),
                     object["point"].toArray().at(0)["y"].toDouble());
+        double visibility_radius = object["visibility_radius"].toDouble();
         new_template.dogs.emplace_back(Dog(size,
                                            object["speed"].toDouble(),
                                            point,
-                                           object["visibility_radius"].toDouble()));
+                                           visibility_radius));
       }
       if (object["object_type"].toString() == "static_object") {
         Size size(object["size"].toDouble(), object["size"].toDouble());

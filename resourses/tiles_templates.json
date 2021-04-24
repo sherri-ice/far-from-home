@@ -1,7 +1,6 @@
 {
   "tiles": [
     {
-      "id": 0,
       "objects": [
         {
           "object_type": "cat",
@@ -65,7 +64,6 @@
       ]
     },
     {
-      "id": 1,
       "objects": [
         {
           "object_type": "static_object",
@@ -103,7 +101,6 @@
       ]
     },
     {
-      "id": 1,
       "objects": [
         {
           "object_type": "static_object",
@@ -128,7 +125,6 @@
       ]
     },
     {
-      "id": 1,
       "objects": [
         {
           "object_type": "cat",
@@ -144,13 +140,11 @@
       ]
     },
     {
-      "id": 1,
       "objects": [
 
       ]
     },
     {
-      "id": 2,
       "objects": [
         {
           "object_type": "static_object",
@@ -215,7 +209,6 @@
       ]
     },
     {
-      "id": 3,
       "objects": [
         {
           "object_type": "static_object",
