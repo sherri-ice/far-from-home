@@ -54,30 +54,122 @@
               "y" : 0
             }
           ],
-          "size" : 50,
-          "speed" : 0.001
+          "size" : 50
         },
         {
           "object_type" : "static_object",
           "point" : [
             {
               "x" : 100,
-              "y" : 100
+              "y" : 0
             }
           ],
-          "size" : 50,
-          "speed" : 0.001
+          "size" : 50
         },
         {
           "object_type" : "static_object",
           "point" : [
             {
               "x" : 200,
-              "y" : 200
+              "y" : 0
             }
           ],
-          "size" : 50,
-          "speed" : 0.001
+          "size" : 50
+        },
+        {
+          "object_type" : "static_object",
+          "point" : [
+            {
+              "x" : 300,
+              "y" : 0
+            }
+          ],
+          "size" : 50
+        },
+        {
+          "object_type" : "static_object",
+          "point" : [
+            {
+              "x" : 400,
+              "y" : 0
+            }
+          ],
+          "size" : 50
+        },
+        {
+          "object_type" : "static_object",
+          "point" : [
+            {
+              "x" : 250,
+              "y" : 250
+            }
+          ],
+          "size" : 500
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "objects" : [
+        {
+          "object_type" : "static_object",
+          "point" : [
+            {
+              "x" : 0,
+              "y" : 0
+            }
+          ],
+          "size" : 50
+        },
+        {
+          "object_type" : "static_object",
+          "point" : [
+            {
+              "x" : 0,
+              "y" : 100
+            }
+          ],
+          "size" : 500
+        },
+        {
+          "object_type" : "static_object",
+          "point" : [
+            {
+              "x" : 200,
+              "y" : 0
+            }
+          ],
+          "size" : 50
+        },
+        {
+          "object_type" : "static_object",
+          "point" : [
+            {
+              "x" : 300,
+              "y" : 0
+            }
+          ],
+          "size" : 50
+        },
+        {
+          "object_type" : "static_object",
+          "point" : [
+            {
+              "x" : 400,
+              "y" : 0
+            }
+          ],
+          "size" : 50
+        },
+        {
+          "object_type" : "static_object",
+          "point" : [
+            {
+              "x" : 500,
+              "y" : 0
+            }
+          ],
+          "size" : 50
         }
       ]
     }

@@ -6,9 +6,27 @@ std::mt19937 Generator::random_generator = std::mt19937
 std::uniform_int_distribution<int>
     random_id_generator(0, constants::kNumOfTilesTemplates - 1);
 
+int Generator::GenerateId(const Point& left_corner) {
+  double distancing_coeff =
+      std::max(std::fabs(left_corner.GetX() / constants::kGameMapWidth),
+               std::fabs(left_corner.GetY() / constants::kGameMapHeight));
+  distancing_coeff = std::pow(distancing_coeff, 4);
+  std::vector<double> probabilities
+      (constants::kNumOfTilesTemplates - constants::kNumOfBorderTemplates,
+       1 - distancing_coeff);
+  auto border_templates_probabilities =
+      std::vector<double>(constants::kNumOfBorderTemplates,
+                          distancing_coeff);
+  probabilities.insert(probabilities.end(), border_templates_probabilities
+      .begin(), border_templates_probabilities.end());
+  std::discrete_distribution<> dist(probabilities.begin(), probabilities.end());
+  int id = dist(random_generator);
+  return id;
+}
+
 void Generator::GenerateTile(const Point&
 left_corner) {
-  int id = random_id_generator(random_generator);
+  int id = GenerateId(left_corner);
   Tile new_tile(tiles_templates_.at(id));
   for (const auto& cat : new_tile.cats) {
     model_->MakeNewCat(cat.GetSize(),
@@ -83,10 +101,14 @@ void Generator::Clear() {
 
 void Generator::GenerateMap() {
   ParseTiles();
-  for (int x = 0; x < constants::kGameMapWidth; x += constants::kTileSize) {
-    for (int y = 0; y < constants::kGameMapHeight; y += constants::kTileSize) {
+  for (int x = -constants::kGameMapWidth; x < constants::kGameMapWidth;
+       x += constants::kTileSize) {
+    for (int y = -constants::kGameMapHeight; y < constants::kGameMapHeight;
+         y += constants::kTileSize) {
       GenerateTile(Point(x, y));
     }
   }
 }
+
+
 
