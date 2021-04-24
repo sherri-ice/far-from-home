@@ -1,4 +1,5 @@
 #include <QFile>
+#include <iostream>
 #include "generator.h"
 
 std::mt19937 Generator::random_generator = std::mt19937
@@ -10,7 +11,7 @@ int Generator::GenerateId(const Point& left_corner) {
   double distancing_coeff =
       std::max(std::fabs(left_corner.GetX() / constants::kGameMapWidth),
                std::fabs(left_corner.GetY() / constants::kGameMapHeight));
-  distancing_coeff = std::pow(distancing_coeff, 4);
+  distancing_coeff = std::pow(distancing_coeff, 6);
   std::vector<double> probabilities
       (constants::kNumOfTilesTemplates - constants::kNumOfBorderTemplates,
        1 - distancing_coeff);
@@ -43,6 +44,9 @@ left_corner) {
     model_->MakeNewStaticObject(static_object.GetSize(),
                                 static_object.GetDrawPosition() + left_corner);
   }
+  for(const auto& food : new_tile.food) {
+    model_->MakeNewFood(food.GetSize(), food.GetDrawPosition() + left_corner);
+  }
 }
 
 void Generator::ParseTiles() {
@@ -72,7 +76,8 @@ void Generator::ParseTiles() {
         new_template.cats.emplace_back(Cat(size,
                                            object["speed"].toDouble(),
                                            point));
-      } else if (object["object_type"].toString() == "dog") {
+      }
+      if (object["object_type"].toString() == "dog") {
         Size size(object["size"].toDouble(), object["size"].toDouble());
         Point point(object["point"].toArray().at(0)["x"].toDouble(),
                     object["point"].toArray().at(0)["y"].toDouble());
@@ -80,11 +85,18 @@ void Generator::ParseTiles() {
                                            object["speed"].toDouble(),
                                            point,
                                            object["visibility_radius"].toDouble()));
-      } else if (object["object_type"].toString() == "static_object") {
+      }
+      if (object["object_type"].toString() == "static_object") {
         Size size(object["size"].toDouble(), object["size"].toDouble());
         Point point(object["point"].toArray().at(0)["x"].toDouble(),
                     object["point"].toArray().at(0)["y"].toDouble());
         new_template.static_objects.emplace_back(GameObject(size, point));
+      }
+      if (object["object_type"].toString() == "food") {
+        Size size(object["size"].toDouble(), object["size"].toDouble());
+        Point point(object["point"].toArray().at(0)["x"].toDouble(),
+                    object["point"].toArray().at(0)["y"].toDouble());
+        new_template.food.emplace_back(Food(size, point));
       }
     }
     tiles_templates_.push_back(new_template);
@@ -101,9 +113,9 @@ void Generator::Clear() {
 
 void Generator::GenerateMap() {
   ParseTiles();
-  for (int x = -constants::kGameMapWidth; x < constants::kGameMapWidth;
+  for (int x = -constants::kGameMapWidth; x <= constants::kGameMapWidth;
        x += constants::kTileSize) {
-    for (int y = -constants::kGameMapHeight; y < constants::kGameMapHeight;
+    for (int y = -constants::kGameMapHeight; y <= constants::kGameMapHeight;
          y += constants::kTileSize) {
       GenerateTile(Point(x, y));
     }

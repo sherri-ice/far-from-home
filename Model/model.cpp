@@ -106,3 +106,8 @@ const std::list<std::shared_ptr<GameObject>>& Model::GetStaticObjects() const {
   return static_objects_;
 }
 
+std::shared_ptr<Food> Model::MakeNewFood(const Size& size, const Point& point) {
+  food_.push_back(std::make_shared<Food>(size, point));
+  return food_.back();
+}
+
