@@ -25,7 +25,6 @@ class Dog : public MovingObject {
   Point home_position_;
   bool is_visible_to_player_{false};
   const Cat* reachable_cat_{nullptr};
-  Point destination_;
 };
 
 #endif  // GAMEOBJECT_DOG_H_

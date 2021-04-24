@@ -28,9 +28,9 @@ class Model {
                                   double speed,
                                   const Point& point);
 
-  std::list<std::shared_ptr<Food>> GetFood();
-  std::list<std::shared_ptr<Dog>> GetDogs();
-  std::list<std::shared_ptr<Cat>> GetCats();
+  std::list<std::shared_ptr<Food>> GetFood() const;
+  std::list<std::shared_ptr<Dog>> GetDogs() const;
+  std::list<std::shared_ptr<Cat>> GetCats() const;
 
   void ClearObjects();
 

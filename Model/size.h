@@ -15,6 +15,7 @@ class Size {
   [[nodiscard]] double GetLength() const;
 
   Size operator*(double rhs) const;
+  friend double operator*(const Size& lhs, const Size& rhs);
   Size operator/(double rhs) const;
   const Size& operator*=(double rhs);
   const Size& operator/=(double rhs);

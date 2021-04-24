@@ -11,9 +11,17 @@ class Cat : public MovingObject {
 
   void Draw(QPainter* painter, Resizer* resizer) const override;
   void Tick(int time) override;
-  void Move(int time) override;
 
   void SetVelocityFromPlayer(Size velocity);
+  bool GetIsInGroup() const;
+  Point GetHomePosition() const;
+  void SetIsInGroup(bool);
+
+  void RepulsivePower(std::shared_ptr<Cat> object);
+
+ private:
+  bool is_in_group_{false};
+  Point home_position_;
 };
 
 #endif  // GAMEOBJECT_CAT_H_

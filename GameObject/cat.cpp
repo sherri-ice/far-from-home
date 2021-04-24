@@ -1,7 +1,7 @@
 #include "cat.h"
 
 Cat::Cat(const Size& size, double speed, const Point& position) :
-    MovingObject(size, speed, position) {
+    MovingObject(size, speed, position), home_position_(position) {
 }
 
 void Cat::Draw(QPainter* painter, Resizer* resizer) const {
@@ -18,15 +18,30 @@ void Cat::Draw(QPainter* painter, Resizer* resizer) const {
 }
 
 void Cat::Tick(int time) {
-}
-
-void Cat::Move(int time) {
   if (velocity_.GetLength() > constants::kEpsilon) {
     velocity_ /= velocity_.GetLength();
-    position_ += velocity_ * speed_ * time * constants::kTimeScale;
+    velocity_ *= speed_ * time * constants::kTimeScale;
   }
+  if (!GetIsInGroup()) {
+    auto distance = position_.GetVectorTo(home_position_).GetLength();
+    if (distance < 0.5) {
+      velocity_ = Size(0, 0);
+    }
+  }
+}
+
+bool Cat::GetIsInGroup() const {
+  return is_in_group_;
 }
 
 void Cat::SetVelocityFromPlayer(Size velocity) {
   velocity_ = velocity;
+}
+
+void Cat::SetIsInGroup(bool in_group) {
+  is_in_group_ = in_group;
+}
+
+Point Cat::GetHomePosition() const {
+  return home_position_;
 }

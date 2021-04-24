@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 
+#include <Model/timer.h>
 #include "GameObject/cat.h"
 #include "GameObject/dog.h"
 #include "view_circle.h"
@@ -18,14 +19,14 @@ class Player {
   void OrderCatsToMove(Size velocity);
 
   void UpdateDogsAround(std::list<std::shared_ptr<Dog>> dogs);
-
+  void UpdateCatsGroup(const std::list<std::shared_ptr<Cat>>& cats);
   void DismissCats();
 
   [[nodiscard]] const ViewCircle& GetViewCircle() const;
   void SetViewCircle(const ViewCircle& view_circle);
   [[nodiscard]] const Point& GetPosition() const;
 
-  void Tick();
+  void Tick(int time);
 
  private:
   std::vector<std::shared_ptr<Cat>> cats_;
@@ -33,7 +34,9 @@ class Player {
   Point position_;
 
   double visibility_radius_{150};
-  double group_radius_{20};
+  double first_group_radious_{60};
+  double second_group_radious_{100};
+  Timer timer_to_go_home_{1};
 };
 
 #endif  // GAMEOBJECT_PLAYER_H_

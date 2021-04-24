@@ -26,6 +26,8 @@ class Point {
   bool operator!=(const Point& rhs) const;
 
   static bool IsClose(const Point& lhs, const Point& rhs);
+  Size GetVelocityVector(const Point& destination, double
+  coefficient) const;
 
   Size GetVectorTo(const Point& destination) const;
   bool IsInEllipse(Point position, double ellipse_radius) const;

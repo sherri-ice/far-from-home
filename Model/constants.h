@@ -17,7 +17,12 @@ const int kTimeScale = 100;
 const double kResizerSpeed = 60.;
 const double kResizerScale = 50.;
 
+const int kMinTimeToGoHome = 1e3;
+const int kMaxTimeToGoHome = 1e8;
+
 const double kSemiMinorCoefficient = 0.8;
+
+const double kCatRunCoefficient = 1.3;
 
 const QString kApplicationName = "Far from home";
 }  // namespace constants

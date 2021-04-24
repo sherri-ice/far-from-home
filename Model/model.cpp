@@ -5,6 +5,7 @@
 Model::Model() {
   std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
                                                             0.001, Point());
+  main_cat->SetIsInGroup(true);
   cats_.emplace_back(main_cat);
 
   std::shared_ptr<Dog> dog = std::make_shared<Dog>(Size(40, 40), 0.00075,
@@ -24,8 +25,8 @@ Model::Model() {
 
   player_ = new Player(main_cat);
   // Temporary
-  MakeNewCat(Size(60, 60), 0.001, Point(1000, 0));
-  MakeNewCat(Size(10, 10), 0.001, Point(500, 500));
+  MakeNewCat(Size(20, 20), 0.0005, Point(50, 0));
+  MakeNewCat(Size(40, 40), 0.001, Point(50, 50));
 
   player_->SetViewCircle(ViewCircle(player_->GetPosition(),
                                     constants::kViewCircleDefault));
@@ -56,9 +57,8 @@ std::vector<std::shared_ptr<GameObject>> Model::GetDrawableGameObjects() const {
 std::shared_ptr<Cat> Model::MakeNewCat(const Size& size,
                                        double speed,
                                        const Point& point) {
-  Cat new_cat(size, speed, point);
-  auto new_cat_ptr = std::make_shared<Cat>(new_cat);
-  cats_.push_back(new_cat_ptr);
+  std::shared_ptr<Cat> new_cat = std::make_shared<Cat>(size, speed, point);
+  cats_.push_back(new_cat);
   return cats_.back();
 }
 
@@ -70,15 +70,15 @@ void Model::SetGameState(int) {
   // TODO(anyone)
 }
 
-std::list<std::shared_ptr<Food>> Model::GetFood() {
+std::list<std::shared_ptr<Food>> Model::GetFood() const {
   return food_;
 }
 
-std::list<std::shared_ptr<Dog>> Model::GetDogs() {
+std::list<std::shared_ptr<Dog>> Model::GetDogs() const {
   return dogs_;
 }
 
-std::list<std::shared_ptr<Cat>> Model::GetCats() {
+std::list<std::shared_ptr<Cat>> Model::GetCats() const {
   return cats_;
 }
 

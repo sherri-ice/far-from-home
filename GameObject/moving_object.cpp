@@ -8,3 +8,23 @@ MovingObject::MovingObject(
 void MovingObject::SetSpeed(double speed) {
   speed_ = speed;
 }
+
+Size MovingObject::GetVelocity() const {
+  return velocity_;
+}
+
+void MovingObject::SetDestination(const Point& destination) {
+  destination_ = destination;
+}
+
+void MovingObject::SetVelocity(Size velocity) {
+  velocity_ = velocity;
+}
+
+void MovingObject::Move(int delta_time) {
+  position_ += velocity_;
+}
+
+void MovingObject::IncSpeed(double coef) {
+  speed_ *= coef;
+}

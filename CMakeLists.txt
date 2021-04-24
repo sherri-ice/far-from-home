@@ -38,6 +38,8 @@ set(SOURCES
         Model/size.cpp
         Model/point.cpp
         Model/constants.h
+        Model/timer.h
+        Model/timer.cpp
         View/view.cpp
         View/resizer.cpp
         GameObject/view_circle.cpp)
