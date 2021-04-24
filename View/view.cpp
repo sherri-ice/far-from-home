@@ -6,7 +6,6 @@
 #include <utility>
 #include <vector>
 #include <algorithm>
-#include <QDebug>
 
 View::View(AbstractController* controller,
            std::shared_ptr<Model> model)
@@ -69,7 +68,6 @@ void View::DrawGameObjects(QPainter* painter) {
   controller_->GetPlayer()->GetViewCircle().Draw(painter, &resizer_);
   std::vector<std::shared_ptr<GameObject>>
       drawable_objects = model_->GetDrawableGameObjects();
-  // qDebug() << drawable_objects.size();
   for (const auto& object : drawable_objects) {
     object->Draw(painter, &resizer_);
   }

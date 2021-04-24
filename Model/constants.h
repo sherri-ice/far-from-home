@@ -11,7 +11,8 @@ const int kGameHeight = 540;
 
 const int kGameMapWidth = 10'000;
 const int kGameMapHeight = 10'000;
-const int kTileSize = 250;
+const int kTileSize = 500;
+const int kNumOfTilesTemplates = 3;
 
 const double kViewCircleDefault = 540;
 

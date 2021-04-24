@@ -30,9 +30,11 @@ class Model {
   std::shared_ptr<Dog> MakeNewDog(const Size& size,
                                   double speed,
                                   const Point& point, double visibility_radius);
+  std::shared_ptr<GameObject> MakeNewStaticObject(const Size& size, const Point& point);
   std::list<std::shared_ptr<Food>> GetFood();
   std::list<std::shared_ptr<Dog>> GetDogs();
   std::list<std::shared_ptr<Cat>> GetCats();
+  const std::list<std::shared_ptr<GameObject>>& GetStaticObjects() const;
 
   void ClearObjects();
 
@@ -41,6 +43,7 @@ class Model {
   int game_state_ = GameState::kMenu;
 
   std::list<std::shared_ptr<Cat>> cats_;
+  std::list<std::shared_ptr<GameObject>> static_objects_;
   Player* player_;
   std::list<std::shared_ptr<Food>> food_;
   std::list<std::shared_ptr<Dog>> dogs_;

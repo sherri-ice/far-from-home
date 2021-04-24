@@ -1,19 +1,15 @@
 #include <algorithm>
 
 #include "model.h"
-#include <QDebug>
 
 Model::Model() {
   std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
-                                                            0.001, Point(0, 0));
+                                                        0.01,
+                                                        Point(0, 0));
   cats_.emplace_back(main_cat);
-  MakeNewCat(Size(40, 40), 0.01, Point(100, 0));
-  cats_.emplace_back(std::make_shared<Cat>(Size(40, 40), 0.001, Point(0, 100)));
-
-  for (auto &food : food_) {
+  for (auto& food : food_) {
     food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
   }
-
   player_ = new Player(main_cat);
   player_->SetViewCircle(ViewCircle(player_->GetPosition(),
                                     constants::kViewCircleDefault));
@@ -34,8 +30,12 @@ std::vector<std::shared_ptr<GameObject>> Model::GetDrawableGameObjects() const {
   for (const auto& food : food_) {
     result.push_back(food);
   }
+  for (const auto& static_object : static_objects_) {
+    result.push_back(static_object);
+  }
   std::sort(result.begin(), result.end(), [](const
-  std::shared_ptr<GameObject>& lhs, const std::shared_ptr<GameObject>& rhs) {
+                                             std::shared_ptr<GameObject>& lhs,
+                                             const std::shared_ptr<GameObject>& rhs) {
     return lhs->GetDrawPosition().GetY() < rhs->GetDrawPosition().GetY();
   });
   return result;
@@ -44,8 +44,7 @@ std::vector<std::shared_ptr<GameObject>> Model::GetDrawableGameObjects() const {
 std::shared_ptr<Cat> Model::MakeNewCat(const Size& size,
                                        double speed,
                                        const Point& point) {
-  auto new_cat_ptr = std::make_shared<Cat>(size, speed, point);
-  cats_.push_back(new_cat_ptr);
+  cats_.push_back(std::make_shared<Cat>(size, speed, point));
   return cats_.back();
 }
 
@@ -72,8 +71,8 @@ std::list<std::shared_ptr<Cat>> Model::GetCats() {
 void Model::ClearObjects() {
   for (auto it = food_.rbegin(); it != food_.rend(); ++it) {
     if ((*it)->IsDead()) {
-          food_.remove(*it);
-        }
+      food_.remove(*it);
+    }
   }
 
   for (auto it = cats_.rbegin(); it != cats_.rend(); ++it) {
@@ -91,10 +90,19 @@ void Model::ClearObjects() {
 
 std::shared_ptr<Dog> Model::MakeNewDog(const Size& size,
                                        double speed,
-                                       const Point& point, double visibility_radius) {
-  Dog new_dog(size, speed, point, visibility_radius);
-  auto new_dog_ptr = std::make_shared<Dog>(new_dog);
-  dogs_.push_back(new_dog_ptr);
+                                       const Point& point,
+                                       double visibility_radius) {
+  dogs_.push_back(std::make_shared<Dog>(size, speed, point, visibility_radius));
   return dogs_.back();
+}
+
+std::shared_ptr<GameObject> Model::MakeNewStaticObject(const Size& size,
+                                                       const Point& point) {
+  static_objects_.push_back(std::make_shared<GameObject>(size, point));
+  return static_objects_.back();
+}
+
+const std::list<std::shared_ptr<GameObject>>& Model::GetStaticObjects() const {
+  return static_objects_;
 }
 

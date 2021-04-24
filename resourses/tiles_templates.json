@@ -17,13 +17,67 @@
           "object_type" : "dog",
           "point" : [
             {
-              "x" : 100,
+              "x" : 300,
+              "y" : 300
+            }
+          ],
+          "size" : 60,
+          "speed" : 0.001,
+          "visibility_radius" : 70
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "objects" : [
+        {
+          "object_type" : "static_object",
+          "point" : [
+            {
+              "x" : 200,
+              "y" : 300
+            }
+          ],
+          "size" : 50,
+          "speed" : 0.001
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "objects" : [
+        {
+          "object_type" : "static_object",
+          "point" : [
+            {
+              "x" : 0,
               "y" : 0
             }
           ],
-          "size" : 40,
-          "speed" : 0.001,
-          "visibility_radius" : 50
+          "size" : 50,
+          "speed" : 0.001
+        },
+        {
+          "object_type" : "static_object",
+          "point" : [
+            {
+              "x" : 100,
+              "y" : 100
+            }
+          ],
+          "size" : 50,
+          "speed" : 0.001
+        },
+        {
+          "object_type" : "static_object",
+          "point" : [
+            {
+              "x" : 200,
+              "y" : 200
+            }
+          ],
+          "size" : 50,
+          "speed" : 0.001
         }
       ]
     }
