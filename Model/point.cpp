@@ -47,11 +47,12 @@ Point& Point::operator+=(const Size& rhs) {
 }
 
 Size Point::GetVectorTo(const Point& destination) const {
-  return Size(destination.x_ - x_, destination.GetY() - y_);
+  return Size(destination.GetX() - x_, destination.GetY() - y_);
 }
 
 bool Point::operator==(const Point& rhs) const {
-  return (x_ == rhs.x_) && (y_ == rhs.y_);
+  return (std::abs(x_ - rhs.x_) < constants::kEpsilon) && (std::abs(y_ - rhs
+  .y_) < constants::kEpsilon);
 }
 
 bool Point::operator!=(const Point& rhs) const {
@@ -80,4 +81,21 @@ bool Point::IsInEllipse(Point center, double ellipse_radius) const {
   return GetVectorTo(first_foci).GetLength() +
       GetVectorTo(second_foci).GetLength()
       <= 2 * ellipse_radius + constants::kEpsilon;
+}
+
+Size Point::GetVelocityVector(const Point& destination, double
+  coefficient) const {
+  Size velocity = this->GetVectorTo(destination);
+  if (velocity.GetLength() > constants::kEpsilon) {
+    velocity /= velocity.GetLength();
+    velocity *= coefficient;
+  }
+  Size first_vector = (*this + velocity).GetVectorTo(destination);
+  Size second_vector = this->GetVectorTo(destination);
+  if (first_vector.GetWidth() * second_vector.GetWidth() <=
+  constants::kEpsilon && first_vector.GetHeight() * second_vector.GetHeight()
+  <= constants::kEpsilon) {
+    velocity = this->GetVectorTo(destination);
+  }
+  return velocity;
 }

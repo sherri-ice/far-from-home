@@ -4,11 +4,12 @@
 
 Model::Model() {
   std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
-                                                            0.001, Point());
+                                                            10, Point());
   cats_.emplace_back(main_cat);
 
-  std::shared_ptr<Dog> dog = std::make_shared<Dog>(Size(40, 40), 0.00075,
-                                                   Point(250, 250), 100);
+  std::shared_ptr<Dog> dog = std::make_shared<Dog>(Size(40, 40), 7.5,
+                                                   Point(250, 250),
+                                                   100, 1.75);
   dogs_.emplace_back(dog);
 
   food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(789, 65)));
