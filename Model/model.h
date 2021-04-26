@@ -36,11 +36,11 @@ class Model {
 
 
     void LoadAnimation();
-    [[nodiscard]] std::vector<std::vector<QPixmap>> GetImagesByFramePath(const QString& path) const;
+    [[nodiscard]] std::vector<std::vector<QPixmap>> GetImagesByFramePath(const QString &path) const;
 
  private:
 
-    std::map<std::string, std::vector<std::vector<QPixmap>>> animations_;
+    std::map<QString, std::vector<std::vector<QPixmap>>> animations_;
     std::vector<std::vector<QPixmap>> objects_pics_{};
     int current_level_ = 0;
   int game_state_ = GameState::kMenu;

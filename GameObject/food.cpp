@@ -10,12 +10,15 @@ void Food::Draw(QPainter* painter, Resizer* resizer) const {
   auto position = resizer->GameToWindowCoordinate(position_);
   auto size = resizer->GameToWindowSize(size_);
   painter->translate(position.GetX(), position.GetY());
-  painter->setBrush(Qt::yellow);
   int width = static_cast<int>(size.GetWidth());
   int height = static_cast<int>(size.GetHeight());
-  painter->drawEllipse(-width / 2, -height / 2, width, height);
+  painter->drawPixmap(-width / 2, -height / 2, width, height, skin_);
   painter->restore();
 }
 
 void Food::Tick(int time) {
+}
+
+void Food::SetSkin(QPixmap skin) {
+    skin_ = skin;
 }

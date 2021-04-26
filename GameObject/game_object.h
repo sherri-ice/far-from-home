@@ -37,7 +37,7 @@ class GameObject {
 
 protected:
     Animation* object_animation_;
-
+    QPixmap skin_;
     Size size_ = Size(40, 40);
   Point position_;
   RigidBody rigid_body_;

@@ -9,17 +9,15 @@ class MovingObject : public GameObject {
                double speed,
                const Point& position = Point(0, 0));
   ~MovingObject() override = default;
-  void Move(int delta_time);
+  void Move(int delta_time = 0);
+
   virtual void SetSpeed(double speed);
-  bool IsMoving();
 
-
-
-protected:
-    double speed_;
-    Size velocity_;
+ protected:
     bool is_moving_ = false;
-    Point destination_{};
+    bool was_moving_ = false;
+  double speed_;
+  Size velocity_;
 };
 
 #endif  // GAMEOBJECT_MOVING_OBJECT_H_
