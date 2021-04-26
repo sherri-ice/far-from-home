@@ -49,7 +49,6 @@ public:
   int change_directions_count_{0};
   double walking_speed_;
   Timer timers_;
-  Point destination_;
 
 
     static std::mt19937 random_generator_;

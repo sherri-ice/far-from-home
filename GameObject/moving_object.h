@@ -14,6 +14,7 @@ class MovingObject : public GameObject {
   virtual void SetSpeed(double speed);
 
  protected:
+    Point destination_{};
     bool is_moving_ = false;
     bool was_moving_ = false;
   double speed_;
