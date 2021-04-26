@@ -20,23 +20,21 @@ void Cat::Draw(QPainter* painter, Resizer* resizer) const {
     painter->restore();
 }
 
-void Cat::Tick(int time) {
+void Cat::Tick(int delta_time) {
+    if (velocity_.GetLength() > constants::kEpsilon) {
+        is_moving_ = true;
+        velocity_ /= velocity_.GetLength();
+        position_ += velocity_ * speed_ * delta_time * constants::kTimeScale;
+        velocity_ *= speed_ * delta_time / constants::kTimeScale;
+    } else {
+        is_moving_ = false;
+    }
     if (is_moving_) {
         // todo catch keys and set animation road
         object_animation_->SetCurrentRoad(5);
     }
-   object_animation_->Tick(time, velocity_, is_moving_);
+   object_animation_->Tick(delta_time, velocity_, is_moving_);
     Resize(Size(object_animation_->GetCurrentFrame().width(), object_animation_->GetCurrentFrame().height()));
-}
-
-void Cat::Move(int time) {
-  if (velocity_.GetLength() > constants::kEpsilon) {
-      is_moving_ = true;
-    velocity_ /= velocity_.GetLength();
-    position_ += velocity_ * speed_ * time * constants::kTimeScale;
-  } else {
-      is_moving_ = false;
-  }
 }
 
 void Cat::SetVelocityFromPlayer(Size velocity) {

@@ -22,7 +22,7 @@ class Model {
   void LoadLevel(int level);
 
   Player* GetPlayer();
-  std::vector<std::shared_ptr<GameObject>> GetDrawableGameObjects() const;
+  [[nodiscard]] std::vector<std::shared_ptr<GameObject>> GetDrawableGameObjects() const;
   void SetGameState(int game_state);
   std::shared_ptr<Cat> MakeNewCat(const Size& size,
                                   double speed,
@@ -35,12 +35,13 @@ class Model {
   void ClearObjects();
 
 
-    void LoadAnimation(const std::vector<int>& timings, const std::vector<QString>& paths);
-    std::vector<std::vector<QPixmap>> GetImagesByFramePath(const QString& animation_last_frames = "", const QString& picture_type = ".png") const;
+    void LoadAnimation();
+    [[nodiscard]] std::vector<std::vector<QPixmap>> GetImagesByFramePath(const QString& path) const;
 
  private:
 
     std::map<std::string, std::vector<std::vector<QPixmap>>> animations_;
+    std::vector<std::vector<QPixmap>> objects_pics_{};
     int current_level_ = 0;
   int game_state_ = GameState::kMenu;
 
