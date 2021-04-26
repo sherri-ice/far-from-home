@@ -1,6 +1,5 @@
-
-cmake_minimum_required(VERSION 3.14)
-project(QtLab)
+cmake_minimum_required(VERSION 3.16)
+project(far_from_home)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTOMOC ON)
@@ -45,6 +44,9 @@ set(SOURCES
         Model/timer.cpp
         View/view.cpp
         View/resizer.cpp
+        GameObject/view_circle.cpp
+        Model/generator.cpp
+        resourses.qrc
         GameObject/view_circle.cpp
         View/animation.cpp)
 #        images.qrc)

@@ -3,6 +3,8 @@
 Controller::Controller() {
   model_ = std::make_shared<Model>();
   view_ = std::make_shared<View>(this, model_);
+  map_generator_.SetModel(model_);
+  map_generator_.GenerateMap();
 }
 
 void Controller::Tick(int time) {
@@ -30,11 +32,8 @@ int Controller::GetCurrentTime() {
   return current_game_time_;
 }
 
-void Controller::StartGame(int level) {
-  // TODO(anyone)
-  // Actually, wanted to start in the center of the screen
-  model_->LoadLevel(level);
-  model_->SetGameState(GameState::kMenu);
+void Controller::StartGame() {
+  model_->SetGameState(GameState::kGame);
 }
 
 Player* Controller::GetPlayer() {

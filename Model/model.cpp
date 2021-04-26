@@ -3,40 +3,17 @@
 #include "model.h"
 
 Model::Model() {
-    LoadAnimation();
-    std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
-                                                          0.001, Point());
-    cats_.emplace_back(main_cat);
-
-
-    std::shared_ptr<Dog> dog = std::make_shared<Dog>(Size(60, 60), 7.5,
-                                                     Point(250, 250),
-                                                     100, 1.75);
-
-    dogs_.emplace_back(dog);
-
-
-  food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(789, 65)));
-  food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(567, 455)));
-  food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(210, 270)));
-  food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(25, 500)));
-  food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(900, 333)));
-  food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(300, 100)));
-std::cout << "model in begining\n";
+  std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
+                                                        0.01,
+                                                        Point(0, 0));
+  cats_.emplace_back(main_cat);
   for (auto& food : food_) {
     food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
       std::cout << "model before set skins\n";
 
       food->SetSkin(objects_pics_[0][std::rand() % 3]);
   }
-
-
   player_ = new Player(main_cat);
-
-  // Temporary
-  MakeNewCat(Size(60, 60), 0.001, Point(1000, 0));
-  MakeNewCat(Size(10, 10), 0.001, Point(500, 500));
-
   player_->SetViewCircle(ViewCircle(player_->GetPosition(),
                                     constants::kViewCircleDefault));
     for (auto& cat : cats_) {
@@ -65,9 +42,13 @@ std::vector<std::shared_ptr<GameObject>> Model::GetDrawableGameObjects() const {
   for (const auto& food : food_) {
     result.push_back(food);
   }
+  for (const auto& static_object : static_objects_) {
+    result.push_back(static_object);
+  }
   std::sort(result.begin(), result.end(), [](const
                                              std::shared_ptr<GameObject>& lhs,
-                                             const std::shared_ptr<GameObject>& rhs) {
+                                             const std::shared_ptr<GameObject>&
+                                                 rhs) {
     return lhs->GetDrawPosition().GetY() < rhs->GetDrawPosition().GetY();
   });
   return result;
@@ -76,10 +57,8 @@ std::vector<std::shared_ptr<GameObject>> Model::GetDrawableGameObjects() const {
 std::shared_ptr<Cat> Model::MakeNewCat(const Size& size,
                                        double speed,
                                        const Point& point) {
-    Cat new_cat(size, speed, point);
-    auto new_cat_ptr = std::make_shared<Cat>(new_cat);
-    cats_.push_back(new_cat_ptr);
-    return cats_.back();
+  cats_.push_back(std::make_shared<Cat>(size, speed, point));
+  return cats_.back();
 }
 
 void Model::LoadLevel(int level) {
@@ -121,6 +100,30 @@ void Model::ClearObjects() {
     }
   }
 }
+
+std::shared_ptr<Dog> Model::MakeNewDog(const Size& size,
+                                       double speed,
+                                       const Point& point,
+                                       double visibility_radius) {
+  dogs_.push_back(std::make_shared<Dog>(size, speed, point, visibility_radius));
+  return dogs_.back();
+}
+
+std::shared_ptr<GameObject> Model::MakeNewStaticObject(const Size& size,
+                                                       const Point& point) {
+  static_objects_.push_back(std::make_shared<GameObject>(size, point));
+  return static_objects_.back();
+}
+
+const std::list<std::shared_ptr<GameObject>>& Model::GetStaticObjects() const {
+  return static_objects_;
+}
+
+std::shared_ptr<Food> Model::MakeNewFood(const Size& size, const Point& point) {
+  food_.push_back(std::make_shared<Food>(size, point));
+  return food_.back();
+}
+
 
 void Model::LoadAnimation() {
     std::vector<QString> paths = {"cat", "dog"};

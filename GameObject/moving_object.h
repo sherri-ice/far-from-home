@@ -12,7 +12,7 @@ class MovingObject : public GameObject {
   void Move(int delta_time = 0);
 
   virtual void SetSpeed(double speed);
-
+  double GetSpeed() const;
  protected:
     Point destination_{};
     bool is_moving_ = false;
