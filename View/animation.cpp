@@ -7,12 +7,13 @@
 Animation::Animation(const std::vector<std::vector<QPixmap>> &frames, int animation_duration) : frames_(frames)
         , frames_rescaled_(frames)
 {
-    time_between_frames_ = 0.3 * animation_duration / frames.size();
+    time_between_frames_ = 0.1 * animation_duration / frames.size();
     Reset();
 }
 
 void Animation::Tick(int delta_time, const Size& velocity, bool is_moving, bool was_moving) {
-
+    std::cout << "VELOCITY: " << velocity.GetWidth() << " " << velocity.GetHeight() << "\n";
+    std::cout << "=======================\n";
     wait_till_next_frame_ -= delta_time;
     if (wait_till_next_frame_ >= 0) {
         return;
@@ -30,7 +31,7 @@ void Animation::Tick(int delta_time, const Size& velocity, bool is_moving, bool 
             if (current_road_ == 7) {
                 animation_loops_number = 8;
             } else {
-                animation_loops_number = 1;
+                animation_loops_number = 0;
             }
         } else {
             --animation_loops_number;
@@ -46,15 +47,15 @@ void Animation::Tick(int delta_time, const Size& velocity, bool is_moving, bool 
             }
         } else if (x > 0) {
             if (y < 0) {
-                SetCurrentRoad(0);
+                SetCurrentRoad(2);
             } else {
                 SetCurrentRoad(3);
             }
         } else {
             if (y > 0) {
-                SetCurrentRoad(0);
-            } else {
                 SetCurrentRoad(2);
+            } else {
+                SetCurrentRoad(3);
             }
         }
     }

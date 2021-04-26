@@ -93,10 +93,8 @@ void Dog::Tick(int delta_time) {
             }
             if (velocity_.GetLength() > constants::kEpsilon) {
                 velocity_ /= velocity_.GetLength();
-                position_ += velocity_ * walking_speed_ * delta_time * constants::kTimeScale;
                 velocity_ *= delta_time * walking_speed_ / constants::kTimeScale;
             }
-            break;
         }
         case DogState::kChasingCat: {
             if (!reachable_cat_) {
@@ -124,6 +122,7 @@ void Dog::Tick(int delta_time) {
             break;
         }
     }
+    Move(delta_time);
      was_moving_ = is_moving_;
 }
 

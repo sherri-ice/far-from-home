@@ -9,7 +9,7 @@ Model::Model() {
     cats_.emplace_back(main_cat);
 
 
-    std::shared_ptr<Dog> dog = std::make_shared<Dog>(Size(40, 40), 7.5,
+    std::shared_ptr<Dog> dog = std::make_shared<Dog>(Size(60, 60), 7.5,
                                                      Point(250, 250),
                                                      100, 1.75);
 
