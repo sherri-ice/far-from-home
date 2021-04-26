@@ -5,18 +5,13 @@ Cat::Cat(const Size& size, double speed, const Point& position) :
 }
 
 void Cat::Draw(QPainter* painter, Resizer* resizer) const {
-    std::cout << "draw rect of cat" << std::endl;
-//   Resize(object_animation_->GetCurrentFrame().width(), object_animation_->GetCurrentFrame().height());
     rigid_body_.Draw(painter, resizer);
     painter->save();
     auto position = resizer->GameToWindowCoordinate(position_);
     auto size = resizer->GameToWindowSize(size_);
-//    object_animation_->Rescale(size);
-    std::cout << "cat draw 1\n";
     painter->drawPixmap(position.GetX(),
                        position.GetY(), size.GetWidth(), size.GetHeight(), object_animation_->GetCurrentFrame());
 
-    std::cout << "cat draw 2\n";
     painter->restore();
 }
 

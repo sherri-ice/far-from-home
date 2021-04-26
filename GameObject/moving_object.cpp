@@ -9,6 +9,10 @@ void MovingObject::SetSpeed(double speed) {
   speed_ = speed;
 }
 
+void MovingObject::Move(int delta_time) {
+  position_ += velocity_;
+}
+
 bool MovingObject::IsMoving() {
     return is_moving_;
 }

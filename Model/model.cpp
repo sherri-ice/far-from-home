@@ -3,22 +3,14 @@
 #include "model.h"
 
 Model::Model() {
-  std::vector<int> path;
-  std::vector<QString> time;
-  LoadAnimation(path, time);
-
-  std::shared_ptr<Cat> main_cat =
-      std::make_shared<Cat>(Size(animations_["cat"][1][0].width(),
-                                 animations_["cat"][1][0].height()),
-                            0.001, Point());
-
-  //------------------
-  main_cat->SetAnimations(animations_["cat"]);
-
+    LoadAnimation();
+  std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
+                                                            10, Point());
   cats_.emplace_back(main_cat);
 
-  std::shared_ptr<Dog> dog = std::make_shared<Dog>(Size(80, 60), 0.00075,
-                                                   Point(250, 250), 100);
+  std::shared_ptr<Dog> dog = std::make_shared<Dog>(Size(40, 40), 7.5,
+                                                   Point(250, 250),
+                                                   100, 1.75);
   dogs_.emplace_back(dog);
 
   food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(789, 65)));
@@ -35,11 +27,8 @@ Model::Model() {
   player_ = new Player(main_cat);
 
   // Temporary
-  std::cout << "model constructor\n";
-  MakeNewCat(Size(animations_["cat"][1][0].width(),
-                  animations_["cat"][1][0].height()), 0.001, Point(1000, 0));
-  MakeNewCat(Size(animations_["cat"][1][0].width(),
-                  animations_["cat"][1][0].height()), 0.001, Point(500, 500));
+  MakeNewCat(Size(60, 60), 0.001, Point(1000, 0));
+  MakeNewCat(Size(10, 10), 0.001, Point(500, 500));
 
   player_->SetViewCircle(ViewCircle(player_->GetPosition(),
                                     constants::kViewCircleDefault));
@@ -52,8 +41,6 @@ Player* Model::GetPlayer() {
 
 std::vector<std::shared_ptr<GameObject>> Model::GetDrawableGameObjects() const {
   std::vector<std::shared_ptr<GameObject>> result;
-  std::cout << "getdrawableobject1\n";
-
   for (const auto& cat : cats_) {
     result.push_back(cat);
   }
@@ -68,7 +55,6 @@ std::vector<std::shared_ptr<GameObject>> Model::GetDrawableGameObjects() const {
                                              const std::shared_ptr<GameObject>& rhs) {
     return lhs->GetDrawPosition().GetY() < rhs->GetDrawPosition().GetY();
   });
-  std::cout << "getdrawableobject\n";
   return result;
 }
 
@@ -78,11 +64,7 @@ std::shared_ptr<Cat> Model::MakeNewCat(const Size& size,
   Cat new_cat(size, speed, point);
   new_cat.SetAnimations(animations_["cat"]);
   auto new_cat_ptr = std::make_shared<Cat>(new_cat);
-  std::cout << "new cat setting anim before\n";
-
   cats_.push_back(new_cat_ptr);
-  std::cout << "new cat setting anim after\n";
-
   return cats_.back();
 }
 
@@ -126,8 +108,7 @@ void Model::ClearObjects() {
   }
 }
 
-void Model::LoadAnimation(const std::vector<int>& timings,
-                          const std::vector<QString>& paths) { // todo i dont know what images doing
+void Model::LoadAnimation() { // todo i dont know what images doing
   //  todo  somehow fill map with animations
 
   //-----------------
@@ -146,10 +127,7 @@ void Model::LoadAnimation(const std::vector<int>& timings,
 //    object->SetAnimationPlayers(std::move(animations));
 }
 
-std::vector<std::vector<QPixmap>> Model::GetImagesByFramePath(
-
-    const QString& animation_last_frames,
-    const QString& picture_type) const { //// todo
+std::vector<std::vector<QPixmap>> Model::GetImagesByFramePath() const { //// todo
 //    QString clear_path = "../images/Group " + animation_last_frames;
 //    QStringList splitted_path = clear_path.split("_");
 // todo sleeping cat is moving

@@ -35,6 +35,20 @@ void Dog::Draw(QPainter* painter, Resizer* resizer) const {
                          2 * static_cast<int>(radius.GetHeight() *
                          constants::kSemiMinorCoefficient));
   }
+    switch (dog_state_) {
+        case DogState::kChasingCat: {
+            painter->setBrush(Qt::black);
+            break;
+        }
+        case DogState::kIsResting: {
+            painter->setBrush(Qt::darkBlue);
+            break;
+        }
+        default: {
+            painter->setBrush(Qt::blue);
+            break;
+        }
+    }
   painter->drawPixmap(-object_width / 2,
                        -object_height / 2,
                        object_width,

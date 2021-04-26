@@ -52,7 +52,6 @@ class Dog : public MovingObject {
   Timer timers_;
   Point destination_;
 
-  static std::mt19937 random_generator_;
 };
 
 #endif  // GAMEOBJECT_DOG_H_
