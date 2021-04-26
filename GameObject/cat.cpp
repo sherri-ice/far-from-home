@@ -22,7 +22,6 @@ void Cat::Tick(int delta_time) {
     if (velocity_.GetLength() > constants::kEpsilon) {
         is_moving_ = true;
         velocity_ /= velocity_.GetLength();
-        position_ += velocity_ * speed_ * delta_time * constants::kTimeScale;
         velocity_ *= speed_ * delta_time / constants::kTimeScale;
     } else {
         is_moving_ = false;

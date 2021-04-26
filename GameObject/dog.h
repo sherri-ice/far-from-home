@@ -50,8 +50,7 @@ public:
   double walking_speed_;
   Timer timers_;
 
-
-    static std::mt19937 random_generator_;
+  static std::mt19937 random_generator_;
 };
 
 #endif  // GAMEOBJECT_DOG_H_

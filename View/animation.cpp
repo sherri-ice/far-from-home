@@ -12,8 +12,8 @@ Animation::Animation(const std::vector<std::vector<QPixmap>> &frames, int animat
 }
 
 void Animation::Tick(int delta_time, const Size& velocity, bool is_moving, bool was_moving) {
-    std::cout << "VELOCITY: " << velocity.GetWidth() << " " << velocity.GetHeight() << "\n";
-    std::cout << "=======================\n";
+    // std::cout << "VELOCITY: " << velocity.GetWidth() << " " << velocity.GetHeight() << "\n";
+    // std::cout << "=======================\n";
     wait_till_next_frame_ -= delta_time;
     if (wait_till_next_frame_ >= 0) {
         return;

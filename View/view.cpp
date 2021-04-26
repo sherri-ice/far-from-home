@@ -23,7 +23,7 @@ View::View(AbstractController* controller,
 void View::paintEvent(QPaintEvent*) {
   QPainter painter(this);
 
-    std::cout << "i'm fdghu bhere" << '\n';
+    // std::cout << "i'm fdghu bhere" << '\n';
   DrawGameObjects(&painter);
   // DrawMap(&painter);
 }
@@ -35,7 +35,7 @@ void View::timerEvent(QTimerEvent* event) {
     controller_->Tick(controller_->GetCurrentTime() + delta_time);
   }
   repaint();
-    std::cout<< "timer event\n";
+    // std::cout<< "timer event\n";
 }
 
 void View::keyPressEvent(QKeyEvent* event) {
@@ -72,14 +72,14 @@ void View::DrawMap(QPainter* painter) {
 }
 
 void View::DrawGameObjects(QPainter* painter) {
-    std::cout<< "draw game ob\n";
+    // std::cout<< "draw game ob\n";
   controller_->GetPlayer()->GetViewCircle().Draw(painter, &resizer_);
-    std::cout<< "draw gadddddme ob1\n";
+    // std::cout<< "draw gadddddme ob1\n";
   std::vector<std::shared_ptr<GameObject>>
       drawable_objects = model_->GetDrawableGameObjects();
     std::cout<< drawable_objects.size() << '\n';
   for (const auto& object : drawable_objects) {
-      std::cout << "1\n";
+      // std::cout << "1\n";
     object->Draw(painter, &resizer_);
   }
 }

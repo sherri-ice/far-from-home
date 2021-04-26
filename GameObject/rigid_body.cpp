@@ -16,9 +16,6 @@ bool RigidBody::IsCollide(const RigidBody& other_rigid_body) const {
 
 void RigidBody::Draw(QPainter* painter, Resizer* resizer) const {
   auto rect = GetRect();
-  std::cout << "-------------------" << std::endl;
-  std::cout << "Rect width " << " " << rect.width() << " rect height " << rect.height() << std::endl;
-    std::cout << "-------------------" << std::endl;
   auto game_size = Size(rect.width(), rect.height());
   auto window_size = resizer->GameToWindowSize(game_size);
   auto game_coordinate = Point(rect.x(), rect.y());

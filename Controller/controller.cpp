@@ -52,10 +52,8 @@ void Controller::TickPlayer() {
 void Controller::TickCats(int time) {
   for (auto& cat : model_->GetPlayer()->GetCats()) {
     cat->Tick(time);
+    cat->Move(time);
   }
-    for (auto& cat : model_->GetDrawableGameObjects()) {
-        cat->Tick(time);
-    }
 }
 
 void Controller::TickDogs(int delta_time) {
@@ -64,6 +62,7 @@ void Controller::TickDogs(int delta_time) {
   for (auto& dog : dogs) {
     dog->SetReachableCat(player->GetCats());
     dog->Tick(delta_time);
+    dog->Move(delta_time);
     for (auto &cat : player->GetCats()) {
       if (dog->GetRigidBody().IsCollide(cat->GetRigidBody())) {
         player->DismissCats();

@@ -4,14 +4,14 @@
 
 Model::Model() {
     LoadAnimation();
-    std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
-                                                          0.001, Point());
+    std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40), 10,
+                                                          Point(0, 0));
     cats_.emplace_back(main_cat);
 
 
     std::shared_ptr<Dog> dog = std::make_shared<Dog>(Size(60, 60), 7.5,
                                                      Point(250, 250),
-                                                     100, 1.75);
+                                                     100, 3);
 
     dogs_.emplace_back(dog);
 
@@ -22,10 +22,10 @@ Model::Model() {
   food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(25, 500)));
   food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(900, 333)));
   food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(300, 100)));
-std::cout << "model in begining\n";
+// std::cout << "model in begining\n";
   for (auto& food : food_) {
     food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
-      std::cout << "model before set skins\n";
+      // std::cout << "model before set skins\n";
 
       food->SetSkin(objects_pics_[0][std::rand() % 3]);
   }
@@ -34,8 +34,8 @@ std::cout << "model in begining\n";
   player_ = new Player(main_cat);
 
   // Temporary
-  MakeNewCat(Size(60, 60), 0.001, Point(1000, 0));
-  MakeNewCat(Size(10, 10), 0.001, Point(500, 500));
+  MakeNewCat(Size(60, 60), 10, Point(1000, 0));
+  MakeNewCat(Size(10, 10), 10, Point(500, 500));
 
   player_->SetViewCircle(ViewCircle(player_->GetPosition(),
                                     constants::kViewCircleDefault));
@@ -45,7 +45,7 @@ std::cout << "model in begining\n";
     for (auto& dog : dogs_) {
         dog->SetAnimations(animations_["dog"]);
     }
-    std::cout << "model Set animations\n";
+    // std::cout << "model Set animations\n";
 
 
 }
