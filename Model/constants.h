@@ -16,6 +16,8 @@ const int kNumOfTilesTemplates = 7;
 const int kNumOfBorderTemplates = 2;
 
 const double kViewCircleDefault = 540;
+const double kViewCircleMax = 4200;
+const double kViewCircleMin = 250;
 
 const int kTimeBetweenTicks = 10;
 const int kTimeScale = 100;

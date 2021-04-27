@@ -70,17 +70,18 @@ void Generator::ParseTiles() {
 
       if (object["object_type"].toString() == "cat") {
         Size size(object["size"].toDouble(), object["size"].toDouble());
-
-        Point point(object["point"].toArray().at(0)["x"].toDouble(),
-                    object["point"].toArray().at(0)["y"].toDouble());
+        auto coordinates_array = object["point"].toArray();
+        Point point(coordinates_array.at(0)["x"].toDouble(),
+                    coordinates_array.at(0)["y"].toDouble());
         new_template.cats.emplace_back(Cat(size,
                                            object["speed"].toDouble(),
                                            point));
       }
       if (object["object_type"].toString() == "dog") {
         Size size(object["size"].toDouble(), object["size"].toDouble());
-        Point point(object["point"].toArray().at(0)["x"].toDouble(),
-                    object["point"].toArray().at(0)["y"].toDouble());
+        auto coordinates_array = object["point"].toArray();
+        Point point(coordinates_array.at(0)["x"].toDouble(),
+                    coordinates_array.at(0)["y"].toDouble());
         double visibility_radius = object["visibility_radius"].toDouble();
         new_template.dogs.emplace_back(Dog(size,
                                            object["speed"].toDouble(),
@@ -89,14 +90,16 @@ void Generator::ParseTiles() {
       }
       if (object["object_type"].toString() == "static_object") {
         Size size(object["size"].toDouble(), object["size"].toDouble());
-        Point point(object["point"].toArray().at(0)["x"].toDouble(),
-                    object["point"].toArray().at(0)["y"].toDouble());
+        auto coordinates_array = object["point"].toArray();
+        Point point(coordinates_array.at(0)["x"].toDouble(),
+                    coordinates_array.at(0)["y"].toDouble());
         new_template.static_objects.emplace_back(GameObject(size, point));
       }
       if (object["object_type"].toString() == "food") {
         Size size(object["size"].toDouble(), object["size"].toDouble());
-        Point point(object["point"].toArray().at(0)["x"].toDouble(),
-                    object["point"].toArray().at(0)["y"].toDouble());
+        auto coordinates_array = object["point"].toArray();
+        Point point(coordinates_array.at(0)["x"].toDouble(),
+                    coordinates_array.at(0)["y"].toDouble());
         new_template.food.emplace_back(Food(size, point));
       }
     }

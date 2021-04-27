@@ -9,14 +9,6 @@ Controller::Controller() {
 
 void Controller::Tick(int time) {
   int delta_time = time - current_game_time_;
-  double player_view = view_->GetViewSize();
-  auto view_circle = GetPlayer()->GetViewCircle();
-  view_circle.SetCenter(GetPlayer()->GetPosition());
-  view_circle.SetWantedRadius(player_view);
-  model_->GetPlayer()->SetViewCircle(view_circle);
-  GetPlayer()->Tick();
-  view_->UpdateResizer(GetPlayer()->GetViewCircle().GetRadius(),
-                       GetPlayer()->GetPosition());
   current_game_time_ = time;
 
   TickPlayer();
@@ -24,6 +16,7 @@ void Controller::Tick(int time) {
   TickDogs(delta_time);
   CatsAndFoodIntersect();
   TickFood(delta_time);
+  TickViewCircle();
 
   model_->ClearObjects();
 }
@@ -62,7 +55,7 @@ void Controller::TickDogs(int delta_time) {
     dog->SetReachableCat(player->GetCats());
     dog->Tick(delta_time);
     dog->Move(delta_time);
-    for (auto &cat : player->GetCats()) {
+    for (auto& cat : player->GetCats()) {
       if (dog->GetRigidBody().IsCollide(cat->GetRigidBody())) {
         player->DismissCats();
         break;
@@ -73,6 +66,17 @@ void Controller::TickDogs(int delta_time) {
 
 void Controller::TickFood(int time) {
   // Food rots
+}
+
+void Controller::TickViewCircle() {
+  double player_view = view_->GetViewSize();
+  auto view_circle = GetPlayer()->GetViewCircle();
+  view_circle.SetCenter(GetPlayer()->GetPosition());
+  view_circle.SetWantedRadius(player_view);
+  model_->GetPlayer()->SetViewCircle(view_circle);
+  GetPlayer()->Tick();
+  view_->UpdateResizer(GetPlayer()->GetViewCircle().GetRadius(),
+                       GetPlayer()->GetPosition());
 }
 
 void Controller::CatsAndFoodIntersect() {
