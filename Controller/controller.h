@@ -21,11 +21,13 @@ class Controller : public AbstractController {
 
  private:
   void TickPlayer();
-  void TickCats(int time);
+  void TickCats(int delta_time);
   void TickDogs(int delta_time);
-  void TickFood(int time);
+  void TickFood(int delta_time);
 
   void CatsAndFoodIntersect();
+  void PlayerAndStaticObjectsIntersect(const std::shared_ptr<Cat>& cat);
+  void DogAndStaticObjectsIntersect(const std::shared_ptr<Dog>& dog, int delta_time);
 
   int current_game_time_{0};
   std::shared_ptr<Model> model_;

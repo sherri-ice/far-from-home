@@ -103,10 +103,7 @@ void Dog::Tick(int delta_time) {
           destination_ = home_position_;
         }
       }
-      if (velocity_.GetLength() > constants::kEpsilon) {
-        velocity_ /= velocity_.GetLength();
-        velocity_ *= delta_time * walking_speed_ / constants::kTimeScale;
-      }
+      ChangeVelocityToVector(delta_time);
       break;
     }
     case DogState::kChasingCat: {
@@ -157,4 +154,17 @@ void Dog::SetReachableCat(const std::vector<std::shared_ptr<Cat>>& cats) {
 bool Dog::CheckIfCanSeeCat(const Cat* cat) const {
   return cat->GetRigidPosition().IsInEllipse(position_,
                                              visibility_radius_);
+}
+
+void Dog::ChangeVelocityToVector(int delta_time) {
+  double speed;
+  if (dog_state_ == DogState::kChasingCat) {
+    speed = speed_;
+  } else {
+    speed = walking_speed_;
+  }
+  if (velocity_.GetLength() > constants::kEpsilon) {
+    velocity_ /= velocity_.GetLength();
+    velocity_ *= speed * delta_time / constants::kTimeScale;
+  }
 }

@@ -5,6 +5,22 @@ GameObject::GameObject(const Size& size, const Point& position)
   rigid_body_ = RigidBody(&size_, &position_);
 }
 
+void GameObject::Draw(QPainter* painter, Resizer* resizer) const {
+  rigid_body_.Draw(painter, resizer);
+  painter->save();
+  auto position = resizer->GameToWindowCoordinate(position_);
+  auto size = resizer->GameToWindowSize(size_);
+  painter->setBrush(Qt::green);
+  painter->drawEllipse(position.GetX() - size.GetWidth()/2,
+                       position.GetY() - size.GetHeight()/2,
+                       size.GetWidth(),
+                       size.GetHeight());
+  painter->restore();
+}
+
+void GameObject::Tick(int time) {
+}
+
 void GameObject::SetSize(Size new_size) {
   size_ = new_size;
 }
@@ -21,8 +37,8 @@ const Point& GameObject::GetDrawPosition() const {
   return position_;
 }
 
-RigidBody GameObject::GetRigidBody() const {
-  return rigid_body_;
+RigidBody* GameObject::GetRigidBody() {
+  return &rigid_body_;
 }
 
 void GameObject::SetScaleCoefficientsInRigidBody(double coefficient_x, double
