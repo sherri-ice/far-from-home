@@ -27,7 +27,8 @@ class Controller : public AbstractController {
 
   void CatsAndFoodIntersect();
   void PlayerAndStaticObjectsIntersect(const std::shared_ptr<Cat>& cat);
-  void DogAndStaticObjectsIntersect(const std::shared_ptr<Dog>& dog, int delta_time);
+  void DogAndStaticObjectsIntersect(const std::shared_ptr<Dog>& dog, int
+  delta_time);
 
   int current_game_time_{0};
   std::shared_ptr<Model> model_;

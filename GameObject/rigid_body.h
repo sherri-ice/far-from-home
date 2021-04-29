@@ -36,8 +36,8 @@ class RigidBody {
 
   bool IfCollisionWillHappen(const RigidBody& other_rigid_body, const Size&
   velocity) const;
-  Size GetVelocityToAvoidCollision(const RigidBody& other_rigid_body, const
-  Size& current_velocity);
+  Size GetVelocityToAvoidCollision(const RigidBody& other_rigid_body,
+                                   const Size& current_velocity);
 
  private:
   const Size* object_size_;

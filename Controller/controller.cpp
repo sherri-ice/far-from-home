@@ -99,8 +99,8 @@ void Controller::PlayerAndStaticObjectsIntersect(const std::shared_ptr<Cat>&
   }
 }
 
-void Controller::DogAndStaticObjectsIntersect(const std::shared_ptr<Dog>& dog, int
-  delta_time) {
+void Controller::DogAndStaticObjectsIntersect(const std::shared_ptr<Dog>&
+    dog, int delta_time) {
   for (const auto& static_object : model_->GetStaticObjects()) {
     if (dog->GetRigidBody()->IfCollisionWillHappen(*(static_object->GetRigidBody
     ()), dog->GetVelocity())) {
