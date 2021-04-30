@@ -1,7 +1,9 @@
-#ifndef PORTAL_OBJECT_H
-#define PORTAL_OBJECT_H
+#ifndef GAMEOBJECT_PORTAL_OBJECT_H_
+#define GAMEOBJECT_PORTAL_OBJECT_H_
 
 #include <QTimer>
+#include <Model/timer.h>
+#include <View/progress_bar.h>
 #include "game_object.h"
 
 class PortalObject : public GameObject {
@@ -16,14 +18,13 @@ class PortalObject : public GameObject {
   void RemovePortal();
 
   void Draw(QPainter* painter, Resizer* resizer) const override;
-
+  void Tick(int time) override;
 
  private:
   bool has_portal_;
   QString skin_path_;
-  QTimer search_timer_;
-  // QProgressBar
-
+  Timer search_timer_;
+  ProgressBar progress_bar_;
 };
 
-#endif //PORTAL_OBJECT_H
+#endif  // GAMEOBJECT_PORTAL_OBJECT_H_

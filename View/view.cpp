@@ -7,6 +7,7 @@
 #include <utility>
 #include <vector>
 #include <algorithm>
+#include <GameObject/portal_object.h>
 
 View::View(AbstractController* controller,
            std::shared_ptr<Model> model)
@@ -25,11 +26,8 @@ void View::paintEvent(QPaintEvent*) {
   QPainter painter(this);
 
   DrawGameObjects(&painter);
-  ProgressBar bar(Point(20, 20));
-  bar.SetRange(0, 10);
-  bar.IncCurrentValue();
-  bar.IncCurrentValue();
-  bar.Draw(&painter, &resizer_);
+  PortalObject portal(Size(80, 80), Point(0, 0), "");
+  portal.Draw(&painter, &resizer_);
 }
 
 void View::timerEvent(QTimerEvent* event) {
@@ -68,7 +66,6 @@ void View::ClearVelocity() {
 void View::keyReleaseEvent(QKeyEvent* event) {
   pressed_keys_[event->key()] = false;
 }
-
 
 void View::DrawGameObjects(QPainter* painter) {
   controller_->GetPlayer()->GetViewCircle().Draw(painter, &resizer_);

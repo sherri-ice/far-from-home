@@ -2,17 +2,23 @@
 // Created by sienna on 27.04.21.
 //
 
-#ifndef PROGRESS_BAR_H
-#define PROGRESS_BAR_H
+#ifndef VIEW_PROGRESS_BAR_H_
+#define VIEW_PROGRESS_BAR_H_
 
 #include <QRect>
 #include <Model/point.h>
 #include <QPainter>
+#include <Model/timer.h>
 #include "resizer.h"
+
+namespace constants {
+const int offset = 20;
+}  // namespace constants
+
 class ProgressBar : public QRect {
  public:
   ProgressBar() = default;
-  explicit ProgressBar(const Point& center);
+  ProgressBar(const Point& center, const Size& size);
   ~ProgressBar() = default;
 
   void SetRange(int min_value, int max_value);
@@ -21,13 +27,16 @@ class ProgressBar : public QRect {
   void IncCurrentValue();
   bool IsFull();
 
+  void SetVisible();
+  void SetInvisible();
 
  private:
   int cur_value_ = 0;
   int min_value_ = 0;
   int max_value_ = 0;
 
+  bool is_visible_ = false;
   Point center_;
 };
 
-#endif //PROGRESS_BAR_H
+#endif  // VIEW_PROGRESS_BAR_H_
