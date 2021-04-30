@@ -1,5 +1,6 @@
 #include "view.h"
 #include "Model/constants.h"
+#include "progress_bar.h"
 
 #include <QKeyEvent>
 #include <QGraphicsScene>
@@ -24,7 +25,11 @@ void View::paintEvent(QPaintEvent*) {
   QPainter painter(this);
 
   DrawGameObjects(&painter);
-  // DrawMap(&painter);
+  ProgressBar bar(Point(20, 20));
+  bar.SetRange(0, 10);
+  bar.IncCurrentValue();
+  bar.IncCurrentValue();
+  bar.Draw(&painter, &resizer_);
 }
 
 void View::timerEvent(QTimerEvent* event) {
@@ -64,10 +69,6 @@ void View::keyReleaseEvent(QKeyEvent* event) {
   pressed_keys_[event->key()] = false;
 }
 
-void View::DrawMap(QPainter* painter) {
-  painter->setBrush(Qt::red);
-  painter->setBackground(Qt::red);
-}
 
 void View::DrawGameObjects(QPainter* painter) {
   controller_->GetPlayer()->GetViewCircle().Draw(painter, &resizer_);

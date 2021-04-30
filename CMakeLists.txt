@@ -41,7 +41,7 @@ set(SOURCES
         Model/timer.cpp
         View/view.cpp
         View/resizer.cpp
-        GameObject/view_circle.cpp)
+        GameObject/view_circle.cpp GameObject/portal_object.cpp GameObject/portal_object.h View/progress_bar.cpp View/progress_bar.h)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 

@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <View/progress_bar.h>
 
 #include "model.h"
 
@@ -27,7 +28,6 @@ Model::Model() {
   // Temporary
   MakeNewCat(Size(60, 60), 0.001, Point(1000, 0));
   MakeNewCat(Size(10, 10), 0.001, Point(500, 500));
-
   player_->SetViewCircle(ViewCircle(player_->GetPosition(),
                                     constants::kViewCircleDefault));
 }
