@@ -9,7 +9,7 @@ class MovingObject : public GameObject {
                double speed,
                const Point& position = Point(0, 0));
   ~MovingObject() override = default;
-  void Move(int delta_time = 0);
+  void Move(int delta_time);
 
   virtual void SetSpeed(double speed);
   double GetSpeed() const;

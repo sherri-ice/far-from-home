@@ -1,10 +1,11 @@
 #include "controller.h"
 
 Controller::Controller() {
-  model_ = std::make_shared<Model>();
-  view_ = std::make_shared<View>(this, model_);
-  map_generator_.SetModel(model_);
-  map_generator_.GenerateMap();
+    model_ = std::make_shared<Model>();
+    view_ = std::make_shared<View>(this, model_);
+
+    map_generator_.SetModel(model_);
+    map_generator_.GenerateMap();
 }
 
 void Controller::Tick(int time) {
@@ -18,13 +19,11 @@ void Controller::Tick(int time) {
   view_->UpdateResizer(GetPlayer()->GetViewCircle().GetRadius(),
                        GetPlayer()->GetPosition());
   current_game_time_ = time;
-
   TickPlayer();
   TickCats(delta_time);
   TickDogs(delta_time);
   CatsAndFoodIntersect();
   TickFood(delta_time);
-
   model_->ClearObjects();
 }
 
@@ -49,11 +48,9 @@ void Controller::TickPlayer() {
 }
 
 void Controller::TickCats(int time) {
-  for (auto& cat : model_->GetPlayer()->GetCats()) {
-    cat->Tick(time);
-  }
-    for (auto& cat : model_->GetDrawableGameObjects()) {
+    for (auto& cat : model_->GetCats()) {
         cat->Tick(time);
+        cat->Move(time);
     }
 }
 
@@ -63,6 +60,7 @@ void Controller::TickDogs(int delta_time) {
   for (auto& dog : dogs) {
     dog->SetReachableCat(player->GetCats());
     dog->Tick(delta_time);
+    dog->Move(delta_time);
     for (auto &cat : player->GetCats()) {
       if (dog->GetRigidBody().IsCollide(cat->GetRigidBody())) {
         player->DismissCats();

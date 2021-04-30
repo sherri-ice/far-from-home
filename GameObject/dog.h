@@ -36,7 +36,7 @@ public:
 
     void Draw(QPainter* painter, Resizer* resizer) const override;
     void Tick(int time) override;
-
+    double GetVisibilityRadius() const;
     void SetIfItVisibleToPlayer(bool is_visible);
     bool CheckIfCanSeeCat(const Cat* cat) const;
     void SetReachableCat(const std::vector<std::shared_ptr<Cat>>& cats);
@@ -50,8 +50,7 @@ public:
   double walking_speed_;
   Timer timers_;
 
-
-    static std::mt19937 random_generator_;
+  static std::mt19937 random_generator_;
 };
 
 #endif  // GAMEOBJECT_DOG_H_

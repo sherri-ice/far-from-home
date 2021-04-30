@@ -10,7 +10,7 @@ class Food : public GameObject {
 
   void Draw(QPainter* painter, Resizer* resizer) const override;
   void Tick(int time) override;
-    void SetSkin(QPixmap skin);
+
 };
 
 #endif  // GAMEOBJECT_FOOD_H_

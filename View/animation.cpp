@@ -4,22 +4,24 @@
 
 #include "animation.h"
 
+
+std::mt19937 Animation::random_generator_ = std::mt19937
+        (std::chrono::system_clock::now().time_since_epoch().count());
+
+
 Animation::Animation(const std::vector<std::vector<QPixmap>> &frames, int animation_duration) : frames_(frames)
         , frames_rescaled_(frames)
 {
-    time_between_frames_ = 0.1 * animation_duration / frames.size();
+    time_between_frames_ = animation_duration / frames.size();
     Reset();
 }
 
 void Animation::Tick(int delta_time, const Size& velocity, bool is_moving, bool was_moving) {
-    std::cout << "VELOCITY: " << velocity.GetWidth() << " " << velocity.GetHeight() << "\n";
-    std::cout << "=======================\n";
     wait_till_next_frame_ -= delta_time;
     if (wait_till_next_frame_ >= 0) {
         return;
     }
     if (!is_moving) {
-        std::srand(time(nullptr));
         if (was_moving) {
             SetCurrentRoad(4);
             current_frame_ = 0;
@@ -27,7 +29,12 @@ void Animation::Tick(int delta_time, const Size& velocity, bool is_moving, bool 
             return;
         }
         if (animation_loops_number == 0) {
-            current_road_ = 5 + std::rand() % 3;
+            if (current_road_ == 6) {
+                current_road_ = 7;
+            } else {
+                std::uniform_int_distribution<> random_time(4, 7);
+                current_road_ = random_time(random_generator_);
+            }
             if (current_road_ == 7) {
                 animation_loops_number = 8;
             } else {
@@ -37,26 +44,18 @@ void Animation::Tick(int delta_time, const Size& velocity, bool is_moving, bool 
             --animation_loops_number;
         }
     } else {
-        int x = velocity.GetWidth();
-        int y = velocity.GetHeight();
-        if (x == 0) {
-            if (y > 0) {
+        double x = velocity.GetWidth();
+        double y = velocity.GetHeight();
+        if (std::abs(x)< 0.5) {
+            if (y > 1) {
                 SetCurrentRoad(0);
             } else {
                 SetCurrentRoad(1);
             }
         } else if (x > 0) {
-            if (y < 0) {
-                SetCurrentRoad(2);
-            } else {
                 SetCurrentRoad(3);
-            }
         } else {
-            if (y > 0) {
                 SetCurrentRoad(2);
-            } else {
-                SetCurrentRoad(3);
-            }
         }
     }
 

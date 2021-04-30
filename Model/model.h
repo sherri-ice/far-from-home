@@ -29,7 +29,7 @@ class Model {
                                   const Point& point);
   std::shared_ptr<Dog> MakeNewDog(const Size& size,
                                   double speed,
-                                  const Point& point, double visibility_radius);
+                                  const Point& point, double visibility_radius, double walking_speed);
   std::shared_ptr<GameObject> MakeNewStaticObject(const Size& size,
                                                   const Point& point);
   std::shared_ptr<Food> MakeNewFood(const Size& size, const Point& point);
@@ -48,7 +48,7 @@ class Model {
  private:
 
     std::map<QString, std::vector<std::vector<QPixmap>>> animations_;
-    std::vector<std::vector<QPixmap>> objects_pics_{};
+    std::vector<std::vector<QPixmap>> objects_pics_;
     int current_level_ = 0;
   int game_state_ = GameState::kMenu;
 

@@ -8,6 +8,7 @@
 #include <iostream>
 #include <vector>
 #include <QPixmap>
+#include <random>
 
 #include "../Model/constants.h"
 #include "../Model/size.h"
@@ -36,6 +37,10 @@ private:
     uint current_frame_ = 0;
     int wait_till_next_frame_ = 0;
     int time_between_frames_ = 25;
+    //---------
+
+    static std::mt19937 random_generator_;
+
 
     std::vector<std::vector<QPixmap>> frames_{};
     std::vector<std::vector<QPixmap>> frames_rescaled_{};

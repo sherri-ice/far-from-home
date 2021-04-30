@@ -38,7 +38,7 @@ left_corner) {
     model_->MakeNewDog(dog.GetSize(),
                        dog.GetSpeed(),
                        dog.GetDrawPosition() + left_corner,
-                       dog.GetVisibilityRadius());
+                       dog.GetVisibilityRadius(), 1.25);
   }
   for (const auto& static_object : new_tile.static_objects) {
     model_->MakeNewStaticObject(static_object.GetSize(),
@@ -85,7 +85,7 @@ void Generator::ParseTiles() {
         new_template.dogs.emplace_back(Dog(size,
                                            object["speed"].toDouble(),
                                            point,
-                                           visibility_radius));
+                                           visibility_radius, 1.25));
       }
       if (object["object_type"].toString() == "static_object") {
         Size size(object["size"].toDouble(), object["size"].toDouble());
@@ -113,12 +113,12 @@ void Generator::Clear() {
 }
 
 void Generator::GenerateMap() {
-  ParseTiles();
+    ParseTiles();
   for (int x = -constants::kGameMapWidth; x <= constants::kGameMapWidth;
        x += constants::kTileSize) {
     for (int y = -constants::kGameMapHeight; y <= constants::kGameMapHeight;
          y += constants::kTileSize) {
-      GenerateTile(Point(x, y));
+        GenerateTile(Point(x, y));
     }
   }
 }

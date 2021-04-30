@@ -40,7 +40,6 @@ bool GameObject::IsDead() const {
 
 void GameObject::Resize(const Size& to_size) {
     size_ = to_size;
-//    object_animation_->Rescale(to_size);
 }
 
 Point GameObject::GetRigidPosition() const {
@@ -55,13 +54,16 @@ void GameObject::Draw(QPainter* painter, Resizer* resizer) const {
   painter->save();
   auto position = resizer->GameToWindowCoordinate(position_);
   auto size = resizer->GameToWindowSize(size_);
-  painter->setBrush(Qt::green);
-  painter->drawEllipse(position.GetX() - size.GetWidth()/2,
+  painter->drawPixmap(position.GetX() - size.GetWidth()/2,
                        position.GetY() - size.GetHeight()/2,
                        size.GetWidth(),
-                       size.GetHeight());
-  painter->restore();
+                       size.GetHeight(), skin_);
+    painter->restore();
 }
 
 void GameObject::Tick(int time) {
+}
+
+void GameObject::SetSkin(QPixmap skin) {
+    skin_ = skin;
 }

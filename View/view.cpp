@@ -20,10 +20,12 @@ View::View(AbstractController* controller,
   time_between_ticks_.start();
   controller_timer_id_ = startTimer(constants::kTimeBetweenTicks);
   view_timer_.start();
+
 }
 
 void View::paintEvent(QPaintEvent*) {
-  QPainter painter(this);
+
+    QPainter painter(this);
 
   DrawGameObjects(&painter);
 }
@@ -43,16 +45,16 @@ void View::keyPressEvent(QKeyEvent* event) {
 
 Size View::GetPlayerVelocity() {
   if (pressed_keys_[Qt::Key_Up]) {
-    player_velocity_ += Size(0, -1);
+    player_velocity_ += Size(0, -100);
   }
   if (pressed_keys_[Qt::Key_Down]) {
-    player_velocity_ += Size(0, 1);
+    player_velocity_ += Size(0, 100);
   }
   if (pressed_keys_[Qt::Key_Left]) {
-    player_velocity_ += Size(-1, 0);
+    player_velocity_ += Size(-100, 0);
   }
   if (pressed_keys_[Qt::Key_Right]) {
-    player_velocity_ += Size(1, 0);
+    player_velocity_ += Size(100, 0);
   }
   return player_velocity_;
 }
@@ -66,10 +68,13 @@ void View::keyReleaseEvent(QKeyEvent* event) {
 }
 
 void View::DrawGameObjects(QPainter* painter) {
-  controller_->GetPlayer()->GetViewCircle().Draw(painter, &resizer_);
-  std::vector<std::shared_ptr<GameObject>>
+
+    controller_->GetPlayer()->GetViewCircle().Draw(painter, &resizer_);
+
+    std::vector<std::shared_ptr<GameObject>>
       drawable_objects = model_->GetDrawableGameObjects();
-  for (const auto& object : drawable_objects) {
+
+    for (const auto& object : drawable_objects) {
     object->Draw(painter, &resizer_);
   }
 }

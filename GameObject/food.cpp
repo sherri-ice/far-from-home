@@ -5,7 +5,7 @@ Food::Food(const Size& size, const Point& position) : GameObject(size,
 }
 
 void Food::Draw(QPainter* painter, Resizer* resizer) const {
-  rigid_body_.Draw(painter, resizer);
+    rigid_body_.Draw(painter, resizer);
   painter->save();
   auto position = resizer->GameToWindowCoordinate(position_);
   auto size = resizer->GameToWindowSize(size_);
@@ -19,6 +19,3 @@ void Food::Draw(QPainter* painter, Resizer* resizer) const {
 void Food::Tick(int time) {
 }
 
-void Food::SetSkin(QPixmap skin) {
-    skin_ = skin;
-}
