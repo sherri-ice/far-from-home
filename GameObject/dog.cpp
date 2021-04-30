@@ -46,7 +46,7 @@ void Dog::Tick(int delta_time) {
 void Dog::Move(int delta_time) {
   if (velocity_.GetLength() > constants::kEpsilon) {
     velocity_ /= velocity_.GetLength();
-    velocity_ *= delta_time * speed_ * constants::kTimeScale;
+    velocity_ *= delta_time * speed_ / constants::kTimeScale;
   }
   Size first_vector = (position_ + velocity_).GetVectorTo(destination_);
   Size second_vector = position_.GetVectorTo(destination_);

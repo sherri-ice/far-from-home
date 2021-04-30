@@ -1,7 +1,6 @@
 #include <QFile>
 #include "generator.h"
 
-
 std::mt19937 Generator::random_generator = std::mt19937
     (std::chrono::system_clock::now().time_since_epoch().count());
 std::uniform_int_distribution<int>
@@ -125,6 +124,3 @@ void Generator::GenerateMap() {
     }
   }
 }
-
-
-

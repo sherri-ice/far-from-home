@@ -10,7 +10,7 @@
               "y": 250
             }
           ],
-          "speed": 0.001,
+          "speed": 10,
           "size": 40
         },
         {
@@ -22,7 +22,7 @@
             }
           ],
           "size": 60,
-          "speed": 0.001,
+          "speed": 7.5,
           "visibility_radius": 50
         },
         {
@@ -34,7 +34,7 @@
             }
           ],
           "size": 60,
-          "speed": 0.001,
+          "speed": 7.5,
           "visibility_radius": 50
         },
         {
@@ -46,7 +46,7 @@
             }
           ],
           "size": 60,
-          "speed": 0.001,
+          "speed": 7.5,
           "visibility_radius": 50
         },
         {
@@ -58,7 +58,7 @@
             }
           ],
           "size": 60,
-          "speed": 0.001,
+          "speed": 7.5,
           "visibility_radius": 50
         }
       ]
@@ -73,8 +73,7 @@
               "y": 0
             }
           ],
-          "size": 50,
-          "speed": 0.001
+          "size": 50
         },
         {
           "object_type": "dog",
@@ -85,7 +84,7 @@
             }
           ],
           "size": 40,
-          "speed": 0.001,
+          "speed": 7.5,
           "visibility_radius": 70
         },
         {
@@ -135,7 +134,7 @@
             }
           ],
           "size": 20,
-          "speed" : 0.01
+          "speed" : 10
         }
       ]
     },

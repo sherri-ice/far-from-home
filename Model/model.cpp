@@ -4,7 +4,7 @@
 
 Model::Model() {
   std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
-                                                        0.01,
+                                                        10,
                                                         Point(0, 0));
   cats_.emplace_back(main_cat);
   for (auto& food : food_) {
