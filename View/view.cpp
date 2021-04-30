@@ -92,14 +92,14 @@ void View::UpdateResizer(double radius, const Point& position) {
 }
 
 double View::GetViewSize() {
+  auto radius = model_->GetPlayer()->GetViewCircle().GetWantedRadius();
   if (pressed_keys_[Qt::Key_E]) {
-    return model_->GetPlayer()->GetViewCircle().GetWantedRadius()
-        + constants::kResizerScale;
+    radius += constants::kResizerScale;
   }
   if (pressed_keys_[Qt::Key_Q]) {
-    return std::max(model_->GetPlayer()->GetViewCircle().GetWantedRadius()
-                        - constants::kResizerScale,
-                    constants::kResizerScale);
+    radius -= constants::kResizerScale;
   }
-  return model_->GetPlayer()->GetViewCircle().GetWantedRadius();
+  radius = std::min(std::max(radius, constants::kViewCircleMin),
+                    constants::kViewCircleMax);
+  return radius;
 }

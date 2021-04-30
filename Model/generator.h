@@ -10,6 +10,14 @@
 #include <algorithm>
 #include <vector>
 
+namespace constants {
+const int kGameMapWidth = 10'000;
+const int kGameMapHeight = 10'000;
+const int kTileSize = 500;
+const int kNumOfTilesTemplates = 7;
+const int kNumOfBorderTemplates = 2;
+}  // namespace constants
+
 class Generator {
  public:
   Generator() = default;

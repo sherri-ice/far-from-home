@@ -26,6 +26,7 @@ class Controller : public AbstractController {
   void TickCats(int time);
   void TickDogs(int delta_time);
   void TickFood(int time);
+  void TickViewCircle();
 
   void CatsAndFoodIntersect();
 

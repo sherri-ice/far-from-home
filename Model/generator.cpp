@@ -1,25 +1,38 @@
 #include <QFile>
 #include "generator.h"
 
-
 std::mt19937 Generator::random_generator = std::mt19937
     (std::chrono::system_clock::now().time_since_epoch().count());
 std::uniform_int_distribution<int>
     random_id_generator(0, constants::kNumOfTilesTemplates - 1);
 
 int Generator::GenerateId(const Point& left_corner) {
+  // counts max coefficient of departure from the center, which affects
+  // probability of generating boarder template
   double distancing_coeff =
       std::max(std::fabs(left_corner.GetX() / constants::kGameMapWidth),
                std::fabs(left_corner.GetY() / constants::kGameMapHeight));
+  // let put coefficient in the power of 6, to reach smoothness
   distancing_coeff = std::pow(distancing_coeff, 6);
+
+  // std::discrete_distribution<> generates different values according to
+  // vector of probabilities, given to it
+  // let's push border templates probabilities to the end of that vector
+  int number_of_main_templates =
+      constants::kNumOfTilesTemplates - constants::kNumOfBorderTemplates;
+  // probability of generating main templates should be in inverse propotion
+  // of probability of generating boarder templates
+  // so let's make it 1 - distancing_coeff
   std::vector<double> probabilities
-      (constants::kNumOfTilesTemplates - constants::kNumOfBorderTemplates,
+      (number_of_main_templates,
        1 - distancing_coeff);
+  // adds probabilities of generating boarder templates
   auto border_templates_probabilities =
       std::vector<double>(constants::kNumOfBorderTemplates,
                           distancing_coeff);
   probabilities.insert(probabilities.end(), border_templates_probabilities
       .begin(), border_templates_probabilities.end());
+  // initialization
   std::discrete_distribution<> dist(probabilities.begin(), probabilities.end());
   int id = dist(random_generator);
   return id;
@@ -70,17 +83,18 @@ void Generator::ParseTiles() {
 
       if (object["object_type"].toString() == "cat") {
         Size size(object["size"].toDouble(), object["size"].toDouble());
-
-        Point point(object["point"].toArray().at(0)["x"].toDouble(),
-                    object["point"].toArray().at(0)["y"].toDouble());
+        auto coordinates_array = object["point"].toArray();
+        Point point(coordinates_array.at(0)["x"].toDouble(),
+                    coordinates_array.at(0)["y"].toDouble());
         new_template.cats.emplace_back(Cat(size,
                                            object["speed"].toDouble(),
                                            point));
       }
       if (object["object_type"].toString() == "dog") {
         Size size(object["size"].toDouble(), object["size"].toDouble());
-        Point point(object["point"].toArray().at(0)["x"].toDouble(),
-                    object["point"].toArray().at(0)["y"].toDouble());
+        auto coordinates_array = object["point"].toArray();
+        Point point(coordinates_array.at(0)["x"].toDouble(),
+                    coordinates_array.at(0)["y"].toDouble());
         double visibility_radius = object["visibility_radius"].toDouble();
         new_template.dogs.emplace_back(Dog(size,
                                            object["speed"].toDouble(),
@@ -89,14 +103,16 @@ void Generator::ParseTiles() {
       }
       if (object["object_type"].toString() == "static_object") {
         Size size(object["size"].toDouble(), object["size"].toDouble());
-        Point point(object["point"].toArray().at(0)["x"].toDouble(),
-                    object["point"].toArray().at(0)["y"].toDouble());
+        auto coordinates_array = object["point"].toArray();
+        Point point(coordinates_array.at(0)["x"].toDouble(),
+                    coordinates_array.at(0)["y"].toDouble());
         new_template.static_objects.emplace_back(GameObject(size, point));
       }
       if (object["object_type"].toString() == "food") {
         Size size(object["size"].toDouble(), object["size"].toDouble());
-        Point point(object["point"].toArray().at(0)["x"].toDouble(),
-                    object["point"].toArray().at(0)["y"].toDouble());
+        auto coordinates_array = object["point"].toArray();
+        Point point(coordinates_array.at(0)["x"].toDouble(),
+                    coordinates_array.at(0)["y"].toDouble());
         new_template.food.emplace_back(Food(size, point));
       }
     }
@@ -122,6 +138,3 @@ void Generator::GenerateMap() {
     }
   }
 }
-
-
-

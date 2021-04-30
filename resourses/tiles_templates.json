@@ -23,7 +23,7 @@
           ],
           "size": 60,
           "speed": 7.5,
-          "visibility_radius": 80
+          "visibility_radius": 50
         },
         {
           "object_type": "dog",
@@ -35,7 +35,7 @@
           ],
           "size": 60,
           "speed": 7.5,
-          "visibility_radius": 90
+          "visibility_radius": 50
         },
         {
           "object_type": "dog",
@@ -47,7 +47,7 @@
           ],
           "size": 60,
           "speed": 7.5,
-          "visibility_radius": 80
+          "visibility_radius": 50
         },
         {
           "object_type": "dog",
@@ -59,7 +59,7 @@
           ],
           "size": 60,
           "speed": 7.5,
-          "visibility_radius": 90
+          "visibility_radius": 50
         }
       ]
     },
@@ -73,8 +73,7 @@
               "y": 0
             }
           ],
-          "size": 100,
-          "speed": 0.001
+          "size": 50
         },
         {
           "object_type": "dog",
@@ -84,7 +83,7 @@
               "y": 90
             }
           ],
-          "size": 60,
+          "size": 40,
           "speed": 7.5,
           "visibility_radius": 70
         },
@@ -110,7 +109,7 @@
               "y": 250
             }
           ],
-          "size": 120
+          "size": 60
         },
         {
           "object_type": "food",
@@ -134,7 +133,7 @@
               "y": 280
             }
           ],
-          "size": 40,
+          "size": 20,
           "speed" : 10
         }
       ]
@@ -154,7 +153,7 @@
               "y": 0
             }
           ],
-          "size": 100
+          "size": 50
         },
         {
           "object_type": "static_object",
@@ -174,7 +173,7 @@
               "y": 0
             }
           ],
-          "size": 100
+          "size": 50
         },
         {
           "object_type": "static_object",
@@ -184,7 +183,7 @@
               "y": 0
             }
           ],
-          "size": 100
+          "size": 50
         },
         {
           "object_type": "static_object",
@@ -194,7 +193,7 @@
               "y": 0
             }
           ],
-          "size": 100
+          "size": 50
         },
         {
           "object_type": "static_object",
@@ -204,7 +203,7 @@
               "y": 250
             }
           ],
-          "size": 1000
+          "size": 500
         }
       ]
     },
@@ -218,7 +217,7 @@
               "y": 0
             }
           ],
-          "size": 100
+          "size": 50
         },
         {
           "object_type": "static_object",
@@ -228,7 +227,7 @@
               "y": 100
             }
           ],
-          "size": 1000
+          "size": 500
         },
         {
           "object_type": "static_object",
@@ -238,7 +237,7 @@
               "y": 0
             }
           ],
-          "size": 100
+          "size": 50
         },
         {
           "object_type": "static_object",
@@ -248,7 +247,7 @@
               "y": 0
             }
           ],
-          "size": 100
+          "size": 50
         },
         {
           "object_type": "static_object",
@@ -258,7 +257,7 @@
               "y": 0
             }
           ],
-          "size": 100
+          "size": 50
         },
         {
           "object_type": "static_object",
@@ -268,7 +267,7 @@
               "y": 0
             }
           ],
-          "size": 100
+          "size": 50
         }
       ]
     }
