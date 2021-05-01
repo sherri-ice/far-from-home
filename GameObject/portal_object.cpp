@@ -8,8 +8,9 @@ PortalObject::PortalObject(const Size& size,
                                                                   position) {
   skin_path_ = skin_path;
   progress_bar_ = ProgressBar(position, size);
-  progress_bar_.SetRange(0, 1000);
-  search_timer_.StartTimerWithRandom(1000, 1000);
+  progress_bar_.SetRange(0, 100);
+  search_timer_.StartTimerWithRandom(100, 100);
+  warning_ = Warning(position);
 }
 
 void PortalObject::Draw(QPainter* painter, Resizer* resizer) const {
@@ -24,20 +25,28 @@ void PortalObject::Draw(QPainter* painter, Resizer* resizer) const {
                        size.GetHeight());
   painter->restore();
   progress_bar_.Draw(painter, resizer);
+  warning_.Draw(painter, resizer);
 }
 
 void PortalObject::Tick(int time) {
-  if (is_searching_) {
-    progress_bar_.SetVisible();
+  if (state_ == PortalState::kDefault || state_ == PortalState::kCollected) {
+
+  }
+  if (state_ == PortalState::kSearching) {
     if (!search_timer_.IsTimeOut()) {
       progress_bar_.IncCurrentValue();
       search_timer_.Tick(1);
     } else {
+      state_ = PortalState::kPendingInfo;
       progress_bar_.SetInvisible();
-      SetDefaultState();
+      warning_.SetVisible();
       search_timer_.Stop();
     }
   }
+  // if (state_ == PortalState::kPendingInfo) {
+  //   // MakeIconWithInfo(has_portal_)
+  //   state_ = PortalState::kCollected;
+  // }
 }
 
 void PortalObject::SetPortal() {
@@ -49,9 +58,15 @@ void PortalObject::RemovePortal() {
 }
 
 void PortalObject::SetSearchState() {
-  is_searching_ = true;
+  state_ = PortalState::kSearching;
+  progress_bar_.SetVisible();
 }
 
-void PortalObject::SetDefaultState() {
-  is_searching_ = false;
+bool PortalObject::IsSearchComplete() {
+  return (state_ == PortalState::kPendingInfo);
 }
+
+bool PortalObject::HasPortal() {
+  return has_portal_;
+}
+

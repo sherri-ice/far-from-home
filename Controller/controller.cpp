@@ -1,4 +1,5 @@
 #include "controller.h"
+#include <iostream>
 
 Controller::Controller() {
   model_ = std::make_shared<Model>();
@@ -91,12 +92,19 @@ void Controller::TickObjects(int time) {
   for (auto& object : model_->GetObjects()) {
     object->Tick(time);
   }
+  for (auto& object : model_->GetObjects()) {
+    if (object->IsSearchComplete()) {
+
+    }
+  }
 }
 
 void Controller::ScanIfObjectWereClicked(const Point& point) {
   for (const auto& object : model_->GetObjects()) {
     if (object->GetDrawPosition().IsInEllipse(point, 100)) {
-      object->SetSearchState();
+      if (!object->IsSearchComplete()) {
+        object->SetSearchState();
+      }
     }
   }
 }

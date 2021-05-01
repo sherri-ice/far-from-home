@@ -30,7 +30,8 @@ class Model {
                                   const Point& point);
   std::shared_ptr<PortalObject> MakeNewPortal(const Size& size,
                                               const Point& position,
-                                              const QString& skin_path);
+                                              const QString& skin_path,
+                                              bool has_portal);
 
   std::list<std::shared_ptr<Food>> GetFood();
   std::list<std::shared_ptr<Dog>> GetDogs();

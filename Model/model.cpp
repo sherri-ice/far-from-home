@@ -26,7 +26,7 @@ Model::Model() {
 
   player_ = new Player(main_cat);
   // Temporary
-  MakeNewPortal(Size(60, 60), Point(0, 0), "");
+  MakeNewPortal(Size(60, 60), Point(0, 0), "", true);
   MakeNewCat(Size(60, 60), 0.001, Point(1000, 0));
   MakeNewCat(Size(10, 10), 0.001, Point(500, 500));
   player_->SetViewCircle(ViewCircle(player_->GetPosition(),
@@ -114,7 +114,11 @@ std::list<std::shared_ptr<PortalObject>>& Model::GetObjects() {
 
 std::shared_ptr<PortalObject> Model::MakeNewPortal(const Size& size,
                                                    const Point& position,
-                                                   const QString& skin_path) {
+                                                   const QString& skin_path,
+                                                   bool has_portal) {
   objects_.push_back(std::make_shared<PortalObject>(size, position, skin_path));
+  if (has_portal) {
+    objects_.back()->SetPortal();
+  }
   return objects_.back();
 }
