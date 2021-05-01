@@ -1,4 +1,5 @@
 #include "controller.h"
+#include <iostream>
 
 Controller::Controller() {
   model_ = std::make_shared<Model>();
@@ -21,6 +22,7 @@ void Controller::Tick(int time) {
   TickCats(delta_time);
   TickDogs(delta_time);
   TickFood(delta_time);
+  TickObjects(delta_time);
 
   CatsAndFoodIntersect();
 
@@ -99,6 +101,17 @@ void Controller::PlayerAndStaticObjectsIntersect(const std::shared_ptr<Cat>&
   }
 }
 
+void Controller::TickObjects(int time) {
+  for (auto& object : model_->GetObjects()) {
+    object->Tick(time);
+  }
+  for (auto& object : model_->GetObjects()) {
+    if (object->IsSearchComplete()) {
+
+    }
+  }
+}
+
 void Controller::DogAndStaticObjectsIntersect(const std::shared_ptr<Dog>&
     dog, int delta_time) {
   for (const auto& static_object : model_->GetStaticObjects()) {
@@ -108,6 +121,16 @@ void Controller::DogAndStaticObjectsIntersect(const std::shared_ptr<Dog>&
           (*(static_object->GetRigidBody()), dog->GetVelocity());
       dog->SetVelocity(new_velocity);
       dog->ChangeVelocityToVector(delta_time);
+    }
+  }
+}
+
+void Controller::ScanIfObjectWereClicked(const Point& point) {
+  for (const auto& object : model_->GetObjects()) {
+    if (object->GetDrawPosition().IsInEllipse(point, 100)) {
+      if (!object->IsSearchComplete()) {
+        object->SetSearchState();
+      }
     }
   }
 }

@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 #include <View/resizer.h>
+#include <GameObject/portal_object.h>
 
 #include "GameObject/cat.h"
 #include "GameObject/dog.h"
@@ -27,11 +28,16 @@ class Model {
   std::shared_ptr<Cat> MakeNewCat(const Size& size,
                                   double speed,
                                   const Point& point);
+  std::shared_ptr<PortalObject> MakeNewPortal(const Size& size,
+                                              const Point& position,
+                                              const QString& skin_path,
+                                              bool has_portal);
 
   std::list<std::shared_ptr<Food>> GetFood();
   std::list<std::shared_ptr<Dog>> GetDogs();
   std::list<std::shared_ptr<Cat>> GetCats();
   const std::list<std::shared_ptr<GameObject>>& GetStaticObjects() const;
+  std::list<std::shared_ptr<PortalObject>>& GetObjects();
 
   void ClearObjects();
 
@@ -44,6 +50,7 @@ class Model {
   std::list<std::shared_ptr<Food>> food_;
   std::list<std::shared_ptr<Dog>> dogs_;
   std::list<std::shared_ptr<GameObject>> static_objects_;
+  std::list<std::shared_ptr<PortalObject>> objects_;
 };
 
 #endif  // MODEL_MODEL_H_

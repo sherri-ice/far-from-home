@@ -5,7 +5,7 @@
 
 Model::Model() {
   std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
-                                                            10, Point());
+                                                        10, Point());
   cats_.emplace_back(main_cat);
 
   std::shared_ptr<Dog> dog = std::make_shared<Dog>(Size(40, 40), 7.5,
@@ -39,12 +39,13 @@ Model::Model() {
   food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(900, 333)));
   food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(300, 100)));
 
-  for (auto &food : food_) {
+  for (auto& food : food_) {
     food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
   }
 
   player_ = new Player(main_cat);
   // Temporary
+  MakeNewPortal(Size(60, 60), Point(0, 0), "", true);
   MakeNewCat(Size(60, 60), 0.001, Point(1000, 0));
   MakeNewCat(Size(10, 10), 0.001, Point(500, 500));
   player_->SetViewCircle(ViewCircle(player_->GetPosition(),
@@ -69,8 +70,12 @@ std::vector<std::shared_ptr<GameObject>> Model::GetDrawableGameObjects() const {
   for (const auto& static_object : static_objects_) {
     result.push_back(static_object);
   }
+  for (const auto& object : objects_) {
+    result.push_back(object);
+  }
   std::sort(result.begin(), result.end(), [](const
-  std::shared_ptr<GameObject>& lhs, const std::shared_ptr<GameObject>& rhs) {
+                                             std::shared_ptr<GameObject>& lhs,
+                                             const std::shared_ptr<GameObject>& rhs) {
     return lhs->GetDrawPosition().GetY() < rhs->GetDrawPosition().GetY();
   });
   return result;
@@ -108,8 +113,8 @@ std::list<std::shared_ptr<Cat>> Model::GetCats() {
 void Model::ClearObjects() {
   for (auto it = food_.rbegin(); it != food_.rend(); ++it) {
     if ((*it)->IsDead()) {
-          food_.remove(*it);
-        }
+      food_.remove(*it);
+    }
   }
 
   for (auto it = cats_.rbegin(); it != cats_.rend(); ++it) {
@@ -127,4 +132,18 @@ void Model::ClearObjects() {
 
 const std::list<std::shared_ptr<GameObject>>& Model::GetStaticObjects() const {
   return static_objects_;
+}
+std::list<std::shared_ptr<PortalObject>>& Model::GetObjects() {
+  return objects_;
+}
+
+std::shared_ptr<PortalObject> Model::MakeNewPortal(const Size& size,
+                                                   const Point& position,
+                                                   const QString& skin_path,
+                                                   bool has_portal) {
+  objects_.push_back(std::make_shared<PortalObject>(size, position, skin_path));
+  if (has_portal) {
+    objects_.back()->SetPortal();
+  }
+  return objects_.back();
 }

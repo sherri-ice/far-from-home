@@ -19,11 +19,14 @@ class Controller : public AbstractController {
 
   Player* GetPlayer() override;
 
+  void ScanIfObjectWereClicked(const Point& point) override;
+
  private:
   void TickPlayer();
   void TickCats(int delta_time);
   void TickDogs(int delta_time);
-  void TickFood(int delta_time);
+  void TickFood(int time);
+  void TickObjects(int time);
 
   void CatsAndFoodIntersect();
   void PlayerAndStaticObjectsIntersect(const std::shared_ptr<Cat>& cat);

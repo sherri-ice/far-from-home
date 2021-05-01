@@ -8,6 +8,7 @@
 #include <vector>
 #include <algorithm>
 #include <GameObject/portal_object.h>
+#include <iostream>
 
 View::View(AbstractController* controller,
            std::shared_ptr<Model> model)
@@ -27,7 +28,6 @@ void View::paintEvent(QPaintEvent*) {
 
   DrawGameObjects(&painter);
   PortalObject portal(Size(80, 80), Point(0, 0), "");
-  portal.Draw(&painter, &resizer_);
 }
 
 void View::timerEvent(QTimerEvent* event) {
@@ -99,4 +99,10 @@ double View::GetViewSize() {
                     constants::kResizerScale);
   }
   return model_->GetPlayer()->GetViewCircle().GetWantedRadius();
+}
+
+void View::mousePressEvent(QMouseEvent* event) {
+  Point point = Point(event->x(), event->y());
+  auto needed = resizer_.WindowToGameCoordinate(point);
+  controller_->ScanIfObjectWereClicked(needed);
 }
