@@ -13,6 +13,25 @@ Model::Model() {
                                                    100, 1.75);
   dogs_.emplace_back(dog);
 
+  static_objects_.emplace_back(std::make_shared<GameObject>(Size(60, 60),
+                                                            Point(150, 150)));
+  static_objects_.emplace_back(std::make_shared<GameObject>(Size(60, 60),
+                                                            Point(700, 90)));
+  static_objects_.emplace_back(std::make_shared<GameObject>(Size(60, 60),
+                                                            Point(799, 40)));
+  static_objects_.emplace_back(std::make_shared<GameObject>(Size(60, 60),
+                                                            Point(250, 150)));
+  static_objects_.emplace_back(std::make_shared<GameObject>(Size(60, 60),
+                                                            Point(250, 310)));
+  static_objects_.emplace_back(std::make_shared<GameObject>(Size(60, 60),
+                                                            Point(305, 250)));
+  static_objects_.emplace_back(std::make_shared<GameObject>(Size(60, 60),
+                                                            Point(700, 60)));
+  static_objects_.emplace_back(std::make_shared<GameObject>(Size(60, 60),
+                                                            Point(700, 120)));
+  static_objects_.emplace_back(std::make_shared<GameObject>(Size(60, 60),
+                                                            Point(700, 150)));
+
   food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(789, 65)));
   food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(567, 455)));
   food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(210, 270)));
@@ -48,12 +67,16 @@ std::vector<std::shared_ptr<GameObject>> Model::GetDrawableGameObjects() const {
   for (const auto& food : food_) {
     result.push_back(food);
   }
+  for (const auto& static_object : static_objects_) {
+    result.push_back(static_object);
+  }
   for (const auto& object : objects_) {
     result.push_back(object);
   }
   std::sort(result.begin(), result.end(), [](const
                                              std::shared_ptr<GameObject>& lhs,
-                                             const std::shared_ptr<GameObject>& rhs) {
+                                             const
+                                             std::shared_ptr<GameObject>& rhs) {
     return lhs->GetDrawPosition().GetY() < rhs->GetDrawPosition().GetY();
   });
   return result;
@@ -108,6 +131,9 @@ void Model::ClearObjects() {
   }
 }
 
+const std::list<std::shared_ptr<GameObject>>& Model::GetStaticObjects() const {
+  return static_objects_;
+}
 std::list<std::shared_ptr<PortalObject>>& Model::GetObjects() {
   return objects_;
 }

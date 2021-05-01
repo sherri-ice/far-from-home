@@ -14,8 +14,8 @@ class GameObject {
   virtual ~GameObject() = default;
 
   virtual void SetPosition(const Point& position);
-  virtual void Draw(QPainter* painter, Resizer* resizer) const = 0;
-  virtual void Tick(int time) = 0;
+  virtual void Draw(QPainter* painter, Resizer* resizer) const;
+  virtual void Tick(int time);
 
   virtual void Resize(const Size& to_size);
 
@@ -23,7 +23,7 @@ class GameObject {
   virtual void SetSize(Size size);
   const Point& GetDrawPosition() const;
   Point GetRigidPosition() const;
-  RigidBody GetRigidBody() const;
+  RigidBody* GetRigidBody();
 
   void SetScaleCoefficientsInRigidBody(double coefficient_x, double
   coefficient_y);

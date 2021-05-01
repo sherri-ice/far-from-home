@@ -80,4 +80,3 @@ void Size::SetWidth(double width) {
 void Size::SetHeight(double height) {
   height_ = height;
 }
-

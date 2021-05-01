@@ -1,12 +1,12 @@
-#ifndef WARNING_H
-#define WARNING_H
+#ifndef VIEW_WARNING_H_
+#define VIEW_WARNING_H_
 #include <QRect>
 #include <QPainter>
 #include "resizer.h"
 
 namespace warning_constants {
 const int offset = 40;
-}  // namespace constants
+}  // namespace warning_constants
 
 class Warning {
  public:
@@ -22,4 +22,4 @@ class Warning {
   bool is_visible_ = false;
 };
 
-#endif //WARNING_H
+#endif  // VIEW_WARNING_H_
