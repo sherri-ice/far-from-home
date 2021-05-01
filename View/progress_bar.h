@@ -12,7 +12,9 @@
 #include "resizer.h"
 
 namespace constants {
-const int offset = 20;
+const int kOffset = 20;
+const int kWidth = 150;
+const int kHeight = 10;
 }  // namespace constants
 
 class ProgressBar : public QRect {

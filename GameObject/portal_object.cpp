@@ -8,8 +8,8 @@ PortalObject::PortalObject(const Size& size,
                                                                   position) {
   skin_path_ = skin_path;
   progress_bar_ = ProgressBar(position, size);
-  progress_bar_.SetRange(0, 100);
-  search_timer_.StartTimerWithRandom(100, 100);
+  progress_bar_.SetRange(0, 1000);
+  search_timer_.StartTimerWithRandom(1000, 1000);
   warning_ = Warning(position);
 }
 
@@ -65,7 +65,7 @@ bool PortalObject::IsSearchComplete() {
   return (state_ == PortalState::kPendingInfo);
 }
 
-bool PortalObject::HasPortal() {
+bool PortalObject::HasPortal() const {
   return has_portal_;
 }
 

@@ -102,10 +102,10 @@ void Controller::PlayerAndStaticObjectsIntersect(const std::shared_ptr<Cat>&
 }
 
 void Controller::TickObjects(int time) {
-  for (auto& object : model_->GetObjects()) {
+  for (auto& object : model_->GetStaticObjects()) {
     object->Tick(time);
   }
-  for (auto& object : model_->GetObjects()) {
+  for (auto& object : model_->GetStaticObjects()) {
     // if (object->IsSearchComplete()) {
     // }
   }
@@ -125,7 +125,7 @@ void Controller::DogAndStaticObjectsIntersect(const std::shared_ptr<Dog>&
 }
 
 void Controller::ScanIfObjectWereClicked(const Point& point) {
-  for (const auto& object : model_->GetObjects()) {
+  for (const auto& object : model_->GetStaticObjects()) {
     if (object->GetDrawPosition().IsInEllipse(point, 100)) {
       if (!object->IsSearchComplete()) {
         object->SetSearchState();

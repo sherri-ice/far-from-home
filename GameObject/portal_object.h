@@ -26,7 +26,7 @@ class PortalObject : public GameObject {
   void SetSearchState();
 
   bool IsSearchComplete();
-  bool HasPortal();
+  bool HasPortal() const;
 
   void Draw(QPainter* painter, Resizer* resizer) const override;
   void Tick(int time) override;

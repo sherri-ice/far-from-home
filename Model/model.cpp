@@ -13,25 +13,6 @@ Model::Model() {
                                                    100, 1.75);
   dogs_.emplace_back(dog);
 
-  static_objects_.emplace_back(std::make_shared<GameObject>(Size(60, 60),
-                                                            Point(150, 150)));
-  static_objects_.emplace_back(std::make_shared<GameObject>(Size(60, 60),
-                                                            Point(700, 90)));
-  static_objects_.emplace_back(std::make_shared<GameObject>(Size(60, 60),
-                                                            Point(799, 40)));
-  static_objects_.emplace_back(std::make_shared<GameObject>(Size(60, 60),
-                                                            Point(250, 150)));
-  static_objects_.emplace_back(std::make_shared<GameObject>(Size(60, 60),
-                                                            Point(250, 310)));
-  static_objects_.emplace_back(std::make_shared<GameObject>(Size(60, 60),
-                                                            Point(305, 250)));
-  static_objects_.emplace_back(std::make_shared<GameObject>(Size(60, 60),
-                                                            Point(700, 60)));
-  static_objects_.emplace_back(std::make_shared<GameObject>(Size(60, 60),
-                                                            Point(700, 120)));
-  static_objects_.emplace_back(std::make_shared<GameObject>(Size(60, 60),
-                                                            Point(700, 150)));
-
   food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(789, 65)));
   food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(567, 455)));
   food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(210, 270)));
@@ -45,7 +26,7 @@ Model::Model() {
 
   player_ = new Player(main_cat);
   // Temporary
-  MakeNewPortal(Size(60, 60), Point(0, 0), "", true);
+  MakeNewPortal(Size(60, 60), Point(0, 100), "", true);
   MakeNewCat(Size(60, 60), 0.001, Point(1000, 0));
   MakeNewCat(Size(10, 10), 0.001, Point(500, 500));
   player_->SetViewCircle(ViewCircle(player_->GetPosition(),
@@ -69,9 +50,6 @@ std::vector<std::shared_ptr<GameObject>> Model::GetDrawableGameObjects() const {
   }
   for (const auto& static_object : static_objects_) {
     result.push_back(static_object);
-  }
-  for (const auto& object : objects_) {
-    result.push_back(object);
   }
   std::sort(result.begin(), result.end(), [](const
                                              std::shared_ptr<GameObject>& lhs,
@@ -131,20 +109,19 @@ void Model::ClearObjects() {
   }
 }
 
-const std::list<std::shared_ptr<GameObject>>& Model::GetStaticObjects() const {
+std::list<std::shared_ptr<PortalObject>>& Model::GetStaticObjects() {
   return static_objects_;
-}
-std::list<std::shared_ptr<PortalObject>>& Model::GetObjects() {
-  return objects_;
 }
 
 std::shared_ptr<PortalObject> Model::MakeNewPortal(const Size& size,
                                                    const Point& position,
                                                    const QString& skin_path,
                                                    bool has_portal) {
-  objects_.push_back(std::make_shared<PortalObject>(size, position, skin_path));
+  static_objects_.push_back(std::make_shared<PortalObject>(size,
+                                                           position,
+                                                           skin_path));
   if (has_portal) {
-    objects_.back()->SetPortal();
+    static_objects_.back()->SetPortal();
   }
-  return objects_.back();
+  return static_objects_.back();
 }

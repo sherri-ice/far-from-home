@@ -4,8 +4,14 @@
 
 ProgressBar::ProgressBar(const Point& center, const Size& size) {
   center_ = center;
-  this->setWidth(150);
-  this->setHeight(10);
+  this->setWidth(constants::kWidth);
+  this->setHeight(constants::kHeight);
+  QPoint top_left = QPoint(center.GetX() - this->width() / 2,
+                              center.GetY() - this->height() / 2);
+  QPoint bottom_right = QPoint(center.GetX() + this->width() / 2,
+                               center.GetY() + this->height() / 2);
+  this->setTopLeft(top_left);
+  this->setBottomRight(bottom_right);
 }
 
 void ProgressBar::SetRange(int min_value, int max_value) {
@@ -28,16 +34,16 @@ void ProgressBar::Draw(QPainter* painter, Resizer* resizer) const {
     auto rect = *this;
     auto game_size = Size(rect.width(), rect.height());
     auto window_size = resizer->GameToWindowSize(game_size);
-    auto game_coordinate = Point(rect.x(), rect.y() - constants::offset);
+    auto game_coordinate = Point(rect.x(), rect.y() - constants::kOffset);
     auto window_coordinates = resizer->GameToWindowCoordinate(game_coordinate);
-    rect.setX(window_coordinates.GetX() - window_size.GetWidth() / 2);
+    rect.setX(window_coordinates.GetX());
     rect.setY(window_coordinates.GetY());
     rect.setWidth(window_size.GetWidth());
     rect.setHeight(window_size.GetHeight());
 
     double
         width = static_cast<double>(rect.width()) / (max_value_ - min_value_);
-    QRect inner_rect(window_coordinates.GetX() - window_size.GetWidth() / 2,
+    QRect inner_rect(window_coordinates.GetX(),
                      window_coordinates.GetY(),
                      width * cur_value_,
                      rect.height());

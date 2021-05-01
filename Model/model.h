@@ -36,9 +36,7 @@ class Model {
   std::list<std::shared_ptr<Food>> GetFood();
   std::list<std::shared_ptr<Dog>> GetDogs();
   std::list<std::shared_ptr<Cat>> GetCats();
-  const std::list<std::shared_ptr<GameObject>>& GetStaticObjects() const;
-  std::list<std::shared_ptr<PortalObject>>& GetObjects();
-
+  std::list<std::shared_ptr<PortalObject>>& GetStaticObjects();
   void ClearObjects();
 
  private:
@@ -49,8 +47,7 @@ class Model {
   Player* player_;
   std::list<std::shared_ptr<Food>> food_;
   std::list<std::shared_ptr<Dog>> dogs_;
-  std::list<std::shared_ptr<GameObject>> static_objects_;
-  std::list<std::shared_ptr<PortalObject>> objects_;
+  std::list<std::shared_ptr<PortalObject>> static_objects_;
 };
 
 #endif  // MODEL_MODEL_H_
