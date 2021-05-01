@@ -51,7 +51,7 @@ left_corner) {
     model_->MakeNewDog(dog.GetSize(),
                        dog.GetSpeed(),
                        dog.GetDrawPosition() + left_corner,
-                       dog.GetVisibilityRadius());
+                       dog.GetVisibilityRadius(), dog.GetWalkingSpeed());
   }
   for (const auto& static_object : new_tile.static_objects) {
     model_->MakeNewStaticObject(static_object.GetSize(),
@@ -96,10 +96,11 @@ void Generator::ParseTiles() {
         Point point(coordinates_array.at(0)["x"].toDouble(),
                     coordinates_array.at(0)["y"].toDouble());
         double visibility_radius = object["visibility_radius"].toDouble();
+        double walking_speed = object["walking_speed"].toDouble();
         new_template.dogs.emplace_back(Dog(size,
                                            object["speed"].toDouble(),
                                            point,
-                                           visibility_radius));
+                                           visibility_radius, walking_speed));
       }
       if (object["object_type"].toString() == "static_object") {
         Size size(object["size"].toDouble(), object["size"].toDouble());

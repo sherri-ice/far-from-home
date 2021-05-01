@@ -36,7 +36,7 @@ std::vector<std::shared_ptr<GameObject>> Model::GetDrawableGameObjects() const {
   std::sort(result.begin(), result.end(), [](const
                                              std::shared_ptr<GameObject>& lhs,
                                              const std::shared_ptr<GameObject>&
-                                                 rhs) {
+                                             rhs) {
     return lhs->GetDrawPosition().GetY() < rhs->GetDrawPosition().GetY();
   });
   return result;
@@ -92,8 +92,13 @@ void Model::ClearObjects() {
 std::shared_ptr<Dog> Model::MakeNewDog(const Size& size,
                                        double speed,
                                        const Point& point,
-                                       double visibility_radius) {
-  dogs_.push_back(std::make_shared<Dog>(size, speed, point, visibility_radius));
+                                       double visibility_radius,
+                                       double waking_speed) {
+  dogs_.push_back(std::make_shared<Dog>(size,
+                                        speed,
+                                        point,
+                                        visibility_radius,
+                                        waking_speed));
   return dogs_.back();
 }
 

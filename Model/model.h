@@ -29,7 +29,9 @@ class Model {
                                   const Point& point);
   std::shared_ptr<Dog> MakeNewDog(const Size& size,
                                   double speed,
-                                  const Point& point, double visibility_radius);
+                                  const Point& point,
+                                  double visibility_radius,
+                                  double waking_speed);
   std::shared_ptr<GameObject> MakeNewStaticObject(const Size& size,
                                                   const Point& point);
   std::shared_ptr<Food> MakeNewFood(const Size& size, const Point& point);

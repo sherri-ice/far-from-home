@@ -40,6 +40,8 @@ class Dog : public MovingObject {
   void SetReachableCat(const std::vector<std::shared_ptr<Cat>>& cats);
 
   double GetVisibilityRadius() const;
+  double GetWalkingSpeed() const;
+
  private:
   Point home_position_;
   double visibility_radius_;
