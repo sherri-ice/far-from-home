@@ -29,9 +29,8 @@ void PortalObject::Draw(QPainter* painter, Resizer* resizer) const {
 }
 
 void PortalObject::Tick(int time) {
-  if (state_ == PortalState::kDefault || state_ == PortalState::kCollected) {
-
-  }
+  // if (state_ == PortalState::kDefault || state_ == PortalState::kCollected) {
+  // }
   if (state_ == PortalState::kSearching) {
     if (!search_timer_.IsTimeOut()) {
       progress_bar_.IncCurrentValue();

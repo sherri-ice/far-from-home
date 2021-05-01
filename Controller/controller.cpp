@@ -106,9 +106,8 @@ void Controller::TickObjects(int time) {
     object->Tick(time);
   }
   for (auto& object : model_->GetObjects()) {
-    if (object->IsSearchComplete()) {
-
-    }
+    // if (object->IsSearchComplete()) {
+    // }
   }
 }
 
