@@ -55,10 +55,10 @@ bool GameObject::IsDead() const {
 }
 
 void GameObject::Resize(const Size& to_size) {
-  // TODO(sherri.ice)
   // Should be changed after declaring animations
 }
 
 Point GameObject::GetRigidPosition() const {
   return rigid_body_.GetCenterOfRigidBody();
 }
+
