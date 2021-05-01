@@ -36,6 +36,7 @@ class View : public QMainWindow {
   void keyPressEvent(QKeyEvent* event) override;
   void keyReleaseEvent(QKeyEvent* event) override;
   void timerEvent(QTimerEvent* event) override;
+  void mousePressEvent(QMouseEvent* event) override;
 
   void DrawMap(QPainter* painter);
   void DrawGameObjects(QPainter* painter);

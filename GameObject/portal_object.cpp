@@ -1,13 +1,15 @@
 #include "portal_object.h"
 
+#include <iostream>
+
 PortalObject::PortalObject(const Size& size,
                            const Point& position,
                            const QString& skin_path) : GameObject(size,
                                                                   position) {
   skin_path_ = skin_path;
   progress_bar_ = ProgressBar(position, size);
-  progress_bar_.SetRange(0, 100);
-  search_timer_ = Timer(1);
+  progress_bar_.SetRange(0, 1000);
+  search_timer_.StartTimerWithRandom(1000, 1000);
 }
 
 void PortalObject::Draw(QPainter* painter, Resizer* resizer) const {
@@ -24,14 +26,18 @@ void PortalObject::Draw(QPainter* painter, Resizer* resizer) const {
   progress_bar_.Draw(painter, resizer);
 }
 
-bool PortalObject::Search() {
-  search_timer_.StartTimerWithRandom(100, 100);
-  progress_bar_.SetVisible();
-  while (!search_timer_.IsTimeOut()) {
-    progress_bar_.IncCurrentValue();
+void PortalObject::Tick(int time) {
+  if (is_searching_) {
+    progress_bar_.SetVisible();
+    if (!search_timer_.IsTimeOut()) {
+      progress_bar_.IncCurrentValue();
+      search_timer_.Tick(1);
+    } else {
+      progress_bar_.SetInvisible();
+      SetDefaultState();
+      search_timer_.Stop();
+    }
   }
-  progress_bar_.SetInvisible();
-  return has_portal_;
 }
 
 void PortalObject::SetPortal() {
@@ -42,5 +48,10 @@ void PortalObject::RemovePortal() {
   has_portal_ = false;
 }
 
-void PortalObject::Tick(int) {
+void PortalObject::SetSearchState() {
+  is_searching_ = true;
+}
+
+void PortalObject::SetDefaultState() {
+  is_searching_ = false;
 }

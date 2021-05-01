@@ -22,6 +22,7 @@ void Controller::Tick(int time) {
   TickDogs(delta_time);
   CatsAndFoodIntersect();
   TickFood(delta_time);
+  TickObjects(delta_time);
 
   model_->ClearObjects();
 }
@@ -82,6 +83,20 @@ void Controller::CatsAndFoodIntersect() {
       if (player_cat->GetRigidBody().IsCollide(food->GetRigidBody())) {
         food->SetIsDead();
       }
+    }
+  }
+}
+
+void Controller::TickObjects(int time) {
+  for (auto& object : model_->GetObjects()) {
+    object->Tick(time);
+  }
+}
+
+void Controller::ScanIfObjectWereClicked(const Point& point) {
+  for (const auto& object : model_->GetObjects()) {
+    if (object->GetDrawPosition().IsInEllipse(point, 100)) {
+      object->SetSearchState();
     }
   }
 }

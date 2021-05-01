@@ -28,6 +28,7 @@ class GameObject {
   void SetScaleCoefficientsInRigidBody(double coefficient_x, double
   coefficient_y);
 
+
   void SetIsDead();
   bool IsDead() const;
 
