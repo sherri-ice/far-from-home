@@ -152,3 +152,7 @@ bool Dog::CheckIfCanSeeCat(const Cat* cat) const {
 double Dog::GetVisibilityRadius() const {
   return visibility_radius_;
 }
+
+double Dog::GetWalkingSpeed() const {
+  return walking_speed_;
+}

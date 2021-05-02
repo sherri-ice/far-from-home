@@ -23,7 +23,8 @@
           ],
           "size": 60,
           "speed": 7.5,
-          "visibility_radius": 50
+          "visibility_radius": 50,
+          "walking_speed" : 1.75
         },
         {
           "object_type": "dog",
@@ -35,7 +36,8 @@
           ],
           "size": 60,
           "speed": 7.5,
-          "visibility_radius": 50
+          "visibility_radius": 50,
+          "walking_speed" : 1.75
         },
         {
           "object_type": "dog",
@@ -47,7 +49,8 @@
           ],
           "size": 60,
           "speed": 7.5,
-          "visibility_radius": 50
+          "visibility_radius": 50,
+          "walking_speed" : 1.75
         },
         {
           "object_type": "dog",
@@ -59,7 +62,8 @@
           ],
           "size": 60,
           "speed": 7.5,
-          "visibility_radius": 50
+          "visibility_radius": 50,
+          "walking_speed" : 1.75
         }
       ]
     },
@@ -85,7 +89,8 @@
           ],
           "size": 40,
           "speed": 7.5,
-          "visibility_radius": 70
+          "visibility_radius": 70,
+          "walking_speed" : 1.75
         },
         {
           "object_type": "food",

@@ -7,6 +7,9 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 
+# You can set CMake prefix path here or pass it to CMake executable.
+set(CMAKE_PREFIX_PATH "~/Qt/5.15.2/gcc_64/lib/cmake")
+#set(CMAKE_PREFIX_PATH "C:/Qt/5.15.2/mingw81_64/lib/cmake")
 if (MINGW)
     set(THREADS_OPTION "-mthreads")
 else (MINGW)

@@ -7,6 +7,7 @@ Model::Model() {
   std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
                                                         10,
                                                         Point(0, 0));
+
   main_cat->SetAnimations(animations_["cat"]);
   cats_.emplace_back(main_cat);
   for (auto& food : food_) {
@@ -43,7 +44,7 @@ std::vector<std::shared_ptr<GameObject>> Model::GetDrawableGameObjects() const {
   std::sort(result.begin(), result.end(), [](const
                                              std::shared_ptr<GameObject>& lhs,
                                              const std::shared_ptr<GameObject>&
-                                                 rhs) {
+                                             rhs) {
     return lhs->GetDrawPosition().GetY() < rhs->GetDrawPosition().GetY();
   });
   return result;
