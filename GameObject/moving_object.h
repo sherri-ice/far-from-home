@@ -11,7 +11,7 @@ class MovingObject : public GameObject {
   ~MovingObject() override = default;
   void Move(int delta_time);
   virtual void SetSpeed(double speed);
-
+  double GetSpeed() const;
  protected:
   double speed_;
   Size velocity_;

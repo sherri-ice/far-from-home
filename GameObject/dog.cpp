@@ -158,3 +158,11 @@ bool Dog::CheckIfCanSeeCat(const Cat* cat) const {
   return cat->GetRigidPosition().IsInEllipse(position_,
                                              visibility_radius_);
 }
+
+double Dog::GetVisibilityRadius() const {
+  return visibility_radius_;
+}
+
+double Dog::GetWalkingSpeed() const {
+  return walking_speed_;
+}

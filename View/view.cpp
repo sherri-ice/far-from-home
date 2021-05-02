@@ -12,7 +12,9 @@ View::View(AbstractController* controller,
     : controller_(controller),
       model_(std::move(model)) {
   setWindowTitle(constants::kApplicationName);
+  resize(constants::kGameWidth, constants::kGameHeight);
   resizer_.ChangeSystem(width(), height());
+  controller->StartGame();
   show();
 
   time_between_ticks_.start();
@@ -24,7 +26,6 @@ void View::paintEvent(QPaintEvent*) {
   QPainter painter(this);
 
   DrawGameObjects(&painter);
-  // DrawMap(&painter);
 }
 
 void View::timerEvent(QTimerEvent* event) {
@@ -64,11 +65,6 @@ void View::keyReleaseEvent(QKeyEvent* event) {
   pressed_keys_[event->key()] = false;
 }
 
-void View::DrawMap(QPainter* painter) {
-  painter->setBrush(Qt::red);
-  painter->setBackground(Qt::red);
-}
-
 void View::DrawGameObjects(QPainter* painter) {
   controller_->GetPlayer()->GetViewCircle().Draw(painter, &resizer_);
   std::vector<std::shared_ptr<GameObject>>
@@ -91,14 +87,14 @@ void View::UpdateResizer(double radius, const Point& position) {
 }
 
 double View::GetViewSize() {
+  auto radius = model_->GetPlayer()->GetViewCircle().GetWantedRadius();
   if (pressed_keys_[Qt::Key_E]) {
-    return model_->GetPlayer()->GetViewCircle().GetWantedRadius()
-        + constants::kResizerScale;
+    radius += constants::kResizerScale;
   }
   if (pressed_keys_[Qt::Key_Q]) {
-    return std::max(model_->GetPlayer()->GetViewCircle().GetWantedRadius()
-                        - constants::kResizerScale,
-                    constants::kResizerScale);
+    radius -= constants::kResizerScale;
   }
-  return model_->GetPlayer()->GetViewCircle().GetWantedRadius();
+  radius = std::min(std::max(radius, constants::kViewCircleMin),
+                    constants::kViewCircleMax);
+  return radius;
 }
