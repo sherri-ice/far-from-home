@@ -1,5 +1,7 @@
 #include "game_object.h"
 
+#include <vector>
+
 GameObject::GameObject(const Size& size, const Point& position)
     : size_(size), position_(position) {
   rigid_body_ = RigidBody(&size_, &position_);
@@ -26,7 +28,7 @@ RigidBody GameObject::GetRigidBody() const {
 }
 
 void GameObject::SetScaleCoefficientsInRigidBody(double coefficient_x, double
-  coefficient_y) {
+coefficient_y) {
   rigid_body_.SetScaleCoefficients(coefficient_x, coefficient_y);
 }
 
@@ -39,7 +41,7 @@ bool GameObject::IsDead() const {
 }
 
 void GameObject::Resize(const Size& to_size) {
-    size_ = to_size;
+  size_ = to_size;
 //    object_animation_->Rescale(to_size);
 }
 
@@ -48,5 +50,5 @@ Point GameObject::GetRigidPosition() const {
 }
 
 void GameObject::SetAnimations(std::vector<std::vector<QPixmap>> animation) {
-    object_animation_ = new Animation(animation);
+  object_animation_ = new Animation(animation);
 }

@@ -63,7 +63,7 @@ void Controller::TickDogs(int delta_time) {
     dog->SetReachableCat(player->GetCats());
     dog->Tick(delta_time);
     dog->Move(delta_time);
-    for (auto &cat : player->GetCats()) {
+    for (auto& cat : player->GetCats()) {
       if (dog->GetRigidBody().IsCollide(cat->GetRigidBody())) {
         player->DismissCats();
         break;

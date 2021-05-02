@@ -1,7 +1,6 @@
 #ifndef GAMEOBJECT_DOG_H_
 #define GAMEOBJECT_DOG_H_
 
-#include "../GameObject/moving_object.h"
 #include "cat.h"
 #include <memory>
 #include <random>
@@ -29,17 +28,17 @@ enum class DogState {
 };
 
 class Dog : public MovingObject {
-public:
-    Dog(const Size& size, double speed, const Point& position, double
-    visibility_radius, double walking_speed);
-    ~Dog() override = default;
+ public:
+  Dog(const Size& size, double speed, const Point& position, double
+  visibility_radius, double walking_speed);
+  ~Dog() override = default;
 
-    void Draw(QPainter* painter, Resizer* resizer) const override;
-    void Tick(int time) override;
+  void Draw(QPainter* painter, Resizer* resizer) const override;
+  void Tick(int time) override;
 
-    void SetIfItVisibleToPlayer(bool is_visible);
-    bool CheckIfCanSeeCat(const Cat* cat) const;
-    void SetReachableCat(const std::vector<std::shared_ptr<Cat>>& cats);
+  void SetIfItVisibleToPlayer(bool is_visible);
+  bool CheckIfCanSeeCat(const Cat* cat) const;
+  void SetReachableCat(const std::vector<std::shared_ptr<Cat>>& cats);
  private:
   Point home_position_;
   double visibility_radius_;

@@ -9,53 +9,55 @@ Dog::Dog(const Size& size,
          double visibility_radius,
          double walking_speed) : MovingObject(size, speed, position),
                                  home_position_(position), visibility_radius_
-                                         (visibility_radius), walking_speed_
-                                         (walking_speed), timers_(static_cast<int>
-                                                                  (DogState::SIZE)) {
-    destination_ = home_position_;
-    timers_.StartTimerWithRandom(constants::kTimeToRestMin,
-                                 constants::kTimeToRestMax);
+                                     (visibility_radius),
+                                 walking_speed_
+                                     (walking_speed),
+                                 timers_(static_cast<int>
+                                         (DogState::SIZE)) {
+  destination_ = home_position_;
+  timers_.StartTimerWithRandom(constants::kTimeToRestMin,
+                               constants::kTimeToRestMax);
 }
 
 void Dog::Draw(QPainter* painter, Resizer* resizer) const {
-    rigid_body_.Draw(painter, resizer);
-    painter->save();
-    auto position = resizer->GameToWindowCoordinate(position_);
-    auto size = resizer->GameToWindowSize(size_);
-    painter->translate(position.GetX(), position.GetY());
-    int object_width = static_cast<int>(size.GetWidth());
-    int object_height = static_cast<int>(size.GetHeight());
-    if (is_visible_to_player_) {
-        Size radius = resizer->GameToWindowSize(Size(visibility_radius_,
-                                                     visibility_radius_));
-        painter->drawEllipse(static_cast<int>(-radius.GetWidth()),
-                             static_cast<int>(-radius.GetHeight() *
-                                              constants::kSemiMinorCoefficient),
-                             2 * static_cast<int>(radius.GetWidth()),
-                             2 * static_cast<int>(radius.GetHeight() *
-                                                  constants::kSemiMinorCoefficient));
-    }
-    painter->drawPixmap(-object_width / 2, -object_height / 2,
-                         object_width,
-                         object_height, object_animation_->GetCurrentFrame());
-    painter->restore();
+  rigid_body_.Draw(painter, resizer);
+  painter->save();
+  auto position = resizer->GameToWindowCoordinate(position_);
+  auto size = resizer->GameToWindowSize(size_);
+  painter->translate(position.GetX(), position.GetY());
+  int object_width = static_cast<int>(size.GetWidth());
+  int object_height = static_cast<int>(size.GetHeight());
+  if (is_visible_to_player_) {
+    Size radius = resizer->GameToWindowSize(Size(visibility_radius_,
+                                                 visibility_radius_));
+    painter->drawEllipse(static_cast<int>(-radius.GetWidth()),
+                         static_cast<int>(-radius.GetHeight() *
+                             constants::kSemiMinorCoefficient),
+                         2 * static_cast<int>(radius.GetWidth()),
+                         2 * static_cast<int>(radius.GetHeight() *
+                             constants::kSemiMinorCoefficient));
+  }
+  painter->drawPixmap(-object_width / 2, -object_height / 2,
+                      object_width,
+                      object_height, object_animation_->GetCurrentFrame());
+  painter->restore();
 }
 
 void Dog::Tick(int delta_time) {
-    dog_state_ == DogState::kIsResting ? is_moving_ = false : is_moving_ = true;
-    object_animation_->Tick(delta_time, size_, is_moving_, was_moving_);
-    timers_.Tick(delta_time);
+  dog_state_ == DogState::kIsResting ? is_moving_ = false : is_moving_ = true;
+  object_animation_->Tick(delta_time, size_, is_moving_, was_moving_);
+  timers_.Tick(delta_time);
 
-    if (reachable_cat_) {
-        timers_.Stop(static_cast<int>(DogState::kIsResting));
-        timers_.Stop(static_cast<int>(DogState::kIsWalking));
-        destination_ = reachable_cat_->GetRigidPosition();
-        dog_state_ = DogState::kChasingCat;
-        velocity_ = GetRigidPosition().GetVelocityVector(destination_, delta_time
-                                                                       * speed_ / constants::kTimeScale);
-    }
+  if (reachable_cat_) {
+    timers_.Stop(static_cast<int>(DogState::kIsResting));
+    timers_.Stop(static_cast<int>(DogState::kIsWalking));
+    destination_ = reachable_cat_->GetRigidPosition();
+    dog_state_ = DogState::kChasingCat;
+    velocity_ = GetRigidPosition().GetVelocityVector(destination_, delta_time
+        * speed_ / constants::kTimeScale);
+  }
 
-    std::uniform_int_distribution<> velocity(-1, 1);
+  std::uniform_int_distribution<> velocity(-1, 1);
   switch (dog_state_) {
     case DogState::kIsResting: {
       if (timers_.IsTimeOut(static_cast<int>(DogState::kIsResting))) {
@@ -122,7 +124,7 @@ void Dog::Tick(int delta_time) {
       break;
     }
   }
-     was_moving_ = is_moving_;
+  was_moving_ = is_moving_;
 }
 
 void Dog::SetIfItVisibleToPlayer(bool is_visible) {
@@ -136,7 +138,7 @@ void Dog::SetReachableCat(const std::vector<std::shared_ptr<Cat>>& cats) {
     Size cat_distance = position_.GetVectorTo(cat->GetRigidPosition());
     if (CheckIfCanSeeCat(&(*cat)) &&
         cat_distance.GetLength() < min_distance.GetLength()) {
-        // std::cout << "CAT IS REACHABLE\n";
+      // std::cout << "CAT IS REACHABLE\n";
       reachable_cat_ = &(*cat);
       min_distance = cat_distance;
     }
