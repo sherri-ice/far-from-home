@@ -14,7 +14,8 @@ class Cat : public MovingObject {
 
   void SetVelocityFromPlayer(Size velocity);
 
-//  void SetAnimations(std::vector<std::shared_ptr<std::vector<QPixmap>>> animation) override;
+//  void SetAnimations(std::vector<std::shared_ptr<std::vector<QPixmap>>>
+//  animation) override;
 };
 
 #endif  // GAMEOBJECT_CAT_H_

@@ -1,5 +1,7 @@
 #include "game_object.h"
 
+#include <vector>
+
 GameObject::GameObject(const Size& size, const Point& position)
     : size_(size), position_(position) {
   rigid_body_ = RigidBody(&size_, &position_);
@@ -26,7 +28,7 @@ RigidBody GameObject::GetRigidBody() const {
 }
 
 void GameObject::SetScaleCoefficientsInRigidBody(double coefficient_x, double
-  coefficient_y) {
+coefficient_y) {
   rigid_body_.SetScaleCoefficients(coefficient_x, coefficient_y);
 }
 
