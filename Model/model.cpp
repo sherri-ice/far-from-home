@@ -11,18 +11,6 @@ Model::Model() {
   main_cat->SetAnimations(animations_["cat"]);
   cats_.emplace_back(main_cat);
 
-  std::shared_ptr<Dog> dog = std::make_shared<Dog>(Size(40, 40), 7.5,
-                                                   Point(250, 250),
-                                                   100, 1.75);
-  dogs_.emplace_back(dog);
-
-  food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(789, 65)));
-  food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(567, 455)));
-  food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(210, 270)));
-  food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(25, 500)));
-  food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(900, 333)));
-  food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(300, 100)));
-
   for (auto &food : food_) {
     food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
       food->SetSkin(objects_pics_[0][std::rand() % 3]);
@@ -147,24 +135,32 @@ std::shared_ptr<Food> Model::MakeNewFood(const Size& size, const Point& point) {
   return food_.back();
 }
 
-
 void Model::LoadAnimation() {
+    LoadDinamicAnimation();
+    LoadStaticAnimation();
+}
+
+void Model::LoadDinamicAnimation() {
     Q_INIT_RESOURCE(images);
   std::vector<QString> paths = {"cat", "dog"};
   for (const auto& path : paths) {
-    animations_[path] = GetImagesByFramePath(":im/" + path + "/");
+    animations_[path] = GetImagesByFramePath(":images/" + path + "/");
   }
-  QString path_for_objects = ":im/objects/";
-  std::vector<QString> objects_folders = {"food"};
-  for (const auto& folder : objects_folders) {
-    std::vector<QPixmap> skins;
-    for (int i = 0; i < 4; ++i) {
-      skins.emplace_back(
-          path_for_objects + "/" + folder + "/Frame " + QString::number(i)
-              + ".png");
+}
+
+void Model::LoadStaticAnimation() {
+    Q_INIT_RESOURCE(images);
+    QString path_for_objects = ":images/objects/";
+    std::vector<QString> objects_folders = {"food"};
+    for (const auto& folder : objects_folders) {
+        std::vector<QPixmap> skins;
+        for (int i = 0; i < 4; ++i) {
+            skins.emplace_back(
+                    path_for_objects + "/" + folder + "/Frame " + QString::number(i)
+                    + ".png");
+        }
+        objects_pics_.emplace_back(skins);
     }
-    objects_pics_.emplace_back(skins);
-  }
 }
 
 std::vector<std::vector<QPixmap>> Model::GetImagesByFramePath(
@@ -173,7 +169,7 @@ std::vector<std::vector<QPixmap>> Model::GetImagesByFramePath(
   std::vector<QString> objects_animations = {"down", "up", "left", "right"};
   for (const auto& animation : objects_animations) {
     std::vector<QPixmap> im{};
-    for (int i = 0; i < 4; ++i) {  // todo change files names
+    for (int i = 0; i < 4; ++i) {
       im.emplace_back(
           path + animation + "/Frame " + QString::number(i) + ".png");
     }

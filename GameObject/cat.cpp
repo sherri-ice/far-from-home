@@ -19,15 +19,15 @@ void Cat::Draw(QPainter* painter, Resizer* resizer) const {
 }
 
 void Cat::Tick(int delta_time) {
-  object_animation_->Tick(delta_time, velocity_, is_moving_);
-  was_moving_ = is_moving_;
 if (velocity_.GetLength() > constants::kEpsilon) {
     is_moving_ = true;
     velocity_ /= velocity_.GetLength();
     velocity_ *= speed_ * delta_time / constants::kTimeScale;
-  } else {
+} else {
     is_moving_ = false;
-  }
+}
+    object_animation_->Tick(delta_time, velocity_, is_moving_);
+    was_moving_ = is_moving_;
 }
 
 void Cat::SetVelocityFromPlayer(Size velocity) {

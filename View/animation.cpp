@@ -51,7 +51,7 @@ void Animation::Tick(int delta_time, const Size& velocity, bool is_moving, bool 
             } else {
                 SetCurrentRoad(1);
             }
-        } else if (x > 0) {
+        } else if (x > 0.5) {
                 SetCurrentRoad(3);
         } else {
                 SetCurrentRoad(2);

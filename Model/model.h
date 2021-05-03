@@ -45,7 +45,10 @@ class Model {
 
   void ClearObjects();
 
+  void LoadDinamicAnimation();
+  void LoadStaticAnimation();
   void LoadAnimation();
+
   [[nodiscard]] std::vector<std::vector<QPixmap>> GetImagesByFramePath
       (const QString& path) const;
 
