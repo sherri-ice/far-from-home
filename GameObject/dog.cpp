@@ -45,7 +45,7 @@ void Dog::Draw(QPainter* painter, Resizer* resizer) const {
 
 void Dog::Tick(int delta_time) {
   dog_state_ == DogState::kIsResting ? is_moving_ = false : is_moving_ = true;
-  object_animation_->Tick(delta_time, size_, is_moving_, was_moving_);
+//  object_animation_->Tick(delta_time, size_, is_moving_, was_moving_);
   timers_.Tick(delta_time);
 
   if (reachable_cat_) {
@@ -69,7 +69,7 @@ void Dog::Tick(int delta_time) {
         change_directions_count_ = times_to_change_directions
             (random_generator_);
         velocity_ = Size(velocity(random_generator_), velocity
-            (random_generator_));
+        (random_generator_));
         --change_directions_count_;
         timers_.StartTimerWithRandom(constants::kTimeToWalkMin,
                                      constants::kTimeToWalkMax,
@@ -116,7 +116,7 @@ void Dog::Tick(int delta_time) {
                                      static_cast<int>(DogState::kIsResting));
       } else {
         velocity_ = position_.GetVelocityVector(destination_, delta_time *
-            walking_speed_ / constants::kTimeScale);
+        walking_speed_ / constants::kTimeScale);
       }
       break;
     }
@@ -124,7 +124,7 @@ void Dog::Tick(int delta_time) {
       break;
     }
   }
-  was_moving_ = is_moving_;
+    dog_state_ == DogState::kIsResting ? is_moving_ = false : is_moving_ = true;
 
     object_animation_->Tick(delta_time, velocity_, is_moving_, was_moving_);
     was_moving_ = is_moving_;

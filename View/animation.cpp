@@ -10,15 +10,9 @@ std::mt19937 Animation::random_generator_ = std::mt19937
 
 
 Animation::Animation(const std::vector<std::vector<QPixmap>> &frames, int animation_duration) : frames_(frames)
-        , frames_rescaled_(frames)
-{
-    time_between_frames_ = animation_duration / frames.size();
+        , frames_rescaled_(frames) {
+    time_between_frames_ = 0.1 * animation_duration / frames.size();
     Reset();
-Animation::Animation(const std::vector<std::vector<QPixmap>>& frames,
-                     int animation_duration)
-    : frames_(frames), frames_rescaled_(frames) {
-  time_between_frames_ = 0.1 * animation_duration / frames.size();
-  Reset();
 }
 
 void Animation::Tick(int delta_time, const Size& velocity, bool is_moving, bool was_moving) {
@@ -51,8 +45,8 @@ void Animation::Tick(int delta_time, const Size& velocity, bool is_moving, bool 
     } else {
         double x = velocity.GetWidth();
         double y = velocity.GetHeight();
-        if (std::abs(x)< 0.5) {
-            if (y > 1) {
+        if (std::abs(x) < 0.5) {
+            if (y > 0.5) {
                 SetCurrentRoad(0);
             } else {
                 SetCurrentRoad(1);
@@ -76,7 +70,7 @@ const QPixmap& Animation::GetCurrentFrame() const {
   return frames_rescaled_[current_road_][current_frame_];
 }
 
-const std::vector<QPixmap>& Animation::GetCurrentAnimationRoad() const {
+[[maybe_unused]] const std::vector<QPixmap>& Animation::GetCurrentAnimationRoad() const {
   return frames_rescaled_[current_road_];
 }
 

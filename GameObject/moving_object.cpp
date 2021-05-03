@@ -10,7 +10,7 @@ void MovingObject::SetSpeed(double speed) {
 }
 
 double MovingObject::GetSpeed() const {
-  return speed_;
+    return speed_;
 }
 
 void MovingObject::Move(int delta_time) {

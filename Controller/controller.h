@@ -10,8 +10,6 @@
 
 #include "../Model/generator.h"
 
-#include <Model/generator.h>
-
 class Controller : public AbstractController {
  public:
   Controller();

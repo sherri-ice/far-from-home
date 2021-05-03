@@ -23,7 +23,7 @@ class Generator {
   Generator() = default;
 
   void GenerateMap();
-  // void GenerateFood();
+//  void GenerateFood();
   void Clear();
   void SetModel(const std::shared_ptr<Model>& model);
 

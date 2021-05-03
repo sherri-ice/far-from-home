@@ -21,9 +21,7 @@ void Cat::Draw(QPainter* painter, Resizer* resizer) const {
 void Cat::Tick(int delta_time) {
   object_animation_->Tick(delta_time, velocity_, is_moving_);
   was_moving_ = is_moving_;
-  Resize(Size(object_animation_->GetCurrentFrame().width(),
-              object_animation_->GetCurrentFrame().height()));
-  if (velocity_.GetLength() > constants::kEpsilon) {
+if (velocity_.GetLength() > constants::kEpsilon) {
     is_moving_ = true;
     velocity_ /= velocity_.GetLength();
     velocity_ *= speed_ * delta_time / constants::kTimeScale;
