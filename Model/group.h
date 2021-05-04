@@ -1,5 +1,5 @@
-#ifndef GROUP_H
-#define GROUP_H
+#ifndef MODEL_GROUP_H_
+#define MODEL_GROUP_H_
 
 #include <QPainter>
 #include "point.h"
@@ -27,4 +27,4 @@ class Group {
   Size velocity_;
 };
 
-#endif //GROUP_H
+#endif  //  MODEL_GROUP_H_

@@ -131,10 +131,10 @@ void Cat::Tick(int delta_time) {
         } else if (velocity_ == Size(1, 0)) {
           velocity_ = Size(pos_velocity(random_generator_),
                            velocity(random_generator_));
-        }else if (velocity_ == Size(0, -1)) {
+        } else if (velocity_ == Size(0, -1)) {
           velocity_ = Size(velocity(random_generator_),
                            neg_velocity(random_generator_));
-        }else if (velocity_ == Size(-1, 0)) {
+        } else if (velocity_ == Size(-1, 0)) {
           velocity_ = Size(neg_velocity(random_generator_),
                            velocity(random_generator_));
         }
