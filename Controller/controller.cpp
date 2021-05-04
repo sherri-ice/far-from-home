@@ -12,7 +12,7 @@ void Controller::Tick(int time) {
   view_circle.SetCenter(GetPlayer()->GetPosition());
   view_circle.SetWantedRadius(player_view);
   model_->GetPlayer()->SetViewCircle(view_circle);
-  GetPlayer()->Tick(time);
+  GetPlayer()->Tick();
   view_->UpdateResizer(GetPlayer()->GetViewCircle().GetRadius(),
                        GetPlayer()->GetPosition());
   current_game_time_ = time;
@@ -45,9 +45,11 @@ void Controller::TickPlayer(int delta_time) {
   Size player_velocity = view_->GetPlayerVelocity();
   auto player = model_->GetPlayer();
   view_->ClearVelocity();
+  player->IsReachable(model_->GetDogs());
   player->UpdateCatsGroup(model_->GetCats());
   player->OrderCatsToMove(player_velocity);
   player->UpdateDogsAround(model_->GetDogs());
+  player->GroupTick(delta_time);
 }
 
 void Controller::TickCats(int time) {

@@ -56,3 +56,6 @@ void Timer::Remove() {
     }
   }
 }
+int Timer::Time(int index) {
+  return timers_.at(index);
+}

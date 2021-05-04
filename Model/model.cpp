@@ -4,11 +4,11 @@
 
 Model::Model() {
   std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
-                                                            0.001, Point());
+                                                            10, Point());
   main_cat->SetIsInGroup(true);
   cats_.emplace_back(main_cat);
 
-  std::shared_ptr<Dog> dog = std::make_shared<Dog>(Size(40, 40), 0.00075,
+  std::shared_ptr<Dog> dog = std::make_shared<Dog>(Size(40, 40), 0.0015,
                                                    Point(250, 250), 100);
   dogs_.emplace_back(dog);
 
@@ -25,8 +25,8 @@ Model::Model() {
 
   player_ = new Player(main_cat);
   // Temporary
-  MakeNewCat(Size(20, 20), 0.0005, Point(50, 0));
-  MakeNewCat(Size(40, 40), 0.001, Point(50, 50));
+  MakeNewCat(Size(20, 20), 9, Point(500, 0));
+  MakeNewCat(Size(40, 40), 3, Point(500, 500));
 
   player_->SetViewCircle(ViewCircle(player_->GetPosition(),
                                     constants::kViewCircleDefault));

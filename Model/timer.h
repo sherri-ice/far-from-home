@@ -17,6 +17,7 @@ class Timer {
   bool IsTimeOut(int index_of_timer = 0);
   void Resize(int new_size);
   void Remove();
+  int Time(int index = 0);
   bool IsActive(int index_of_timer = 0);
 
  private:

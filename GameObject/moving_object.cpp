@@ -1,3 +1,4 @@
+#include <iostream>
 #include "moving_object.h"
 
 MovingObject::MovingObject(
@@ -5,12 +6,10 @@ MovingObject::MovingObject(
     : GameObject(size, position), speed_(speed) {
 }
 
-void MovingObject::SetSpeed(double speed) {
-  speed_ = speed;
-}
-
-Size MovingObject::GetVelocity() const {
-  return velocity_;
+void MovingObject::IncSpeed(double speed) {
+  std::cout << "                 start speed " << speed_ << std::endl;
+  speed_ *= speed;
+  std::cout << "                 end speed " << speed_ << std::endl;
 }
 
 void MovingObject::SetDestination(const Point& destination) {
@@ -23,4 +22,18 @@ void MovingObject::SetVelocity(Size velocity) {
 
 void MovingObject::Move(int delta_time) {
   position_ += velocity_;
+}
+
+void MovingObject::DecSpeed(double speed) {
+  std::cout << "              dec   start speed " << speed_ << std::endl;
+  speed_ /= speed;
+  std::cout << "              dec   end speed " << speed_ << std::endl;
+}
+
+double MovingObject::GetSpeed() {
+  return speed_;
+}
+
+Size MovingObject::GetVelocity() {
+  return velocity_;
 }

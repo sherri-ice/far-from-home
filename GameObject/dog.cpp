@@ -80,3 +80,7 @@ bool Dog::CheckIfCanSeeCat(const Cat* cat) const {
   return cat->GetRigidPosition().IsInEllipse(position_,
                                              visibility_radius_);
 }
+
+const Cat* Dog::GetReachableCat() {
+  return reachable_cat_;
+}

@@ -22,7 +22,10 @@ const int kMaxTimeToGoHome = 1e8;
 
 const double kSemiMinorCoefficient = 0.8;
 
-const double kCatRunCoefficient = 1.3;
+const double kCatRunCoefficient = 2;
+const double kCatGroupSpeed = 10;
+
+const double kCatGroupIncCoefficient = 1.1;
 
 const QString kApplicationName = "Far from home";
 }  // namespace constants

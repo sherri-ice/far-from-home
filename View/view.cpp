@@ -71,6 +71,7 @@ void View::DrawMap(QPainter* painter) {
 
 void View::DrawGameObjects(QPainter* painter) {
   controller_->GetPlayer()->GetViewCircle().Draw(painter, &resizer_);
+  controller_->GetPlayer()->GetCatGroup().Draw(painter, &resizer_);
   std::vector<std::shared_ptr<GameObject>>
       drawable_objects = model_->GetDrawableGameObjects();
   for (const auto& object : drawable_objects) {

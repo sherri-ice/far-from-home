@@ -11,9 +11,11 @@ class MovingObject : public GameObject {
   ~MovingObject() override = default;
   virtual void Move(int delta_time);
 
-  virtual void SetSpeed(double speed);
+  virtual void IncSpeed(double speed);
+  virtual void DecSpeed(double speed);
   virtual void SetVelocity(Size velocity);
-  virtual Size GetVelocity() const;
+  virtual double GetSpeed();
+  virtual Size GetVelocity();
   void SetDestination(const Point& destination);
 
  protected:
