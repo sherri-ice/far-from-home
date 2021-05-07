@@ -103,11 +103,13 @@ void Controller::TickObjects(int time) {
 void Controller::MovingAndStaticObjectsIntersect(const
 std::shared_ptr<MovingObject>& moving_object) {
   for (const auto& static_object : model_->GetStaticObjects()) {
-    if (moving_object->GetRigidBody()->IfCollisionWillHappen(*(static_object->GetRigidBody
-    ()), moving_object->GetVelocity())) {
-      Size new_velocity = moving_object->GetRigidBody()->GetVelocityToAvoidCollision
+    if (moving_object->GetRigidBody()->IfCollisionWillHappen(*
+    (static_object->GetRigidBody()), moving_object->GetVelocity())) {
+      Size new_velocity = moving_object->GetRigidBody()
+          ->GetVelocityToAvoidCollision
           (*(static_object->GetRigidBody()), moving_object->GetVelocity());
-      moving_object->SetVelocity(new_velocity * moving_object->GetVelocity().GetLength());
+      moving_object->SetVelocity(new_velocity * moving_object->GetVelocity()
+      .GetLength());
     }
   }
 }
