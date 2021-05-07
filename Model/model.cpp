@@ -27,6 +27,9 @@ Model::Model() {
   player_ = new Player(main_cat);
   // Temporary
   MakeNewPortal(Size(60, 60), Point(0, 100), "", true);
+  MakeNewPortal(Size(60, 60), Point(200, 100), "", true);
+  MakeNewPortal(Size(60, 60), Point(200, 120), "", true);
+  MakeNewPortal(Size(60, 60), Point(200, 140), "", true);
   MakeNewCat(Size(60, 60), 0.001, Point(1000, 0));
   MakeNewCat(Size(10, 10), 0.001, Point(500, 500));
   player_->SetViewCircle(ViewCircle(player_->GetPosition(),

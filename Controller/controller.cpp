@@ -1,5 +1,4 @@
 #include "controller.h"
-#include <iostream>
 
 Controller::Controller() {
   model_ = std::make_shared<Model>();
@@ -55,7 +54,7 @@ void Controller::TickPlayer() {
 void Controller::TickCats(int delta_time) {
   for (auto& cat : model_->GetPlayer()->GetCats()) {
     cat->Tick(delta_time);
-    PlayerAndStaticObjectsIntersect(cat);
+    MovingAndStaticObjectsIntersect(cat);
     cat->Move(delta_time);
   }
 }
@@ -66,7 +65,7 @@ void Controller::TickDogs(int delta_time) {
   for (auto& dog : dogs) {
     dog->SetReachableCat(player->GetCats());
     dog->Tick(delta_time);
-    DogAndStaticObjectsIntersect(dog, delta_time);
+    MovingAndStaticObjectsIntersect(dog);
     dog->Move(delta_time);
     for (auto &cat : player->GetCats()) {
       if (dog->GetRigidBody()->IsCollide(*(cat->GetRigidBody()))) {
@@ -91,16 +90,6 @@ void Controller::CatsAndFoodIntersect() {
   }
 }
 
-void Controller::PlayerAndStaticObjectsIntersect(const std::shared_ptr<Cat>&
-    cat) {
-  for (const auto& static_object : model_->GetStaticObjects()) {
-    if (cat->GetRigidBody()->IfCollisionWillHappen
-    (*(static_object->GetRigidBody()), cat->GetVelocity())) {
-      cat->SetVelocity(Size(0, 0));
-    }
-  }
-}
-
 void Controller::TickObjects(int time) {
   for (auto& object : model_->GetStaticObjects()) {
     object->Tick(time);
@@ -111,15 +100,14 @@ void Controller::TickObjects(int time) {
   }
 }
 
-void Controller::DogAndStaticObjectsIntersect(const std::shared_ptr<Dog>&
-    dog, int delta_time) {
+void Controller::MovingAndStaticObjectsIntersect(const
+std::shared_ptr<MovingObject>& moving_object) {
   for (const auto& static_object : model_->GetStaticObjects()) {
-    if (dog->GetRigidBody()->IfCollisionWillHappen(*(static_object->GetRigidBody
-    ()), dog->GetVelocity())) {
-      Size new_velocity = dog->GetRigidBody()->GetVelocityToAvoidCollision
-          (*(static_object->GetRigidBody()), dog->GetVelocity());
-      dog->SetVelocity(new_velocity);
-      dog->ChangeVelocityToVector(delta_time);
+    if (moving_object->GetRigidBody()->IfCollisionWillHappen(*(static_object->GetRigidBody
+    ()), moving_object->GetVelocity())) {
+      Size new_velocity = moving_object->GetRigidBody()->GetVelocityToAvoidCollision
+          (*(static_object->GetRigidBody()), moving_object->GetVelocity());
+      moving_object->SetVelocity(new_velocity * moving_object->GetVelocity().GetLength());
     }
   }
 }

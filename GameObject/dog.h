@@ -39,8 +39,6 @@ class Dog : public MovingObject {
   bool CheckIfCanSeeCat(const Cat* cat) const;
   void SetReachableCat(const std::vector<std::shared_ptr<Cat>>& cats);
 
-  void ChangeVelocityToVector(int delta_time);
-
  private:
   Point home_position_;
   double visibility_radius_;
