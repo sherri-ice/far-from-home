@@ -19,8 +19,8 @@ class Player {
   void OrderCatsToMove(Size velocity);
 
   void UpdateDogsAround(std::list<std::shared_ptr<Dog>> dogs);
-  void UpdateStaticObjectsAround(const
-                                 std::list<std::shared_ptr<PortalObject>>& static_objects);
+  void UpdateStaticObjectsAround
+  (const std::list<std::shared_ptr<PortalObject>>& static_objects);
 
   void DismissCats();
 

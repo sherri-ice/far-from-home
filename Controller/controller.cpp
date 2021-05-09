@@ -102,7 +102,8 @@ void Controller::TickObjects(int delta_time) {
       model_->AddWarning(std::make_shared<Warning>("Search is "
                                                    "finished. Come back to the "
                                                    "tree to see the result",
-                                                   view_->GetCoordinatesForWarning(),
+                                                   view_->
+                                                   GetCoordinatesForWarning(),
                                                    12, true,
                                                    true, 3000));
       object->SetWaitState();
@@ -115,10 +116,10 @@ void Controller::TickObjects(int delta_time) {
 }
 
 void Controller::MovingAndStaticObjectsIntersect(const
-                                                 std::shared_ptr<MovingObject>& moving_object) {
+  std::shared_ptr<MovingObject>& moving_object) {
   for (const auto& static_object : model_->GetStaticObjects()) {
-    if (moving_object->GetRigidBody()->IfCollisionWillHappen(*(static_object->GetRigidBody()),
-                                                             moving_object->GetVelocity())) {
+    if (moving_object->GetRigidBody()->IfCollisionWillHappen(*
+      (static_object->GetRigidBody()), moving_object->GetVelocity())) {
       Size new_velocity = moving_object->GetRigidBody()
           ->GetVelocityToAvoidCollision(*(static_object->GetRigidBody()),
                                         moving_object->GetVelocity());

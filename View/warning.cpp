@@ -1,4 +1,5 @@
 #include <QFontMetrics>
+#include <utility>
 
 #include "warning.h"
 
@@ -43,11 +44,12 @@ void Warning::Draw(QPainter* painter, Resizer* resizer) const {
     if (!is_main_warning_) {
       point = resizer->GameToWindowCoordinate(Point(
           position_.GetX() - font_size_ * message_.size() *
-          warning_constants::kAlignCenter,position_.GetY() - font_size_));
+          warning_constants::kAlignCenter, position_.GetY() - font_size_));
     } else {
       double shift = resizer->GameToWindowLength(shift_);
       point = Point(position_.GetX() - font_size * message_.size() *
-          warning_constants::kAlignCenter,position_.GetY() + shift - font_size);
+          warning_constants::kAlignCenter, position_.GetY() + shift -
+          font_size);
     }
 
     QFontMetrics font_metrics = painter->fontMetrics();

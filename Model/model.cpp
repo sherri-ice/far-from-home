@@ -55,7 +55,6 @@ std::vector<std::shared_ptr<GameObject>> Model::GetDrawableGameObjects() const {
 
                                              const std::shared_ptr<GameObject>&
                                              rhs) {
-
     return lhs->GetDrawPosition().GetY() < rhs->GetDrawPosition().GetY();
   });
   return result;

@@ -15,7 +15,8 @@ PortalObject::PortalObject(const Size& size,
                                                                     position
                                                                     .GetY() -
                                                                     size
-                                                                    .GetHeight() / 2),
+                                                                    .GetHeight()
+                                                                    / 2),
                                                                     8) {
   skin_path_ = skin_path;
   progress_bar_ = ProgressBar(position, size);
