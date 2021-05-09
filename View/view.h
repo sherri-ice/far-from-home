@@ -37,6 +37,7 @@ class View : public QMainWindow {
   void keyReleaseEvent(QKeyEvent* event) override;
   void timerEvent(QTimerEvent* event) override;
 
+  bool IsOnTheScreen(const std::shared_ptr<GameObject>& object);
   void DrawGameObjects(QPainter* painter);
 
   Size player_velocity_;
