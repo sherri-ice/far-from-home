@@ -65,7 +65,6 @@ void View::keyReleaseEvent(QKeyEvent* event) {
 }
 
 void View::DrawGameObjects(QPainter* painter) {
-
   controller_->GetPlayer()->GetViewCircle().Draw(painter, &resizer_);
   std::vector<std::shared_ptr<GameObject>>
       drawable_objects = model_->GetDrawableGameObjects();

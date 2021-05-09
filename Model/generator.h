@@ -11,8 +11,8 @@
 #include <vector>
 
 namespace constants {
-const int kGameMapWidth = 10'000;
-const int kGameMapHeight = 10'000;
+const int kGameMapWidth = 7'000;
+const int kGameMapHeight = 7'000;
 const int kTileSize = 500;
 const int kNumOfTilesTemplates = 7;
 const int kNumOfBorderTemplates = 2;
