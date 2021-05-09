@@ -131,16 +131,6 @@ std::shared_ptr<Dog> Model::MakeNewDog(const Size& size,
   return dogs_.back();
 }
 
-std::shared_ptr<GameObject> Model::MakeNewStaticObject(const Size& size,
-                                                       const Point& point) {
-  static_objects_.push_back(std::make_shared<GameObject>(size, point));
-  return static_objects_.back();
-}
-
-const std::list<std::shared_ptr<GameObject>>& Model::GetStaticObjects() const {
-  return static_objects_;
-}
-
 std::shared_ptr<Food> Model::MakeNewFood(const Size& size, const Point& point) {
   food_.push_back(std::make_shared<Food>(size, point));
   return food_.back();

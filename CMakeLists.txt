@@ -44,7 +44,7 @@ set(SOURCES
         GameObject/view_circle.cpp
         GameObject/portal_object.cpp
         View/progress_bar.cpp
-        View/warning.cpp)
+        View/warning.cpp
         Model/generator.cpp
         resourses.qrc)
 
