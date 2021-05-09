@@ -25,6 +25,9 @@ const double kSemiMinorCoefficient = 0.8;
 const double kCatRunCoefficient = 2;
 const double kCatGroupSpeed = 10;
 
+const int kMinRunAwayDistance = 100;
+const int kMaxRunAwayDistance = 500;
+
 const double kCatGroupIncCoefficient = 1.1;
 
 const QString kApplicationName = "Far from home";

@@ -21,14 +21,17 @@ class Player {
 
   void UpdateDogsAround(std::list<std::shared_ptr<Dog>> dogs);
   void IsReachable(std::list<std::shared_ptr<Dog>> dogs);
-  void UpdateCatsGroup(const std::list<std::shared_ptr<Cat>>& cats);
+  void UpdateCatsGroup(const std::list<std::shared_ptr<Cat>>& all_cats);
   void DismissCats();
   void GroupTick(int time);
 
   [[nodiscard]] const ViewCircle& GetViewCircle() const;
-  const Group& GetCatGroup() const;
+  [[nodiscard]] const Group& GetCatGroup() const;
+  std::shared_ptr<Cat> GetMainCat();
   void SetViewCircle(const ViewCircle& view_circle);
   [[nodiscard]] const Point& GetPosition() const;
+
+  void LosingCat(Point dog_position, std::shared_ptr<Cat> cat);
 
   void Tick();
 

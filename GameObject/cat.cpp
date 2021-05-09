@@ -99,6 +99,10 @@ void Cat::Tick(int delta_time) {
     }
     case CatState::kIsComingDestination: {
       if (position_ == destination_) {
+        if (is_reachable_cat_) {
+          is_reachable_cat_ = false;
+          DecSpeed(constants::kCatRunCoefficient);
+        }
         cat_state_ = CatState::kIsResting;
         velocity_ = Size(0, 0);
         timers_.StartTimerWithRandom(constants::kTimeToRestMin,

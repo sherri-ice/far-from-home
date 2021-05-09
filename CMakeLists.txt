@@ -42,7 +42,8 @@ set(SOURCES
         Model/timer.cpp
         View/view.cpp
         View/resizer.cpp
-        GameObject/view_circle.cpp Model/group.cpp Model/group.h)
+        GameObject/view_circle.cpp
+        Model/group.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 

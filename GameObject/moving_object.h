@@ -14,6 +14,10 @@ class MovingObject : public GameObject {
   virtual void IncSpeed(double speed);
   virtual void DecSpeed(double speed);
   virtual void SetVelocity(Size velocity);
+  virtual void SetRunAwayDestination(const Point& first_pos,
+                                     const Point& second_pos,
+                                     const Point& pos,
+                                     int x);
   virtual double GetSpeed();
   virtual Size GetVelocity();
   void SetDestination(const Point& destination);
