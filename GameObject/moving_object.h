@@ -3,9 +3,10 @@
 
 #include "../GameObject/game_object.h"
 #include "../View/animation.h"
+#include <vector>
 
 class MovingObject : public GameObject {
-public:
+ public:
     MovingObject(const Size& size,
                  double speed,
                  const Point& position = Point(0, 0));
@@ -15,9 +16,10 @@ public:
     virtual void SetSpeed(double speed);
     double GetSpeed() const;
     [[nodiscard]] AnimationState GetAnimation() const;
-    virtual void SetAnimations(std::vector<std::vector<QPixmap>> animation = {});
+    virtual void SetAnimations(std::vector<std::vector<QPixmap>>
+                                                  animation = {});
 
-protected:
+ protected:
     Point destination_{};
     bool is_moving_ = false;
     bool was_moving_ = false;

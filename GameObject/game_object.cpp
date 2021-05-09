@@ -50,7 +50,7 @@ Point GameObject::GetRigidPosition() const {
 }
 
 
-void GameObject::Draw(QPainter* painter, Resizer* resizer) const {
+void GameObject::Draw(QPainter* painter, Resizer* resizer) {
         rigid_body_.Draw(painter, resizer);
         painter->save();
         auto position = resizer->GameToWindowCoordinate(position_);

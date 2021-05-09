@@ -19,7 +19,7 @@ Dog::Dog(const Size& size,
                                constants::kTimeToRestMax);
 }
 
-void Dog::Draw(QPainter* painter, Resizer* resizer) const {
+void Dog::Draw(QPainter* painter, Resizer* resizer) {
   rigid_body_.Draw(painter, resizer);
   painter->save();
   auto position = resizer->GameToWindowCoordinate(position_);

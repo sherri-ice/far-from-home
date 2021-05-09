@@ -33,7 +33,7 @@ class Dog : public MovingObject {
   visibility_radius, double walking_speed);
   ~Dog() override = default;
 
-  void Draw(QPainter* painter, Resizer* resizer) const override;
+  void Draw(QPainter* painter, Resizer* resizer) override;
   void Tick(int time) override;
 
   void SetIfItVisibleToPlayer(bool is_visible);

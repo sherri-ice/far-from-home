@@ -3,7 +3,6 @@
 
 #include <QPainter>
 #include <vector>
-
 #include "../GameObject/rigid_body.h"
 #include "../Model/point.h"
 #include "../Model/size.h"
@@ -16,7 +15,7 @@ class GameObject {
   virtual ~GameObject() = default;
 
   virtual void SetPosition(const Point& position);
-  virtual void Draw(QPainter* painter, Resizer* resizer) const;
+  virtual void Draw(QPainter* painter, Resizer* resizer);
   virtual void Tick(int time);
   void SetSkin(QPixmap skin);
 
@@ -33,11 +32,8 @@ class GameObject {
 
   void SetIsDead();
   bool IsDead() const;
-//  virtual void SetAnimations
-//      (std::vector<std::vector<QPixmap>> animation = {});
 
  protected:
-//  Animation* object_animation_;
   QPixmap skin_;
   Size size_ = Size(40, 40);
   Point position_;

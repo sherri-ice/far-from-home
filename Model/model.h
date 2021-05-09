@@ -53,7 +53,6 @@ class Model {
       (const QString& path) const;
 
  private:
-
     std::map<QString, std::vector<std::vector<QPixmap>>> animations_;
     std::vector<std::vector<QPixmap>> objects_pics_{};
     int current_level_ = 0;

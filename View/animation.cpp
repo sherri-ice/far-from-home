@@ -4,7 +4,8 @@
 
 #include "animation.h"
 
-Animation::Animation(const std::vector<std::vector<QPixmap>> &frames, int animation_duration) : frames_(frames)
+Animation::Animation(const std::vector<std::vector<QPixmap>> &frames,
+                     int animation_duration) : frames_(frames)
         , frames_rescaled_(frames) {
     time_between_frames_ = animation_duration / frames.size();
     Reset();
@@ -29,7 +30,7 @@ const QPixmap& Animation::GetCurrentFrame() const {
   return frames_rescaled_[current_road_][current_frame_];
 }
 
-[[maybe_unused]] const std::vector<QPixmap>& Animation::GetCurrentAnimationRoad() const {
+const std::vector<QPixmap>& Animation::GetCurrentAnimationRoad() const {
   return frames_rescaled_[current_road_];
 }
 

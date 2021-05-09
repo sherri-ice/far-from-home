@@ -87,7 +87,8 @@ void Model::ClearObjects() {
       dogs_.remove(*it);
     }
   }
-    for (auto it = static_objects_.rbegin(); it != static_objects_.rend(); ++it) {
+    for (auto it = static_objects_.rbegin(); it != static_objects_.rend();
+                                                                        ++it) {
         if ((*it)->IsDead()) {
             static_objects_.remove(*it);
         }
@@ -97,8 +98,10 @@ void Model::ClearObjects() {
 std::shared_ptr<Dog> Model::MakeNewDog(const Size& size,
                                        double speed,
                                        const Point& point,
-                                       double visibility_radius, double walking_speed) {
-  dogs_.push_back(std::make_shared<Dog>(size, speed, point, visibility_radius, walking_speed));
+                                       double visibility_radius,
+                                       double walking_speed) {
+  dogs_.push_back(std::make_shared<Dog>(size, speed, point, visibility_radius,
+                                        walking_speed));
   dogs_.back()->SetAnimations(animations_["dog"]);
   return dogs_.back();
 }
@@ -141,8 +144,8 @@ void Model::LoadStaticAnimation() {
         std::vector<QPixmap> skins;
         for (int i = 0; i < 4; ++i) {
             skins.emplace_back(
-                    path_for_objects + "/" + folder + "/Frame " + QString::number(i)
-                    + ".png");
+                path_for_objects + "/" + folder + "/Frame " + QString::number(i)
+                + ".png");
         }
         objects_pics_.emplace_back(skins);
     }
