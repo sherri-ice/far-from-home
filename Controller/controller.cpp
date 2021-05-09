@@ -3,18 +3,12 @@
 Controller::Controller() {
   model_ = std::make_shared<Model>();
   view_ = std::make_shared<View>(this, model_);
+  map_generator_.SetModel(model_);
+  map_generator_.GenerateMap();
 }
 
 void Controller::Tick(int time) {
   int delta_time = time - current_game_time_;
-  double player_view = view_->GetViewSize();
-  auto view_circle = GetPlayer()->GetViewCircle();
-  view_circle.SetCenter(GetPlayer()->GetPosition());
-  view_circle.SetWantedRadius(player_view);
-  model_->GetPlayer()->SetViewCircle(view_circle);
-  GetPlayer()->Tick();
-  view_->UpdateResizer(GetPlayer()->GetViewCircle().GetRadius(),
-                       GetPlayer()->GetPosition());
   current_game_time_ = time;
 
   TickPlayer();
@@ -25,6 +19,7 @@ void Controller::Tick(int time) {
   TickWarnings(delta_time);
 
   CatsAndFoodIntersect();
+  TickViewCircle();
 
   model_->ClearObjects();
 }
@@ -33,11 +28,8 @@ int Controller::GetCurrentTime() {
   return current_game_time_;
 }
 
-void Controller::StartGame(int level) {
-  // TODO(anyone)
-  // Actually, wanted to start in the center of the screen
-  model_->LoadLevel(level);
-  model_->SetGameState(GameState::kMenu);
+void Controller::StartGame() {
+  model_->SetGameState(GameState::kGame);
 }
 
 Player* Controller::GetPlayer() {
@@ -80,6 +72,17 @@ void Controller::TickDogs(int delta_time) {
 
 void Controller::TickFood(int delta_time) {
   // Food rots
+}
+
+void Controller::TickViewCircle() {
+  double player_view = view_->GetViewSize();
+  auto view_circle = GetPlayer()->GetViewCircle();
+  view_circle.SetCenter(GetPlayer()->GetPosition());
+  view_circle.SetWantedRadius(player_view);
+  model_->GetPlayer()->SetViewCircle(view_circle);
+  GetPlayer()->Tick();
+  view_->UpdateResizer(GetPlayer()->GetViewCircle().GetRadius(),
+                       GetPlayer()->GetPosition());
 }
 
 void Controller::CatsAndFoodIntersect() {

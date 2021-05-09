@@ -29,17 +29,30 @@ class Model {
   std::shared_ptr<Cat> MakeNewCat(const Size& size,
                                   double speed,
                                   const Point& point);
+
   std::shared_ptr<PortalObject> MakeNewPortal(const Size& size,
                                               const Point& position,
                                               const QString& skin_path,
                                               bool has_portal);
   void AddWarning(const std::shared_ptr<Warning>& warning);
 
+  std::shared_ptr<Dog> MakeNewDog(const Size& size,
+                                  double speed,
+                                  const Point& point,
+                                  double visibility_radius,
+                                  double waking_speed);
+  std::shared_ptr<GameObject> MakeNewStaticObject(const Size& size,
+                                                  const Point& point);
+  std::shared_ptr<Food> MakeNewFood(const Size& size, const Point& point);
+
+
   std::list<std::shared_ptr<Food>> GetFood();
   std::list<std::shared_ptr<Dog>> GetDogs();
   std::list<std::shared_ptr<Cat>> GetCats();
+
   std::list<std::shared_ptr<PortalObject>>& GetStaticObjects();
   std::vector<std::shared_ptr<Warning>> GetWarnings();
+
   void ClearObjects();
 
  private:
