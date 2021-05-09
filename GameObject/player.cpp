@@ -182,7 +182,7 @@ std::shared_ptr<Cat> Player::GetMainCat() {
 
 void Player::LosingCat(Point dog_position, std::shared_ptr<Cat> cat) {
   cat->SetIsInGroup(false);
-  std::uniform_int_distribution<> x_destination (constants::kMaxRunAwayDistance,
+  std::uniform_int_distribution<> x_destination(constants::kMaxRunAwayDistance,
                                                 constants::kMaxRunAwayDistance);
   cat->SetRunAwayDestination(dog_position, cat_group_.central_position_,
                              cat->GetRigidPosition(),
