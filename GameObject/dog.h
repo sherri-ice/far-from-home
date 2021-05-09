@@ -7,8 +7,8 @@
 #include <vector>
 
 #include "../GameObject/cat.h"
-#include "../GameObject/moving_object.h"
 #include "../Model/timer.h"
+#include "../GameObject/moving_object.h"
 
 namespace constants {
 const int kTimeToRestMin = 5000;

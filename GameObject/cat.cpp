@@ -9,12 +9,11 @@ void Cat::Draw(QPainter* painter, Resizer* resizer) const {
   painter->save();
   auto position = resizer->GameToWindowCoordinate(position_);
   auto size = resizer->GameToWindowSize(size_);
-  painter->drawPixmap(position.GetX() - size.GetWidth() / 2,
+    painter->drawPixmap(position.GetX() - size.GetWidth() / 2,
                       position.GetY() - size.GetHeight() / 2,
                       size.GetWidth(),
                       size.GetHeight(),
-                      object_animation_->GetCurrentFrame());
-
+                      object_animation_.GetCurrentFrame());
   painter->restore();
 }
 
@@ -26,7 +25,7 @@ if (velocity_.GetLength() > constants::kEpsilon) {
 } else {
     is_moving_ = false;
 }
-    object_animation_->Tick(delta_time, velocity_, is_moving_);
+    object_animation_.Tick(delta_time, GetAnimation());
     was_moving_ = is_moving_;
 }
 

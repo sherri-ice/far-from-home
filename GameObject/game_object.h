@@ -8,7 +8,6 @@
 #include "../Model/point.h"
 #include "../Model/size.h"
 #include "../View/resizer.h"
-#include "../View/animation.h"
 
 class GameObject {
  public:
@@ -34,11 +33,11 @@ class GameObject {
 
   void SetIsDead();
   bool IsDead() const;
-  virtual void SetAnimations
-      (std::vector<std::vector<QPixmap>> animation = {});
+//  virtual void SetAnimations
+//      (std::vector<std::vector<QPixmap>> animation = {});
 
  protected:
-  Animation* object_animation_;
+//  Animation* object_animation_;
   QPixmap skin_;
   Size size_ = Size(40, 40);
   Point position_;

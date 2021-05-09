@@ -11,17 +11,16 @@ Model::Model() {
   main_cat->SetAnimations(animations_["cat"]);
   cats_.emplace_back(main_cat);
 
+    for (auto& object : static_objects_) {
+        object->SetScaleCoefficientsInRigidBody(0.9, 0.9);
+        object->SetSkin(objects_pics_[0][1]);
+    }
+
   for (auto &food : food_) {
     food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
-      food->SetSkin(objects_pics_[0][std::rand() % 3]);
-    // std::cout << "model before set skins\n";
-
     food->SetSkin(objects_pics_[0][std::rand() % 3]);
   }
-  for (auto& object : static_objects_) {
-      object->SetScaleCoefficientsInRigidBody(0.9, 0.9);
-      object->SetSkin(objects_pics_[0][std::rand() % 3]);
-  }
+
 
   player_ = new Player(main_cat);
   player_->SetViewCircle(ViewCircle(player_->GetPosition(),
@@ -32,7 +31,6 @@ Model::Model() {
   for (auto& dog : dogs_) {
     dog->SetAnimations(animations_["dog"]);
   }
-  // std::cout << "model Set animations\n";
 }
 
 Player* Model::GetPlayer() {
@@ -108,6 +106,11 @@ void Model::ClearObjects() {
       dogs_.remove(*it);
     }
   }
+    for (auto it = static_objects_.rbegin(); it != static_objects_.rend(); ++it) {
+        if ((*it)->IsDead()) {
+            static_objects_.remove(*it);
+        }
+    }
 }
 
 std::shared_ptr<Dog> Model::MakeNewDog(const Size& size,
@@ -151,7 +154,7 @@ void Model::LoadDinamicAnimation() {
 void Model::LoadStaticAnimation() {
     Q_INIT_RESOURCE(images);
     QString path_for_objects = ":images/objects/";
-    std::vector<QString> objects_folders = {"food"};
+    std::vector<QString> objects_folders = {"food", "tree"};
     for (const auto& folder : objects_folders) {
         std::vector<QPixmap> skins;
         for (int i = 0; i < 4; ++i) {

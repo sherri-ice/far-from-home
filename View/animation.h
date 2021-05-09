@@ -9,16 +9,24 @@
 #include "../Model/constants.h"
 #include "../Model/size.h"
 
+enum AnimationState {
+    kWalkDown = 0,
+    kWalkUp = 1,
+    kWalkLeft = 2,
+    kWalkRight = 3,
+    kSit = 4,
+    kLicking = 5,
+    kSleeping = 6,
+    kSiting = 7
+};
+
 class Animation {
  public:
   Animation() = default;
   explicit Animation(const std::vector<std::vector<QPixmap>>& frames,
-                     int animation_duration = constants::kTimeScale);
+                     int animation_duration = 10);
 
-  void Tick(int delta_time,
-            const Size& velocity,
-            bool is_moving = false,
-            bool was_moving = false);
+  void Tick(int delta_time, const AnimationState& animation_state);
   void Reset();
   const QPixmap& GetCurrentFrame() const;
   const std::vector<QPixmap>& GetCurrentAnimationRoad() const;

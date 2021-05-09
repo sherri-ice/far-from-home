@@ -37,15 +37,14 @@ void Dog::Draw(QPainter* painter, Resizer* resizer) const {
                          2 * static_cast<int>(radius.GetHeight() *
                              constants::kSemiMinorCoefficient));
   }
-  painter->drawPixmap(-object_width / 2, -object_height / 2,
+    painter->drawPixmap(-object_width / 2, -object_height / 2,
                       object_width,
-                      object_height, object_animation_->GetCurrentFrame());
-  painter->restore();
+                      object_height, object_animation_.GetCurrentFrame());
+    painter->restore();
 }
 
 void Dog::Tick(int delta_time) {
   dog_state_ == DogState::kIsResting ? is_moving_ = false : is_moving_ = true;
-//  object_animation_->Tick(delta_time, size_, is_moving_, was_moving_);
   timers_.Tick(delta_time);
 
   if (reachable_cat_) {
@@ -124,9 +123,9 @@ void Dog::Tick(int delta_time) {
       break;
     }
   }
-    dog_state_ == DogState::kIsResting ? is_moving_ = false : is_moving_ = true;
 
-    object_animation_->Tick(delta_time, velocity_, is_moving_, was_moving_);
+    is_moving_ = !(dog_state_ == DogState::kIsResting);
+    object_animation_.Tick(delta_time, GetAnimation());
     was_moving_ = is_moving_;
 }
 

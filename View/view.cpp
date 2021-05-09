@@ -76,7 +76,9 @@ void View::DrawGameObjects(QPainter* painter) {
 
     for (const auto& object : drawable_objects) {
     object->Draw(painter, &resizer_);
+    std::cout << "after draw\n";
   }
+    std::cout << "draw loop finished\n";
 }
 
 void View::Resize() {
