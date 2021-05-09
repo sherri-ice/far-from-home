@@ -3,34 +3,15 @@
 #include "model.h"
 
 Model::Model() {
-    LoadAnimation();
+  LoadAnimation();
   std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
                                                         10,
                                                         Point(0, 0));
-
   main_cat->SetAnimations(animations_["cat"]);
   cats_.emplace_back(main_cat);
-
-    for (auto& object : static_objects_) {
-        object->SetScaleCoefficientsInRigidBody(0.9, 0.9);
-        object->SetSkin(objects_pics_[0][1]);
-    }
-
-  for (auto &food : food_) {
-    food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
-    food->SetSkin(objects_pics_[0][std::rand() % 3]);
-  }
-
-
   player_ = new Player(main_cat);
   player_->SetViewCircle(ViewCircle(player_->GetPosition(),
                                     constants::kViewCircleDefault));
-  for (auto& cat : cats_) {
-    cat->SetAnimations(animations_["cat"]);
-  }
-  for (auto& dog : dogs_) {
-    dog->SetAnimations(animations_["dog"]);
-  }
 }
 
 Player* Model::GetPlayer() {
@@ -125,6 +106,7 @@ std::shared_ptr<Dog> Model::MakeNewDog(const Size& size,
 std::shared_ptr<GameObject> Model::MakeNewStaticObject(const Size& size,
                                                        const Point& point) {
   static_objects_.push_back(std::make_shared<GameObject>(size, point));
+  static_objects_.back()->SetSkin(objects_pics_[1][std::rand() % 3]);
   return static_objects_.back();
 }
 
@@ -134,7 +116,7 @@ const std::list<std::shared_ptr<GameObject>>& Model::GetStaticObjects() const {
 
 std::shared_ptr<Food> Model::MakeNewFood(const Size& size, const Point& point) {
   food_.push_back(std::make_shared<Food>(size, point));
-  food_.back()->SetSkin(objects_pics_[0][std::rand() % 3]); // todo random
+  food_.back()->SetSkin(objects_pics_[0][std::rand() % 3]);
   return food_.back();
 }
 
