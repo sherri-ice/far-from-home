@@ -1,7 +1,7 @@
 #ifndef MODEL_POINT_H_
 #define MODEL_POINT_H_
 
-#include "Model/size.h"
+#include "../Model/size.h"
 
 class Point {
  public:

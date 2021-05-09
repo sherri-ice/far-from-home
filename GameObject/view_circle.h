@@ -1,8 +1,8 @@
 #ifndef  GAMEOBJECT_VIEW_CIRCLE_H_
 #define  GAMEOBJECT_VIEW_CIRCLE_H_
 
-#include "Model/point.h"
-#include "View/resizer.h"
+#include "../Model/point.h"
+#include "../View/resizer.h"
 
 class ViewCircle  {
  public:

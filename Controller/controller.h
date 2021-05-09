@@ -4,11 +4,11 @@
 #include <list>
 #include <memory>
 
-#include "Controller/abstract_controller.h"
-#include "Model/model.h"
-#include "View/view.h"
+#include "../Controller/abstract_controller.h"
+#include "../Model/model.h"
+#include "../View/view.h"
 
-#include <Model/generator.h>
+#include "../Model/generator.h"
 
 class Controller : public AbstractController {
  public:
