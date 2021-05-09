@@ -31,7 +31,7 @@ void Player::OrderCatsToMove(Size velocity_from_player) {
       if (velocity_from_player == Size(0, 0)) {
         if (cat->GetCatState() == CatState::kIsFollowingPlayer) {
           cat->SetCatState(CatState::kIsResting);
-          cat->SetHomePosition(cat->GetDrawPosition());
+          cat->SetHomePosition(cat->GetRigidPosition());
           cat->SetVelocity(velocity_from_player);
         }
       } else {
