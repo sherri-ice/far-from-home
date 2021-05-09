@@ -2,11 +2,11 @@
 #define GAMEOBJECT_GAME_OBJECT_H_
 
 #include <QPainter>
-
-#include "GameObject/rigid_body.h"
-#include "Model/point.h"
-#include "Model/size.h"
-#include "View/resizer.h"
+#include <vector>
+#include "../GameObject/rigid_body.h"
+#include "../Model/point.h"
+#include "../Model/size.h"
+#include "../View/resizer.h"
 
 class GameObject {
  public:
@@ -17,6 +17,7 @@ class GameObject {
   virtual void SetPosition(const Point& position);
   virtual void Draw(QPainter* painter, Resizer* resizer) const;
   virtual void Tick(int time);
+  void SetSkin(QPixmap skin);
 
   virtual void Resize(const Size& to_size);
 
@@ -32,8 +33,8 @@ class GameObject {
   void SetIsDead();
   bool IsDead() const;
 
-
  protected:
+  QPixmap skin_;
   Size size_ = Size(40, 40);
   Point position_;
   RigidBody rigid_body_;

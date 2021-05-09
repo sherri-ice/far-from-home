@@ -1,13 +1,14 @@
 #ifndef GAMEOBJECT_DOG_H_
 #define GAMEOBJECT_DOG_H_
 
+#include "cat.h"
 #include <memory>
 #include <random>
 #include <vector>
 
-#include "GameObject/cat.h"
-#include "GameObject/moving_object.h"
-#include "Model/timer.h"
+#include "../GameObject/cat.h"
+#include "../Model/timer.h"
+#include "../GameObject/moving_object.h"
 
 namespace constants {
 const int kTimeToRestMin = 5000;
@@ -38,6 +39,7 @@ class Dog : public MovingObject {
   void SetIfItVisibleToPlayer(bool is_visible);
   bool CheckIfCanSeeCat(const Cat* cat) const;
   void SetReachableCat(const std::vector<std::shared_ptr<Cat>>& cats);
+
 
   double GetVisibilityRadius() const;
   double GetWalkingSpeed() const;

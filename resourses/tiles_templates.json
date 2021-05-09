@@ -158,7 +158,7 @@
               "y": 0
             }
           ],
-          "size": 50
+          "size": 70
         },
         {
           "object_type": "static_object",
@@ -178,7 +178,7 @@
               "y": 0
             }
           ],
-          "size": 50
+          "size": 60
         },
         {
           "object_type": "static_object",
@@ -188,7 +188,7 @@
               "y": 0
             }
           ],
-          "size": 50
+          "size": 90
         },
         {
           "object_type": "static_object",
@@ -198,7 +198,7 @@
               "y": 0
             }
           ],
-          "size": 50
+          "size": 70
         },
         {
           "object_type": "static_object",
@@ -222,7 +222,7 @@
               "y": 0
             }
           ],
-          "size": 50
+          "size": 80
         },
         {
           "object_type": "static_object",
@@ -242,7 +242,7 @@
               "y": 0
             }
           ],
-          "size": 50
+          "size": 80
         },
         {
           "object_type": "static_object",
@@ -252,7 +252,7 @@
               "y": 0
             }
           ],
-          "size": 50
+          "size": 80
         },
         {
           "object_type": "static_object",
@@ -262,7 +262,7 @@
               "y": 0
             }
           ],
-          "size": 50
+          "size": 80
         },
         {
           "object_type": "static_object",
@@ -272,7 +272,7 @@
               "y": 0
             }
           ],
-          "size": 50
+          "size": 80
         }
       ]
     }

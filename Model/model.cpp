@@ -3,13 +3,12 @@
 #include "model.h"
 
 Model::Model() {
+  LoadAnimation();
   std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
                                                         10,
                                                         Point(0, 0));
+  main_cat->SetAnimations(animations_["cat"]);
   cats_.emplace_back(main_cat);
-  for (auto& food : food_) {
-    food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
-  }
   player_ = new Player(main_cat);
   player_->SetViewCircle(ViewCircle(player_->GetPosition(),
                                     constants::kViewCircleDefault));
@@ -35,8 +34,8 @@ std::vector<std::shared_ptr<GameObject>> Model::GetDrawableGameObjects() const {
   }
   std::sort(result.begin(), result.end(), [](const
                                              std::shared_ptr<GameObject>& lhs,
-                                             const std::shared_ptr<GameObject>&
-                                             rhs) {
+                                             const
+                                             std::shared_ptr<GameObject>& rhs) {
     return lhs->GetDrawPosition().GetY() < rhs->GetDrawPosition().GetY();
   });
   return result;
@@ -46,6 +45,7 @@ std::shared_ptr<Cat> Model::MakeNewCat(const Size& size,
                                        double speed,
                                        const Point& point) {
   cats_.push_back(std::make_shared<Cat>(size, speed, point));
+  cats_.back()->SetAnimations(animations_["cat"]);
   return cats_.back();
 }
 
@@ -87,24 +87,29 @@ void Model::ClearObjects() {
       dogs_.remove(*it);
     }
   }
+    for (auto it = static_objects_.rbegin(); it != static_objects_.rend();
+                                                                        ++it) {
+        if ((*it)->IsDead()) {
+            static_objects_.remove(*it);
+        }
+    }
 }
 
 std::shared_ptr<Dog> Model::MakeNewDog(const Size& size,
                                        double speed,
                                        const Point& point,
                                        double visibility_radius,
-                                       double waking_speed) {
-  dogs_.push_back(std::make_shared<Dog>(size,
-                                        speed,
-                                        point,
-                                        visibility_radius,
-                                        waking_speed));
+                                       double walking_speed) {
+  dogs_.push_back(std::make_shared<Dog>(size, speed, point, visibility_radius,
+                                        walking_speed));
+  dogs_.back()->SetAnimations(animations_["dog"]);
   return dogs_.back();
 }
 
 std::shared_ptr<GameObject> Model::MakeNewStaticObject(const Size& size,
                                                        const Point& point) {
   static_objects_.push_back(std::make_shared<GameObject>(size, point));
+  static_objects_.back()->SetSkin(objects_pics_[1][std::rand() % 3]);
   return static_objects_.back();
 }
 
@@ -114,6 +119,58 @@ const std::list<std::shared_ptr<GameObject>>& Model::GetStaticObjects() const {
 
 std::shared_ptr<Food> Model::MakeNewFood(const Size& size, const Point& point) {
   food_.push_back(std::make_shared<Food>(size, point));
+  food_.back()->SetSkin(objects_pics_[0][std::rand() % 3]);
   return food_.back();
 }
 
+void Model::LoadAnimation() {
+    LoadDinamicAnimation();
+    LoadStaticAnimation();
+}
+
+void Model::LoadDinamicAnimation() {
+    Q_INIT_RESOURCE(images);
+  std::vector<QString> paths = {"cat", "dog"};
+  for (const auto& path : paths) {
+    animations_[path] = GetImagesByFramePath(":images/" + path + "/");
+  }
+}
+
+void Model::LoadStaticAnimation() {
+    Q_INIT_RESOURCE(images);
+    QString path_for_objects = ":images/objects/";
+    std::vector<QString> objects_folders = {"food", "tree"};
+    for (const auto& folder : objects_folders) {
+        std::vector<QPixmap> skins;
+        for (int i = 0; i < 4; ++i) {
+            skins.emplace_back(
+                path_for_objects + "/" + folder + "/Frame " + QString::number(i)
+                + ".png");
+        }
+        objects_pics_.emplace_back(skins);
+    }
+}
+
+std::vector<std::vector<QPixmap>> Model::GetImagesByFramePath(
+    const QString& path) const {
+  std::vector<std::vector<QPixmap>> result;
+  std::vector<QString> objects_animations = {"down", "up", "left", "right"};
+  for (const auto& animation : objects_animations) {
+    std::vector<QPixmap> im{};
+    for (int i = 0; i < 4; ++i) {
+      im.emplace_back(
+          path + animation + "/Frame " + QString::number(i) + ".png");
+    }
+    result.emplace_back(im);
+  }
+  for (int i = 0; i < 4; ++i) {
+    std::vector<QPixmap> images{};
+    for (int j = 0; j < 4; ++j) {
+      images.emplace_back(
+          path + "random/" + QString::number(i) + "/Frame " + QString::number(j)
+              + ".png");
+    }
+    result.emplace_back(images);
+  }
+  return result;
+}

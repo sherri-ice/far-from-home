@@ -5,8 +5,8 @@
 #include <memory>
 #include <vector>
 
-#include "GameObject/cat.h"
-#include "GameObject/dog.h"
+#include "../GameObject/cat.h"
+#include "../GameObject/dog.h"
 #include "view_circle.h"
 
 class Player {

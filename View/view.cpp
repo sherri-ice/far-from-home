@@ -1,5 +1,5 @@
 #include "view.h"
-#include "Model/constants.h"
+#include "../Model/constants.h"
 
 #include <QKeyEvent>
 #include <QGraphicsScene>
@@ -16,16 +16,14 @@ View::View(AbstractController* controller,
   resizer_.ChangeSystem(width(), height());
   controller->StartGame();
   show();
-
   time_between_ticks_.start();
   controller_timer_id_ = startTimer(constants::kTimeBetweenTicks);
   view_timer_.start();
 }
 
 void View::paintEvent(QPaintEvent*) {
-  QPainter painter(this);
-
-  DrawGameObjects(&painter);
+    QPainter painter(this);
+    DrawGameObjects(&painter);
 }
 
 void View::timerEvent(QTimerEvent* event) {
@@ -66,12 +64,14 @@ void View::keyReleaseEvent(QKeyEvent* event) {
 }
 
 void View::DrawGameObjects(QPainter* painter) {
-  controller_->GetPlayer()->GetViewCircle().Draw(painter, &resizer_);
-  std::vector<std::shared_ptr<GameObject>>
-      drawable_objects = model_->GetDrawableGameObjects();
-  for (const auto& object : drawable_objects) {
+    controller_->GetPlayer()->GetViewCircle().Draw(painter, &resizer_);
+
+    std::vector<std::shared_ptr<GameObject>>
+    drawable_objects = model_->GetDrawableGameObjects();
+
+    for (const auto& object : drawable_objects) {
     object->Draw(painter, &resizer_);
-  }
+    }
 }
 
 void View::Resize() {

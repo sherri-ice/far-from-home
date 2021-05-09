@@ -10,7 +10,6 @@ Controller::Controller() {
 void Controller::Tick(int time) {
   int delta_time = time - current_game_time_;
   current_game_time_ = time;
-
   TickPlayer();
   TickCats(delta_time);
   TickDogs(delta_time);
@@ -42,10 +41,10 @@ void Controller::TickPlayer() {
 }
 
 void Controller::TickCats(int time) {
-  for (auto& cat : model_->GetPlayer()->GetCats()) {
-    cat->Tick(time);
-    cat->Move(time);
-  }
+    for (auto& cat : model_->GetCats()) {
+        cat->Tick(time);
+        cat->Move(time);
+    }
 }
 
 void Controller::TickDogs(int delta_time) {
