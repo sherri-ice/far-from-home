@@ -38,7 +38,6 @@ class View : public QMainWindow {
   void timerEvent(QTimerEvent* event) override;
   void mousePressEvent(QMouseEvent* event) override;
 
-  void DrawMap(QPainter* painter);
   void DrawGameObjects(QPainter* painter);
 
   Size player_velocity_;

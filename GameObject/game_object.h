@@ -10,6 +10,7 @@
 
 class GameObject {
  public:
+  GameObject() = default;
   explicit GameObject(const Size& size, const Point& position = Point(0, 0));
   virtual ~GameObject() = default;
 
@@ -31,6 +32,7 @@ class GameObject {
 
   void SetIsDead();
   bool IsDead() const;
+
 
  protected:
   Size size_ = Size(40, 40);

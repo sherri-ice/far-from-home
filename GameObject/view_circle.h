@@ -20,7 +20,7 @@ class ViewCircle  {
 
  private:
   Point center_ = Point(0, 0);
-  double radius_ = 0.;
+  double radius_ = constants::kViewCircleMax;
   double wanted_radius_ = constants::kViewCircleDefault;
 };
 

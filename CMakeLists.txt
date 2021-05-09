@@ -8,8 +8,8 @@ set(CMAKE_AUTORCC ON) # Enable Qt resources compiler
 set(CMAKE_AUTOUIC ON) # Enable Qt UI compiler
 
 # You can set CMake prefix path here or pass it to CMake executable.
-#set(CMAKE_PREFIX_PATH "~/Qt/5.15.2/gcc_64/lib/cmake")
-set(CMAKE_PREFIX_PATH "C:/Qt/5.15.2/mingw81_64/lib/cmake")
+set(CMAKE_PREFIX_PATH "~/Qt/5.15.2/gcc_64/lib/cmake")
+#set(CMAKE_PREFIX_PATH "C:/Qt/5.15.2/mingw81_64/lib/cmake")
 
 if (NOT CMAKE_PREFIX_PATH)
     message(WARNING "CMAKE_PREFIX_PATH is not defined, you may need to set it "
@@ -45,6 +45,8 @@ set(SOURCES
         GameObject/portal_object.cpp
         View/progress_bar.cpp
         View/warning.cpp)
+        Model/generator.cpp
+        resourses.qrc)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 
