@@ -7,6 +7,7 @@
 #include <vector>
 #include <algorithm>
 
+
 View::View(AbstractController* controller,
            std::shared_ptr<Model> model)
     : controller_(controller),
@@ -64,14 +65,14 @@ void View::keyReleaseEvent(QKeyEvent* event) {
 }
 
 void View::DrawGameObjects(QPainter* painter) {
-    controller_->GetPlayer()->GetViewCircle().Draw(painter, &resizer_);
-
-    std::vector<std::shared_ptr<GameObject>>
-    drawable_objects = model_->GetDrawableGameObjects();
-
-    for (const auto& object : drawable_objects) {
-    object->Draw(painter, &resizer_);
+  controller_->GetPlayer()->GetViewCircle().Draw(painter, &resizer_);
+  std::vector<std::shared_ptr<GameObject>>
+      drawable_objects = model_->GetDrawableGameObjects();
+  for (const auto& object : drawable_objects) {
+    if (IsOnTheScreen(object)) {
+      object->Draw(painter, &resizer_);
     }
+  }
 }
 
 void View::Resize() {
@@ -97,4 +98,24 @@ double View::GetViewSize() {
   radius = std::min(std::max(radius, constants::kViewCircleMin),
                     constants::kViewCircleMax);
   return radius;
+}
+
+bool View::IsOnTheScreen(const std::shared_ptr<GameObject>& object) {
+  auto object_pos = object->GetDrawPosition();
+  auto screen_rect = this->rect();
+  Point top_point = Point(screen_rect.topLeft().x(), screen_rect.topLeft().y());
+  auto game_top_point = resizer_.WindowToGameCoordinate(top_point);
+  Point bottom_point =
+      Point(screen_rect.bottomRight().x(), screen_rect.bottomRight().y());
+  auto game_bottom_point = resizer_.WindowToGameCoordinate(bottom_point);
+
+  if (object_pos.GetX() < game_top_point.GetX()
+      || object_pos.GetX() > game_bottom_point.GetX()) {
+    return false;
+  }
+  if (object_pos.GetY() < game_top_point.GetY()
+      || object_pos.GetY() > game_bottom_point.GetY()) {
+    return false;
+  }
+    return true;
 }
