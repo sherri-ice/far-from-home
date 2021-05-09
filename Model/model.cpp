@@ -1,7 +1,7 @@
 #include <algorithm>
-#include <View/progress_bar.h>
 
-#include "model.h"
+#include "Model/model.h"
+#include "View/progress_bar.h"
 
 Model::Model() {
   std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
@@ -25,11 +25,16 @@ Model::Model() {
   }
 
   player_ = new Player(main_cat);
+
   // Temporary
   MakeNewPortal(Size(60, 60), Point(0, 100), "", true);
   MakeNewPortal(Size(60, 60), Point(200, 100), "", true);
   MakeNewPortal(Size(60, 60), Point(200, 120), "", true);
   MakeNewPortal(Size(60, 60), Point(200, 140), "", true);
+  MakeNewPortal(Size(60, 60), Point(100, 10), "", true);
+  MakeNewPortal(Size(60, 60), Point(350, -20), "", true);
+  MakeNewPortal(Size(60, 60), Point(-100, 100), "", true);
+
   MakeNewCat(Size(60, 60), 0.001, Point(1000, 0));
   MakeNewCat(Size(10, 10), 0.001, Point(500, 500));
   player_->SetViewCircle(ViewCircle(player_->GetPosition(),
@@ -53,6 +58,9 @@ std::vector<std::shared_ptr<GameObject>> Model::GetDrawableGameObjects() const {
   }
   for (const auto& static_object : static_objects_) {
     result.push_back(static_object);
+  }
+  for (const auto& warning : warnings_) {
+    result.push_back(warning);
   }
   std::sort(result.begin(), result.end(), [](const
                                              std::shared_ptr<GameObject>& lhs,
@@ -110,6 +118,12 @@ void Model::ClearObjects() {
       dogs_.remove(*it);
     }
   }
+
+  for (auto it = warnings_.rbegin(); it != warnings_.rend(); ++it) {
+    if ((*it)->IsDead()) {
+      warnings_.remove(*it);
+    }
+  }
 }
 
 std::list<std::shared_ptr<PortalObject>>& Model::GetStaticObjects() {
@@ -127,4 +141,16 @@ std::shared_ptr<PortalObject> Model::MakeNewPortal(const Size& size,
     static_objects_.back()->SetPortal();
   }
   return static_objects_.back();
+}
+
+void Model::AddWarning(const std::shared_ptr<Warning>& warning) {
+  warnings_.emplace_back(warning);
+}
+
+std::vector<std::shared_ptr<Warning>> Model::GetWarnings() {
+  std::vector<std::shared_ptr<Warning>> result;
+  for (const auto& warning : warnings_) {
+    result.push_back(warning);
+  }
+  return result;
 }

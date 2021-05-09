@@ -25,8 +25,9 @@ class Controller : public AbstractController {
   void TickPlayer();
   void TickCats(int delta_time);
   void TickDogs(int delta_time);
-  void TickFood(int time);
-  void TickObjects(int time);
+  void TickFood(int delta_time);
+  void TickObjects(int delta_time);
+  void TickWarnings(int delta_time);
 
   void CatsAndFoodIntersect();
   void MovingAndStaticObjectsIntersect(const std::shared_ptr<MovingObject>&

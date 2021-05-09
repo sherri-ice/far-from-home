@@ -35,3 +35,8 @@ void Timer::Stop(int index_of_timer) {
   timers_.at(index_of_timer) = 0;
   is_active_.at(index_of_timer) = false;
 }
+
+void Timer::Start(int time, int index_of_timer) {
+  timers_.at(index_of_timer) = time;
+  is_active_.at(index_of_timer) = true;
+}

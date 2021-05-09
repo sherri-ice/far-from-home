@@ -45,3 +45,22 @@ const Point& Player::GetPosition() const {
 void Player::Tick() {
   view_circle_.Tick();
 }
+
+void Player::UpdateStaticObjectsAround(const
+  std::list<std::shared_ptr<PortalObject>>& static_objects) {
+  Point cat_position;
+  Size distance;
+  for (const auto& cat : cats_) {
+    cat_position = cat->GetRigidPosition();
+    for (auto& static_object : static_objects) {
+      if (static_object->HasPortal()) {
+        distance = cat_position.GetVectorTo(static_object->GetRigidPosition());
+        if (distance.GetLength() < visibility_radius_) {
+          static_object->SetIfMessageIsShown(true);
+        } else {
+          static_object->SetIfMessageIsShown(false);
+        }
+      }
+    }
+  }
+}

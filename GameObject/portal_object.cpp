@@ -1,16 +1,27 @@
 #include "portal_object.h"
 
-#include <iostream>
-
 PortalObject::PortalObject(const Size& size,
                            const Point& position,
                            const QString& skin_path) : GameObject(size,
-                                                                  position) {
+                                                                  position),
+                                                       warning_("Click on a "
+                                                                "tree to "
+                                                                "send your "
+                                                                "cat on "
+                                                                "search",
+                                                                Point
+                                                                    (position
+                                                                    .GetX(),
+                                                                    position
+                                                                    .GetY() -
+                                                                    size
+                                                                    .GetHeight() / 2),
+                                                                    8) {
   skin_path_ = skin_path;
   progress_bar_ = ProgressBar(position, size);
   progress_bar_.SetRange(0, 1000);
   search_timer_.StartTimerWithRandom(1000, 1000);
-  warning_ = Warning(position);
+  // warning_ = Warning(position);
 }
 
 void PortalObject::Draw(QPainter* painter, Resizer* resizer) const {
@@ -25,7 +36,9 @@ void PortalObject::Draw(QPainter* painter, Resizer* resizer) const {
                        size.GetHeight());
   painter->restore();
   progress_bar_.Draw(painter, resizer);
-  warning_.Draw(painter, resizer);
+  if (has_portal_ && state_ != PortalState::kSearching) {
+    warning_.Draw(painter, resizer);
+  }
 }
 
 void PortalObject::Tick(int time) {
@@ -36,9 +49,9 @@ void PortalObject::Tick(int time) {
       progress_bar_.IncCurrentValue();
       search_timer_.Tick(1);
     } else {
+      warning_.UpdateMessage("Click on a tree to see the result!");
       state_ = PortalState::kPendingInfo;
       progress_bar_.SetInvisible();
-      warning_.SetVisible();
       search_timer_.Stop();
     }
   }
@@ -57,8 +70,11 @@ void PortalObject::RemovePortal() {
 }
 
 void PortalObject::SetSearchState() {
-  state_ = PortalState::kSearching;
-  progress_bar_.SetVisible();
+  if (state_ != PortalState::kPendingInfo && state_ !=
+      PortalState::kWaitToSeeResult) {
+    state_ = PortalState::kSearching;
+    progress_bar_.SetVisible();
+  }
 }
 
 bool PortalObject::IsSearchComplete() {
@@ -69,3 +85,10 @@ bool PortalObject::HasPortal() const {
   return has_portal_;
 }
 
+void PortalObject::SetIfMessageIsShown(bool is_shown) {
+  warning_.SetIfIsDrawn(is_shown);
+}
+
+void PortalObject::SetWaitState() {
+  state_ = PortalState::kWaitToSeeResult;
+}

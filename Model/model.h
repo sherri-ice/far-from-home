@@ -11,6 +11,7 @@
 #include "GameObject/dog.h"
 #include "GameObject/food.h"
 #include "GameObject/player.h"
+#include "View/warning.h"
 
 enum GameState {
   kGame,
@@ -32,11 +33,13 @@ class Model {
                                               const Point& position,
                                               const QString& skin_path,
                                               bool has_portal);
+  void AddWarning(const std::shared_ptr<Warning>& warning);
 
   std::list<std::shared_ptr<Food>> GetFood();
   std::list<std::shared_ptr<Dog>> GetDogs();
   std::list<std::shared_ptr<Cat>> GetCats();
   std::list<std::shared_ptr<PortalObject>>& GetStaticObjects();
+  std::vector<std::shared_ptr<Warning>> GetWarnings();
   void ClearObjects();
 
  private:
@@ -48,6 +51,7 @@ class Model {
   std::list<std::shared_ptr<Food>> food_;
   std::list<std::shared_ptr<Dog>> dogs_;
   std::list<std::shared_ptr<PortalObject>> static_objects_;
+  std::list<std::shared_ptr<Warning>> warnings_;
 };
 
 #endif  // MODEL_MODEL_H_

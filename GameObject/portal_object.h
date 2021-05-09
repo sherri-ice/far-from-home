@@ -11,6 +11,7 @@ enum class PortalState {
   kDefault,
   kSearching,
   kPendingInfo,
+  kWaitToSeeResult,
   kCollected
 };
 
@@ -31,14 +32,16 @@ class PortalObject : public GameObject {
   void Draw(QPainter* painter, Resizer* resizer) const override;
   void Tick(int time) override;
 
+  void SetIfMessageIsShown(bool is_shown);
+  void SetWaitState();
 
  private:
-  bool has_portal_;
+  bool has_portal_{true};
   QString skin_path_;
   Timer search_timer_ = Timer(1);
   ProgressBar progress_bar_;
   PortalState state_ = PortalState::kDefault;
-  Warning warning_ = Warning(Point(0, 0));
+  Warning warning_;
 };
 
 #endif  // GAMEOBJECT_PORTAL_OBJECT_H_

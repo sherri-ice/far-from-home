@@ -1,14 +1,13 @@
-#include "view.h"
-#include "Model/constants.h"
-#include "progress_bar.h"
-
+#include <algorithm>
 #include <QKeyEvent>
 #include <QGraphicsScene>
 #include <utility>
 #include <vector>
-#include <algorithm>
+
 #include <GameObject/portal_object.h>
-#include <iostream>
+#include "Model/constants.h"
+#include "progress_bar.h"
+#include "view.h"
 
 View::View(AbstractController* controller,
            std::shared_ptr<Model> model)
@@ -17,6 +16,7 @@ View::View(AbstractController* controller,
   setWindowTitle(constants::kApplicationName);
   resizer_.ChangeSystem(width(), height());
   show();
+  setStyleSheet("background-color: #32CD32");
 
   time_between_ticks_.start();
   controller_timer_id_ = startTimer(constants::kTimeBetweenTicks);
@@ -105,4 +105,8 @@ void View::mousePressEvent(QMouseEvent* event) {
   Point point = Point(event->x(), event->y());
   auto needed = resizer_.WindowToGameCoordinate(point);
   controller_->ScanIfObjectWereClicked(needed);
+}
+
+Point View::GetCoordinatesForWarning() const {
+  return Point(width() / 2, 0);
 }

@@ -22,6 +22,7 @@ void Controller::Tick(int time) {
   TickDogs(delta_time);
   TickFood(delta_time);
   TickObjects(delta_time);
+  TickWarnings(delta_time);
 
   CatsAndFoodIntersect();
 
@@ -49,6 +50,7 @@ void Controller::TickPlayer() {
   view_->ClearVelocity();
   player->OrderCatsToMove(player_velocity);
   player->UpdateDogsAround(model_->GetDogs());
+  player->UpdateStaticObjectsAround(model_->GetStaticObjects());
 }
 
 void Controller::TickCats(int delta_time) {
@@ -67,7 +69,7 @@ void Controller::TickDogs(int delta_time) {
     dog->Tick(delta_time);
     MovingAndStaticObjectsIntersect(dog);
     dog->Move(delta_time);
-    for (auto &cat : player->GetCats()) {
+    for (auto& cat : player->GetCats()) {
       if (dog->GetRigidBody()->IsCollide(*(cat->GetRigidBody()))) {
         player->DismissCats();
         break;
@@ -90,9 +92,18 @@ void Controller::CatsAndFoodIntersect() {
   }
 }
 
-void Controller::TickObjects(int time) {
+void Controller::TickObjects(int delta_time) {
   for (auto& object : model_->GetStaticObjects()) {
-    object->Tick(time);
+    object->Tick(delta_time);
+    if (object->IsSearchComplete()) {
+      model_->AddWarning(std::make_shared<Warning>("Search is "
+                                                   "finished. Come back to the "
+                                                   "tree to see the result",
+                                                   view_->GetCoordinatesForWarning(),
+                                                   12, true,
+                                                   true, 3000));
+      object->SetWaitState();
+    }
   }
   for (auto& object : model_->GetStaticObjects()) {
     // if (object->IsSearchComplete()) {
@@ -101,13 +112,13 @@ void Controller::TickObjects(int time) {
 }
 
 void Controller::MovingAndStaticObjectsIntersect(const
-std::shared_ptr<MovingObject>& moving_object) {
+                                                 std::shared_ptr<MovingObject>& moving_object) {
   for (const auto& static_object : model_->GetStaticObjects()) {
-    if (moving_object->GetRigidBody()->IfCollisionWillHappen(*
-    (static_object->GetRigidBody()), moving_object->GetVelocity())) {
+    if (moving_object->GetRigidBody()->IfCollisionWillHappen(*(static_object->GetRigidBody()),
+                                                             moving_object->GetVelocity())) {
       Size new_velocity = moving_object->GetRigidBody()
-          ->GetVelocityToAvoidCollision
-          (*(static_object->GetRigidBody()), moving_object->GetVelocity());
+          ->GetVelocityToAvoidCollision(*(static_object->GetRigidBody()),
+                                        moving_object->GetVelocity());
       moving_object->SetVelocity(new_velocity * moving_object->GetVelocity()
       .GetLength());
     }
@@ -115,11 +126,34 @@ std::shared_ptr<MovingObject>& moving_object) {
 }
 
 void Controller::ScanIfObjectWereClicked(const Point& point) {
-  for (const auto& object : model_->GetStaticObjects()) {
+  for (auto& object : model_->GetStaticObjects()) {
     if (object->GetDrawPosition().IsInEllipse(point, 100)) {
       if (!object->IsSearchComplete()) {
         object->SetSearchState();
       }
     }
+  }
+}
+
+void Controller::TickWarnings(int delta_time) {
+  auto warnings = model_->GetWarnings();
+  double shift = 50;
+  if (!warnings.empty()) {
+    warnings.at(0)->SetShift(static_cast<int>(shift));
+    warnings.at(0)->SetIfIsDrawn(true);
+  }
+  for (size_t i = 1; i < 3 && i < warnings.size(); ++i) {
+    shift += warnings.at(i - 1)->GetFontSize();
+    shift += 10;
+    warnings.at(i)->SetShift(static_cast<int>(shift));
+    warnings.at(i)->SetIfIsDrawn(true);
+  }
+  for (size_t i = 3; i < warnings.size(); ++i) {
+    warnings.at(i)->SetIfIsDrawn(false);
+  }
+
+  for (auto& warning : warnings) {
+    warning->Tick(delta_time);
+    warning->SetPosition(view_->GetCoordinatesForWarning());
   }
 }
