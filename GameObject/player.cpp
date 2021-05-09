@@ -38,7 +38,8 @@ void Player::OrderCatsToMove(Size velocity_from_player) {
         if (cat->GetTimer().IsTimeOut(static_cast<int>
         (CatState::kIsFollowingPlayer))
             || !(cat->GetTimer().IsActive(static_cast<int>
-            (CatState::kIsFollowingPlayer)))) {
+            (CatState::kIsFollowingPlayer)) ||
+            (cat->IsVelocityChange(velocity_from_player)))) {
           cat->SetVelocity(velocity_from_player);
           cat->SetCatState(CatState::kIsFollowingPlayer);
         }

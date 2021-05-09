@@ -39,9 +39,7 @@ class Cat : public MovingObject {
   void Draw(QPainter* painter, Resizer* resizer) const override;
   void Tick(int time) override;
 
-  void SetVelocityFromPlayer(Size velocity);
   bool GetIsInGroup() const;
-  Point GetHomePosition() const;
   void SetHomePosition(const Point& position);
   void SetIsInGroup(bool);
   void SetIsReachable(bool);

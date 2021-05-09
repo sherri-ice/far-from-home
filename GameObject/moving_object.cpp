@@ -30,10 +30,6 @@ double MovingObject::GetSpeed() {
   return speed_;
 }
 
-Size MovingObject::GetVelocity() {
-  return velocity_;
-}
-
 void MovingObject::SetRunAwayDestination(const Point& first_pos,
                                          const Point& second_pos,
                                          const Point& pos, int x) {
@@ -43,3 +39,12 @@ void MovingObject::SetRunAwayDestination(const Point& first_pos,
       (second_pos.GetY() - first_pos.GetY()) * pos.GetX();
   destination_ = Point(x, y);
 }
+
+bool MovingObject::IsVelocityChange(Size main_velocity) {
+  if (main_velocity.GetWidth() * velocity_.GetWidth() < 0 ||
+             main_velocity.GetHeight() * velocity_.GetHeight() < 0) {
+    return true;
+  }
+  return false;
+}
+

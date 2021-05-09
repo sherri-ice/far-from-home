@@ -193,16 +193,8 @@ bool Cat::GetIsInGroup() const {
   return is_in_group_;
 }
 
-void Cat::SetVelocityFromPlayer(Size velocity) {
-  velocity_ = velocity;
-}
-
 void Cat::SetIsInGroup(bool in_group) {
   is_in_group_ = in_group;
-}
-
-Point Cat::GetHomePosition() const {
-  return home_position_;
 }
 
 void Cat::SetCatState(CatState cat_state) {
