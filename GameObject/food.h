@@ -7,7 +7,7 @@ class Food : public GameObject {
   Food(const Size& size, const Point& position);
   ~Food() override = default;
 
-  void Draw(QPainter* painter, Resizer* resizer) override;
+  void Draw(QPainter* painter, Resizer* resizer) const override;
   void Tick(int time) override;
 };
 #endif  // GAMEOBJECT_FOOD_H_

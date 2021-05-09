@@ -9,7 +9,7 @@ class Cat : public MovingObject {
   Cat(const Size& size, double speed, const Point& position);
   ~Cat() override = default;
 
-  void Draw(QPainter* painter, Resizer* resizer) override;
+  void Draw(QPainter* painter, Resizer* resizer) const override;
   void Tick(int delta_time) override;
 
   void SetVelocityFromPlayer(Size velocity);

@@ -15,7 +15,7 @@ class GameObject {
   virtual ~GameObject() = default;
 
   virtual void SetPosition(const Point& position);
-  virtual void Draw(QPainter* painter, Resizer* resizer);
+  virtual void Draw(QPainter* painter, Resizer* resizer) const;
   virtual void Tick(int time);
   void SetSkin(QPixmap skin);
 

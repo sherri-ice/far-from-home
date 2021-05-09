@@ -26,9 +26,11 @@ AnimationState MovingObject::GetAnimation() const {
         if (was_moving_) {
             return kSit;
         }
-        std::uniform_int_distribution<> random_time(4, 7);
-        animation_state = static_cast<AnimationState>
-                          (random_time(random_generator_));
+        // ну анимашка эта дерганая нормально так надоела пусть пока без рандома
+        // std::uniform_int_distribution<> random_time(4, 7);
+        // animation_state = static_cast<AnimationState>
+        //                   (random_time(random_generator_));
+        animation_state = kSiting;
     } else {
         double x = velocity_.GetWidth();
         double y = velocity_.GetHeight();
