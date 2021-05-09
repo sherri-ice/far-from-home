@@ -7,7 +7,6 @@
 #include <vector>
 #include <algorithm>
 
-#include <QDebug>
 
 View::View(AbstractController* controller,
            std::shared_ptr<Model> model)
