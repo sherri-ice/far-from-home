@@ -29,6 +29,7 @@ void View::paintEvent(QPaintEvent*) {
   QPainter painter(this);
 
   DrawGameObjects(&painter);
+  DrawWarnings(&painter);
 }
 
 void View::timerEvent(QTimerEvent* event) {
@@ -117,10 +118,14 @@ Point View::GetCoordinatesForWarning() const {
 bool View::IsOnTheScreen(const std::shared_ptr<GameObject>& object) {
   auto object_pos = object->GetDrawPosition();
   auto screen_rect = this->rect();
-  Point top_point = Point(screen_rect.topLeft().x(), screen_rect.topLeft().y());
+  double height_shift = screen_rect.height() * constants::kFactorForScreen;
+  double width_shift = screen_rect.width() * constants::kFactorForScreen;
+  Point top_point = Point(screen_rect.topLeft().x() - width_shift, screen_rect.topLeft
+  ().y() - height_shift);
   auto game_top_point = resizer_.WindowToGameCoordinate(top_point);
   Point bottom_point =
-      Point(screen_rect.bottomRight().x(), screen_rect.bottomRight().y());
+      Point(screen_rect.bottomRight().x() + width_shift, screen_rect.bottomRight()
+      .y() + height_shift);
   auto game_bottom_point = resizer_.WindowToGameCoordinate(bottom_point);
 
   if (object_pos.GetX() < game_top_point.GetX()
@@ -132,4 +137,10 @@ bool View::IsOnTheScreen(const std::shared_ptr<GameObject>& object) {
     return false;
   }
   return true;
+}
+
+void View::DrawWarnings(QPainter* painter) {
+  for (const auto& warning : model_->GetWarnings()) {
+    warning->Draw(painter, &resizer_);
+  }
 }

@@ -19,13 +19,10 @@ Dog::Dog(const Size& size,
 
 void Dog::Draw(QPainter* painter, Resizer* resizer) const {
   rigid_body_.Draw(painter, resizer);
-  painter->save();
-  auto position = resizer->GameToWindowCoordinate(position_);
-  auto size = resizer->GameToWindowSize(size_);
-  painter->translate(position.GetX(), position.GetY());
-  int object_width = static_cast<int>(size.GetWidth());
-  int object_height = static_cast<int>(size.GetHeight());
   if (is_visible_to_player_) {
+    painter->save();
+    auto rigid_position = resizer->GameToWindowCoordinate(GetRigidPosition());
+    painter->translate(rigid_position.GetX(), rigid_position.GetY());
     Size radius = resizer->GameToWindowSize(Size(visibility_radius_,
                                                  visibility_radius_));
     painter->drawEllipse(static_cast<int>(-radius.GetWidth()),
@@ -34,7 +31,14 @@ void Dog::Draw(QPainter* painter, Resizer* resizer) const {
                          2 * static_cast<int>(radius.GetWidth()),
                          2 * static_cast<int>(radius.GetHeight() *
                          constants::kSemiMinorCoefficient));
+    painter->restore();
   }
+  painter->save();
+  auto position = resizer->GameToWindowCoordinate(position_);
+  auto size = resizer->GameToWindowSize(size_);
+  painter->translate(position.GetX(), position.GetY());
+  int object_width = static_cast<int>(size.GetWidth());
+  int object_height = static_cast<int>(size.GetHeight());
   switch (dog_state_) {
     case DogState::kChasingCat: {
       painter->setBrush(Qt::black);
@@ -155,7 +159,7 @@ void Dog::SetReachableCat(const std::vector<std::shared_ptr<Cat>>& cats) {
 }
 
 bool Dog::CheckIfCanSeeCat(const Cat* cat) const {
-  return cat->GetRigidPosition().IsInEllipse(position_,
+  return cat->GetRigidPosition().IsInEllipse(GetRigidPosition(),
                                              visibility_radius_);
 }
 

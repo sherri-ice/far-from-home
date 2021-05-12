@@ -17,12 +17,11 @@ PortalObject::PortalObject(const Size& size,
                                                                     size
                                                                     .GetHeight()
                                                                     / 2),
-                                                                    8) {
+                                                                    15) {
   skin_path_ = skin_path;
   progress_bar_ = ProgressBar(position, size);
   progress_bar_.SetRange(0, 1000);
   search_timer_.StartTimerWithRandom(1000, 1000);
-  // warning_ = Warning(position);
 }
 
 void PortalObject::Draw(QPainter* painter, Resizer* resizer) const {
@@ -37,7 +36,7 @@ void PortalObject::Draw(QPainter* painter, Resizer* resizer) const {
                        size.GetHeight());
   painter->restore();
   progress_bar_.Draw(painter, resizer);
-  if (has_portal_ && state_ != PortalState::kSearching) {
+  if (state_ != PortalState::kSearching) {
     warning_.Draw(painter, resizer);
   }
 }

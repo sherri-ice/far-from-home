@@ -47,15 +47,12 @@ std::vector<std::shared_ptr<GameObject>> Model::GetDrawableGameObjects() const {
   for (const auto& static_object : static_objects_) {
     result.push_back(static_object);
   }
-  for (const auto& warning : warnings_) {
-    result.push_back(warning);
-  }
   std::sort(result.begin(), result.end(), [](const
                                              std::shared_ptr<GameObject>& lhs,
 
                                              const std::shared_ptr<GameObject>&
                                              rhs) {
-    return lhs->GetDrawPosition().GetY() < rhs->GetDrawPosition().GetY();
+    return lhs->GetRigidPosition().GetY() < rhs->GetRigidPosition().GetY();
   });
   return result;
 }

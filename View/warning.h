@@ -9,7 +9,7 @@
 #include "View/resizer.h"
 
 namespace warning_constants {
-const double kAlignCenter = 0.215;
+const double kAlignCenter = 0.213;
 }  // namespace warning_constants
 
 class Warning : public GameObject {

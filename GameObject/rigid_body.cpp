@@ -60,42 +60,50 @@ bool RigidBody::IfCollisionWillHappen(const RigidBody&
 Size RigidBody::GetVelocityToAvoidCollision(const RigidBody&
   other_rigid_body, const Size& current_velocity) {
   QRect other_rect = other_rigid_body.GetRect();
-  if (std::abs(GetRect().y() + GetRect().height() - other_rect.y()) <
-      constants::kCheckIfBordersAreClose) {
-    if (need_to_get_around_ && border_which_is_collide_ == Border::kTop) {
-      return saved_vector_to_get_around_;
-    }
-    border_which_is_collide_ = Border::kTop;
-    if (current_velocity.GetHeight() < 0) {
-      return current_velocity;
-    }
-  } else if (std::abs(other_rect.y() + other_rect.height() - GetRect().y()) <
-      constants::kCheckIfBordersAreClose) {
-    if (need_to_get_around_ && border_which_is_collide_ == Border::kBottom) {
-      return saved_vector_to_get_around_;
-    }
-    border_which_is_collide_ = Border::kBottom;
-    if (current_velocity.GetHeight() > 0) {
-      return current_velocity;
-    }
-  } else if (std::abs(GetRect().x() + GetRect().width() - other_rect.x()) <
-      constants::kCheckIfBordersAreClose) {
-    if (need_to_get_around_ && border_which_is_collide_ == Border::kLeft) {
-      return saved_vector_to_get_around_;
-    }
-    border_which_is_collide_ = Border::kLeft;
-    if (current_velocity.GetWidth() < 0) {
-      return current_velocity;
-    }
+  auto new_border = GetBorderIfObjectIsClose(other_rect);
+  if (new_border != border_which_is_collide_ && new_border != Border::kNone) {
+    need_to_get_around_ = false;
+  } else if (need_to_get_around_) {
+    return saved_vector_to_get_around_;
   }
-  if (std::abs(other_rect.x() + other_rect.width() - GetRect().x()) <
-  constants::kCheckIfBordersAreClose) {
-    if (need_to_get_around_ && border_which_is_collide_ == Border::kRight) {
-      return saved_vector_to_get_around_;
+  border_which_is_collide_ = new_border;
+  switch (border_which_is_collide_) {
+    case Border::kTop: {
+      if (current_velocity.GetHeight() < 0) {
+        return current_velocity;
+      }
+      break;
     }
-    border_which_is_collide_ = Border::kRight;
-    if (current_velocity.GetWidth() > 0) {
-      return current_velocity;
+    case Border::kBottom: {
+      if (current_velocity.GetHeight() > 0) {
+        return current_velocity;
+      }
+      break;
+    }
+    case Border::kLeft: {
+      if (current_velocity.GetWidth() < 0) {
+        return current_velocity;
+      }
+      break;
+    }
+    case Border::kRight: {
+      if (current_velocity.GetWidth() > 0) {
+        return current_velocity;
+      }
+      break;
+    }
+    case Border::kNone: {
+      new_border = GetBorderIfObjectIsNotClose(other_rect);
+      if (new_border != border_which_is_collide_) {
+        need_to_get_around_ = false;
+      } else if (need_to_get_around_) {
+        return saved_vector_to_get_around_;
+      }
+      border_which_is_collide_ = new_border;
+      break;
+    }
+    default: {
+      break;
     }
   }
   need_to_get_around_ = false;
@@ -114,7 +122,6 @@ Size RigidBody::GetVelocityToAvoidCollision(const RigidBody&
         }
         return saved_vector_to_get_around_;
       }
-
       if (current_velocity.GetWidth() > 0) {
         return Size(1, 0);
       } else {
@@ -146,4 +153,40 @@ Size RigidBody::GetVelocityToAvoidCollision(const RigidBody&
     }
   }
   return current_velocity;
+}
+
+Border RigidBody::GetBorderIfObjectIsNotClose(const QRect& other_rect) const {
+  if (GetRect().x() >= other_rect.x() + other_rect.width()) {
+    return Border::kRight;
+  }
+  if (GetRect().x() + GetRect().width() <= other_rect.x()) {
+    return Border::kLeft;
+  }
+  if (GetRect().y() + GetRect().height() <= other_rect.y()) {
+    return Border::kTop;
+  }
+  if (GetRect().y() >= other_rect.y() + other_rect.height()) {
+    return Border::kBottom;
+  }
+  return Border::kNone;
+}
+
+Border RigidBody::GetBorderIfObjectIsClose(const QRect& other_rect) const {
+  if (std::abs(GetRect().y() + GetRect().height() - other_rect.y()) <
+      constants::kCheckIfBordersAreClose) {
+    return Border::kTop;
+  }
+  if (std::abs(other_rect.y() + other_rect.height() - GetRect().y()) <
+      constants::kCheckIfBordersAreClose) {
+    return Border::kBottom;
+  }
+  if (std::abs(GetRect().x() + GetRect().width() - other_rect.x()) <
+      constants::kCheckIfBordersAreClose) {
+    return Border::kLeft;
+  }
+  if (std::abs(other_rect.x() + other_rect.width() - GetRect().x()) <
+      constants::kCheckIfBordersAreClose) {
+    return Border::kRight;
+  }
+  return Border::kNone;
 }

@@ -26,6 +26,9 @@ void Warning::Tick(int delta_time) {
     if (text_color_.alpha() == 0) {
       is_dead_ = true;
     } else {
+      if (background_color_.alpha() - fade_speed_ > 0) {
+        background_color_.setAlpha(background_color_.alpha() - fade_speed_);
+      }
       text_color_.setAlpha(text_color_.alpha() - fade_speed_);
     }
   }

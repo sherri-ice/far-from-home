@@ -38,6 +38,8 @@ class RigidBody {
   velocity) const;
   Size GetVelocityToAvoidCollision(const RigidBody& other_rigid_body,
                                    const Size& current_velocity);
+  Border GetBorderIfObjectIsNotClose(const QRect& other_rect) const;
+  Border GetBorderIfObjectIsClose(const QRect& other_rect) const;
 
  private:
   const Size* object_size_;

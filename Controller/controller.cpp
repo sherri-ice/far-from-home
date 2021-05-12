@@ -46,10 +46,12 @@ void Controller::TickPlayer() {
 }
 
 void Controller::TickCats(int delta_time) {
-  for (auto& cat : model_->GetPlayer()->GetCats()) {
-    cat->Tick(delta_time);
-    MovingAndStaticObjectsIntersect(cat);
-    cat->Move(delta_time);
+  for (auto& cat : model_->GetCats()) {
+    if (view_->IsOnTheScreen(cat)) {
+      cat->Tick(delta_time);
+      MovingAndStaticObjectsIntersect(cat);
+      cat->Move(delta_time);
+    }
   }
 }
 
@@ -57,14 +59,16 @@ void Controller::TickDogs(int delta_time) {
   std::list<std::shared_ptr<Dog>> dogs = model_->GetDogs();
   auto player = model_->GetPlayer();
   for (auto& dog : dogs) {
-    dog->SetReachableCat(player->GetCats());
-    dog->Tick(delta_time);
-    MovingAndStaticObjectsIntersect(dog);
-    dog->Move(delta_time);
-    for (auto& cat : player->GetCats()) {
-      if (dog->GetRigidBody()->IsCollide(*(cat->GetRigidBody()))) {
-        player->DismissCats();
-        break;
+    if (view_->IsOnTheScreen(dog)) {
+      dog->SetReachableCat(player->GetCats());
+      dog->Tick(delta_time);
+      MovingAndStaticObjectsIntersect(dog);
+      dog->Move(delta_time);
+      for (auto& cat : player->GetCats()) {
+        if (dog->GetRigidBody()->IsCollide(*(cat->GetRigidBody()))) {
+          player->DismissCats();
+          break;
+        }
       }
     }
   }
@@ -104,7 +108,7 @@ void Controller::TickObjects(int delta_time) {
                                                    "tree to see the result",
                                                    view_->
                                                    GetCoordinatesForWarning(),
-                                                   12, true,
+                                                   32, true,
                                                    true, 3000));
       object->SetWaitState();
     }
@@ -143,6 +147,7 @@ void Controller::TickWarnings(int delta_time) {
   auto warnings = model_->GetWarnings();
   double shift = 50;
   if (!warnings.empty()) {
+    shift += warnings.at(0)->GetFontSize();
     warnings.at(0)->SetShift(static_cast<int>(shift));
     warnings.at(0)->SetIfIsDrawn(true);
   }
