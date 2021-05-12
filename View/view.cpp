@@ -120,12 +120,12 @@ bool View::IsOnTheScreen(const std::shared_ptr<GameObject>& object) {
   auto screen_rect = this->rect();
   double height_shift = screen_rect.height() * constants::kFactorForScreen;
   double width_shift = screen_rect.width() * constants::kFactorForScreen;
-  Point top_point = Point(screen_rect.topLeft().x() - width_shift, screen_rect.topLeft
-  ().y() - height_shift);
+  Point top_point = Point(screen_rect.topLeft().x() - width_shift,
+                          screen_rect.topLeft().y() - height_shift);
   auto game_top_point = resizer_.WindowToGameCoordinate(top_point);
   Point bottom_point =
-      Point(screen_rect.bottomRight().x() + width_shift, screen_rect.bottomRight()
-      .y() + height_shift);
+      Point(screen_rect.bottomRight().x() + width_shift, screen_rect
+      .bottomRight().y() + height_shift);
   auto game_bottom_point = resizer_.WindowToGameCoordinate(bottom_point);
 
   if (object_pos.GetX() < game_top_point.GetX()
