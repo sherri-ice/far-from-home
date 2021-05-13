@@ -1,4 +1,3 @@
-
 #include "cat.h"
 
 std::mt19937 Cat::random_generator_ = std::mt19937
@@ -29,10 +28,6 @@ void Cat::Draw(QPainter* painter, Resizer* resizer) const {
     }
     case CatState::kIsComingDestination: {
       painter->setBrush(Qt::darkMagenta);
-      break;
-    }
-    case CatState::kIsDoingSomething: {
-      painter->setBrush(Qt::yellow);
       break;
     }
     default: {
@@ -158,28 +153,6 @@ void Cat::Tick(int delta_time) {
       if (velocity_.GetLength() > constants::kEpsilon) {
         velocity_ /= velocity_.GetLength();
         velocity_ *= delta_time * speed_ / constants::kTimeScale;
-      } else {
-        if (!timers_.IsActive(static_cast<int>(CatState::kIsMainCat))) {
-          timers_.StartTimerWithRandom(constants::kTimeToDoingSmthMin,
-                                       constants::kTimeToDoingSmthMax,
-                                       static_cast<int>(CatState::kIsMainCat));
-        }
-        if (timers_.IsTimeOut(static_cast<int>(CatState::kIsMainCat))) {
-          timers_.Stop(static_cast<int>(CatState::kIsMainCat));
-          cat_state_ = CatState::kIsDoingSomething;
-          timers_.StartTimerWithRandom(constants::kTimeToDoingSmthMin,
-                                       constants::kTimeToDoingSmthMax,
-                                       static_cast<int>
-                                       (CatState::kIsDoingSomething));
-        }
-      }
-      break;
-    }
-    case CatState::kIsDoingSomething: {
-      if (timers_.IsTimeOut(static_cast<int>(CatState::kIsDoingSomething)) ||
-          velocity_ != Size(0, 0))    {
-        cat_state_ = CatState::kIsMainCat;
-        timers_.Stop(static_cast<int>(CatState::kIsDoingSomething));
       }
       break;
     }

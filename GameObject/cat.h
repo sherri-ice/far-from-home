@@ -27,7 +27,6 @@ enum class CatState {
   kIsFollowingPlayer,
   kIsComingDestination,
   kIsMainCat,
-  kIsDoingSomething,
   SIZE
 };
 
