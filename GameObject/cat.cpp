@@ -195,7 +195,6 @@ void Cat::Tick(int delta_time) {
   object_animation_.Tick(delta_time, GetAnimation());
   was_moving_ = is_moving_;
   timers_.Tick(delta_time);
-
 }
 
 bool Cat::GetIsInGroup() const {

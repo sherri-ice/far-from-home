@@ -31,7 +31,7 @@ class Point {
 
   Size GetVectorTo(const Point& destination) const;
   bool IsInEllipse(Point position, double ellipse_radius) const;
-  
+
  private:
   double x_;
   double y_;
