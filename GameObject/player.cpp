@@ -1,4 +1,3 @@
-#include <iostream>
 #include "player.h"
 
 std::mt19937 Player::random_generator_ = std::mt19937
@@ -127,12 +126,7 @@ void Player::Tick() {
 }
 
 void Player::UpdateCatsGroup(const std::list<std::shared_ptr<Cat>>& all_cats) {
-  int i = 0;
   for (auto& cat : cats_) {
-    std::cout << "cat " << i << " "<< cat << "\n";
-    i++;
-  }
-    for (auto& cat : cats_) {
     for (auto& wild_cat : all_cats) {
       if (cat == wild_cat) {
         continue;
@@ -141,7 +135,6 @@ void Player::UpdateCatsGroup(const std::list<std::shared_ptr<Cat>>& all_cats) {
           GetVectorTo(wild_cat->GetDrawPosition()).GetLength();
       if (length < cat_group_.first_radius_ &&
           !(wild_cat->GetIsInGroup())) {
-        std::cout << "main cat" << GetMainCat() << "\n";
         cats_.push_back(wild_cat);
         wild_cat->SetIsInGroup(true);
         wild_cat->SetCatState(CatState::kIsFollowingPlayer);

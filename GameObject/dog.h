@@ -15,6 +15,8 @@ const int kTimeToRestMin = 5000;
 const int kTimeToRestMax = 7000;
 const int kTimeToWalkMin = 1500;
 const int kTimeToWalkMax = 3500;
+const int kTimeToComeHomeMin = 1000;
+const int kTimeToComeHomeMax = 2000;
 const int kTimesToChangeDirectionMin = 2;
 const int kTimesToChangeDirectionsMax = 5;
 }  // namespace dog_constants
@@ -45,7 +47,6 @@ class Dog : public MovingObject {
   double GetVisibilityRadius() const;
   double GetWalkingSpeed() const;
   void SetIsMainCatCaught(bool);
-  bool GetIsMainCatCaught();
 
  private:
   Point home_position_;

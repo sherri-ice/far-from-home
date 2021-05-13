@@ -14,9 +14,6 @@ Model::Model() {
     food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
   }
   player_ = new Player(main_cat);
-  MakeNewCat(Size(20, 20), 9, Point(500, 0));
-  MakeNewCat(Size(40, 40), 3, Point(500, 500));
-  MakeNewDog(Size(40, 40), 5, Point(100, 100), 100, 6);
   player_->SetViewCircle(ViewCircle(player_->GetPosition(),
                                     constants::kViewCircleDefault));
 }

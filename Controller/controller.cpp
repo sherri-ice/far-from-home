@@ -9,7 +9,6 @@ Controller::Controller() {
 
 void Controller::Tick(int time) {
   int delta_time = time - current_game_time_;
-  std::cout << delta_time << " delta_time               \n";
   current_game_time_ = time;
 
   TickPlayer(delta_time);

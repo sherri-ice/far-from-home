@@ -1,5 +1,5 @@
 #include "dog.h"
-#include <QDebug>
+
 std::mt19937 Dog::random_generator_ = std::mt19937
     (std::chrono::system_clock::now().time_since_epoch().count());
 
@@ -15,8 +15,8 @@ Dog::Dog(const Size& size,
                                  timers_(static_cast<int>
                                          (DogState::SIZE)) {
   destination_ = home_position_;
-  timers_.StartTimerWithRandom(constants::kTimeToRestMin,
-                               constants::kTimeToRestMax);
+  timers_.StartTimerWithRandom(dog_constants::kTimeToRestMin,
+                               dog_constants::kTimeToRestMax);
 }
 
 void Dog::Draw(QPainter* painter, Resizer* resizer) const {
@@ -58,7 +58,7 @@ void Dog::Tick(int delta_time) {
 
   if (is_main_cat_caught_ && (dog_state_ != DogState::kIsComingHome)) {
     dog_state_ = DogState::kIsComingHome;
-    reachable_cat_ = nullptr;
+    destination_ = home_position_;
     timers_.StartTimerWithRandom(10000,
                                  50000,
                                  static_cast<int>(DogState::kIsComingHome));
@@ -71,15 +71,15 @@ void Dog::Tick(int delta_time) {
         timers_.Stop(static_cast<int>(DogState::kIsResting));
         dog_state_ = DogState::kIsWalking;
         std::uniform_int_distribution<> times_to_change_directions
-            (constants::kTimesToChangeDirectionMin,
-             constants::kTimesToChangeDirectionsMax);
+            (dog_constants::kTimesToChangeDirectionMin,
+             dog_constants::kTimesToChangeDirectionsMax);
         change_directions_count_ = times_to_change_directions
             (random_generator_);
         velocity_ = Size(velocity(random_generator_), velocity
         (random_generator_));
         --change_directions_count_;
-        timers_.StartTimerWithRandom(constants::kTimeToWalkMin,
-                                     constants::kTimeToWalkMax,
+        timers_.StartTimerWithRandom(dog_constants::kTimeToWalkMin,
+                                     dog_constants::kTimeToWalkMax,
                                      static_cast<int>(DogState::kIsWalking));
       }
       break;
@@ -90,8 +90,8 @@ void Dog::Tick(int delta_time) {
           velocity_ = Size(velocity(random_generator_), velocity
               (random_generator_));
           --change_directions_count_;
-          timers_.StartTimerWithRandom(constants::kTimeToWalkMin,
-                                       constants::kTimeToWalkMax,
+          timers_.StartTimerWithRandom(dog_constants::kTimeToWalkMin,
+                                       dog_constants::kTimeToWalkMax,
                                        static_cast<int>(DogState::kIsWalking));
         } else {
           timers_.Stop(static_cast<int>(DogState::kIsWalking));
@@ -124,8 +124,8 @@ void Dog::Tick(int delta_time) {
         velocity_ = Size(0, 0);
         timers_.Stop(static_cast<int>(DogState::kIsComingHome));
         is_main_cat_caught_ = false;
-        timers_.StartTimerWithRandom(constants::kTimeToRestMin,
-                                     constants::kTimeToRestMax,
+        timers_.StartTimerWithRandom(dog_constants::kTimeToRestMin,
+                                     dog_constants::kTimeToRestMax,
                                      static_cast<int>(DogState::kIsResting));
       } else {
         velocity_ = position_.GetVelocityVector(destination_, delta_time *
@@ -179,8 +179,4 @@ double Dog::GetWalkingSpeed() const {
 
 void Dog::SetIsMainCatCaught(bool is_caught) {
   is_main_cat_caught_ = is_caught;
-}
-
-bool Dog::GetIsMainCatCaught() {
-  return is_main_cat_caught_;
 }
