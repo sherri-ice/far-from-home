@@ -3,7 +3,7 @@
 
 #include <QPainter>
 #include "point.h"
-#include "View/resizer.h"
+#include "../View/resizer.h"
 
 class Group {
  public:

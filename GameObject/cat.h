@@ -4,9 +4,9 @@
 #include <memory>
 #include <random>
 
-#include "GameObject/moving_object.h"
-#include "Model/constants.h"
-#include "Model/timer.h"
+#include "../GameObject/moving_object.h"
+#include "../Model/constants.h"
+#include "../Model/timer.h"
 
 namespace constants {
 const int kTimeToRestMin = 1000;

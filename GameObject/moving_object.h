@@ -25,7 +25,6 @@ class MovingObject : public GameObject {
                                      const Point& second_pos,
                                      const Point& pos,
                                      int x);
-  virtual double GetSpeed();
   bool IsVelocityChange(Size main_velocity);
   void SetDestination(const Point& destination);
 

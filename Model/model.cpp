@@ -8,12 +8,11 @@ Model::Model() {
                                                         10,
                                                         Point(0, 0));
   main_cat->SetAnimations(animations_["cat"]);
-                                                            10, Point());
   main_cat->SetIsInGroup(true);
   cats_.emplace_back(main_cat);
 
-  std::shared_ptr<Dog> dog = std::make_shared<Dog>(Size(40, 40), 0.0015,
-                                                   Point(250, 250), 100);
+  std::shared_ptr<Dog> dog = std::make_shared<Dog>(Size(40, 40), 7.5,
+                                                   Point(250, 250), 100, 2.5);
   dogs_.emplace_back(dog);
 
   food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(789, 65)));
@@ -77,15 +76,15 @@ void Model::SetGameState(int) {
   // TODO(anyone)
 }
 
-std::list<std::shared_ptr<Food>> Model::GetFood() const {
+std::list<std::shared_ptr<Food>> Model::GetFood() {
   return food_;
 }
 
-std::list<std::shared_ptr<Dog>> Model::GetDogs() const {
+std::list<std::shared_ptr<Dog>> Model::GetDogs() {
   return dogs_;
 }
 
-std::list<std::shared_ptr<Cat>> Model::GetCats() const {
+std::list<std::shared_ptr<Cat>> Model::GetCats() {
   return cats_;
 }
 

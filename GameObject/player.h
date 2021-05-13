@@ -5,10 +5,10 @@
 #include <memory>
 #include <vector>
 
-#include <Model/timer.h>
-#include <Model/group.h>
-#include "GameObject/cat.h"
-#include "GameObject/dog.h"
+#include "../Model/timer.h"
+#include "../Model/group.h"
+#include "../GameObject/cat.h"
+#include "../GameObject/dog.h"
 #include "view_circle.h"
 
 class Player {

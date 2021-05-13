@@ -32,7 +32,7 @@ void MovingObject::DecSpeed(double speed) {
   speed_ /= speed;
 }
 
-double MovingObject::GetSpeed() {
+double MovingObject::GetSpeed() const {
   return speed_;
 }
 

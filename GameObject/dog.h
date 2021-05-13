@@ -10,14 +10,14 @@
 #include "../Model/timer.h"
 #include "../GameObject/moving_object.h"
 
-namespace constants {
+namespace dog_constants {
 const int kTimeToRestMin = 5000;
 const int kTimeToRestMax = 7000;
 const int kTimeToWalkMin = 1500;
 const int kTimeToWalkMax = 3500;
 const int kTimesToChangeDirectionMin = 2;
 const int kTimesToChangeDirectionsMax = 5;
-}  // namespace constants
+}  // namespace dog_constants
 
 enum class DogState {
   kIsResting,

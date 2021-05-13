@@ -7,10 +7,10 @@
 #include <map>
 #include "../View/resizer.h"
 
-#include "GameObject/cat.h"
-#include "GameObject/dog.h"
-#include "GameObject/food.h"
-#include "GameObject/player.h"
+#include "../GameObject/cat.h"
+#include "../GameObject/dog.h"
+#include "../GameObject/food.h"
+#include "../GameObject/player.h"
 
 enum GameState {
   kGame,
