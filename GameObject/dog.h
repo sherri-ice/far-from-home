@@ -44,6 +44,8 @@ class Dog : public MovingObject {
 
   double GetVisibilityRadius() const;
   double GetWalkingSpeed() const;
+  void SetIsMainCatCaught(bool);
+  bool GetIsMainCatCaught();
 
  private:
   Point home_position_;
@@ -54,6 +56,7 @@ class Dog : public MovingObject {
   int change_directions_count_{0};
   double walking_speed_;
   Timer timers_;
+  bool is_main_cat_caught_{false};
 
   static std::mt19937 random_generator_;
 };

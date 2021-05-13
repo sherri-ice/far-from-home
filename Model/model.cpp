@@ -7,21 +7,16 @@ Model::Model() {
   std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
                                                         10,
                                                         Point(0, 0));
+  main_cat->SetIsInGroup(true);
   main_cat->SetAnimations(animations_["cat"]);
   cats_.emplace_back(main_cat);
   for (auto& food : food_) {
     food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
   }
   player_ = new Player(main_cat);
-  player_->SetViewCircle(ViewCircle(player_->GetPosition(),
-                                    constants::kViewCircleDefault));
-}
-
-  player_ = new Player(main_cat);
-  // Temporary
   MakeNewCat(Size(20, 20), 9, Point(500, 0));
   MakeNewCat(Size(40, 40), 3, Point(500, 500));
-
+  MakeNewDog(Size(40, 40), 5, Point(100, 100), 100, 6);
   player_->SetViewCircle(ViewCircle(player_->GetPosition(),
                                     constants::kViewCircleDefault));
 }

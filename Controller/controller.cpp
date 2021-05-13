@@ -9,6 +9,7 @@ Controller::Controller() {
 
 void Controller::Tick(int time) {
   int delta_time = time - current_game_time_;
+  std::cout << delta_time << " delta_time               \n";
   current_game_time_ = time;
 
   TickPlayer(delta_time);
@@ -62,7 +63,7 @@ void Controller::TickDogs(int delta_time) {
       if (dog->GetRigidBody().IsCollide(cat->GetRigidBody())) {
         if (cat == player->GetMainCat()) {
           player->DismissCats();
-          // dog->SetDogState(DogState::IsComingHome);
+          dog->SetIsMainCatCaught(true);
           break;
         } else {
           player->LosingCat(dog->GetRigidPosition(), cat);

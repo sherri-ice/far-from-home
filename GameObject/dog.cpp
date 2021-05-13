@@ -1,5 +1,5 @@
 #include "dog.h"
-
+#include <QDebug>
 std::mt19937 Dog::random_generator_ = std::mt19937
     (std::chrono::system_clock::now().time_since_epoch().count());
 
@@ -56,6 +56,14 @@ void Dog::Tick(int delta_time) {
         * speed_ / constants::kTimeScale);
   }
 
+  if (is_main_cat_caught_ && (dog_state_ != DogState::kIsComingHome)) {
+    dog_state_ = DogState::kIsComingHome;
+    reachable_cat_ = nullptr;
+    timers_.StartTimerWithRandom(10000,
+                                 50000,
+                                 static_cast<int>(DogState::kIsComingHome));
+  }
+
   std::uniform_int_distribution<> velocity(-1, 1);
   switch (dog_state_) {
     case DogState::kIsResting: {
@@ -107,9 +115,15 @@ void Dog::Tick(int delta_time) {
       break;
     }
     case DogState::kIsComingHome: {
+      if (timers_.IsTimeOut(static_cast<int>(DogState::kIsComingHome))) {
+        timers_.Stop(static_cast<int>(DogState::kIsComingHome));
+        is_main_cat_caught_ = false;
+      }
       if (position_ == home_position_) {
         dog_state_ = DogState::kIsResting;
         velocity_ = Size(0, 0);
+        timers_.Stop(static_cast<int>(DogState::kIsComingHome));
+        is_main_cat_caught_ = false;
         timers_.StartTimerWithRandom(constants::kTimeToRestMin,
                                      constants::kTimeToRestMax,
                                      static_cast<int>(DogState::kIsResting));
@@ -123,7 +137,6 @@ void Dog::Tick(int delta_time) {
       break;
     }
   }
-
     is_moving_ = !(dog_state_ == DogState::kIsResting);
     object_animation_.Tick(delta_time, GetAnimation());
     was_moving_ = is_moving_;
@@ -139,7 +152,8 @@ void Dog::SetReachableCat(const std::vector<std::shared_ptr<Cat>>& cats) {
   for (const auto& cat : cats) {
     Size cat_distance = position_.GetVectorTo(cat->GetRigidPosition());
     if (CheckIfCanSeeCat(&(*cat)) &&
-        cat_distance.GetLength() < min_distance.GetLength()) {
+        cat_distance.GetLength() < min_distance.GetLength() &&
+        (!timers_.IsActive(static_cast<int>(DogState::kIsComingHome)))) {
       reachable_cat_ = &(*cat);
       min_distance = cat_distance;
     }
@@ -161,4 +175,12 @@ double Dog::GetVisibilityRadius() const {
 
 double Dog::GetWalkingSpeed() const {
   return walking_speed_;
+}
+
+void Dog::SetIsMainCatCaught(bool is_caught) {
+  is_main_cat_caught_ = is_caught;
+}
+
+bool Dog::GetIsMainCatCaught() {
+  return is_main_cat_caught_;
 }
