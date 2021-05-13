@@ -34,10 +34,10 @@ void Player::OrderCatsToMove(Size velocity_from_player) {
         }
       } else {
         if (cat->GetTimer().IsTimeOut(static_cast<int>
-        (CatState::kIsFollowingPlayer))
+                                      (CatState::kIsFollowingPlayer))
             || !(cat->GetTimer().IsActive(static_cast<int>
-            (CatState::kIsFollowingPlayer)) ||
-            (cat->IsVelocityChange(velocity_from_player)))) {
+                                          (CatState::kIsFollowingPlayer)) ||
+                (cat->IsVelocityChange(velocity_from_player)))) {
           cat->SetVelocity(velocity_from_player);
           cat->SetCatState(CatState::kIsFollowingPlayer);
         }
@@ -59,20 +59,21 @@ void Player::OrderCatsToMove(Size velocity_from_player) {
         cat->SetDestination(destination);
       }
     } else {
-        cat->SetIsInGroup(false);
-        if (cat->GetIsReachable()) {
-          cat->SetIsReachable(false);
-          cat->DecSpeed(constants::kCatRunCoefficient);
-        }
-        cat->SetCatState(CatState::kIsResting);
-        cat->SetVelocity(Size(0, 0));
-        cat_group_.DecGroup();
+      cat->SetIsInGroup(false);
+      if (cat->GetIsReachable()) {
+        cat->SetIsReachable(false);
+        cat->DecSpeed(constants::kCatRunCoefficient);
+      }
+      cat->SetCatState(CatState::kIsResting);
+      cat->SetVelocity(Size(0, 0));
+      cat_group_.DecGroup();
     }
-
-    cats_.erase(std::remove_if(cats_.begin(), cats_.end(),
-      [](const std::shared_ptr<Cat>& cat){return !(cat->GetIsInGroup());}),
-              cats_.end());
   }
+
+  cats_.erase(std::remove_if(cats_.begin(), cats_.end(),
+                             [](const std::shared_ptr<Cat>& cat)
+                             {return !(cat->GetIsInGroup());}),
+              cats_.end());
 }
 
 void Player::UpdateDogsAround(std::list<std::shared_ptr<Dog>> dogs) {
