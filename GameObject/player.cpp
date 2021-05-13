@@ -19,8 +19,7 @@ void Player::OrderCatsToMove(Size velocity_from_player) {
   std::uniform_real_distribution<> velocity(-1, 1);
 
   for (auto cat : cats_) {
-    if (cat == GetMainCat() &&
-        cat->GetCatState() != CatState::kIsDoingSomething) {
+    if (cat == GetMainCat()) {
       cat->SetCatState(CatState::kIsMainCat);
       cat->SetVelocity(velocity_from_player);
       continue;
