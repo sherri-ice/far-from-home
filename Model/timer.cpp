@@ -36,26 +36,7 @@ void Timer::Stop(int index_of_timer) {
   is_active_.at(index_of_timer) = false;
 }
 
-void Timer::Resize(int new_size) {
-  timers_.resize(new_size, 0);
-  is_active_.resize(new_size, false);
-}
-
 bool Timer::IsActive(int index_of_timer) {
   return is_active_.at(index_of_timer);
 }
 
-void Timer::Remove() {
-  int size = timers_.size();
-  for (int i = 0; i < size; i++) {
-    if (timers_.at(i) <= 0 && is_active_.at(i)) {
-      timers_.erase(timers_.cbegin() + i);
-      is_active_.erase(is_active_.cbegin() + i);
-      --i;
-      --size;
-    }
-  }
-}
-int Timer::Time(int index) {
-  return timers_.at(index);
-}
