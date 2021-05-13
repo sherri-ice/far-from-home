@@ -1,28 +1,33 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.14)
 project(far_from_home)
 
 set(CMAKE_CXX_STANDARD 20)
 
-set(CMAKE_AUTOMOC ON) # Enable Qt MOC compiler
-set(CMAKE_AUTORCC ON) # Enable Qt resources compiler
-set(CMAKE_AUTOUIC ON) # Enable Qt UI compiler
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
 
-# You can set CMake prefix path here or pass it to CMake executable.
-#set(CMAKE_PREFIX_PATH "~/Qt/5.15.2/gcc_64/lib/cmake")
-set(CMAKE_PREFIX_PATH "C:/Qt/5.15.2/mingw81_64/lib/cmake")
 
-if (NOT CMAKE_PREFIX_PATH)
-    message(WARNING "CMAKE_PREFIX_PATH is not defined, you may need to set it "
-            "(-DCMAKE_PREFIX_PATH=\"path/to/Qt/lib/cmake\")")
-endif ()
+if (MINGW)
+    set(THREADS_OPTION "-mthreads")
+else (MINGW)
+    set(THREADS_OPTION "-pthread")
+endif (MINGW)
+
+if (MINGW)
+    set(THREADS_OPTION "-no-pie -mthreads")
+else (MINGW)
+    set(THREADS_OPTION "-pthread")
+endif (MINGW)
+
 
 set(QT_VERSION 5)
-set(REQUIRED_LIBS Core Widgets Multimedia)
-set(REQUIRED_LIBS_QUALIFIED Qt5::Core Qt5::Widgets Qt5::Multimedia)
-find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
+set(REQUIRED_LIBS Core Gui Widgets Multimedia MultimediaWidgets)
+set(REQUIRED_LIBS_QUALIFIED Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Multimedia Qt5::MultimediaWidgets)
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-Wall -Wextra -O3")
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-no-pie -Wall -Wextra -Wno-sign-compare -Wno-attributes")
+set(CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS} "-fno-omit-frame-pointer ${THREADS_OPTION}")
+
 
 set(SOURCES
         Controller/controller.cpp
@@ -38,11 +43,14 @@ set(SOURCES
         Model/size.cpp
         Model/point.cpp
         Model/constants.h
-        Model/timer.h
-        Model/timer.cpp
         View/view.cpp
         View/resizer.cpp
         GameObject/view_circle.cpp
+        View/animation.cpp
+        Model/generator.cpp
+        Model/timer.cpp
+        resourses.qrc
+        images.qrc
         Model/group.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})

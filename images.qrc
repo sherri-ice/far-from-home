@@ -1,0 +1,97 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource>
+        <file>images/cat/up/Frame 0.png</file>
+        <file>images/cat/up/Frame 1.png</file>
+        <file>images/cat/up/Frame 2.png</file>
+        <file>images/cat/up/Frame 3.png</file>
+
+        <file>images/cat/down/Frame 0.png</file>
+        <file>images/cat/down/Frame 1.png</file>
+        <file>images/cat/down/Frame 2.png</file>
+        <file>images/cat/down/Frame 3.png</file>
+
+        <file>images/cat/right/Frame 0.png</file>
+        <file>images/cat/right/Frame 1.png</file>
+        <file>images/cat/right/Frame 2.png</file>
+        <file>images/cat/right/Frame 3.png</file>
+
+        <file>images/cat/left/Frame 0.png</file>
+        <file>images/cat/left/Frame 1.png</file>
+        <file>images/cat/left/Frame 2.png</file>
+        <file>images/cat/left/Frame 3.png</file>
+
+        <file>images/cat/random/0/Frame 0.png</file>
+        <file>images/cat/random/0/Frame 1.png</file>
+        <file>images/cat/random/0/Frame 2.png</file>
+        <file>images/cat/random/0/Frame 3.png</file>
+
+        <file>images/cat/random/1/Frame 0.png</file>
+        <file>images/cat/random/1/Frame 1.png</file>
+        <file>images/cat/random/1/Frame 2.png</file>
+        <file>images/cat/random/1/Frame 3.png</file>
+
+        <file>images/cat/random/2/Frame 0.png</file>
+        <file>images/cat/random/2/Frame 1.png</file>
+        <file>images/cat/random/2/Frame 2.png</file>
+        <file>images/cat/random/2/Frame 3.png</file>
+
+        <file>images/cat/random/3/Frame 0.png</file>
+        <file>images/cat/random/3/Frame 1.png</file>
+        <file>images/cat/random/3/Frame 2.png</file>
+        <file>images/cat/random/3/Frame 3.png</file>
+
+        <file>images/dog/up/Frame 0.png</file>
+        <file>images/dog/up/Frame 1.png</file>
+        <file>images/dog/up/Frame 2.png</file>
+        <file>images/dog/up/Frame 3.png</file>
+
+        <file>images/dog/down/Frame 0.png</file>
+        <file>images/dog/down/Frame 1.png</file>
+        <file>images/dog/down/Frame 2.png</file>
+        <file>images/dog/down/Frame 3.png</file>
+
+        <file>images/dog/right/Frame 0.png</file>
+        <file>images/dog/right/Frame 1.png</file>
+        <file>images/dog/right/Frame 2.png</file>
+        <file>images/dog/right/Frame 3.png</file>
+
+        <file>images/dog/left/Frame 0.png</file>
+        <file>images/dog/left/Frame 1.png</file>
+        <file>images/dog/left/Frame 2.png</file>
+        <file>images/dog/left/Frame 3.png</file>
+
+        <file>images/dog/random/0/Frame 0.png</file>
+        <file>images/dog/random/0/Frame 1.png</file>
+        <file>images/dog/random/0/Frame 2.png</file>
+        <file>images/dog/random/0/Frame 3.png</file>
+
+        <file>images/dog/random/1/Frame 0.png</file>
+        <file>images/dog/random/1/Frame 1.png</file>
+        <file>images/dog/random/1/Frame 2.png</file>
+        <file>images/dog/random/1/Frame 3.png</file>
+
+        <file>images/dog/random/2/Frame 0.png</file>
+        <file>images/dog/random/2/Frame 1.png</file>
+        <file>images/dog/random/2/Frame 2.png</file>
+        <file>images/dog/random/2/Frame 3.png</file>
+
+        <file>images/dog/random/3/Frame 0.png</file>
+        <file>images/dog/random/3/Frame 1.png</file>
+        <file>images/dog/random/3/Frame 2.png</file>
+        <file>images/dog/random/3/Frame 3.png</file>
+
+
+        <file>images/objects/food/Frame 0.png</file>
+        <file>images/objects/food/Frame 1.png</file>
+        <file>images/objects/food/Frame 2.png</file>
+        <file>images/objects/food/Frame 3.png</file>
+
+        <file>images/objects/tree/Frame 0.png</file>
+        <file>images/objects/tree/Frame 1.png</file>
+        <file>images/objects/tree/Frame 2.png</file>
+        <file>images/objects/tree/Frame 3.png</file>
+
+
+    </qresource>
+</RCC>

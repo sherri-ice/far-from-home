@@ -1,4 +1,4 @@
-#include <iostream>
+
 #include "cat.h"
 
 std::mt19937 Cat::random_generator_ = std::mt19937
@@ -40,10 +40,11 @@ void Cat::Draw(QPainter* painter, Resizer* resizer) const {
       break;
     }
   }
-  painter->drawEllipse(position.GetX() - size.GetWidth()/2,
-                       position.GetY() - size.GetHeight()/2,
-                       size.GetWidth(),
-                       size.GetHeight());
+    painter->drawPixmap(position.GetX() - size.GetWidth() / 2,
+                      position.GetY() - size.GetHeight() / 2,
+                      size.GetWidth(),
+                      size.GetHeight(),
+                      object_animation_.GetCurrentFrame());
   painter->restore();
 }
 
@@ -186,7 +187,15 @@ void Cat::Tick(int delta_time) {
       break;
     }
   }
+  if (velocity_.GetLength() > constants::kEpsilon) {
+    is_moving_ = true;
+  } else {
+    is_moving_ = false;
+  }
+  object_animation_.Tick(delta_time, GetAnimation());
+  was_moving_ = is_moving_;
   timers_.Tick(delta_time);
+
 }
 
 bool Cat::GetIsInGroup() const {

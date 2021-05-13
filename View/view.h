@@ -7,8 +7,8 @@
 #include <map>
 #include <memory>
 
-#include "Controller/abstract_controller.h"
-#include <Model/model.h>
+#include "../Controller/abstract_controller.h"
+#include "../Model/model.h"
 
 class View : public QMainWindow {
   Q_OBJECT
@@ -37,7 +37,7 @@ class View : public QMainWindow {
   void keyReleaseEvent(QKeyEvent* event) override;
   void timerEvent(QTimerEvent* event) override;
 
-  void DrawMap(QPainter* painter);
+  bool IsOnTheScreen(const std::shared_ptr<GameObject>& object);
   void DrawGameObjects(QPainter* painter);
 
   Size player_velocity_;

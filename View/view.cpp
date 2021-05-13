@@ -1,5 +1,5 @@
 #include "view.h"
-#include "Model/constants.h"
+#include "../Model/constants.h"
 
 #include <QKeyEvent>
 #include <QGraphicsScene>
@@ -7,24 +7,24 @@
 #include <vector>
 #include <algorithm>
 
+
 View::View(AbstractController* controller,
            std::shared_ptr<Model> model)
     : controller_(controller),
       model_(std::move(model)) {
   setWindowTitle(constants::kApplicationName);
+  resize(constants::kGameWidth, constants::kGameHeight);
   resizer_.ChangeSystem(width(), height());
+  controller->StartGame();
   show();
-
   time_between_ticks_.start();
   controller_timer_id_ = startTimer(constants::kTimeBetweenTicks);
   view_timer_.start();
 }
 
 void View::paintEvent(QPaintEvent*) {
-  QPainter painter(this);
-
-  DrawGameObjects(&painter);
-  // DrawMap(&painter);
+    QPainter painter(this);
+    DrawGameObjects(&painter);
 }
 
 void View::timerEvent(QTimerEvent* event) {
@@ -64,18 +64,15 @@ void View::keyReleaseEvent(QKeyEvent* event) {
   pressed_keys_[event->key()] = false;
 }
 
-void View::DrawMap(QPainter* painter) {
-  painter->setBrush(Qt::red);
-  painter->setBackground(Qt::red);
-}
-
 void View::DrawGameObjects(QPainter* painter) {
   controller_->GetPlayer()->GetViewCircle().Draw(painter, &resizer_);
   controller_->GetPlayer()->GetCatGroup().Draw(painter, &resizer_);
   std::vector<std::shared_ptr<GameObject>>
       drawable_objects = model_->GetDrawableGameObjects();
   for (const auto& object : drawable_objects) {
-    object->Draw(painter, &resizer_);
+    if (IsOnTheScreen(object)) {
+      object->Draw(painter, &resizer_);
+    }
   }
 }
 
@@ -92,14 +89,34 @@ void View::UpdateResizer(double radius, const Point& position) {
 }
 
 double View::GetViewSize() {
+  auto radius = model_->GetPlayer()->GetViewCircle().GetWantedRadius();
   if (pressed_keys_[Qt::Key_E]) {
-    return model_->GetPlayer()->GetViewCircle().GetWantedRadius()
-        + constants::kResizerScale;
+    radius += constants::kResizerScale;
   }
   if (pressed_keys_[Qt::Key_Q]) {
-    return std::max(model_->GetPlayer()->GetViewCircle().GetWantedRadius()
-                        - constants::kResizerScale,
-                    constants::kResizerScale);
+    radius -= constants::kResizerScale;
   }
-  return model_->GetPlayer()->GetViewCircle().GetWantedRadius();
+  radius = std::min(std::max(radius, constants::kViewCircleMin),
+                    constants::kViewCircleMax);
+  return radius;
+}
+
+bool View::IsOnTheScreen(const std::shared_ptr<GameObject>& object) {
+  auto object_pos = object->GetDrawPosition();
+  auto screen_rect = this->rect();
+  Point top_point = Point(screen_rect.topLeft().x(), screen_rect.topLeft().y());
+  auto game_top_point = resizer_.WindowToGameCoordinate(top_point);
+  Point bottom_point =
+      Point(screen_rect.bottomRight().x(), screen_rect.bottomRight().y());
+  auto game_bottom_point = resizer_.WindowToGameCoordinate(bottom_point);
+
+  if (object_pos.GetX() < game_top_point.GetX()
+      || object_pos.GetX() > game_bottom_point.GetX()) {
+    return false;
+  }
+  if (object_pos.GetY() < game_top_point.GetY()
+      || object_pos.GetY() > game_bottom_point.GetY()) {
+    return false;
+  }
+    return true;
 }
