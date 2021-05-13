@@ -17,24 +17,6 @@ void Cat::Draw(QPainter* painter, Resizer* resizer) const {
   painter->save();
   auto position = resizer->GameToWindowCoordinate(position_);
   auto size = resizer->GameToWindowSize(size_);
-  switch (cat_state_) {
-    case CatState::kIsResting: {
-     painter->setBrush(Qt::red);
-      break;
-    }
-    case CatState::kIsWalking: {
-      painter->setBrush(Qt::lightGray);
-      break;
-    }
-    case CatState::kIsComingDestination: {
-      painter->setBrush(Qt::darkMagenta);
-      break;
-    }
-    default: {
-      painter->setBrush(Qt::darkRed);
-      break;
-    }
-  }
     painter->drawPixmap(position.GetX() - size.GetWidth() / 2,
                       position.GetY() - size.GetHeight() / 2,
                       size.GetWidth(),

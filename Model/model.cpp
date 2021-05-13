@@ -8,23 +8,14 @@ Model::Model() {
                                                         10,
                                                         Point(0, 0));
   main_cat->SetAnimations(animations_["cat"]);
-  main_cat->SetIsInGroup(true);
   cats_.emplace_back(main_cat);
-
-  std::shared_ptr<Dog> dog = std::make_shared<Dog>(Size(40, 40), 7.5,
-                                                   Point(250, 250), 100, 2.5);
-  dogs_.emplace_back(dog);
-
-  food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(789, 65)));
-  food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(567, 455)));
-  food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(210, 270)));
-  food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(25, 500)));
-  food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(900, 333)));
-  food_.emplace_back(std::make_shared<Food>(Size(20, 20), Point(300, 100)));
-
-  for (auto &food : food_) {
+  for (auto& food : food_) {
     food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
   }
+  player_ = new Player(main_cat);
+  player_->SetViewCircle(ViewCircle(player_->GetPosition(),
+                                    constants::kViewCircleDefault));
+}
 
   player_ = new Player(main_cat);
   // Temporary
