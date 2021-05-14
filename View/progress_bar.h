@@ -32,6 +32,7 @@ class ProgressBar : public QRect {
   void SetVisible();
   void SetInvisible();
 
+
  private:
   int cur_value_ = 0;
   int min_value_ = 0;

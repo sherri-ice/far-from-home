@@ -51,6 +51,8 @@ class Cat : public MovingObject {
   bool GetIsReachable();
 
   Timer GetTimer();
+  int GetSearchingTime() const;
+  void SetSearchingTime(int searching_time);
 
  private:
   bool is_in_group_{false};

@@ -42,6 +42,7 @@ class Player {
                                        int search_time);
 
   void Tick();
+  bool NotOnlyMainCat();
 
  private:
   std::vector<std::shared_ptr<Cat>> cats_;

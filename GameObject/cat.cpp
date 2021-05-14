@@ -213,3 +213,11 @@ bool Cat::GetIsReachable() {
 void Cat::SetHomePosition(const Point& position) {
   home_position_ = position;
 }
+
+int Cat::GetSearchingTime() const {
+  return searching_time_;
+}
+
+void Cat::SetSearchingTime(int searching_time) {
+  searching_time_ = searching_time;
+}

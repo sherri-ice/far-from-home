@@ -1,5 +1,9 @@
 #include "portal_object.h"
 
+std::mt19937 PortalObject::random_generator_ = std::mt19937
+    (std::chrono::system_clock::now().time_since_epoch().count());
+
+
 PortalObject::PortalObject(const Size& size,
                            const Point& position,
                            const QString& skin_path) : GameObject(size,
@@ -11,7 +15,10 @@ PortalObject::PortalObject(const Size& size,
                      15);
   progress_bar_ = ProgressBar(position, size);
   progress_bar_.SetRange(0, 1000);
-  search_timer_.StartTimerWithRandom(1000, 1000);
+  std::uniform_int_distribution<>
+      time(PortalConstants::kMinSearchTime, PortalConstants::kMaxSearchTime);
+  search_time_ = time(random_generator_);
+  search_timer_.Start(search_time_);
 }
 
 void PortalObject::Draw(QPainter* painter, Resizer* resizer) const {
@@ -66,8 +73,8 @@ void PortalObject::SetSearchState() {
   }
 }
 
-bool PortalObject::IsSearchComplete() {
-  return (state_ == PortalState::kPendingInfo);
+bool PortalObject::IsAlreadyClicked() {
+  return (state_ == PortalState::kCollected);
 }
 
 bool PortalObject::HasPortal() const {
@@ -80,4 +87,12 @@ void PortalObject::SetIfMessageIsShown(bool is_shown) {
 
 void PortalObject::SetWaitState() {
   state_ = PortalState::kWaitToSeeResult;
+}
+
+int PortalObject::GetSearchTime() const {
+  return search_time_;
+}
+
+void PortalObject::SetSearchTime(int search_time) {
+  search_time_ = search_time;
 }

@@ -204,6 +204,7 @@ const Group& Player::GetCatGroup() const {
 }
 
 void Player::GroupTick(int time) {
+  cat_group_.SetCentralPosition(GetMainCat()->GetDrawPosition());
   cat_group_.SetSpeed(GetMainCat()->GetSpeed());
   cat_group_.Tick(time);
   cat_group_.Move(time);
@@ -234,8 +235,13 @@ void Player::LosingCat(Point dog_position, std::shared_ptr<Cat> cat) {
 }
 
 std::shared_ptr<Cat> Player::SendCatToSearch(const Point& portal_coordinates,
-                                             int search_time = 100) {
+                                             int search_time) {
   cats_.back()->SetCatState(CatState::kIsGoingToSearch);
+  cats_.back()->SetSearchingTime(search_time);
   cats_.back()->SetDestination(portal_coordinates + Point(0, 60));
   return cats_.back();
+}
+
+bool Player::NotOnlyMainCat() {
+  return (cats_.size() >= 2);
 }

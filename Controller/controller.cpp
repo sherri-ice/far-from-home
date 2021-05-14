@@ -107,33 +107,36 @@ void Controller::CatsAndFoodIntersect() {
 void Controller::TickObjects(int delta_time) {
   for (auto& object : model_->GetStaticObjects()) {
     object->Tick(delta_time);
-    if (object->IsSearchComplete()) {
+    if (object->IsAlreadyClicked()) {
       model_->AddWarning(std::make_shared<Warning>("Search is "
                                                    "finished. Come back to the "
                                                    "tree to see the result",
                                                    view_->
-                                                   GetCoordinatesForWarning(),
+                                                       GetCoordinatesForWarning
+                                                       (),
                                                    32, true,
                                                    true, 3000));
       object->SetWaitState();
     }
   }
   for (auto& object : model_->GetStaticObjects()) {
-    // if (object->IsSearchComplete()) {
+    // if (object->IsAlreadyClicked()) {
     // }
   }
 }
 
 void Controller::MovingAndStaticObjectsIntersect(const
-  std::shared_ptr<MovingObject>& moving_object) {
+                                                 std::shared_ptr<MovingObject>&
+moving_object) {
   for (const auto& static_object : model_->GetStaticObjects()) {
-    if (moving_object->GetRigidBody()->IfCollisionWillHappen(*
-      (static_object->GetRigidBody()), moving_object->GetVelocity())) {
+    if (moving_object->
+        GetRigidBody()->IfCollisionWillHappen(*(static_object->GetRigidBody()),
+                                              moving_object->GetVelocity())) {
       Size new_velocity = moving_object->GetRigidBody()
           ->GetVelocityToAvoidCollision(*(static_object->GetRigidBody()),
                                         moving_object->GetVelocity());
       moving_object->SetVelocity(new_velocity * moving_object->GetVelocity()
-      .GetLength());
+          .GetLength());
     }
   }
 }
@@ -141,9 +144,30 @@ void Controller::MovingAndStaticObjectsIntersect(const
 void Controller::ScanIfObjectWereClicked(const Point& point) {
   for (auto& object : model_->GetStaticObjects()) {
     if (object->GetDrawPosition().IsInEllipse(point, 100)) {
-      if (!object->IsSearchComplete()) {
+      if (!object->IsAlreadyClicked()
+          && model_->GetPlayer()->NotOnlyMainCat()) {
         object->SetSearchState();
-        model_->GetPlayer()->SendCatToSearch(point, 1000);
+        model_->GetPlayer()->SendCatToSearch(point, object->GetSearchTime());
+      }
+      if (object->IsAlreadyClicked()) {
+        model_->AddWarning(std::make_shared<Warning>(
+            "You've already searched a portal here!",
+            view_->
+                GetCoordinatesForWarning(),
+            32,
+            true,
+            true,
+            3000));
+      }
+      if (!model_->GetPlayer()->NotOnlyMainCat()) {
+        model_->AddWarning(std::make_shared<Warning>(
+            "You don't have enough cats!",
+            view_->
+                GetCoordinatesForWarning(),
+            32,
+            true,
+            true,
+            3000));
       }
     }
   }
