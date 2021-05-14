@@ -23,8 +23,7 @@ class Player {
   void UpdateDogsAround(std::list<std::shared_ptr<Dog>> dogs);
 
   void UpdateStaticObjectsAround
-  (const std::list<std::shared_ptr<PortalObject>>& static_objects);
-
+      (const std::list<std::shared_ptr<PortalObject>>& static_objects);
 
   void IsReachable(std::list<std::shared_ptr<Dog>> dogs);
   void UpdateCatsGroup(const std::list<std::shared_ptr<Cat>>& all_cats);
@@ -39,6 +38,8 @@ class Player {
   [[nodiscard]] const Point& GetPosition() const;
 
   void LosingCat(Point dog_position, std::shared_ptr<Cat> cat);
+  std::shared_ptr<Cat> SendCatToSearch(const Point& portal_coordinates,
+                                       int search_time);
 
   void Tick();
 

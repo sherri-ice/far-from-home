@@ -143,6 +143,7 @@ void Controller::ScanIfObjectWereClicked(const Point& point) {
     if (object->GetDrawPosition().IsInEllipse(point, 100)) {
       if (!object->IsSearchComplete()) {
         object->SetSearchState();
+        model_->GetPlayer()->SendCatToSearch(point, 1000);
       }
     }
   }

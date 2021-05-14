@@ -1,5 +1,7 @@
 #include "cat.h"
 
+#include <QDebug>
+
 std::mt19937 Cat::random_generator_ = std::mt19937
     (std::chrono::system_clock::now().time_since_epoch().count());
 
@@ -17,7 +19,7 @@ void Cat::Draw(QPainter* painter, Resizer* resizer) const {
   painter->save();
   auto position = resizer->GameToWindowCoordinate(position_);
   auto size = resizer->GameToWindowSize(size_);
-    painter->drawPixmap(position.GetX() - size.GetWidth() / 2,
+  painter->drawPixmap(position.GetX() - size.GetWidth() / 2,
                       position.GetY() - size.GetHeight() / 2,
                       size.GetWidth(),
                       size.GetHeight(),
@@ -94,7 +96,7 @@ void Cat::Tick(int delta_time) {
     }
     case CatState::kIsFollowingPlayer: {
       if (timers_.IsTimeOut(static_cast<int>(CatState::kIsFollowingPlayer)) ||
-      !timers_.IsActive(static_cast<int>(CatState::kIsFollowingPlayer))) {
+          !timers_.IsActive(static_cast<int>(CatState::kIsFollowingPlayer))) {
         if (velocity_ == Size(1, 1)) {
           velocity_ = Size(pos_velocity(random_generator_),
                            pos_velocity(random_generator_));
@@ -136,6 +138,34 @@ void Cat::Tick(int delta_time) {
         velocity_ /= velocity_.GetLength();
         velocity_ *= delta_time * speed_ / constants::kTimeScale;
       }
+      break;
+    }
+    case CatState::kIsGoingToSearch: {
+      timers_.Stop(static_cast<int>(CatState::kIsFollowingPlayer));
+      if (position_ == destination_) {
+        cat_state_ = CatState::kIsSearching;
+      }
+      velocity_ = position_.GetVelocityVector(destination_, delta_time *
+          speed_ / constants::kTimeScale);
+      break;
+    }
+    case CatState::kIsSearching: {
+      if (!timers_.IsActive(static_cast<int>(CatState::kIsSearching))) {
+        timers_.Start(searching_time_,
+                      static_cast<int>(CatState::kIsSearching));
+      }
+      if (!timers_.IsTimeOut(static_cast<int>(CatState::kIsSearching))) {
+        cat_state_ = CatState::kHasFinishedSearching;
+        timers_.Stop(static_cast<int>(CatState::kIsSearching));
+      }
+      break;
+    }
+    case CatState::kHasFinishedSearching: {
+      // if (position_ == destination_) {
+      //   // cat_state_ = CatState::kIsFollowingPlayer;
+      // }
+      velocity_ = position_.GetVelocityVector(destination_, delta_time *
+          speed_ / constants::kTimeScale);
       break;
     }
     default: {

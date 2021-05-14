@@ -1,8 +1,9 @@
 #include "player.h"
 
+#include <QDebug>
+
 std::mt19937 Player::random_generator_ = std::mt19937
     (std::chrono::system_clock::now().time_since_epoch().count());
-
 
 Player::Player(const std::shared_ptr<Cat>& cat) : cat_group_(60, 150) {
   cats_.emplace_back(cat);
@@ -23,7 +24,18 @@ void Player::OrderCatsToMove(Size velocity_from_player) {
       cat->SetVelocity(velocity_from_player);
       continue;
     }
+    if (cat->GetCatState() == CatState::kIsGoingToSearch) {
+      continue;
+    }
+    if (cat->GetCatState() == CatState::kIsSearching) {
+      continue;
+    }
+    if (cat->GetCatState() == CatState::kHasFinishedSearching) {
+      // cat->SetDestination(cats_.at(0)->GetDrawPosition());
+      continue;
+    }
     cat_position = cat->GetRigidPosition();
+
     if (cat_position.IsInEllipse(cat_group_.central_position_,
                                  cat_group_.first_radius_)) {
       if (velocity_from_player == Size(0, 0)) {
@@ -71,8 +83,9 @@ void Player::OrderCatsToMove(Size velocity_from_player) {
   }
 
   cats_.erase(std::remove_if(cats_.begin(), cats_.end(),
-                             [](const std::shared_ptr<Cat>& cat)
-                             {return !(cat->GetIsInGroup());}),
+                             [](const std::shared_ptr<Cat>& cat) {
+                               return !(cat->GetIsInGroup());
+                             }),
               cats_.end());
 }
 
@@ -126,9 +139,9 @@ void Player::Tick() {
   view_circle_.Tick();
 }
 
-
 void Player::UpdateStaticObjectsAround(const
-  std::list<std::shared_ptr<PortalObject>>& static_objects) {
+                                       std::list<std::shared_ptr<PortalObject>>&
+static_objects) {
   Point cat_position;
   Size distance;
   for (const auto& cat : cats_) {
@@ -201,6 +214,9 @@ std::shared_ptr<Cat> Player::GetMainCat() {
 }
 
 void Player::LosingCat(Point dog_position, std::shared_ptr<Cat> cat) {
+  if (cat->GetCatState() == CatState::kIsSearching) {
+    return;
+  }
   cat->SetIsInGroup(false);
   std::uniform_int_distribution<> x_destination(constants::kMaxRunAwayDistance,
                                                 constants::kMaxRunAwayDistance);
@@ -211,6 +227,15 @@ void Player::LosingCat(Point dog_position, std::shared_ptr<Cat> cat) {
 
   cat_group_.DecGroup();
   cats_.erase(std::remove_if(cats_.begin(), cats_.end(),
-           [](const std::shared_ptr<Cat>& cat){return !(cat->GetIsInGroup());}),
-           cats_.end());
+                             [](const std::shared_ptr<Cat>& cat) {
+                               return !(cat->GetIsInGroup());
+                             }),
+              cats_.end());
+}
+
+std::shared_ptr<Cat> Player::SendCatToSearch(const Point& portal_coordinates,
+                                             int search_time = 100) {
+  cats_.back()->SetCatState(CatState::kIsGoingToSearch);
+  cats_.back()->SetDestination(portal_coordinates + Point(0, 60));
+  return cats_.back();
 }
