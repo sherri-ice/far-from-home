@@ -188,7 +188,6 @@ void Player::LosingCat(Point dog_position, std::shared_ptr<Cat> cat) {
                              cat->GetRigidPosition(),
                              x_destination(random_generator_));
   cat->SetCatState(CatState::kIsComingDestination);
-
   cat_group_.DecGroup();
   cats_.erase(std::remove_if(cats_.begin(), cats_.end(),
            [](const std::shared_ptr<Cat>& cat){return !(cat->GetIsInGroup());}),
