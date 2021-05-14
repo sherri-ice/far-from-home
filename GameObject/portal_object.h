@@ -2,9 +2,9 @@
 #define GAMEOBJECT_PORTAL_OBJECT_H_
 
 #include <QTimer>
-#include <Model/timer.h>
-#include <View/progress_bar.h>
-#include <View/warning.h>
+#include "../Model/timer.h"
+#include "../View/progress_bar.h"
+#include "../View/warning.h"
 #include "game_object.h"
 
 enum class PortalState {

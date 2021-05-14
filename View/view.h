@@ -46,7 +46,6 @@ class View : public QMainWindow {
   void timerEvent(QTimerEvent* event) override;
   void mousePressEvent(QMouseEvent* event) override;
 
-  bool IsOnTheScreen(const std::shared_ptr<GameObject>& object);
   void DrawGameObjects(QPainter* painter);
   void DrawWarnings(QPainter* painter);
 

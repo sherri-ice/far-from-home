@@ -55,6 +55,7 @@ void Controller::TickCats(int delta_time) {
       MovingAndStaticObjectsIntersect(cat);
       cat->Move(delta_time);
     }
+  }
 }
 
 void Controller::TickDogs(int delta_time) {
@@ -65,7 +66,7 @@ void Controller::TickDogs(int delta_time) {
     dog->Tick(delta_time);
     dog->Move(delta_time);
     for (auto& cat : player->GetCats()) {
-      if (dog->GetRigidBody().IsCollide(cat->GetRigidBody())) {
+      if (dog->GetRigidBody()->IsCollide(*(cat->GetRigidBody()))) {
         if (cat == player->GetMainCat()) {
           player->DismissCats();
           dog->SetIsMainCatCaught(true);

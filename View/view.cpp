@@ -5,8 +5,8 @@
 #include <utility>
 #include <vector>
 
-#include <GameObject/portal_object.h>
-#include "Model/constants.h"
+#include "../GameObject/portal_object.h"
+#include "../Model/constants.h"
 #include "progress_bar.h"
 #include "view.h"
 

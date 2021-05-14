@@ -32,10 +32,6 @@ Size MovingObject::GetVelocity() const {
   return velocity_;
 }
 
-void MovingObject::SetVelocity(const Size& velocity) {
-  velocity_ = velocity;
-}
-
 void MovingObject::DecSpeed(double speed) {
   speed_ /= speed;
 }

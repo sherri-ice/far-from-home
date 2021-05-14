@@ -6,9 +6,9 @@
 #define VIEW_PROGRESS_BAR_H_
 
 #include <QRect>
-#include <Model/point.h>
+#include "../Model/point.h"
 #include <QPainter>
-#include <Model/timer.h>
+#include "../Model/timer.h"
 #include "resizer.h"
 
 namespace constants {

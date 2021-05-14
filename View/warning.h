@@ -4,9 +4,9 @@
 #include <QRect>
 #include <QPainter>
 
-#include "GameObject/game_object.h"
-#include "Model/timer.h"
-#include "View/resizer.h"
+#include "../GameObject/game_object.h"
+#include "../Model/timer.h"
+#include "../View/resizer.h"
 
 namespace warning_constants {
 const double kAlignCenter = 0.213;

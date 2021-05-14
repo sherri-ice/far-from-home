@@ -65,9 +65,6 @@ void GameObject::Draw(QPainter* painter, Resizer* resizer) const {
         painter->restore();
 }
 
-void GameObject::Tick(int time) {
-}
-
 void GameObject::SetSkin(QPixmap skin) {
     skin_ = skin;
 }

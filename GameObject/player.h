@@ -10,6 +10,7 @@
 #include "../GameObject/cat.h"
 #include "../GameObject/dog.h"
 #include "view_circle.h"
+#include "portal_object.h"
 
 class Player {
  public:

@@ -1,7 +1,7 @@
 #include <algorithm>
 
-#include "Model/model.h"
-#include "View/progress_bar.h"
+#include "../Model/model.h"
+#include "../View/progress_bar.h"
 
 Model::Model() {
   LoadAnimation();
@@ -15,19 +15,6 @@ Model::Model() {
     food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
   }
   player_ = new Player(main_cat);
-
-  // Temporary
-  MakeNewPortal(Size(60, 60), Point(0, 100), "", true);
-  MakeNewPortal(Size(60, 60), Point(200, 100), "", true);
-  MakeNewPortal(Size(60, 60), Point(200, 120), "", true);
-  MakeNewPortal(Size(60, 60), Point(200, 140), "", true);
-  MakeNewPortal(Size(60, 60), Point(100, 10), "", true);
-  MakeNewPortal(Size(60, 60), Point(350, -20), "", true);
-  MakeNewPortal(Size(60, 60), Point(-100, 100), "", true);
-
-  MakeNewCat(Size(60, 60), 0.001, Point(1000, 0));
-  MakeNewCat(Size(10, 10), 0.001, Point(500, 500));
-
   player_->SetViewCircle(ViewCircle(player_->GetPosition(),
                                     constants::kViewCircleDefault));
 }
@@ -132,6 +119,7 @@ std::shared_ptr<PortalObject> Model::MakeNewPortal(const Size& size,
   static_objects_.push_back(std::make_shared<PortalObject>(size,
                                                            position,
                                                            skin_path));
+  static_objects_.back()->SetSkin(objects_pics_[1][std::rand() % 3]);
   if (has_portal) {
     static_objects_.back()->SetPortal();
   }
@@ -159,17 +147,6 @@ std::shared_ptr<Dog> Model::MakeNewDog(const Size& size,
                                         walking_speed));
   dogs_.back()->SetAnimations(animations_["dog"]);
   return dogs_.back();
-}
-
-std::shared_ptr<GameObject> Model::MakeNewStaticObject(const Size& size,
-                                                       const Point& point) {
-  static_objects_.push_back(std::make_shared<GameObject>(size, point));
-  static_objects_.back()->SetSkin(objects_pics_[1][std::rand() % 3]);
-  return static_objects_.back();
-}
-
-const std::list<std::shared_ptr<GameObject>>& Model::GetStaticObjects() const {
-  return static_objects_;
 }
 
 

@@ -49,7 +49,7 @@ set(SOURCES
         GameObject/portal_object.cpp
         View/progress_bar.cpp
         View/warning.cpp
-        View/animation.cp
+        View/animation.cpp
         Model/generator.cpp
         Model/timer.cpp
         resourses.qrc
