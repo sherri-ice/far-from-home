@@ -14,6 +14,7 @@ const double kAlignCenter = 0.213;
 
 class Warning : public GameObject {
  public:
+  Warning() = default;
   Warning(QString message, const Point& center, double font_size, bool
   is_main_warning = false, bool supposed_to_fade = false, int
   time_before_fade = 0);

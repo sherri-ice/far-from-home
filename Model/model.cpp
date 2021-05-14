@@ -3,6 +3,7 @@
 #include "../Model/model.h"
 #include "../View/progress_bar.h"
 
+
 Model::Model() {
   LoadAnimation();
   std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),

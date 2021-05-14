@@ -3,22 +3,12 @@
 PortalObject::PortalObject(const Size& size,
                            const Point& position,
                            const QString& skin_path) : GameObject(size,
-                                                                  position),
-                                                       warning_("Click on a "
-                                                                "tree to "
-                                                                "send your "
-                                                                "cat on "
-                                                                "search",
-                                                                Point
-                                                                    (position
-                                                                    .GetX(),
-                                                                    position
-                                                                    .GetY() -
-                                                                    size
-                                                                    .GetHeight()
-                                                                    / 2),
-                                                                    15) {
+                                                                  position) {
   skin_path_ = skin_path;
+  warning_ = Warning("Click on a tree to send your cat on search",
+                     Point(position.GetX(),
+                           position.GetY() - size.GetHeight() / 2),
+                     15);
   progress_bar_ = ProgressBar(position, size);
   progress_bar_.SetRange(0, 1000);
   search_timer_.StartTimerWithRandom(1000, 1000);
@@ -29,11 +19,10 @@ void PortalObject::Draw(QPainter* painter, Resizer* resizer) const {
   painter->save();
   auto position = resizer->GameToWindowCoordinate(position_);
   auto size = resizer->GameToWindowSize(size_);
-  painter->setBrush(Qt::darkMagenta);
-  painter->drawEllipse(position.GetX() - size.GetWidth() / 2,
-                       position.GetY() - size.GetHeight() / 2,
-                       size.GetWidth(),
-                       size.GetHeight());
+  painter->translate(position.GetX(), position.GetY());
+  int width = static_cast<int>(size.GetWidth());
+  int height = static_cast<int>(size.GetHeight());
+  painter->drawPixmap(-width / 2, -height / 2, width, height, skin_);
   painter->restore();
   progress_bar_.Draw(painter, resizer);
   if (state_ != PortalState::kSearching) {

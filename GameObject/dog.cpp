@@ -21,10 +21,13 @@ Dog::Dog(const Size& size,
 
 void Dog::Draw(QPainter* painter, Resizer* resizer) const {
   rigid_body_.Draw(painter, resizer);
+  painter->save();
+  auto position = resizer->GameToWindowCoordinate(position_);
+  auto size = resizer->GameToWindowSize(size_);
+  painter->translate(position.GetX(), position.GetY());
+  int object_width = static_cast<int>(size.GetWidth());
+  int object_height = static_cast<int>(size.GetHeight());
   if (is_visible_to_player_) {
-    painter->save();
-    auto rigid_position = resizer->GameToWindowCoordinate(GetRigidPosition());
-    painter->translate(rigid_position.GetX(), rigid_position.GetY());
     Size radius = resizer->GameToWindowSize(Size(visibility_radius_,
                                                  visibility_radius_));
     painter->drawEllipse(static_cast<int>(-radius.GetWidth()),
@@ -32,33 +35,11 @@ void Dog::Draw(QPainter* painter, Resizer* resizer) const {
                              constants::kSemiMinorCoefficient),
                          2 * static_cast<int>(radius.GetWidth()),
                          2 * static_cast<int>(radius.GetHeight() *
-                         constants::kSemiMinorCoefficient));
-    painter->restore();
+                             constants::kSemiMinorCoefficient));
   }
-  painter->save();
-  auto position = resizer->GameToWindowCoordinate(position_);
-  auto size = resizer->GameToWindowSize(size_);
-  painter->translate(position.GetX(), position.GetY());
-  int object_width = static_cast<int>(size.GetWidth());
-  int object_height = static_cast<int>(size.GetHeight());
-  switch (dog_state_) {
-    case DogState::kChasingCat: {
-      painter->setBrush(Qt::black);
-      break;
-    }
-    case DogState::kIsResting: {
-      painter->setBrush(Qt::darkBlue);
-      break;
-    }
-    default: {
-      painter->setBrush(Qt::blue);
-      break;
-    }
-  }
-  painter->drawEllipse(-object_width / 2,
-                       -object_height / 2,
-                       object_width,
-                       object_height);
+  painter->drawPixmap(-object_width / 2, -object_height / 2,
+                      object_width,
+                      object_height, object_animation_.GetCurrentFrame());
   painter->restore();
 }
 
