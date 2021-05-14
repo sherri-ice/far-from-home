@@ -7,8 +7,8 @@
 #include <map>
 #include <memory>
 
-#include "Controller/abstract_controller.h"
-#include <Model/model.h>
+#include "../Controller/abstract_controller.h"
+#include "../Model/model.h"
 
 namespace constants {
 const double kFactorForScreen = 0.3;
@@ -46,6 +46,7 @@ class View : public QMainWindow {
   void timerEvent(QTimerEvent* event) override;
   void mousePressEvent(QMouseEvent* event) override;
 
+  bool IsOnTheScreen(const std::shared_ptr<GameObject>& object);
   void DrawGameObjects(QPainter* painter);
   void DrawWarnings(QPainter* painter);
 

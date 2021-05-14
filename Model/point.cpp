@@ -47,7 +47,7 @@ Point& Point::operator+=(const Size& rhs) {
 }
 
 Size Point::GetVectorTo(const Point& destination) const {
-  return Size(destination.GetX() - x_, destination.GetY() - y_);
+  return Size(destination.x_ - x_, destination.GetY() - y_);
 }
 
 bool Point::operator==(const Point& rhs) const {

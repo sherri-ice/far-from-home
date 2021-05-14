@@ -2,10 +2,10 @@
 #define GAMEOBJECT_RIGID_BODY_H_
 
 #include <QPainter>
-#include <View/resizer.h>
+#include "../View/resizer.h"
 
-#include "Model/point.h"
-#include "Model/size.h"
+#include "../Model/point.h"
+#include "../Model/size.h"
 
 namespace constants {
   const int kCheckIfBordersAreClose = 1;

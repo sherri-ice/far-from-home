@@ -1,4 +1,5 @@
 #include <algorithm>
+
 #include <QKeyEvent>
 #include <QGraphicsScene>
 #include <utility>
@@ -8,6 +9,7 @@
 #include "Model/constants.h"
 #include "progress_bar.h"
 #include "view.h"
+
 
 View::View(AbstractController* controller,
            std::shared_ptr<Model> model)
@@ -71,6 +73,7 @@ void View::keyReleaseEvent(QKeyEvent* event) {
 
 void View::DrawGameObjects(QPainter* painter) {
   controller_->GetPlayer()->GetViewCircle().Draw(painter, &resizer_);
+  controller_->GetPlayer()->GetCatGroup().Draw(painter, &resizer_);
   std::vector<std::shared_ptr<GameObject>>
       drawable_objects = model_->GetDrawableGameObjects();
   for (const auto& object : drawable_objects) {

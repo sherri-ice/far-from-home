@@ -4,11 +4,11 @@
 #include <list>
 #include <memory>
 
-#include "Controller/abstract_controller.h"
-#include "Model/model.h"
-#include "View/view.h"
+#include "../Controller/abstract_controller.h"
+#include "../Model/model.h"
+#include "../View/view.h"
 
-#include <Model/generator.h>
+#include "../Model/generator.h"
 
 class Controller : public AbstractController {
  public:
@@ -24,8 +24,8 @@ class Controller : public AbstractController {
   void ScanIfObjectWereClicked(const Point& point) override;
 
  private:
-  void TickPlayer();
-  void TickCats(int delta_time);
+  void TickPlayer(int delta_time);
+  void TickCats(int time);
   void TickDogs(int delta_time);
   void TickFood(int delta_time);
   void TickObjects(int delta_time);

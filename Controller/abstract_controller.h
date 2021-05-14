@@ -1,13 +1,13 @@
 #ifndef CONTROLLER_ABSTRACT_CONTROLLER_H_
 #define CONTROLLER_ABSTRACT_CONTROLLER_H_
 
-#include "GameObject/food.h"
-#include "GameObject/moving_object.h"
-#include "GameObject/cat.h"
-#include "GameObject/player.h"
+#include "../GameObject/food.h"
+#include "../GameObject/moving_object.h"
+#include "../GameObject/cat.h"
+#include "../GameObject/player.h"
 #include <list>
 #include <memory>
-#include <View/resizer.h>
+#include "../View/resizer.h"
 
 class AbstractController {
  public:

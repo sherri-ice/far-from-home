@@ -13,13 +13,24 @@ const double kViewCircleDefault = 540;
 const double kViewCircleMax = 4200;
 const double kViewCircleMin = 250;
 
-const int kTimeBetweenTicks = 10;
+const int kTimeBetweenTicks = 100;
 const int kTimeScale = 100;
 
 const double kResizerSpeed = 60.;
 const double kResizerScale = 50.;
 
+const int kMinTimeToGoHome = 1e3;
+const int kMaxTimeToGoHome = 1e8;
+
 const double kSemiMinorCoefficient = 0.8;
+
+const double kCatRunCoefficient = 2;
+const double kCatGroupSpeed = 10;
+
+const int kMinRunAwayDistance = 100;
+const int kMaxRunAwayDistance = 500;
+
+const double kCatGroupIncCoefficient = 1.1;
 
 const QString kApplicationName = "Far from home";
 }  // namespace constants

@@ -1,22 +1,25 @@
 #ifndef GAMEOBJECT_DOG_H_
 #define GAMEOBJECT_DOG_H_
 
+#include "cat.h"
 #include <memory>
 #include <random>
 #include <vector>
 
-#include "GameObject/cat.h"
-#include "GameObject/moving_object.h"
-#include "Model/timer.h"
+#include "../GameObject/cat.h"
+#include "../Model/timer.h"
+#include "../GameObject/moving_object.h"
 
-namespace constants {
+namespace dog_constants {
 const int kTimeToRestMin = 5000;
 const int kTimeToRestMax = 7000;
 const int kTimeToWalkMin = 1500;
 const int kTimeToWalkMax = 3500;
+const int kTimeToComeHomeMin = 1000;
+const int kTimeToComeHomeMax = 2000;
 const int kTimesToChangeDirectionMin = 2;
 const int kTimesToChangeDirectionsMax = 5;
-}  // namespace constants
+}  // namespace dog_constants
 
 enum class DogState {
   kIsResting,
@@ -38,9 +41,12 @@ class Dog : public MovingObject {
   void SetIfItVisibleToPlayer(bool is_visible);
   bool CheckIfCanSeeCat(const Cat* cat) const;
   void SetReachableCat(const std::vector<std::shared_ptr<Cat>>& cats);
+  const Cat* GetReachableCat();
+
 
   double GetVisibilityRadius() const;
   double GetWalkingSpeed() const;
+  void SetIsMainCatCaught(bool);
 
  private:
   Point home_position_;
@@ -51,6 +57,7 @@ class Dog : public MovingObject {
   int change_directions_count_{0};
   double walking_speed_;
   Timer timers_;
+  bool is_main_cat_caught_{false};
 
   static std::mt19937 random_generator_;
 };

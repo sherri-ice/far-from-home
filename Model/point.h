@@ -1,7 +1,7 @@
 #ifndef MODEL_POINT_H_
 #define MODEL_POINT_H_
 
-#include "Model/size.h"
+#include "../Model/size.h"
 
 class Point {
  public:
@@ -26,12 +26,11 @@ class Point {
   bool operator!=(const Point& rhs) const;
 
   static bool IsClose(const Point& lhs, const Point& rhs);
+  Size GetVelocityVector(const Point& destination, double
+  coefficient) const;
 
   Size GetVectorTo(const Point& destination) const;
   bool IsInEllipse(Point position, double ellipse_radius) const;
-
-  Size GetVelocityVector(const Point& destination, double
-  coefficient) const;
 
  private:
   double x_;

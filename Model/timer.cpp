@@ -13,7 +13,7 @@ Timer::Timer(int number_of_timers) {
 }
 
 void Timer::Tick(int delta_time) {
-  for (size_t i = 0; i < timers_.size(); ++i) {
+  for (int i = 0; i < timers_.size(); ++i) {
     if (is_active_.at(i)) {
       timers_.at(i) -= delta_time;
     }
@@ -28,7 +28,7 @@ index_of_timer) {
 }
 
 bool Timer::IsTimeOut(int index_of_timer) {
-  return timers_.at(index_of_timer) <= 0;
+  return timers_.at(index_of_timer) <= 0 && is_active_.at(index_of_timer);
 }
 
 void Timer::Stop(int index_of_timer) {
@@ -36,7 +36,12 @@ void Timer::Stop(int index_of_timer) {
   is_active_.at(index_of_timer) = false;
 }
 
+
 void Timer::Start(int time, int index_of_timer) {
   timers_.at(index_of_timer) = time;
   is_active_.at(index_of_timer) = true;
+}
+
+bool Timer::IsActive(int index_of_timer) {
+  return is_active_.at(index_of_timer);
 }

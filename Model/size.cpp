@@ -80,3 +80,7 @@ void Size::SetWidth(double width) {
 void Size::SetHeight(double height) {
   height_ = height;
 }
+
+double operator*(const Size& lhs, const Size& rhs) {
+  return lhs.width_ * rhs.width_ + lhs.height_ * rhs.height_;
+}

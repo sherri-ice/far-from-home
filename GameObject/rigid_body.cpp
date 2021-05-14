@@ -1,5 +1,5 @@
 #include "rigid_body.h"
-
+#include <iostream>
 QRect RigidBody::GetRect() const {
   double x = object_position_->GetX() - scale_coefficient_x_ *
       object_size_->GetWidth() / 2;

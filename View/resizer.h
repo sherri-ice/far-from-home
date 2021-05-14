@@ -1,8 +1,8 @@
 #ifndef VIEW_RESIZER_H_
 #define VIEW_RESIZER_H_
 
-#include "Model/point.h"
-#include "Model/constants.h"
+#include "../Model/point.h"
+#include "../Model/constants.h"
 
 class Resizer {
  public:
