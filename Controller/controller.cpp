@@ -10,7 +10,8 @@ Controller::Controller() {
 void Controller::Tick(int time) {
   int delta_time = time - current_game_time_;
   current_game_time_ = time;
-  TickPlayer();
+
+  TickPlayer(delta_time);
   TickCats(delta_time);
   TickDogs(delta_time);
   CatsAndFoodIntersect();
@@ -32,19 +33,22 @@ Player* Controller::GetPlayer() {
   return model_->GetPlayer();
 }
 
-void Controller::TickPlayer() {
+void Controller::TickPlayer(int delta_time) {
   Size player_velocity = view_->GetPlayerVelocity();
   auto player = model_->GetPlayer();
   view_->ClearVelocity();
+  player->IsReachable(model_->GetDogs());
+  player->UpdateCatsGroup(model_->GetCats());
   player->OrderCatsToMove(player_velocity);
   player->UpdateDogsAround(model_->GetDogs());
+  player->GroupTick(delta_time);
 }
 
 void Controller::TickCats(int time) {
-    for (auto& cat : model_->GetCats()) {
-        cat->Tick(time);
-        cat->Move(time);
-    }
+  for (auto& cat : model_->GetCats()) {
+    cat->Tick(time);
+    cat->Move(time);
+  }
 }
 
 void Controller::TickDogs(int delta_time) {
@@ -56,8 +60,13 @@ void Controller::TickDogs(int delta_time) {
     dog->Move(delta_time);
     for (auto& cat : player->GetCats()) {
       if (dog->GetRigidBody().IsCollide(cat->GetRigidBody())) {
-        player->DismissCats();
-        break;
+        if (cat == player->GetMainCat()) {
+          player->DismissCats();
+          dog->SetIsMainCatCaught(true);
+          break;
+        } else {
+          player->LosingCat(dog->GetRigidPosition(), cat);
+        }
       }
     }
   }

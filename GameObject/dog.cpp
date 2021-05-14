@@ -15,8 +15,8 @@ Dog::Dog(const Size& size,
                                  timers_(static_cast<int>
                                          (DogState::SIZE)) {
   destination_ = home_position_;
-  timers_.StartTimerWithRandom(constants::kTimeToRestMin,
-                               constants::kTimeToRestMax);
+  timers_.StartTimerWithRandom(dog_constants::kTimeToRestMin,
+                               dog_constants::kTimeToRestMax);
 }
 
 void Dog::Draw(QPainter* painter, Resizer* resizer) const {
@@ -56,6 +56,14 @@ void Dog::Tick(int delta_time) {
         * speed_ / constants::kTimeScale);
   }
 
+  if (is_main_cat_caught_ && (dog_state_ != DogState::kIsComingHome)) {
+    dog_state_ = DogState::kIsComingHome;
+    destination_ = home_position_;
+    timers_.StartTimerWithRandom(10000,
+                                 50000,
+                                 static_cast<int>(DogState::kIsComingHome));
+  }
+
   std::uniform_int_distribution<> velocity(-1, 1);
   switch (dog_state_) {
     case DogState::kIsResting: {
@@ -63,15 +71,15 @@ void Dog::Tick(int delta_time) {
         timers_.Stop(static_cast<int>(DogState::kIsResting));
         dog_state_ = DogState::kIsWalking;
         std::uniform_int_distribution<> times_to_change_directions
-            (constants::kTimesToChangeDirectionMin,
-             constants::kTimesToChangeDirectionsMax);
+            (dog_constants::kTimesToChangeDirectionMin,
+             dog_constants::kTimesToChangeDirectionsMax);
         change_directions_count_ = times_to_change_directions
             (random_generator_);
         velocity_ = Size(velocity(random_generator_), velocity
         (random_generator_));
         --change_directions_count_;
-        timers_.StartTimerWithRandom(constants::kTimeToWalkMin,
-                                     constants::kTimeToWalkMax,
+        timers_.StartTimerWithRandom(dog_constants::kTimeToWalkMin,
+                                     dog_constants::kTimeToWalkMax,
                                      static_cast<int>(DogState::kIsWalking));
       }
       break;
@@ -82,8 +90,8 @@ void Dog::Tick(int delta_time) {
           velocity_ = Size(velocity(random_generator_), velocity
               (random_generator_));
           --change_directions_count_;
-          timers_.StartTimerWithRandom(constants::kTimeToWalkMin,
-                                       constants::kTimeToWalkMax,
+          timers_.StartTimerWithRandom(dog_constants::kTimeToWalkMin,
+                                       dog_constants::kTimeToWalkMax,
                                        static_cast<int>(DogState::kIsWalking));
         } else {
           timers_.Stop(static_cast<int>(DogState::kIsWalking));
@@ -107,11 +115,17 @@ void Dog::Tick(int delta_time) {
       break;
     }
     case DogState::kIsComingHome: {
+      if (timers_.IsTimeOut(static_cast<int>(DogState::kIsComingHome))) {
+        timers_.Stop(static_cast<int>(DogState::kIsComingHome));
+        is_main_cat_caught_ = false;
+      }
       if (position_ == home_position_) {
         dog_state_ = DogState::kIsResting;
         velocity_ = Size(0, 0);
-        timers_.StartTimerWithRandom(constants::kTimeToRestMin,
-                                     constants::kTimeToRestMax,
+        timers_.Stop(static_cast<int>(DogState::kIsComingHome));
+        is_main_cat_caught_ = false;
+        timers_.StartTimerWithRandom(dog_constants::kTimeToRestMin,
+                                     dog_constants::kTimeToRestMax,
                                      static_cast<int>(DogState::kIsResting));
       } else {
         velocity_ = position_.GetVelocityVector(destination_, delta_time *
@@ -123,7 +137,6 @@ void Dog::Tick(int delta_time) {
       break;
     }
   }
-
     is_moving_ = !(dog_state_ == DogState::kIsResting);
     object_animation_.Tick(delta_time, GetAnimation());
     was_moving_ = is_moving_;
@@ -139,7 +152,8 @@ void Dog::SetReachableCat(const std::vector<std::shared_ptr<Cat>>& cats) {
   for (const auto& cat : cats) {
     Size cat_distance = position_.GetVectorTo(cat->GetRigidPosition());
     if (CheckIfCanSeeCat(&(*cat)) &&
-        cat_distance.GetLength() < min_distance.GetLength()) {
+        cat_distance.GetLength() < min_distance.GetLength() &&
+        (!timers_.IsActive(static_cast<int>(DogState::kIsComingHome)))) {
       reachable_cat_ = &(*cat);
       min_distance = cat_distance;
     }
@@ -151,10 +165,18 @@ bool Dog::CheckIfCanSeeCat(const Cat* cat) const {
                                              visibility_radius_);
 }
 
+const Cat* Dog::GetReachableCat() {
+  return reachable_cat_;
+}
+
 double Dog::GetVisibilityRadius() const {
   return visibility_radius_;
 }
 
 double Dog::GetWalkingSpeed() const {
   return walking_speed_;
+}
+
+void Dog::SetIsMainCatCaught(bool is_caught) {
+  is_main_cat_caught_ = is_caught;
 }

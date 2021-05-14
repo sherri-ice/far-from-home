@@ -50,11 +50,11 @@ set(SOURCES
         Model/generator.cpp
         Model/timer.cpp
         resourses.qrc
-        images.qrc)
+        images.qrc
+        Model/group.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 
 
 find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
 target_link_libraries(${PROJECT_NAME} ${REQUIRED_LIBS_QUALIFIED})
-

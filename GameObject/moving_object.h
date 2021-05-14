@@ -18,6 +18,15 @@ class MovingObject : public GameObject {
     [[nodiscard]] AnimationState GetAnimation() const;
     virtual void SetAnimations(std::vector<std::vector<QPixmap>>
                                                   animation = {});
+  virtual void IncSpeed(double speed);
+  virtual void DecSpeed(double speed);
+  virtual void SetVelocity(Size velocity);
+  virtual void SetRunAwayDestination(const Point& first_pos,
+                                     const Point& second_pos,
+                                     const Point& pos,
+                                     int x);
+  bool IsVelocityChange(Size main_velocity);
+  void SetDestination(const Point& destination);
 
  protected:
     Point destination_{};

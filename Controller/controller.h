@@ -22,7 +22,7 @@ class Controller : public AbstractController {
   Player* GetPlayer() override;
 
  private:
-  void TickPlayer();
+  void TickPlayer(int delta_time);
   void TickCats(int time);
   void TickDogs(int delta_time);
   void TickFood(int time);
