@@ -68,3 +68,11 @@ void GameObject::Draw(QPainter* painter, Resizer* resizer) const {
 void GameObject::SetSkin(QPixmap skin) {
     skin_ = skin;
 }
+
+int GameObject::GetSkinId() const {
+  return skin_id_;
+}
+
+void GameObject::SetSkinId(int skin_id) {
+  skin_id_ = skin_id;
+}

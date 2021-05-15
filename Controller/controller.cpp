@@ -146,8 +146,8 @@ void Controller::ScanIfObjectWereClicked(const Point& point) {
     if (object->GetDrawPosition().IsInEllipse(point, 100)) {
       if (!object->IsAlreadyClicked()
           && model_->GetPlayer()->NotOnlyMainCat()) {
-        object->SetSearchState();
-        model_->GetPlayer()->SendCatToSearch(point, object->GetSearchTime());
+       auto cat =  model_->GetPlayer()->SendCatToSearch(point, object->GetSearchTime());
+        CatAndPortalIteraction(object, cat);
       }
       if (object->IsAlreadyClicked()) {
         model_->AddWarning(std::make_shared<Warning>(
@@ -196,3 +196,17 @@ void Controller::TickWarnings(int delta_time) {
     warning->SetPosition(view_->GetCoordinatesForWarning());
   }
 }
+
+void Controller::CatAndPortalIteraction(const std::shared_ptr<PortalObject> portal,
+                                        const std::shared_ptr<Cat>& cat) {
+  switch (cat->GetCatState()) {
+    case CatState::kIsGoingToSearch: {
+      model_->SetSkinSelected(portal);
+    }
+    case CatState::kIsSearching: {
+      portal->SetSearchState();
+    }
+  }
+}
+
+

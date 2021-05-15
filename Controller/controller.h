@@ -34,7 +34,10 @@ class Controller : public AbstractController {
 
   void CatsAndFoodIntersect();
   void MovingAndStaticObjectsIntersect(const std::shared_ptr<MovingObject>&
-      moving_object);
+  moving_object);
+  void CatAndPortalIteraction(const std::shared_ptr<PortalObject> portal,
+                              const std::shared_ptr<Cat>&
+                              cat);
 
   int current_game_time_{0};
   std::shared_ptr<Model> model_;

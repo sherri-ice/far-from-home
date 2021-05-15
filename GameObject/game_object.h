@@ -34,8 +34,12 @@ class GameObject {
   void SetIsDead();
   bool IsDead() const;
 
+  int GetSkinId() const;
+  void SetSkinId(int skin_id);
+
  protected:
   QPixmap skin_;
+  int skin_id_ = 0;
   Size size_ = Size(40, 40);
   Point position_;
   RigidBody rigid_body_;

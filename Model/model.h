@@ -53,16 +53,19 @@ class Model {
 
   void ClearObjects();
 
-  void LoadDinamicAnimation();
+  void LoadDynamicAnimation();
   void LoadStaticAnimation();
   void LoadAnimation();
 
   [[nodiscard]] std::vector<std::vector<QPixmap>> GetImagesByFramePath
       (const QString& path) const;
 
+  void SetSkinSelected(std::shared_ptr<PortalObject> portal);
+  void SetNormalSkin(std::shared_ptr<PortalObject> portal);
+
  private:
     std::map<QString, std::vector<std::vector<QPixmap>>> animations_;
-    std::vector<std::vector<QPixmap>> objects_pics_{};
+    std::map<QString, std::vector<QPixmap>> objects_pics_{};
     int current_level_ = 0;
   int game_state_ = GameState::kMenu;
 
@@ -72,6 +75,7 @@ class Model {
   std::list<std::shared_ptr<Dog>> dogs_;
   std::list<std::shared_ptr<PortalObject>> static_objects_;
   std::list<std::shared_ptr<Warning>> warnings_;
+
 };
 
 #endif  // MODEL_MODEL_H_
