@@ -51,7 +51,10 @@ set(SOURCES
         Model/timer.cpp
         resourses.qrc
         images.qrc
-        Model/group.cpp)
+        Model/group.cpp
+        View/button.cpp
+        View/button_handler.cpp
+        View/button_handler.h)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 

@@ -2,22 +2,6 @@
 
 #include "model.h"
 
-Model::Model() {
-  LoadAnimation();
-  std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
-                                                        10,
-                                                        Point(0, 0));
-  main_cat->SetIsInGroup(true);
-  main_cat->SetAnimations(animations_["cat"]);
-  cats_.emplace_back(main_cat);
-  for (auto& food : food_) {
-    food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
-  }
-  player_ = new Player(main_cat);
-  player_->SetViewCircle(ViewCircle(player_->GetPosition(),
-                                    constants::kViewCircleDefault));
-}
-
 Player* Model::GetPlayer() {
   return player_;
 }
@@ -37,7 +21,9 @@ std::vector<std::shared_ptr<GameObject>> Model::GetDrawableGameObjects() const {
     result.push_back(static_object);
   }
   std::sort(result.begin(), result.end(), [](const
-  std::shared_ptr<GameObject>& lhs, const std::shared_ptr<GameObject>& rhs) {
+                                             std::shared_ptr<GameObject>& lhs,
+                                             const
+                                             std::shared_ptr<GameObject>& rhs) {
     return lhs->GetDrawPosition().GetY() < rhs->GetDrawPosition().GetY();
   });
   return result;
@@ -89,12 +75,12 @@ void Model::ClearObjects() {
       dogs_.remove(*it);
     }
   }
-    for (auto it = static_objects_.rbegin(); it != static_objects_.rend();
-                                                                        ++it) {
-        if ((*it)->IsDead()) {
-            static_objects_.remove(*it);
-        }
+  for (auto it = static_objects_.rbegin(); it != static_objects_.rend();
+       ++it) {
+    if ((*it)->IsDead()) {
+      static_objects_.remove(*it);
     }
+  }
 }
 
 std::shared_ptr<Dog> Model::MakeNewDog(const Size& size,
@@ -126,12 +112,12 @@ std::shared_ptr<Food> Model::MakeNewFood(const Size& size, const Point& point) {
 }
 
 void Model::LoadAnimation() {
-    LoadDinamicAnimation();
-    LoadStaticAnimation();
+  LoadDinamicAnimation();
+  LoadStaticAnimation();
 }
 
 void Model::LoadDinamicAnimation() {
-    Q_INIT_RESOURCE(images);
+  Q_INIT_RESOURCE(images);
   std::vector<QString> paths = {"cat", "dog"};
   for (const auto& path : paths) {
     animations_[path] = GetImagesByFramePath(":images/" + path + "/");
@@ -139,18 +125,28 @@ void Model::LoadDinamicAnimation() {
 }
 
 void Model::LoadStaticAnimation() {
-    Q_INIT_RESOURCE(images);
-    QString path_for_objects = ":images/objects/";
-    std::vector<QString> objects_folders = {"food", "tree"};
-    for (const auto& folder : objects_folders) {
-        std::vector<QPixmap> skins;
-        for (int i = 0; i < 4; ++i) {
-            skins.emplace_back(
-                path_for_objects + "/" + folder + "/Frame " + QString::number(i)
-                + ".png");
-        }
-        objects_pics_.emplace_back(skins);
+  Q_INIT_RESOURCE(images);
+  QString path_for_objects = ":images/objects/";
+  std::vector<QString> objects_folders = {"food", "tree"};
+  for (const auto& folder : objects_folders) {
+    std::vector<QPixmap> skins;
+    for (int i = 0; i < 4; ++i) {
+      skins.emplace_back(
+          path_for_objects + "/" + folder + "/Frame " + QString::number(i)
+              + ".png");
     }
+    objects_pics_.emplace_back(skins);
+  }
+  // load backgrounds
+  backgrounds_.emplace_back("../images/backgrounds/main.png");
+  backgrounds_.back().scaled(constants::kGameWidth, constants::kGameHeight,
+         Qt::KeepAspectRatio);
+  backgrounds_.emplace_back("../images/backgrounds/menu.png");
+  backgrounds_.back().scaled(constants::kGameWidth, constants::kGameHeight,
+                             Qt::KeepAspectRatio);
+  backgrounds_.emplace_back("../images/backgrounds/main.png");
+  backgrounds_.back().scaled(constants::kGameWidth, constants::kGameHeight,
+                             Qt::KeepAspectRatioByExpanding);
 }
 
 std::vector<std::vector<QPixmap>> Model::GetImagesByFramePath(
@@ -175,4 +171,19 @@ std::vector<std::vector<QPixmap>> Model::GetImagesByFramePath(
     result.emplace_back(images);
   }
   return result;
+}
+void Model::SetModel() {
+  LoadAnimation();
+  std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
+                                                        10,
+                                                        Point(0, 0));
+  main_cat->SetIsInGroup(true);
+  main_cat->SetAnimations(animations_["cat"]);
+  cats_.emplace_back(main_cat);
+  player_ = new Player(main_cat);
+  player_->SetViewCircle(ViewCircle(player_->GetPosition(),
+                                    constants::kViewCircleDefault));
+}
+QPixmap Model::GetBackground(int type) const {
+  return type < 2 ? backgrounds_[type] : backgrounds_[2];
 }

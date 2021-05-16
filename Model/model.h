@@ -19,8 +19,9 @@ enum GameState {
 
 class Model {
  public:
-  Model();
+  Model() = default;
   void LoadLevel(int level);
+  void SetModel();
 
   Player* GetPlayer();
   [[nodiscard]] std::vector<std::shared_ptr<GameObject>>
@@ -42,6 +43,8 @@ class Model {
   std::list<std::shared_ptr<Dog>> GetDogs();
   std::list<std::shared_ptr<Cat>> GetCats();
   const std::list<std::shared_ptr<GameObject>>& GetStaticObjects() const;
+  QPixmap GetBackground(int type) const;
+
 
   void ClearObjects();
 
@@ -53,9 +56,9 @@ class Model {
       (const QString& path) const;
 
  private:
-    std::map<QString, std::vector<std::vector<QPixmap>>> animations_;
-    std::vector<std::vector<QPixmap>> objects_pics_{};
-    int current_level_ = 0;
+  std::map<QString, std::vector<std::vector<QPixmap>>> animations_;
+  std::vector<std::vector<QPixmap>> objects_pics_{};
+  int current_level_ = 0;
   int game_state_ = GameState::kMenu;
 
   std::list<std::shared_ptr<Cat>> cats_;
@@ -63,6 +66,7 @@ class Model {
   Player* player_;
   std::list<std::shared_ptr<Food>> food_;
   std::list<std::shared_ptr<Dog>> dogs_;
+  std::vector<QPixmap> backgrounds_;
 };
 
 #endif  // MODEL_MODEL_H_

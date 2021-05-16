@@ -15,14 +15,20 @@ class Controller : public AbstractController {
   Controller();
   ~Controller() override = default;
 
+  void SecondConstructorPart() override;
+
+  QPixmap GetBackground(WindowType type) const override;
+
+
   void StartGame() override;
+  void EndGame() override;
   void Tick(int time) override;
   int GetCurrentTime() override;
 
   Player* GetPlayer() override;
 
  private:
-  void TickPlayer(int delta_time);
+  void TickPlayer();
   void TickCats(int time);
   void TickDogs(int delta_time);
   void TickFood(int time);
@@ -34,6 +40,7 @@ class Controller : public AbstractController {
   std::shared_ptr<Model> model_;
   std::shared_ptr<View> view_;
   Generator map_generator_;
+  WindowType window_type_ = WindowType::kMainMenu;
 };
 
 #endif  // CONTROLLER_CONTROLLER_H_
