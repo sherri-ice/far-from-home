@@ -15,7 +15,6 @@ const int kMinSearchTime = 1'000;
 enum class PortalState {
   kDefault,
   kSearching,
-  kPendingInfo,
   kWaitToSeeResult,
   kCollected
 };

@@ -47,7 +47,7 @@ void PortalObject::Tick(int time) {
       search_timer_.Tick(time);
     } else {
       warning_.UpdateMessage("Click on a tree to see the result!");
-      state_ = PortalState::kPendingInfo;
+      state_ = PortalState::kWaitToSeeResult;
       progress_bar_.SetInvisible();
       search_timer_.Stop();
     }
@@ -67,15 +67,14 @@ void PortalObject::RemovePortal() {
 }
 
 void PortalObject::SetSearchState() {
-  if (state_ != PortalState::kPendingInfo && state_ !=
-      PortalState::kWaitToSeeResult) {
+  if (state_ != PortalState::kWaitToSeeResult) {
     state_ = PortalState::kSearching;
     progress_bar_.SetVisible();
   }
 }
 
 bool PortalObject::IsAlreadyClicked() {
-  return (state_ == PortalState::kCollected);
+  return (state_ != PortalState::kDefault);
 }
 
 bool PortalObject::HasPortal() const {
