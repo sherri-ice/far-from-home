@@ -1,11 +1,14 @@
-#include "view.h"
-#include "../Model/constants.h"
+#include <algorithm>
 
 #include <QKeyEvent>
 #include <QGraphicsScene>
 #include <utility>
 #include <vector>
-#include <algorithm>
+
+#include "../GameObject/portal_object.h"
+#include "../Model/constants.h"
+#include "progress_bar.h"
+#include "view.h"
 
 
 View::View(AbstractController* controller,
@@ -17,14 +20,18 @@ View::View(AbstractController* controller,
   resizer_.ChangeSystem(width(), height());
   controller->StartGame();
   show();
+  setStyleSheet("background-color: #32CD32");
+
   time_between_ticks_.start();
   controller_timer_id_ = startTimer(constants::kTimeBetweenTicks);
   view_timer_.start();
 }
 
 void View::paintEvent(QPaintEvent*) {
-    QPainter painter(this);
-    DrawGameObjects(&painter);
+  QPainter painter(this);
+
+  DrawGameObjects(&painter);
+  DrawWarnings(&painter);
 }
 
 void View::timerEvent(QTimerEvent* event) {
@@ -101,13 +108,27 @@ double View::GetViewSize() {
   return radius;
 }
 
+void View::mousePressEvent(QMouseEvent* event) {
+  Point point = Point(event->x(), event->y());
+  auto needed = resizer_.WindowToGameCoordinate(point);
+  controller_->ScanIfObjectWereClicked(needed);
+}
+
+Point View::GetCoordinatesForWarning() const {
+  return Point(width() / 2, 0);
+}
+
 bool View::IsOnTheScreen(const std::shared_ptr<GameObject>& object) {
   auto object_pos = object->GetDrawPosition();
   auto screen_rect = this->rect();
-  Point top_point = Point(screen_rect.topLeft().x(), screen_rect.topLeft().y());
+  double height_shift = screen_rect.height() * constants::kFactorForScreen;
+  double width_shift = screen_rect.width() * constants::kFactorForScreen;
+  Point top_point = Point(screen_rect.topLeft().x() - width_shift,
+                          screen_rect.topLeft().y() - height_shift);
   auto game_top_point = resizer_.WindowToGameCoordinate(top_point);
   Point bottom_point =
-      Point(screen_rect.bottomRight().x(), screen_rect.bottomRight().y());
+      Point(screen_rect.bottomRight().x() + width_shift, screen_rect
+      .bottomRight().y() + height_shift);
   auto game_bottom_point = resizer_.WindowToGameCoordinate(bottom_point);
 
   if (object_pos.GetX() < game_top_point.GetX()
@@ -118,5 +139,11 @@ bool View::IsOnTheScreen(const std::shared_ptr<GameObject>& object) {
       || object_pos.GetY() > game_bottom_point.GetY()) {
     return false;
   }
-    return true;
+  return true;
+}
+
+void View::DrawWarnings(QPainter* painter) {
+  for (const auto& warning : model_->GetWarnings()) {
+    warning->Draw(painter, &resizer_);
+  }
 }

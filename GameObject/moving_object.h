@@ -7,10 +7,13 @@
 
 class MovingObject : public GameObject {
  public:
-    MovingObject(const Size& size,
-                 double speed,
-                 const Point& position = Point(0, 0));
-    ~MovingObject() override = default;
+  MovingObject(const Size& size,
+               double speed,
+               const Point& position = Point(0, 0));
+  ~MovingObject() override = default;
+
+  Size GetVelocity() const;
+
     void Move(int delta_time);
 
     virtual void SetSpeed(double speed);

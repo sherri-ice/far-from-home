@@ -55,4 +55,8 @@ void Group::SetSpeed(double speed) {
   speed_ = speed;
 }
 
+void Group::SetCentralPosition(const Point& central_position) {
+  central_position_ = central_position;
+}
+
 

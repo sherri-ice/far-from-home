@@ -29,6 +29,9 @@ enum class CatState {
   kIsFollowingPlayer,
   kIsComingDestination,
   kIsMainCat,
+  kIsSearching,
+  kIsGoingToSearch,
+  kHasFinishedSearching,
   SIZE
 };
 
@@ -50,6 +53,8 @@ class Cat : public MovingObject {
   bool GetIsReachable();
 
   Timer GetTimer();
+  int GetSearchingTime() const;
+  void SetSearchingTime(int searching_time);
 
   int GetFoodSaturation() const;
   double GetSpeedOfHunger() const;
@@ -62,6 +67,7 @@ class Cat : public MovingObject {
   CatState cat_state_{CatState::kIsResting};
   int change_directions_count_{0};
   Timer timers_;
+  int searching_time_{1000};
 
   double food_saturation_{100.};
   double speed_of_hunger_{1.7};

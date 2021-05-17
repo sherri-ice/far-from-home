@@ -54,8 +54,10 @@ left_corner) {
                        dog.GetVisibilityRadius(), dog.GetWalkingSpeed());
   }
   for (const auto& static_object : new_tile.static_objects) {
-    model_->MakeNewStaticObject(static_object.GetSize(),
-                                static_object.GetDrawPosition() + left_corner);
+    model_->MakeNewPortal(static_object.GetSize(),
+                          static_object.GetDrawPosition() + left_corner,
+                          "",
+                          true);
   }
   for (const auto& food : new_tile.food) {
     model_->MakeNewFood(food.GetSize(), food.GetDrawPosition() + left_corner);

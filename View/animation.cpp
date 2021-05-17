@@ -8,7 +8,7 @@ frames_(frames), frames_rescaled_(frames) {
 void Animation::Tick(int delta_time, const AnimationState& animation_state) {
   wait_till_next_frame_ -= delta_time;
   if (wait_till_next_frame_ >= 0) {
-      return;
+    return;
   }
   SetCurrentRoad(animation_state);
   current_frame_ = (current_frame_ + 1) % 4;

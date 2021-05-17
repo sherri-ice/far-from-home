@@ -21,19 +21,28 @@ class Controller : public AbstractController {
 
   Player* GetPlayer() override;
 
+  void ScanIfObjectWereClicked(const Point& point) override;
+
  private:
   void TickPlayer(int delta_time);
   void TickCats(int time);
   void TickDogs(int delta_time);
-  void TickFood(int time);
+  void TickFood(int delta_time);
+  void TickObjects(int delta_time);
+  void TickWarnings(int delta_time);
   void TickViewCircle();
 
   void CatsAndFoodIntersect();
+  void MovingAndStaticObjectsIntersect(const std::shared_ptr<MovingObject>&
+  moving_object);
+  void CatsAndPortalsIntersect(const std::shared_ptr<Cat>& cat);
 
   int current_game_time_{0};
   std::shared_ptr<Model> model_;
   std::shared_ptr<View> view_;
   Generator map_generator_;
+  std::map<std::shared_ptr<PortalObject>, std::shared_ptr<Cat>>
+      portal_and_searching_cat_;
 };
 
 #endif  // CONTROLLER_CONTROLLER_H_

@@ -28,6 +28,10 @@ void MovingObject::Move(int delta_time) {
   position_ += velocity_;
 }
 
+Size MovingObject::GetVelocity() const {
+  return velocity_;
+}
+
 void MovingObject::DecSpeed(double speed) {
   speed_ /= speed;
 }

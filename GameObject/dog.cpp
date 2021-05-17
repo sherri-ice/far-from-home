@@ -37,10 +37,10 @@ void Dog::Draw(QPainter* painter, Resizer* resizer) const {
                          2 * static_cast<int>(radius.GetHeight() *
                              constants::kSemiMinorCoefficient));
   }
-    painter->drawPixmap(-object_width / 2, -object_height / 2,
+  painter->drawPixmap(-object_width / 2, -object_height / 2,
                       object_width,
                       object_height, object_animation_.GetCurrentFrame());
-    painter->restore();
+  painter->restore();
 }
 
 void Dog::Tick(int delta_time) {
@@ -100,7 +100,7 @@ void Dog::Tick(int delta_time) {
       }
       if (velocity_.GetLength() > constants::kEpsilon) {
         velocity_ /= velocity_.GetLength();
-        velocity_ *= delta_time * walking_speed_ / constants::kTimeScale;
+        velocity_ *= walking_speed_ * delta_time / constants::kTimeScale;
       }
       break;
     }
@@ -160,7 +160,7 @@ void Dog::SetReachableCat(const std::vector<std::shared_ptr<Cat>>& cats) {
 }
 
 bool Dog::CheckIfCanSeeCat(const Cat* cat) const {
-  return cat->GetRigidPosition().IsInEllipse(position_,
+  return cat->GetRigidPosition().IsInEllipse(GetRigidPosition(),
                                              visibility_radius_);
 }
 

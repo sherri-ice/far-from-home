@@ -46,6 +46,9 @@ set(SOURCES
         View/view.cpp
         View/resizer.cpp
         GameObject/view_circle.cpp
+        GameObject/portal_object.cpp
+        View/progress_bar.cpp
+        View/warning.cpp
         View/animation.cpp
         Model/generator.cpp
         Model/timer.cpp

@@ -10,6 +10,7 @@
 #include "../GameObject/cat.h"
 #include "../GameObject/dog.h"
 #include "view_circle.h"
+#include "portal_object.h"
 
 namespace constants {
 const double kMediumHungerPercent = 0.03;
@@ -32,8 +33,13 @@ class Player {
   void OrderCatsToMove(Size velocity_from_player);
 
   void UpdateDogsAround(std::list<std::shared_ptr<Dog>> dogs);
+
+  void UpdateStaticObjectsAround
+      (const std::list<std::shared_ptr<PortalObject>>& static_objects);
+
   void IsReachable(std::list<std::shared_ptr<Dog>> dogs);
   void UpdateCatsGroup(const std::list<std::shared_ptr<Cat>>& all_cats);
+
   void DismissCats();
   void GroupTick(int time);
 
@@ -44,8 +50,11 @@ class Player {
   [[nodiscard]] const Point& GetPosition() const;
 
   void LosingCat(Point dog_position, std::shared_ptr<Cat> cat);
+  std::shared_ptr<Cat> SendCatToSearch(const Point& portal_coordinates,
+                                       int search_time);
 
   void Tick();
+  bool NotOnlyMainCat();
   void FeedCats(double food);
   void UpdateHunger();
 
