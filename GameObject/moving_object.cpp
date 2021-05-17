@@ -73,13 +73,12 @@ AnimationState MovingObject::GetAnimationState() const {
     if (was_moving_) {
       return kSit;
     }
-    // ну анимашка эта дерганая нормально так надоела пусть пока без рандома
-    std::vector<double> probabilities = {0.1, 0.9};
+    std::vector<double> probabilities = {0.05, 0.95};
     std::discrete_distribution<>
         dist(probabilities.begin(), probabilities.end());
+    const int kStateShift = 7;
     animation_state = static_cast<AnimationState>(
-    dist(random_generator_) + 7);
-    // animation_state = kSiting;
+        dist(random_generator_) + kStateShift);
   } else {
     double x = velocity_.GetWidth();
     double y = velocity_.GetHeight();
