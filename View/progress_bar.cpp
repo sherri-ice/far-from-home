@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include <QDebug>
+
 ProgressBar::ProgressBar(const Point& center, const Size& size) {
   center_ = center;
   this->setWidth(constants::kWidth);
@@ -21,9 +23,11 @@ void ProgressBar::SetRange(int min_value, int max_value) {
 }
 
 void ProgressBar::IncCurrentValue() {
-  if (cur_value_ + 1 < max_value_) {
-    ++cur_value_;
+  if (cur_value_ >= max_value_) {
+    return;
   }
+    cur_value_ += (max_value_ - min_value_) / time_to_be_full_;
+    // qDebug() << cur_value_;
 }
 
 bool ProgressBar::IsFull() {
@@ -44,7 +48,7 @@ void ProgressBar::Draw(QPainter* painter, Resizer* resizer) const {
     rect.setHeight(window_size.GetHeight());
 
     double
-        width = static_cast<double>(rect.width()) / (max_value_ - min_value_);
+        width = static_cast<double>(rect.width()) / (max_value_ - min_value_) * 100;
     QRect inner_rect(window_coordinates.GetX(),
                      window_coordinates.GetY(),
                      width * cur_value_,
@@ -62,5 +66,9 @@ void ProgressBar::SetVisible() {
 
 void ProgressBar::SetInvisible() {
   is_visible_ = false;
+}
+
+void ProgressBar::SetTimeToBeFull(int time_to_be_full) {
+  time_to_be_full_ = time_to_be_full;
 }
 

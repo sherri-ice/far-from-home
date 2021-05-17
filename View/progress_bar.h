@@ -31,12 +31,13 @@ class ProgressBar : public QRect {
 
   void SetVisible();
   void SetInvisible();
-
+  void SetTimeToBeFull(int time_to_be_full);
 
  private:
   int cur_value_ = 0;
   int min_value_ = 0;
   int max_value_ = 0;
+  int time_to_be_full_ = 0;
 
   bool is_visible_ = false;
   Point center_;

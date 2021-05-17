@@ -8,7 +8,7 @@
 #include "game_object.h"
 
 namespace PortalConstants {
-const int kMaxSearchTime = 1'000;
+const int kMaxSearchTime = 10'000;
 const int kMinSearchTime = 1'000;
 }
 
