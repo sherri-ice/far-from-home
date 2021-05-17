@@ -44,7 +44,6 @@ void Dog::Draw(QPainter* painter, Resizer* resizer) const {
 }
 
 void Dog::Tick(int delta_time) {
-  dog_state_ == DogState::kIsResting ? is_moving_ = false : is_moving_ = true;
   timers_.Tick(delta_time);
 
   if (reachable_cat_) {

@@ -1,7 +1,16 @@
 #include "food.h"
 
+std::mt19937 Food::random_generator_ = std::mt19937
+    (std::chrono::system_clock::now().time_since_epoch().count());
+
 Food::Food(const Size& size, const Point& position) : GameObject(size,
                                                                  position) {
+  std::uniform_int_distribution<> quality
+  (constants::kMinQualityForGeneration, constants::kMaxQuality);
+  std::uniform_real_distribution<> speed(constants::kMinDecaySpeed,
+                                         constants::kMaxDecaySpeed);
+  food_quality_ = quality(random_generator_);
+  decay_speed_ = speed(random_generator_);
 }
 
 void Food::Draw(QPainter* painter, Resizer* resizer) const {
@@ -16,6 +25,14 @@ void Food::Draw(QPainter* painter, Resizer* resizer) const {
   painter->restore();
 }
 
-void Food::Tick(int time) {
+void Food::Tick(int delta_time) {
+  food_quality_ -= decay_speed_ * delta_time;
+  if (std::abs(food_quality_ - constants::kMinQuality) < constants::kEpsilon) {
+    is_dead_ = true;
+  }
+}
+
+double Food::GetFoodQuality() const {
+  return food_quality_;
 }
 

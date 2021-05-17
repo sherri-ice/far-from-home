@@ -150,6 +150,13 @@ void Cat::Tick(int delta_time) {
   object_animation_.Tick(delta_time, GetAnimation());
   was_moving_ = is_moving_;
   timers_.Tick(delta_time);
+
+  if (!GetIsInGroup()) {
+    food_saturation_ -= speed_of_hunger_;
+    if (food_saturation_ < 30) {
+      FeedCat();
+    }
+  }
 }
 
 bool Cat::GetIsInGroup() const {
@@ -182,4 +189,17 @@ bool Cat::GetIsReachable() {
 
 void Cat::SetHomePosition(const Point& position) {
   home_position_ = position;
+}
+
+int Cat::GetFoodSaturation() const {
+  return food_saturation_;
+}
+
+double Cat::GetSpeedOfHunger() const {
+  return speed_of_hunger_;
+}
+
+void Cat::FeedCat() {
+  std::uniform_int_distribution<> food(20, 50);
+  food_saturation_ += food(random_generator_);
 }

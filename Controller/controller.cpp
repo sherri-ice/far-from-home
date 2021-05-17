@@ -42,6 +42,15 @@ void Controller::TickPlayer(int delta_time) {
   player->OrderCatsToMove(player_velocity);
   player->UpdateDogsAround(model_->GetDogs());
   player->GroupTick(delta_time);
+  player->UpdateHunger();
+  if (player->IfNeedToShowFirstWarning()) {
+    // AddWarning
+    player->ResetNeedToShowWarnings();
+  }
+  if (player->IfNeedToShowSecondWarning()) {
+    // AddWarning
+    player->ResetNeedToShowWarnings();
+  }
 }
 
 void Controller::TickCats(int time) {
@@ -73,7 +82,9 @@ void Controller::TickDogs(int delta_time) {
 }
 
 void Controller::TickFood(int time) {
-  // Food rots
+  for (auto& food : model_->GetFood()) {
+    food->Tick(time);
+  }
 }
 
 void Controller::TickViewCircle() {
@@ -88,9 +99,11 @@ void Controller::TickViewCircle() {
 }
 
 void Controller::CatsAndFoodIntersect() {
-  for (const auto& player_cat : model_->GetPlayer()->GetCats()) {
+  auto player = model_->GetPlayer();
+  for (const auto& player_cat : player->GetCats()) {
     for (auto& food : model_->GetFood()) {
       if (player_cat->GetRigidBody().IsCollide(food->GetRigidBody())) {
+        player->FeedCats(food->GetFoodQuality());
         food->SetIsDead();
       }
     }

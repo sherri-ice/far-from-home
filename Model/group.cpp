@@ -1,4 +1,3 @@
-#include <iostream>
 #include "group.h"
 
 Group::Group(double first_radius, double second_radius, Point central_position)

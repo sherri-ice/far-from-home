@@ -1,13 +1,7 @@
-//
-// Created by Yana on 15.04.21.
-//
-
 #include "animation.h"
 
-Animation::Animation(const std::vector<std::vector<QPixmap>> &frames,
-                     int animation_duration) : frames_(frames)
-        , frames_rescaled_(frames) {
-    time_between_frames_ = animation_duration / frames.size();
+Animation::Animation(const std::vector<std::vector<QPixmap>> &frames) :
+frames_(frames), frames_rescaled_(frames) {
     Reset();
 }
 
@@ -58,5 +52,3 @@ void Animation::Rescale(Size to_size) {
 void Animation::SetCurrentRoad(int road) {
   current_road_ = road;
 }
-
-

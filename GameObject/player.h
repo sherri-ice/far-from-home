@@ -11,6 +11,18 @@
 #include "../GameObject/dog.h"
 #include "view_circle.h"
 
+namespace constants {
+const double kMediumHungerPercent = 0.03;
+const double kSevereHungerPercent = 0.01;
+const double kChangeSpeedCoefficient = 1.5;
+}
+
+enum class HungerState {
+  kNotHungry,
+  kMediumHunger,
+  kSevereHunger
+};
+
 class Player {
  public:
   Player() = default;
@@ -34,6 +46,12 @@ class Player {
   void LosingCat(Point dog_position, std::shared_ptr<Cat> cat);
 
   void Tick();
+  void FeedCats(double food);
+  void UpdateHunger();
+
+  bool IfNeedToShowFirstWarning() const;
+  bool IfNeedToShowSecondWarning() const;
+  void ResetNeedToShowWarnings();
 
  private:
   std::vector<std::shared_ptr<Cat>> cats_;
@@ -41,6 +59,14 @@ class Player {
   Group cat_group_;
 
   double visibility_radius_{150};
+
+  double food_saturation_;
+  double speed_of_hunger_;
+  int max_food_saturation_{100};
+  HungerState hunger_state_{HungerState::kNotHungry};
+
+  bool need_to_show_first_warning_{false};
+  bool need_to_show_second_warning_{false};
 
   static std::mt19937 random_generator_;
 };

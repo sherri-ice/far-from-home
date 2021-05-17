@@ -19,6 +19,8 @@ const int kTimeToDoingSmthMin = 2000;
 const int kTimeToDoingSmthMax = 3500;
 const int kTimesToChangeDirectionMin = 2;
 const int kTimesToChangeDirectionsMax = 5;
+
+const int kMaxFoodSaturation = 100;
 }  // namespace constants
 
 enum class CatState {
@@ -49,6 +51,10 @@ class Cat : public MovingObject {
 
   Timer GetTimer();
 
+  int GetFoodSaturation() const;
+  double GetSpeedOfHunger() const;
+  void FeedCat();
+
  private:
   bool is_in_group_{false};
   bool is_reachable_cat_{false};
@@ -56,6 +62,9 @@ class Cat : public MovingObject {
   CatState cat_state_{CatState::kIsResting};
   int change_directions_count_{0};
   Timer timers_;
+
+  double food_saturation_{100.};
+  double speed_of_hunger_{1.7};
 
   static std::mt19937 random_generator_;
 };
