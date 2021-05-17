@@ -1,5 +1,7 @@
 #include "controller.h"
 
+#include <QDebug>
+
 Controller::Controller() {
   model_ = std::make_shared<Model>();
   view_ = std::make_shared<View>(this, model_);
@@ -53,6 +55,7 @@ void Controller::TickCats(int delta_time) {
     if (view_->IsOnTheScreen(cat)) {
       cat->Tick(delta_time);
       MovingAndStaticObjectsIntersect(cat);
+      CatsAndPortalsIntersect(cat);
       cat->Move(delta_time);
     }
   }
@@ -143,11 +146,17 @@ moving_object) {
 
 void Controller::ScanIfObjectWereClicked(const Point& point) {
   for (auto& object : model_->GetStaticObjects()) {
-    if (object->GetDrawPosition().IsInEllipse(point, 100)) {
+    if (object->GetDrawPosition().IsInEllipse(point,
+                                              object->GetSize().GetLength())) {
       if (!object->IsAlreadyClicked()
           && model_->GetPlayer()->NotOnlyMainCat()) {
-       auto cat =  model_->GetPlayer()->SendCatToSearch(point, object->GetSearchTime());
-        CatAndPortalIteraction(object, cat);
+        auto cat =
+            model_->GetPlayer()->SendCatToSearch(
+                object->GetDrawPosition()
+                    + Point(0, object->GetSize().GetHeight() / 2),
+                object->GetSearchTime());
+        // qDebug() << object->GetSearchTime();
+        portal_and_searching_cat_[object] = cat;
       }
       if (object->IsAlreadyClicked()) {
         model_->AddWarning(std::make_shared<Warning>(
@@ -197,14 +206,25 @@ void Controller::TickWarnings(int delta_time) {
   }
 }
 
-void Controller::CatAndPortalIteraction(const std::shared_ptr<PortalObject> portal,
-                                        const std::shared_ptr<Cat>& cat) {
-  switch (cat->GetCatState()) {
-    case CatState::kIsGoingToSearch: {
-      model_->SetSkinSelected(portal);
-    }
-    case CatState::kIsSearching: {
-      portal->SetSearchState();
+
+void Controller::CatsAndPortalsIntersect(const std::shared_ptr<Cat>& cat) {
+  for (auto& static_object : model_->GetStaticObjects()) {
+    if (portal_and_searching_cat_[static_object] == cat) {
+      switch (cat->GetCatState()) {
+        case CatState::kIsGoingToSearch: {
+          model_->SetSkinSelected(static_object);
+          break;
+        }
+        case CatState::kIsSearching: {
+          model_->SetNormalSkin(static_object);
+          static_object->SetSearchState();
+          break;
+        }
+        case CatState::kHasFinishedSearching: {
+          portal_and_searching_cat_.erase(static_object);
+          break;
+        }
+      }
     }
   }
 }

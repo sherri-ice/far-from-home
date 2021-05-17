@@ -14,10 +14,10 @@ PortalObject::PortalObject(const Size& size,
                            position.GetY() - size.GetHeight() / 2),
                      15);
   progress_bar_ = ProgressBar(position, size);
-  progress_bar_.SetRange(0, 1000);
   std::uniform_int_distribution<>
       time(PortalConstants::kMinSearchTime, PortalConstants::kMaxSearchTime);
   search_time_ = time(random_generator_);
+  progress_bar_.SetRange(0, search_time_);
   search_timer_.Start(search_time_);
 }
 

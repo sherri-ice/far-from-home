@@ -8,8 +8,8 @@
 #include "game_object.h"
 
 namespace PortalConstants {
-const int kMaxSearchTime = 10'000;
-const int kMinSearchTime = 200;
+const int kMaxSearchTime = 1'000;
+const int kMinSearchTime = 1'000;
 }
 
 enum class PortalState {
@@ -47,7 +47,7 @@ class PortalObject : public GameObject {
   bool has_portal_{true};
   QString skin_path_;
   Timer search_timer_ = Timer(1);
-  int search_time_{1000};
+  int search_time_{};
   ProgressBar progress_bar_;
   PortalState state_ = PortalState::kDefault;
   Warning warning_;

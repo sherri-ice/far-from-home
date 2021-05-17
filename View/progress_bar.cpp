@@ -21,7 +21,9 @@ void ProgressBar::SetRange(int min_value, int max_value) {
 }
 
 void ProgressBar::IncCurrentValue() {
-  ++cur_value_;
+  if (cur_value_ + 1 < max_value_) {
+    ++cur_value_;
+  }
 }
 
 bool ProgressBar::IsFull() {

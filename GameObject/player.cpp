@@ -31,7 +31,7 @@ void Player::OrderCatsToMove(Size velocity_from_player) {
       continue;
     }
     if (cat->GetCatState() == CatState::kHasFinishedSearching) {
-      // cat->SetDestination(cats_.at(0)->GetDrawPosition());
+      cat->SetDestination(cats_.at(0)->GetDrawPosition());
       continue;
     }
     cat_position = cat->GetRigidPosition();
@@ -168,7 +168,8 @@ void Player::UpdateCatsGroup(const std::list<std::shared_ptr<Cat>>& all_cats) {
       auto length = cat_group_.central_position_.
           GetVectorTo(wild_cat->GetDrawPosition()).GetLength();
       if (length < cat_group_.first_radius_ &&
-          !(wild_cat->GetIsInGroup())) {
+          !(wild_cat->GetIsInGroup())
+          && wild_cat->GetCatState() != CatState::kIsGoingToSearch) {
         cats_.push_back(wild_cat);
         wild_cat->SetIsInGroup(true);
         wild_cat->SetCatState(CatState::kIsFollowingPlayer);
@@ -215,7 +216,9 @@ std::shared_ptr<Cat> Player::GetMainCat() {
 }
 
 void Player::LosingCat(Point dog_position, std::shared_ptr<Cat> cat) {
-  if (cat->GetCatState() == CatState::kIsSearching) {
+  auto state = cat->GetCatState();
+  if (state == CatState::kIsSearching || state == CatState::kIsGoingToSearch
+      || state == CatState::kHasFinishedSearching) {
     return;
   }
   cat->SetIsInGroup(false);
@@ -237,8 +240,8 @@ void Player::LosingCat(Point dog_position, std::shared_ptr<Cat> cat) {
 std::shared_ptr<Cat> Player::SendCatToSearch(const Point& portal_coordinates,
                                              int search_time) {
   cats_.back()->SetCatState(CatState::kIsGoingToSearch);
-  cats_.back()->SetSearchingTime(search_time);
-  cats_.back()->SetDestination(portal_coordinates + Point(0, 60));
+  cats_.back()->SetSearchingTime(1000);
+  cats_.back()->SetDestination(portal_coordinates);
   return cats_.back();
 }
 
