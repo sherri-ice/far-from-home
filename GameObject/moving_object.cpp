@@ -67,6 +67,9 @@ AnimationState MovingObject::GetAnimationState() const {
     if (!is_visible_) {
       return kHide;
     }
+    if (is_back_) {
+      return kBack;
+    }
     if (!is_moving_) {
         if (was_moving_) {
             return kSit;

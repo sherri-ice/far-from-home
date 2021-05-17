@@ -163,11 +163,13 @@ void Cat::Tick(int delta_time) {
       if (timers_.IsTimeOut(static_cast<int>(CatState::kIsSearching))) {
         cat_state_ = CatState::kHasFinishedSearching;
         is_visible_ = true;
+        is_back_ = true;
       }
       break;
     }
     case CatState::kHasFinishedSearching: {
       timers_.Stop(static_cast<int>(CatState::kIsSearching));
+      is_back_ = false;
       if (position_ == destination_) {
         cat_state_ = CatState::kIsFollowingPlayer;
       }

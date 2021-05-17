@@ -15,6 +15,7 @@ enum AnimationState {
   kWalkLeft,
   kWalkRight,
   kHide,
+  kBack,
   kSit,
   kLicking,
   kSleeping,
