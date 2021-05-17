@@ -23,7 +23,6 @@ class Player {
   void IsReachable(std::list<std::shared_ptr<Dog>> dogs);
   void UpdateCatsGroup(const std::list<std::shared_ptr<Cat>>& all_cats);
   void DismissCats();
-  void GroupTick(int time);
 
   [[nodiscard]] const ViewCircle& GetViewCircle() const;
   [[nodiscard]] const Group& GetCatGroup() const;

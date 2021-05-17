@@ -41,7 +41,6 @@ void Controller::TickPlayer(int delta_time) {
   player->UpdateCatsGroup(model_->GetCats());
   player->OrderCatsToMove(player_velocity);
   player->UpdateDogsAround(model_->GetDogs());
-  player->GroupTick(delta_time);
 }
 
 void Controller::TickCats(int time) {

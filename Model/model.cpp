@@ -10,6 +10,7 @@ Model::Model() {
   main_cat->SetIsInGroup(true);
   main_cat->SetAnimations(animations_["cat"]);
   cats_.emplace_back(main_cat);
+
   for (auto& food : food_) {
     food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
   }
