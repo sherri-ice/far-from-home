@@ -10,14 +10,15 @@
 #include "../Model/size.h"
 
 enum AnimationState {
-    kWalkDown = 0,
-    kWalkUp = 1,
-    kWalkLeft = 2,
-    kWalkRight = 3,
-    kSit = 4,
-    kLicking = 5,
-    kSleeping = 6,
-    kSiting = 7
+  kWalkDown,
+  kWalkUp,
+  kWalkLeft,
+  kWalkRight,
+  kHide,
+  kSit,
+  kLicking,
+  kSleeping,
+  kSiting
 };
 
 class Animation {
@@ -37,16 +38,15 @@ class Animation {
  private:
   Size picture_size_{0, 0};
 
-    //--------
-    uint animation_loops_number = 2;
-    uint current_road_ = 0;
-    uint current_frame_ = 0;
-    int wait_till_next_frame_ = 0;
-    int time_between_frames_ = 25;
-    //---------
+  //--------
+  uint animation_loops_number = 2;
+  uint current_road_ = 0;
+  uint current_frame_ = 0;
+  int wait_till_next_frame_ = 0;
+  int time_between_frames_ = 25;
+  //---------
 
-    static std::mt19937 random_generator_;
-
+  static std::mt19937 random_generator_;
 
   std::vector<std::vector<QPixmap>> frames_{};
   std::vector<std::vector<QPixmap>> frames_rescaled_{};

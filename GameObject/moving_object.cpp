@@ -59,8 +59,14 @@ bool MovingObject::IsVelocityChange(Size main_velocity) {
 }
 
 
-AnimationState MovingObject::GetAnimation() const {
+AnimationState MovingObject::GetAnimationState() const {
     AnimationState animation_state;
+    if (is_hidding_) {
+      return kHide;
+    }
+    if (!is_visible_) {
+      return kHide;
+    }
     if (!is_moving_) {
         if (was_moving_) {
             return kSit;

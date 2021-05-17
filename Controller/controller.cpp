@@ -212,11 +212,11 @@ void Controller::CatsAndPortalsIntersect(const std::shared_ptr<Cat>& cat) {
     if (portal_and_searching_cat_[static_object] == cat) {
       switch (cat->GetCatState()) {
         case CatState::kIsGoingToSearch: {
-          model_->SetSkinSelected(static_object);
+          model_->SetSelectedPortalSkin(static_object);
           break;
         }
         case CatState::kIsSearching: {
-          model_->SetNormalSkin(static_object);
+          model_->SetNormalPortalSkin(static_object);
           static_object->SetSearchState();
           break;
         }

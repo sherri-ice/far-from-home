@@ -44,6 +44,7 @@ class GameObject {
   Point position_;
   RigidBody rigid_body_;
   bool is_dead_{false};
+  bool is_visible_ = true;
 };
 
 #endif  // GAMEOBJECT_GAME_OBJECT_H_

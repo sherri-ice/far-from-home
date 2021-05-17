@@ -15,16 +15,18 @@ Cat::Cat(const Size& size, double speed, const Point& position) :
 }
 
 void Cat::Draw(QPainter* painter, Resizer* resizer) const {
-  rigid_body_.Draw(painter, resizer);
-  painter->save();
-  auto position = resizer->GameToWindowCoordinate(position_);
-  auto size = resizer->GameToWindowSize(size_);
-  painter->drawPixmap(position.GetX() - size.GetWidth() / 2,
-                      position.GetY() - size.GetHeight() / 2,
-                      size.GetWidth(),
-                      size.GetHeight(),
-                      object_animation_.GetCurrentFrame());
-  painter->restore();
+  if (is_visible_) {
+    rigid_body_.Draw(painter, resizer);
+    painter->save();
+    auto position = resizer->GameToWindowCoordinate(position_);
+    auto size = resizer->GameToWindowSize(size_);
+    painter->drawPixmap(position.GetX() - size.GetWidth() / 2,
+                        position.GetY() - size.GetHeight() / 2,
+                        size.GetWidth(),
+                        size.GetHeight(),
+                        object_animation_.GetCurrentFrame());
+    painter->restore();
+  }
 }
 
 void Cat::Tick(int delta_time) {
@@ -153,9 +155,14 @@ void Cat::Tick(int delta_time) {
       if (!timers_.IsActive(static_cast<int>(CatState::kIsSearching))) {
         timers_.Start(searching_time_,
                       static_cast<int>(CatState::kIsSearching));
+        is_hidding_ = true;
+      } else {
+        is_hidding_ = false;
+        is_visible_ = false;
       }
       if (timers_.IsTimeOut(static_cast<int>(CatState::kIsSearching))) {
         cat_state_ = CatState::kHasFinishedSearching;
+        is_visible_ = true;
       }
       break;
     }
@@ -177,7 +184,7 @@ void Cat::Tick(int delta_time) {
   } else {
     is_moving_ = false;
   }
-  object_animation_.Tick(delta_time, GetAnimation());
+  object_animation_.Tick(delta_time, GetAnimationState());
   was_moving_ = is_moving_;
   timers_.Tick(delta_time);
 }

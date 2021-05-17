@@ -60,8 +60,11 @@ class Model {
   [[nodiscard]] std::vector<std::vector<QPixmap>> GetImagesByFramePath
       (const QString& path) const;
 
-  void SetSkinSelected(std::shared_ptr<PortalObject> portal);
-  void SetNormalSkin(std::shared_ptr<PortalObject> portal);
+  void SetSelectedPortalSkin(std::shared_ptr<PortalObject> portal);
+  void SetNormalPortalSkin(std::shared_ptr<PortalObject> portal);
+
+  void SetCatHidingAnimation(std::shared_ptr<Cat> cat);
+  void SetCatGettingOutAnimation(std::shared_ptr<Cat> cat);
 
  private:
     std::map<QString, std::vector<std::vector<QPixmap>>> animations_;

@@ -18,7 +18,7 @@ class MovingObject : public GameObject {
 
     virtual void SetSpeed(double speed);
     double GetSpeed() const;
-    [[nodiscard]] AnimationState GetAnimation() const;
+    [[nodiscard]] AnimationState GetAnimationState() const;
     virtual void SetAnimations(std::vector<std::vector<QPixmap>>
                                                   animation = {});
   virtual void IncSpeed(double speed);
@@ -39,6 +39,7 @@ class MovingObject : public GameObject {
     Size velocity_;
     static std::mt19937 random_generator_;
     Animation object_animation_;
+    bool is_hidding_ = false;
 };
 
 #endif  // GAMEOBJECT_MOVING_OBJECT_H_
