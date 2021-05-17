@@ -1,7 +1,7 @@
 #include "moving_object.h"
 
 std::mt19937 MovingObject::random_generator_ = std::mt19937
-        (std::chrono::system_clock::now().time_since_epoch().count());
+    (std::chrono::system_clock::now().time_since_epoch().count());
 
 MovingObject::MovingObject(
     const Size& size, double speed, const Point& position)
@@ -52,51 +52,52 @@ void MovingObject::SetRunAwayDestination(const Point& first_pos,
 
 bool MovingObject::IsVelocityChange(Size main_velocity) {
   if (main_velocity.GetWidth() * velocity_.GetWidth() < 0 ||
-             main_velocity.GetHeight() * velocity_.GetHeight() < 0) {
+      main_velocity.GetHeight() * velocity_.GetHeight() < 0) {
     return true;
   }
   return false;
 }
 
-
 AnimationState MovingObject::GetAnimationState() const {
-    AnimationState animation_state;
-    if (is_hidding_) {
-      return kHide;
+  AnimationState animation_state;
+  if (is_hidding_) {
+    return kHide;
+  }
+  if (!is_visible_) {
+    return kHide;
+  }
+  if (is_back_) {
+    return kBack;
+  }
+  if (!is_moving_) {
+    if (was_moving_) {
+      return kSit;
     }
-    if (!is_visible_) {
-      return kHide;
-    }
-    if (is_back_) {
-      return kBack;
-    }
-    if (!is_moving_) {
-        if (was_moving_) {
-            return kSit;
-        }
-        // ну анимашка эта дерганая нормально так надоела пусть пока без рандома
-        // std::uniform_int_distribution<> random_time(4, 7);
-        // animation_state = static_cast<AnimationState>
-        //                   (random_time(random_generator_));
-        animation_state = kSiting;
+    // ну анимашка эта дерганая нормально так надоела пусть пока без рандома
+    std::vector<double> probabilities = {0.1, 0.9};
+    std::discrete_distribution<>
+        dist(probabilities.begin(), probabilities.end());
+    animation_state = static_cast<AnimationState>(
+    dist(random_generator_) + 7);
+    // animation_state = kSiting;
+  } else {
+    double x = velocity_.GetWidth();
+    double y = velocity_.GetHeight();
+    if (std::abs(x) < 0.05) {
+      if (y > 0.05) {
+        animation_state = kWalkDown;
+      } else {
+        animation_state = kWalkUp;
+      }
+    } else if (x > 0.05) {
+      animation_state = kWalkRight;
     } else {
-        double x = velocity_.GetWidth();
-        double y = velocity_.GetHeight();
-        if (std::abs(x) < 0.05) {
-            if (y > 0.05) {
-                animation_state = kWalkDown;
-            } else {
-                animation_state = kWalkUp;
-            }
-        } else if (x > 0.05) {
-            animation_state = kWalkRight;
-        } else {
-            animation_state = kWalkLeft;
-        }
+      animation_state = kWalkLeft;
     }
-    return animation_state;
+  }
+  return animation_state;
 }
 
 void MovingObject::SetAnimations(std::vector<std::vector<QPixmap>> animation) {
-    object_animation_ = Animation(animation);
+  object_animation_ = Animation(animation);
 }

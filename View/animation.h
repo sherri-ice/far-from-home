@@ -18,8 +18,8 @@ enum AnimationState {
   kBack,
   kSit,
   kLicking,
-  kSleeping,
-  kSiting
+  kSiting,
+  kSleeping
 };
 
 class Animation {
