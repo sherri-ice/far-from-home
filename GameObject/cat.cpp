@@ -205,6 +205,6 @@ void Cat::SetIsRunAway(bool is_run_away) {
   is_run_away_ = is_run_away;
 }
 
-bool Cat::GetIsRunAway() const{
+bool Cat::GetIsRunAway() const {
   return is_run_away_;
 }
