@@ -42,8 +42,8 @@ void ProgressBar::Draw(QPainter* painter, Resizer* resizer) const {
     rect.setWidth(window_size.GetWidth());
     rect.setHeight(window_size.GetHeight());
 
-    double
-        width = static_cast<double>(rect.width()) / (max_value_ - min_value_) * 100;
+    double width = static_cast<double>(rect.width()) / (max_value_ -
+        min_value_) * 100;
     QRect inner_rect(window_coordinates.GetX(),
                      window_coordinates.GetY(),
                      width * cur_value_,

@@ -268,11 +268,11 @@ void Model::GenerateFood(const Point& player_position, double
       num_of_food_for_large_areas * 2) / 2;
 
   int i{0};
-  for (;i < num_of_food_for_large_areas; ++i) {
+  for (; i < num_of_food_for_large_areas; ++i) {
     MakeNewFood(Size(20, 20), Point(top_and_bottom_x(random_generator_),
                                     top_area_y(random_generator_)));
   }
-  for (;i < num_of_food_for_large_areas; ++i) {
+  for (; i < num_of_food_for_large_areas; ++i) {
     MakeNewFood(Size(20, 20), Point(top_and_bottom_x(random_generator_),
                                     bottom_area_y(random_generator_)));
   }

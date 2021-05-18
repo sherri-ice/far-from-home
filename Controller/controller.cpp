@@ -238,10 +238,12 @@ void Controller::TickHunger() {
   auto player = model_->GetPlayer();
   player->UpdateHunger();
   model_->GetProgressBar()->SetMaxValue(player->GetMaxFoodSaturation());
-  model_->GetProgressBar()->UpdateCurrentValue(static_cast<int>(player->GetFoodSaturation()));
+  model_->GetProgressBar()->UpdateCurrentValue(static_cast<int>
+    (player->GetFoodSaturation()));
   if (player->IfNeedToShowFirstWarning()) {
     model_->AddWarning(std::make_shared<Warning>("Your cat is hungry!",
-                                                 view_->GetCoordinatesForWarning(),
+                                                 view_->
+                                                 GetCoordinatesForWarning(),
                                                  32,
                                                  true,
                                                  true,
@@ -254,7 +256,8 @@ void Controller::TickHunger() {
     model_->AddWarning(std::make_shared<Warning>("Your cat is extremely "
                                                  "hungry!!! Go on and feed "
                                                  "him!!!",
-                                                 view_->GetCoordinatesForWarning(),
+                                                 view_->
+                                                 GetCoordinatesForWarning(),
                                                  32,
                                                  true,
                                                  true,

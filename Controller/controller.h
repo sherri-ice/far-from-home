@@ -2,6 +2,7 @@
 #define CONTROLLER_CONTROLLER_H_
 
 #include <list>
+#include <map>
 #include <memory>
 
 #include "../Controller/abstract_controller.h"
