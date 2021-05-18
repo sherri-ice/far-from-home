@@ -1,9 +1,6 @@
 #include <algorithm>
 
 #include "../Model/model.h"
-#include "../View/progress_bar.h"
-
-#include <QDebug>
 
 namespace  {
 
@@ -14,10 +11,12 @@ int GetRandomSkin() {
       random_id_generator(0, 3);
   return random_id_generator(random_generator);
 }
-}  // namspace
+}  // namespace
 
+std::mt19937 Model::random_generator_ = std::mt19937
+    (std::chrono::system_clock::now().time_since_epoch().count());
 
-Model::Model() {
+Model::Model() : hunger_bar_(100, 100) {
   LoadAnimation();
   std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
                                                         10,
@@ -31,6 +30,8 @@ Model::Model() {
   player_ = new Player(main_cat);
   player_->SetViewCircle(ViewCircle(player_->GetPosition(),
                                     constants::kViewCircleDefault));
+
+  hunger_bar_.SetSkin(objects_pics_["progress_bar"][0]);
 }
 
 Player* Model::GetPlayer() {
@@ -133,6 +134,7 @@ std::shared_ptr<PortalObject> Model::MakeNewPortal(const Size& size,
   static_objects_.push_back(std::make_shared<PortalObject>(size,
                                                            position,
                                                            skin_path));
+  static_objects_.back()->SetScaleCoefficientsInRigidBody(0.3, 0.3);
   int skin_id = GetRandomSkin();
   static_objects_.back()->SetSkin(objects_pics_["tree"][skin_id]);
   static_objects_.back()->SetSkinId(skin_id);
@@ -176,7 +178,7 @@ std::shared_ptr<Food> Model::MakeNewFood(const Size& size, const Point& point) {
 
 void Model::LoadAnimation() {
   LoadDynamicAnimation();
-    LoadStaticAnimation();
+  LoadStaticAnimation();
 }
 
 void Model::LoadDynamicAnimation() {
@@ -190,7 +192,8 @@ void Model::LoadDynamicAnimation() {
 void Model::LoadStaticAnimation() {
     Q_INIT_RESOURCE(images);
     QString path_for_objects = ":images/objects/";
-    std::vector<QString> objects_folders = {"food", "tree", "tree_selected"};
+    std::vector<QString> objects_folders = {"food", "progress_bar", "tree",
+                                            "tree_selected"};
     for (const auto& folder : objects_folders) {
         std::vector<QPixmap> skins;
         for (int i = 0; i < 4; ++i) {
@@ -225,15 +228,64 @@ std::vector<std::vector<QPixmap>> Model::GetImagesByFramePath(
   }
   return result;
 }
-void Model::SetSkinSelected(std::shared_ptr<PortalObject> portal) {
+void Model::SetSkinSelected(const std::shared_ptr<PortalObject>& portal) {
   auto id = portal->GetSkinId();
   auto new_skin = objects_pics_["tree_selected"].at(id);
   portal->SetSkin(new_skin);
 }
 
-void Model::SetNormalSkin(std::shared_ptr<PortalObject> portal) {
+void Model::SetNormalSkin(const std::shared_ptr<PortalObject>& portal) {
   auto id = portal->GetSkinId();
   auto new_skin = objects_pics_["tree"].at(id);
   portal->SetSkin(new_skin);
 }
 
+void Model::GenerateFood(const Point& player_position, double
+  width, double height, int number_of_food) {
+  // Надо написать другой генератор
+  double part_of_height = 0.5 * height;
+  double part_of_width = 0.5 * width;
+  std::uniform_int_distribution<> top_area_y(static_cast<int>(player_position
+  .GetY() - height), static_cast<int>(player_position.GetY() - part_of_height));
+  std::uniform_int_distribution<> bottom_area_y(static_cast<int>
+  (player_position.GetY() + part_of_height), static_cast<int>(player_position
+  .GetY() + height));
+  std::uniform_int_distribution<> same_height_area(static_cast<int>
+  (player_position.GetY() - part_of_height), static_cast<int>(player_position
+  .GetY() + part_of_height));
+  std::uniform_int_distribution<> top_and_bottom_x(static_cast<int>
+  (player_position.GetX() - width), static_cast<int>(player_position
+  .GetX() + width));
+  std::uniform_int_distribution<> left_area_x(static_cast<int>
+  (player_position.GetX() - width), static_cast<int>(player_position.GetX() -
+  part_of_width));
+  std::uniform_int_distribution<> right_area_x(static_cast<int>
+  (player_position.GetX() + part_of_width), static_cast<int>(player_position
+  .GetX() + width));
+
+  int num_of_food_for_large_areas = number_of_food / 3;
+  int num_of_food_for_small_areas = (number_of_food -
+      num_of_food_for_large_areas * 2) / 2;
+
+  int i{0};
+  for (;i < num_of_food_for_large_areas; ++i) {
+    MakeNewFood(Size(20, 20), Point(top_and_bottom_x(random_generator_),
+                                    top_area_y(random_generator_)));
+  }
+  for (;i < num_of_food_for_large_areas; ++i) {
+    MakeNewFood(Size(20, 20), Point(top_and_bottom_x(random_generator_),
+                                    bottom_area_y(random_generator_)));
+  }
+  for (; i < num_of_food_for_small_areas; ++i) {
+    MakeNewFood(Size(20, 20), Point(left_area_x(random_generator_),
+                                    same_height_area(random_generator_)));
+  }
+  for (; i < number_of_food; ++i) {
+    MakeNewFood(Size(20, 20), Point(right_area_x(random_generator_),
+                                    same_height_area(random_generator_)));
+  }
+}
+
+GlobalProgressBar* Model::GetProgressBar() {
+  return &hunger_bar_;
+}

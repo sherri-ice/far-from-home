@@ -31,6 +31,7 @@ class Controller : public AbstractController {
   void TickObjects(int delta_time);
   void TickWarnings(int delta_time);
   void TickViewCircle();
+  void TickHunger();
 
   void CatsAndFoodIntersect();
   void MovingAndStaticObjectsIntersect(const std::shared_ptr<MovingObject>&

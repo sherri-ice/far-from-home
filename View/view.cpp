@@ -1,15 +1,11 @@
 #include <algorithm>
-
 #include <QKeyEvent>
 #include <QGraphicsScene>
 #include <utility>
 #include <vector>
 
 #include "../GameObject/portal_object.h"
-#include "../Model/constants.h"
-#include "progress_bar.h"
 #include "view.h"
-
 
 View::View(AbstractController* controller,
            std::shared_ptr<Model> model)
@@ -81,6 +77,8 @@ void View::DrawGameObjects(QPainter* painter) {
       object->Draw(painter, &resizer_);
     }
   }
+
+  model_->GetProgressBar()->Draw(painter);
 }
 
 void View::Resize() {
@@ -146,4 +144,11 @@ void View::DrawWarnings(QPainter* painter) {
   for (const auto& warning : model_->GetWarnings()) {
     warning->Draw(painter, &resizer_);
   }
+}
+double View::GetWidthOfScreenAsGame() const {
+  return resizer_.WindowToGameLength(width());
+}
+
+double View::GetHeightOfScreeAsGame() const {
+  return resizer_.WindowToGameLength(height());
 }

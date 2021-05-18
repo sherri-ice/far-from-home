@@ -8,9 +8,9 @@
 namespace constants {
 const int kMaxQuality = 50;
 const int kMinQuality = -50;
-const int kMinQualityForGeneration = -10;
-const double kMaxDecaySpeed = 0.05;
-const double kMinDecaySpeed = 0.001;
+const int kMinQualityForGeneration = 20;
+const double kMaxDecaySpeed = 0.0005;
+const double kMinDecaySpeed = 0.00001;
 }  // namespace constants
 
 class Food : public GameObject {

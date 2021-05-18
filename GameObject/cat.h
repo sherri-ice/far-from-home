@@ -56,9 +56,9 @@ class Cat : public MovingObject {
   int GetSearchingTime() const;
   void SetSearchingTime(int searching_time);
 
-  int GetFoodSaturation() const;
-  double GetSpeedOfHunger() const;
+  double GetFoodSaturation() const;
   void FeedCat();
+  void SetFoodSaturation(double food_saturation);
 
  private:
   bool is_in_group_{false};
@@ -70,7 +70,7 @@ class Cat : public MovingObject {
   int searching_time_{1000};
 
   double food_saturation_{100.};
-  double speed_of_hunger_{1.7};
+  double speed_of_hunger_{constants::kSpeedOfHunger};
 
   static std::mt19937 random_generator_;
 };

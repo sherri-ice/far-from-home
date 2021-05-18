@@ -11,6 +11,7 @@ class Resizer {
   Point WindowToGameCoordinate(const Point& window_coordinate) const;
   Point GameToWindowCoordinate(const Point& game_coordinate) const;
   double GameToWindowLength(double length) const;
+  double WindowToGameLength(double length) const;
   [[nodiscard]] Size GameToWindowSize(const Size& size) const;
 
   [[nodiscard]] Size GetGameSize() const;

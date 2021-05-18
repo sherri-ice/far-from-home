@@ -28,6 +28,9 @@ class View : public QMainWindow {
   void UpdateResizer(double radius, const Point& position);
 
   Point GetCoordinatesForWarning() const;
+  double GetWidthOfScreenAsGame() const;
+  double GetHeightOfScreeAsGame()
+  const;
 
   bool IsOnTheScreen(const std::shared_ptr<GameObject>& object);
 

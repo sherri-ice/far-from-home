@@ -12,9 +12,10 @@ void Controller::Tick(int time) {
   current_game_time_ = time;
 
   TickPlayer(delta_time);
+  TickFood(delta_time);
+  TickHunger();
   TickCats(delta_time);
   TickDogs(delta_time);
-  TickFood(delta_time);
   TickObjects(delta_time);
   TickWarnings(delta_time);
 
@@ -46,15 +47,6 @@ void Controller::TickPlayer(int delta_time) {
   player->UpdateDogsAround(model_->GetDogs());
   player->UpdateStaticObjectsAround(model_->GetStaticObjects());
   player->GroupTick(delta_time);
-  player->UpdateHunger();
-  if (player->IfNeedToShowFirstWarning()) {
-    // AddWarning
-    player->ResetNeedToShowWarnings();
-  }
-  if (player->IfNeedToShowSecondWarning()) {
-    // AddWarning
-    player->ResetNeedToShowWarnings();
-  }
 }
 
 void Controller::TickCats(int delta_time) {
@@ -72,17 +64,20 @@ void Controller::TickDogs(int delta_time) {
   std::list<std::shared_ptr<Dog>> dogs = model_->GetDogs();
   auto player = model_->GetPlayer();
   for (auto& dog : dogs) {
-    dog->SetReachableCat(player->GetCats());
-    dog->Tick(delta_time);
-    dog->Move(delta_time);
-    for (auto& cat : player->GetCats()) {
-      if (dog->GetRigidBody()->IsCollide(*(cat->GetRigidBody()))) {
-        if (cat == player->GetMainCat()) {
-          player->DismissCats();
-          dog->SetIsMainCatCaught(true);
-          break;
-        } else {
-          player->LosingCat(dog->GetRigidPosition(), cat);
+    if (view_->IsOnTheScreen(dog)) {
+      dog->SetReachableCat(player->GetCats());
+      dog->Tick(delta_time);
+      MovingAndStaticObjectsIntersect(dog);
+      dog->Move(delta_time);
+      for (auto& cat : player->GetCats()) {
+        if (dog->GetRigidBody()->IsCollide(*(cat->GetRigidBody()))) {
+          if (cat == player->GetMainCat()) {
+            player->DismissCats();
+            dog->SetIsMainCatCaught(true);
+            break;
+          } else {
+            player->LosingCat(dog->GetRigidPosition(), cat);
+          }
         }
       }
     }
@@ -166,7 +161,6 @@ void Controller::ScanIfObjectWereClicked(const Point& point) {
                 object->GetDrawPosition()
                     + Point(0, object->GetSize().GetHeight() / 2),
                 object->GetSearchTime());
-        // qDebug() << object->GetSearchTime();
         portal_and_searching_cat_[object] = cat;
       }
       if (object->IsAlreadyClicked()) {
@@ -240,4 +234,33 @@ void Controller::CatsAndPortalsIntersect(const std::shared_ptr<Cat>& cat) {
   }
 }
 
-
+void Controller::TickHunger() {
+  auto player = model_->GetPlayer();
+  player->UpdateHunger();
+  model_->GetProgressBar()->SetMaxValue(player->GetMaxFoodSaturation());
+  model_->GetProgressBar()->UpdateCurrentValue(static_cast<int>(player->GetFoodSaturation()));
+  if (player->IfNeedToShowFirstWarning()) {
+    model_->AddWarning(std::make_shared<Warning>("Your cat is hungry!",
+                                                 view_->GetCoordinatesForWarning(),
+                                                 32,
+                                                 true,
+                                                 true,
+                                                 3000));
+    player->ResetNeedToShowWarnings();
+    model_->GenerateFood(player->GetPosition(), view_->GetWidthOfScreenAsGame(),
+                         view_->GetHeightOfScreeAsGame(), 10);
+  }
+  if (player->IfNeedToShowSecondWarning()) {
+    model_->AddWarning(std::make_shared<Warning>("Your cat is extremely "
+                                                 "hungry!!! Go on and feed "
+                                                 "him!!!",
+                                                 view_->GetCoordinatesForWarning(),
+                                                 32,
+                                                 true,
+                                                 true,
+                                                 3500));
+    player->ResetNeedToShowWarnings();
+    model_->GenerateFood(player->GetPosition(), view_->GetWidthOfScreenAsGame(),
+                         view_->GetHeightOfScreeAsGame(), 15);
+  }
+}

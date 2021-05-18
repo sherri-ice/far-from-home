@@ -13,9 +13,7 @@
 #include "portal_object.h"
 
 namespace constants {
-const double kMediumHungerPercent = 0.03;
-const double kSevereHungerPercent = 0.01;
-const double kChangeSpeedCoefficient = 1.5;
+const double kChangeSpeedCoefficient = 1.2;
 }
 
 enum class HungerState {
@@ -32,12 +30,12 @@ class Player {
 
   void OrderCatsToMove(Size velocity_from_player);
 
-  void UpdateDogsAround(std::list<std::shared_ptr<Dog>> dogs);
+  void UpdateDogsAround(const std::list<std::shared_ptr<Dog>>& dogs) const;
 
   void UpdateStaticObjectsAround
       (const std::list<std::shared_ptr<PortalObject>>& static_objects);
 
-  void IsReachable(std::list<std::shared_ptr<Dog>> dogs);
+  void IsReachable(const std::list<std::shared_ptr<Dog>>& dogs);
   void UpdateCatsGroup(const std::list<std::shared_ptr<Cat>>& all_cats);
 
   void DismissCats();
@@ -49,14 +47,17 @@ class Player {
   void SetViewCircle(const ViewCircle& view_circle);
   [[nodiscard]] const Point& GetPosition() const;
 
-  void LosingCat(Point dog_position, std::shared_ptr<Cat> cat);
+  void LosingCat(Point dog_position, const std::shared_ptr<Cat>& cat);
   std::shared_ptr<Cat> SendCatToSearch(const Point& portal_coordinates,
                                        int search_time);
 
   void Tick();
   bool NotOnlyMainCat();
+
   void FeedCats(double food);
   void UpdateHunger();
+  double GetFoodSaturation() const;
+  int GetMaxFoodSaturation() const;
 
   bool IfNeedToShowFirstWarning() const;
   bool IfNeedToShowSecondWarning() const;

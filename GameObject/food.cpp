@@ -26,8 +26,8 @@ void Food::Draw(QPainter* painter, Resizer* resizer) const {
 }
 
 void Food::Tick(int delta_time) {
-  food_quality_ -= decay_speed_ * delta_time;
-  if (std::abs(food_quality_ - constants::kMinQuality) < constants::kEpsilon) {
+  food_quality_ -= decay_speed_;
+  if (food_quality_ < constants::kMinQuality + constants::kEpsilon) {
     is_dead_ = true;
   }
 }
@@ -35,4 +35,3 @@ void Food::Tick(int delta_time) {
 double Food::GetFoodQuality() const {
   return food_quality_;
 }
-

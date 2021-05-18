@@ -33,3 +33,7 @@ void Resizer::Update(double radius, const Point& position) {
 double Resizer::GameToWindowLength(double length) const {
   return length / scaling_coefficient_;
 }
+
+double Resizer::WindowToGameLength(double length) const {
+  return length * scaling_coefficient_;
+}

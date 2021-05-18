@@ -1,14 +1,12 @@
 #include "player.h"
 
-#include <QDebug>
-
 std::mt19937 Player::random_generator_ = std::mt19937
     (std::chrono::system_clock::now().time_since_epoch().count());
 
 Player::Player(const std::shared_ptr<Cat>& cat) : cat_group_(60, 150) {
   cats_.emplace_back(cat);
   food_saturation_ = cat->GetFoodSaturation();
-  speed_of_hunger_ = cat->GetSpeedOfHunger();
+  speed_of_hunger_ = constants::kSpeedOfHunger;
 }
 
 std::vector<std::shared_ptr<Cat>> Player::GetCats() const {
@@ -20,7 +18,7 @@ void Player::OrderCatsToMove(Size velocity_from_player) {
   Point cat_position;
   std::uniform_real_distribution<> velocity(-1, 1);
 
-  for (auto cat : cats_) {
+  for (auto& cat : cats_) {
     if (cat == GetMainCat()) {
       cat->SetCatState(CatState::kIsMainCat);
       cat->SetVelocity(velocity_from_player);
@@ -87,8 +85,10 @@ void Player::OrderCatsToMove(Size velocity_from_player) {
   for (const auto& cat : cats_) {
     if (!cat->GetIsInGroup()) {
       max_food_saturation_ -= constants::kMaxFoodSaturation;
-      speed_of_hunger_ -= cat->GetSpeedOfHunger();
-      food_saturation_ -= cat->GetFoodSaturation();
+      speed_of_hunger_ -= constants::kSpeedOfHunger;
+      double part_of_food_saturation = food_saturation_ / cats_.size();
+      food_saturation_ -= part_of_food_saturation;
+      cat->SetFoodSaturation(part_of_food_saturation);
     }
   }
 
@@ -99,7 +99,8 @@ void Player::OrderCatsToMove(Size velocity_from_player) {
               cats_.end());
 }
 
-void Player::UpdateDogsAround(std::list<std::shared_ptr<Dog>> dogs) {
+void Player::UpdateDogsAround(const std::list<std::shared_ptr<Dog>>& dogs)
+    const {
   Point central_cat_position = cat_group_.central_position_;
   for (auto& dog : dogs) {
     Size distance = central_cat_position.GetVectorTo(dog->GetDrawPosition());
@@ -131,9 +132,6 @@ void Player::DismissCats() {
   }
   cat_group_.DecGroup(cats_.size() - 1);
   cats_.erase(cats_.cbegin() + 1, cats_.cend());
-
-  max_food_saturation_ = constants::kMaxFoodSaturation;
-  speed_of_hunger_ = cats_.at(0)->GetSpeedOfHunger();
 }
 
 const ViewCircle& Player::GetViewCircle() const {
@@ -182,12 +180,13 @@ void Player::UpdateCatsGroup(const std::list<std::shared_ptr<Cat>>& all_cats) {
           GetVectorTo(wild_cat->GetDrawPosition()).GetLength();
       if (length < cat_group_.first_radius_ &&
           !(wild_cat->GetIsInGroup())
-          && wild_cat->GetCatState() != CatState::kIsGoingToSearch) {
+          && wild_cat->GetCatState() != CatState::kIsGoingToSearch &&
+          hunger_state_ != HungerState::kSevereHunger) {
         cats_.push_back(wild_cat);
         wild_cat->SetIsInGroup(true);
         wild_cat->SetCatState(CatState::kIsFollowingPlayer);
         food_saturation_ += wild_cat->GetFoodSaturation();
-        speed_of_hunger_ += wild_cat->GetSpeedOfHunger();
+        speed_of_hunger_ += constants::kSpeedOfHunger;
         max_food_saturation_ += constants::kMaxFoodSaturation;
         cat_group_.IncGroup();
       }
@@ -195,10 +194,10 @@ void Player::UpdateCatsGroup(const std::list<std::shared_ptr<Cat>>& all_cats) {
   }
 }
 
-void Player::IsReachable(std::list<std::shared_ptr<Dog>> dogs) {
-  for (auto cat : cats_) {
+void Player::IsReachable(const std::list<std::shared_ptr<Dog>>& dogs) {
+  for (auto& cat : cats_) {
     bool is_reachable{false};
-    for (auto dog : dogs) {
+    for (const auto& dog : dogs) {
       if (&(*cat) == dog->GetReachableCat()) {
         if (!cat->GetIsReachable()) {
           cat->SetIsReachable(true);
@@ -221,7 +220,7 @@ const Group& Player::GetCatGroup() const {
 }
 
 void Player::GroupTick(int time) {
-  cat_group_.SetCentralPosition(GetMainCat()->GetDrawPosition());
+  cat_group_.SetCentralPosition(GetMainCat()->GetRigidPosition());
   cat_group_.SetSpeed(GetMainCat()->GetSpeed());
   cat_group_.Tick(time);
   cat_group_.Move(time);
@@ -231,7 +230,7 @@ std::shared_ptr<Cat> Player::GetMainCat() {
   return cats_.at(0);
 }
 
-void Player::LosingCat(Point dog_position, std::shared_ptr<Cat> cat) {
+void Player::LosingCat(Point dog_position, const std::shared_ptr<Cat>& cat) {
   auto state = cat->GetCatState();
   if (state == CatState::kIsSearching || state == CatState::kIsGoingToSearch
       || state == CatState::kHasFinishedSearching) {
@@ -246,8 +245,10 @@ void Player::LosingCat(Point dog_position, std::shared_ptr<Cat> cat) {
   cat->SetCatState(CatState::kIsComingDestination);
 
   max_food_saturation_ -= constants::kMaxFoodSaturation;
-  food_saturation_ -= cat->GetFoodSaturation();
-  speed_of_hunger_ -= cat->GetSpeedOfHunger();
+  double part_of_food_saturation = food_saturation_ / cats_.size();
+  food_saturation_ -= part_of_food_saturation;
+  cat->SetFoodSaturation(part_of_food_saturation);
+  speed_of_hunger_ -= constants::kSpeedOfHunger;
 
   cat_group_.DecGroup();
   cats_.erase(std::remove_if(cats_.begin(), cats_.end(),
@@ -275,6 +276,26 @@ void Player::FeedCats(double food) {
 
 void Player::UpdateHunger() {
   food_saturation_ -= speed_of_hunger_;
+  if (food_saturation_ < 0) {
+    // смерть кота
+  }
+  if (food_saturation_ > max_food_saturation_) {
+    food_saturation_ = max_food_saturation_;
+  }
+  if (food_saturation_ < max_food_saturation_ *
+      constants::kSevereHungerPercent + constants::kEpsilon) {
+    if (hunger_state_ == HungerState::kMediumHunger) {
+      hunger_state_ = HungerState::kSevereHunger;
+      DismissCats();
+      cats_.at(0)->DecSpeed(constants::kChangeSpeedCoefficient);
+      need_to_show_second_warning_ = true;
+      food_saturation_ = constants::kMaxFoodSaturation * food_saturation_ /
+          max_food_saturation_;
+      max_food_saturation_ = constants::kMaxFoodSaturation;
+      speed_of_hunger_ = constants::kSpeedOfHunger;
+    }
+    return;
+  }
   if (food_saturation_ < max_food_saturation_ *
       constants::kMediumHungerPercent + constants::kEpsilon) {
     switch (hunger_state_) {
@@ -295,20 +316,17 @@ void Player::UpdateHunger() {
         break;
       }
     }
-  } else if (food_saturation_ < max_food_saturation_ *
-      constants::kSevereHungerPercent + constants::kEpsilon) {
-    if (hunger_state_ == HungerState::kMediumHunger) {
-      hunger_state_ = HungerState::kSevereHunger;
-      DismissCats();
-      cats_.at(0)->DecSpeed(constants::kChangeSpeedCoefficient);
-      need_to_show_second_warning_ = true;
-    }
-  } else {
-    if (hunger_state_ == HungerState::kMediumHunger) {
-      hunger_state_ = HungerState::kNotHungry;
-      for (auto& cat : cats_) {
-        cat->IncSpeed(constants::kChangeSpeedCoefficient);
-      }
+    return;
+  }
+  if (hunger_state_ == HungerState::kSevereHunger) {
+    hunger_state_ = HungerState::kNotHungry;
+    cats_.at(0)->IncSpeed(constants::kChangeSpeedCoefficient *
+    constants::kChangeSpeedCoefficient);
+  }
+  if (hunger_state_ == HungerState::kMediumHunger) {
+    hunger_state_ = HungerState::kNotHungry;
+    for (auto& cat : cats_) {
+      cat->IncSpeed(constants::kChangeSpeedCoefficient);
     }
   }
 }
@@ -324,4 +342,12 @@ void Player::ResetNeedToShowWarnings() {
 
 bool Player::IfNeedToShowSecondWarning() const {
   return need_to_show_second_warning_;
+}
+
+double Player::GetFoodSaturation() const {
+  return food_saturation_;
+}
+
+int Player::GetMaxFoodSaturation() const {
+  return max_food_saturation_;
 }

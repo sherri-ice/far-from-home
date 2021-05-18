@@ -37,24 +37,25 @@ set(SOURCES
         GameObject/game_object.cpp
         GameObject/moving_object.cpp
         GameObject/player.cpp
-        GameObject/rigid_body.cpp
-        main.cpp
-        Model/model.cpp
-        Model/size.cpp
-        Model/point.cpp
-        Model/constants.h
-        View/view.cpp
-        View/resizer.cpp
-        GameObject/view_circle.cpp
         GameObject/portal_object.cpp
-        View/progress_bar.cpp
-        View/warning.cpp
-        View/animation.cpp
+        GameObject/rigid_body.cpp
+        GameObject/view_circle.cpp
+        images.qrc
+        main.cpp
+        Model/constants.h
         Model/generator.cpp
+        Model/group.cpp
+        Model/model.cpp
+        Model/point.cpp
+        Model/size.cpp
         Model/timer.cpp
         resourses.qrc
-        images.qrc
-        Model/group.cpp)
+        View/animation.cpp
+        View/global_progress_bar.cpp
+        View/progress_bar.cpp
+        View/resizer.cpp
+        View/view.cpp
+        View/warning.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 

@@ -227,15 +227,15 @@ void Cat::SetSearchingTime(int searching_time) {
   searching_time_ = searching_time;
 }
 
-int Cat::GetFoodSaturation() const {
+double Cat::GetFoodSaturation() const {
   return food_saturation_;
-}
-
-double Cat::GetSpeedOfHunger() const {
-  return speed_of_hunger_;
 }
 
 void Cat::FeedCat() {
   std::uniform_int_distribution<> food(20, 50);
   food_saturation_ += food(random_generator_);
+}
+
+void Cat::SetFoodSaturation(double food_saturation) {
+  food_saturation_ = food_saturation;
 }

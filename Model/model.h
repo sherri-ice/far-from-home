@@ -5,12 +5,13 @@
 #include <memory>
 #include <vector>
 #include <map>
-#include "../View/resizer.h"
 
 #include "../GameObject/cat.h"
 #include "../GameObject/dog.h"
 #include "../GameObject/food.h"
 #include "../GameObject/player.h"
+#include "../View/global_progress_bar.h"
+#include "../View/resizer.h"
 
 enum GameState {
   kGame,
@@ -60,13 +61,18 @@ class Model {
   [[nodiscard]] std::vector<std::vector<QPixmap>> GetImagesByFramePath
       (const QString& path) const;
 
-  void SetSkinSelected(std::shared_ptr<PortalObject> portal);
-  void SetNormalSkin(std::shared_ptr<PortalObject> portal);
+  void SetSkinSelected(const std::shared_ptr<PortalObject>& portal);
+  void SetNormalSkin(const std::shared_ptr<PortalObject>& portal);
+
+  void GenerateFood(const Point& player_position, double width,
+                    double height, int number_of_food);
+
+  GlobalProgressBar* GetProgressBar();
 
  private:
-    std::map<QString, std::vector<std::vector<QPixmap>>> animations_;
-    std::map<QString, std::vector<QPixmap>> objects_pics_{};
-    int current_level_ = 0;
+  std::map<QString, std::vector<std::vector<QPixmap>>> animations_;
+  std::map<QString, std::vector<QPixmap>> objects_pics_{};
+  int current_level_ = 0;
   int game_state_ = GameState::kMenu;
 
   std::list<std::shared_ptr<Cat>> cats_;
@@ -76,6 +82,9 @@ class Model {
   std::list<std::shared_ptr<PortalObject>> static_objects_;
   std::list<std::shared_ptr<Warning>> warnings_;
 
+  GlobalProgressBar hunger_bar_;
+
+  static std::mt19937 random_generator_;
 };
 
 #endif  // MODEL_MODEL_H_
