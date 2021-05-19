@@ -33,6 +33,7 @@ class Player {
   void LosingCat(Point dog_position, std::shared_ptr<Cat> cat);
 
   void Tick();
+  void GroupTick(int delta_time);
 
  private:
   std::vector<std::shared_ptr<Cat>> cats_;

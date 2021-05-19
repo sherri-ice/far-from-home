@@ -13,7 +13,7 @@ std::vector<std::shared_ptr<Cat>> Player::GetCats() const {
 }
 
 void Player::OrderCatsToMove(Size velocity_from_player) {
-  cat_group_.central_position_ = GetMainCat()->GetDrawPosition();
+  cat_group_.velocity_ = velocity_from_player;
 
   Point cat_position;
   std::uniform_real_distribution<> velocity(-1, 1);
@@ -193,3 +193,11 @@ void Player::LosingCat(Point dog_position, std::shared_ptr<Cat> cat) {
            [](const std::shared_ptr<Cat>& cat){return !(cat->GetIsInGroup());}),
            cats_.end());
 }
+
+void Player::GroupTick(int delta_time) {
+  cat_group_.central_position_ = GetMainCat()->GetRigidPosition();
+  cat_group_.speed_ = GetMainCat()->GetSpeed();
+  cat_group_.Tick(delta_time);
+  cat_group_.Move();
+}
+

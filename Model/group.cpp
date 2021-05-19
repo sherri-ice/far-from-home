@@ -38,3 +38,14 @@ void Group::DecGroup(int num_of_cats) {
   first_radius_ /= pow(constants::kCatGroupIncCoefficient, num_of_cats);
   second_radius_ /= pow(constants::kCatGroupIncCoefficient, num_of_cats);
 }
+
+void Group::Tick(int delta_time) {
+  if (velocity_.GetLength() > constants::kEpsilon) {
+    velocity_ /= velocity_.GetLength();
+    velocity_ *= speed_ * delta_time / constants::kTimeScale;
+  }
+}
+
+void Group::Move() {
+  central_position_ += velocity_;
+}
