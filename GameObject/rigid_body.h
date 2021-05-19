@@ -34,7 +34,7 @@ class RigidBody {
 
   Rect GetRect() const;
   Rect GetRectInNewPosition(const Point& position) const;
-  static bool Intersects(const Rect& first_rect, const Rect& second_rect) ;
+  static bool Intersects(const Rect& first_rect, const Rect& second_rect);
   bool IsCollide(const RigidBody& other_rigid_body) const;
   void Draw(QPainter* painter, Resizer* resizer) const;
 

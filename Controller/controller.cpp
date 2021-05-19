@@ -280,14 +280,14 @@ void Controller::CheckIfDestinationIsInsideStaticObject() {
       for (const auto& static_object : static_objects) {
         if (view_->IsOnTheScreen(static_object)) {
           while (static_object->GetRigidBody()->IsDestinationCollideWithRect
-          (player_cats.at(i)->GetRigidBody()->GetRectInNewPosition(destination))) {
+          (player_cats.at(i)->GetRigidBody()->GetRectInNewPosition
+          (destination))) {
             destination = player->GenerateRandomDestination();
           }
           player_cats.at(i)->SetDestination(destination);
         }
       }
     }
-
   }
 }
 

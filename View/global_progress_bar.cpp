@@ -85,7 +85,8 @@ void GlobalProgressBar::UpdateSize(Resizer* resizer, int new_parameter) {
                                      new_parameter));
   inner_width_ = size_.GetWidth() * constants::kGetInnerWidthCoeff;
   inner_height_ = size_.GetHeight() * constants::kGetInnerHeightCoeff;
-  inner_small_height_ = size_.GetHeight() * constants::kGetInnerSmallHeightCoeff;
+  inner_small_height_ =
+      size_.GetHeight() * constants::kGetInnerSmallHeightCoeff;
   width_shift_ = size_.GetWidth() * constants::kGetWidthShiftCoeff;
   height_shift_ = size_.GetHeight() * constants::kGetHeightShiftCoeff;
 }

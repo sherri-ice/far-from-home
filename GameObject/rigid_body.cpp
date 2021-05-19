@@ -1,9 +1,7 @@
 #include "rigid_body.h"
 
 RigidBody::RigidBody(const Size* size, const Point* position) : object_size_
-                                                                    (size),
-                                                                object_position_(
-                                                                    position) {
+    (size), object_position_(position) {
 }
 
 Rect RigidBody::GetRect() const {
@@ -57,8 +55,7 @@ bool RigidBody::IfCollisionWillHappen(const RigidBody&
   return Intersects(new_rect, other_rigid_body.GetRect());
 }
 
-bool RigidBody::Intersects(const Rect& first_rect, const Rect& second_rect)
-  {
+bool RigidBody::Intersects(const Rect& first_rect, const Rect& second_rect) {
   double bottom = first_rect.y + first_rect.height;
   double right = first_rect.x + first_rect.width;
   double other_bottom = second_rect.y + second_rect.height;
