@@ -92,6 +92,7 @@
         <file>images/objects/tree/Frame 2.png</file>
         <file>images/objects/tree/Frame 3.png</file>
 
+        <file>images/menu/background/background.png</file>
 
     </qresource>
 </RCC>

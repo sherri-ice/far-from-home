@@ -12,11 +12,6 @@
 #include "../GameObject/food.h"
 #include "../GameObject/player.h"
 
-enum GameState {
-  kGame,
-  kMenu
-};
-
 class Model {
  public:
   Model();
@@ -56,7 +51,6 @@ class Model {
     std::map<QString, std::vector<std::vector<QPixmap>>> animations_;
     std::vector<std::vector<QPixmap>> objects_pics_{};
     int current_level_ = 0;
-  int game_state_ = GameState::kMenu;
 
   std::list<std::shared_ptr<Cat>> cats_;
   std::list<std::shared_ptr<GameObject>> static_objects_;

@@ -8,6 +8,12 @@
 #include <list>
 #include <memory>
 #include "../View/resizer.h"
+#include "../View/menu.h"
+
+enum WindowType {
+  kMainMenu,
+  kGame
+};
 
 class AbstractController {
  public:
@@ -16,6 +22,8 @@ class AbstractController {
   virtual void Tick(int time) = 0;
   virtual int GetCurrentTime() = 0;
   virtual void StartGame() = 0;
+  virtual WindowType GetWindowType() = 0;
+  virtual const Menu& GetMenu() = 0;
 
   virtual Player* GetPlayer() = 0;
 };

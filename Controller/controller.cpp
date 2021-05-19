@@ -26,7 +26,9 @@ int Controller::GetCurrentTime() {
 }
 
 void Controller::StartGame() {
-  model_->SetGameState(GameState::kGame);
+  window_type_ = WindowType::kGame;
+  view_->show();
+  menu_.close();
 }
 
 Player* Controller::GetPlayer() {
@@ -96,3 +98,12 @@ void Controller::CatsAndFoodIntersect() {
     }
   }
 }
+
+WindowType Controller::GetWindowType() {
+  return window_type_;
+}
+
+const Menu& Controller::GetMenu() {
+  return menu_;
+}
+

@@ -21,6 +21,9 @@ class Controller : public AbstractController {
 
   Player* GetPlayer() override;
 
+  WindowType GetWindowType() override;
+  const Menu& GetMenu() override;
+
  private:
   void TickPlayer(int delta_time);
   void TickCats(int time);
@@ -34,6 +37,8 @@ class Controller : public AbstractController {
   std::shared_ptr<Model> model_;
   std::shared_ptr<View> view_;
   Generator map_generator_;
+  WindowType window_type_ = WindowType::kMainMenu;
+  Menu menu_;
 };
 
 #endif  // CONTROLLER_CONTROLLER_H_

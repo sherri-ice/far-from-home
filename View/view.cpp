@@ -15,11 +15,18 @@ View::View(AbstractController* controller,
   setWindowTitle(constants::kApplicationName);
   resize(constants::kGameWidth, constants::kGameHeight);
   resizer_.ChangeSystem(width(), height());
-  controller->StartGame();
+  menu_.resize(constants::kGameWidth, constants::kGameHeight);
+  menu_.show();
+  connect(menu_.GetPlay(), &QPushButton::released, this, &View::StartGame);
+}
+
+void View::StartGame() {
+  menu_.close();
   show();
   time_between_ticks_.start();
   controller_timer_id_ = startTimer(constants::kTimeBetweenTicks);
   view_timer_.start();
+  controller_->StartGame();
 }
 
 void View::paintEvent(QPaintEvent*) {
@@ -120,3 +127,4 @@ bool View::IsOnTheScreen(const std::shared_ptr<GameObject>& object) {
   }
     return true;
 }
+

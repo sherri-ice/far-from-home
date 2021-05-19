@@ -9,6 +9,7 @@
 
 #include "../Controller/abstract_controller.h"
 #include "../Model/model.h"
+#include "menu.h"
 
 class View : public QMainWindow {
   Q_OBJECT
@@ -40,9 +41,14 @@ class View : public QMainWindow {
   bool IsOnTheScreen(const std::shared_ptr<GameObject>& object);
   void DrawGameObjects(QPainter* painter);
 
+  void StartGame();
+
   Size player_velocity_;
   std::map<int, bool> pressed_keys_;
   void resizeEvent(QResizeEvent*) override;
+  Menu menu_;
+  WindowType window_type_ = WindowType::kMainMenu;
+
 };
 
 #endif  // VIEW_VIEW_H_
