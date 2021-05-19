@@ -53,7 +53,7 @@ set(SOURCES
         images.qrc
         Model/group.cpp
         View/menu.cpp
-        View/menu.ui)
+        View/menu.ui Model/music_player.cpp Model/music_player.h)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 

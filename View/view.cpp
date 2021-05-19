@@ -15,27 +15,16 @@ View::View(AbstractController* controller,
   setWindowTitle(constants::kApplicationName);
   resize(constants::kGameWidth, constants::kGameHeight);
   resizer_.ChangeSystem(width(), height());
+  setMouseTracking(true);
+  setFocusPolicy(Qt::ClickFocus);
   menu_.resize(constants::kGameWidth, constants::kGameHeight);
   menu_.show();
-  connect(menu_.GetPlayButton(), &QPushButton::released, this, &View::StartGame);
-  connect(menu_.GetExitButton(), &QPushButton::released, this, &View::CloseGame);
-}
-
-void View::StartGame() {
-  menu_.close();
-  show();
-  time_between_ticks_.start();
-  controller_timer_id_ = startTimer(constants::kTimeBetweenTicks);
-  view_timer_.start();
-  controller_->StartGame();
-}
-
-void View::CloseGame() {
-  menu_.close();
-  close();
+  SetWindows();
 }
 
 void View::Pause() {
+  controller_->GetMusicPlayer()->StartMenuMusic();
+  is_paused_ = true;
   menu_.show();
   menu_.Pause();
 }
@@ -46,7 +35,7 @@ void View::paintEvent(QPaintEvent*) {
 }
 
 void View::timerEvent(QTimerEvent* event) {
-  if (event->timerId() == controller_timer_id_) {
+  if (event->timerId() == controller_timer_id_ && !is_paused_) {
     int delta_time = time_between_ticks_.elapsed();
     time_between_ticks_.restart();
     controller_->Tick(controller_->GetCurrentTime() + delta_time);
@@ -141,6 +130,65 @@ bool View::IsOnTheScreen(const std::shared_ptr<GameObject>& object) {
     return false;
   }
     return true;
+}
+void View::SetWindows() {
+    SetMenuWindow();
+    SetSettingsWindow();
+    SetPauseWindow();
+}
+void View::SetMenuWindow() {
+  auto start_game_button_click = [this]() {
+    menu_.close();
+    show();
+    controller_->GetMusicPlayer()->PlayButtonSound();
+    time_between_ticks_.start();
+    controller_timer_id_ = startTimer(constants::kTimeBetweenTicks);
+    view_timer_.start();
+    controller_->StartGame();
+  };
+  connect(menu_.GetPlayButton(), &QPushButton::released, this, start_game_button_click);
+  auto exit_button_click = [this]() {
+    controller_->GetMusicPlayer()->PlayButtonSound();
+    menu_.close();
+    controller_->EndGame();
+    close();
+  };
+  connect(menu_.GetExitButton(), &QPushButton::released, this, exit_button_click);
+}
+void View::SetPauseWindow() {
+  auto resume_button_click = [this]() {
+    controller_->GetMusicPlayer()->PlayButtonSound();
+    is_paused_ = false;
+    menu_.close();
+    show();
+  };
+  connect(menu_.GetResumeButton(), &QPushButton::released, this,
+          resume_button_click);
+  auto restart_button_click = [this]() {
+    controller_->GetMusicPlayer()->PlayButtonSound();
+    menu_.close();
+    controller_->EndGame();
+    controller_->StartGame();
+  };
+  connect(menu_.GetRestartButton(), &QPushButton::released, this,
+          restart_button_click);
+  auto menu_button_click = [this]() {
+    controller_->GetMusicPlayer()->PlayButtonSound();
+    close();
+    menu_.MainMenu();
+    menu_.show();
+    controller_->EndGame();
+  };
+  connect(menu_.GetMenuButton(), &QPushButton::released, this,
+          menu_button_click);
+
+}
+void View::SetSettingsWindow() {
+
+}
+
+void View::SetIsPaused(bool is_paused) {
+  is_paused_ = is_paused;
 }
 
 

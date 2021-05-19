@@ -12,10 +12,16 @@
 #include "../GameObject/food.h"
 #include "../GameObject/player.h"
 
+// enum GameState {
+//   kGame,
+//   kMenu
+// };
+
 class Model {
  public:
   Model();
   void LoadLevel(int level);
+  void SetModel();
 
   Player* GetPlayer();
   [[nodiscard]] std::vector<std::shared_ptr<GameObject>>
@@ -39,6 +45,7 @@ class Model {
   const std::list<std::shared_ptr<GameObject>>& GetStaticObjects() const;
 
   void ClearObjects();
+  void ClearModel();
 
   void LoadDinamicAnimation();
   void LoadStaticAnimation();
@@ -48,9 +55,10 @@ class Model {
       (const QString& path) const;
 
  private:
-    std::map<QString, std::vector<std::vector<QPixmap>>> animations_;
-    std::vector<std::vector<QPixmap>> objects_pics_{};
-    int current_level_ = 0;
+  std::map<QString, std::vector<std::vector<QPixmap>>> animations_;
+  std::vector<std::vector<QPixmap>> objects_pics_{};
+  int current_level_ = 0;
+  // int game_state_ = GameState::kMenu;
 
   std::list<std::shared_ptr<Cat>> cats_;
   std::list<std::shared_ptr<GameObject>> static_objects_;

@@ -4,18 +4,18 @@
 
 Model::Model() {
   LoadAnimation();
-  std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
-                                                        10,
-                                                        Point(0, 0));
-  main_cat->SetIsInGroup(true);
-  main_cat->SetAnimations(animations_["cat"]);
-  cats_.emplace_back(main_cat);
-  for (auto& food : food_) {
-    food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
-  }
-  player_ = new Player(main_cat);
-  player_->SetViewCircle(ViewCircle(player_->GetPosition(),
-                                    constants::kViewCircleDefault));
+  // std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
+  //                                                       10,
+  //                                                       Point(0, 0));
+  // main_cat->SetIsInGroup(true);
+  // main_cat->SetAnimations(animations_["cat"]);
+  // cats_.emplace_back(main_cat);
+  // for (auto& food : food_) {
+  //   food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
+  // }
+  // player_ = new Player(main_cat);
+  // player_->SetViewCircle(ViewCircle(player_->GetPosition(),
+  //                                   constants::kViewCircleDefault));
 }
 
 Player* Model::GetPlayer() {
@@ -175,4 +175,35 @@ std::vector<std::vector<QPixmap>> Model::GetImagesByFramePath(
     result.emplace_back(images);
   }
   return result;
+}
+void Model::SetModel() {
+  std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
+                                                        10,
+                                                        Point(0, 0));
+  main_cat->SetIsInGroup(true);
+  main_cat->SetAnimations(animations_["cat"]);
+  cats_.emplace_back(main_cat);
+  player_ = new Player(main_cat);
+  player_->SetViewCircle(ViewCircle(player_->GetPosition(),
+                                    constants::kViewCircleDefault));
+}
+// QPixmap Model::GetBackground(int type) const {
+//   return type < 2 ? backgrounds_[type] : backgrounds_[2];
+// }
+void Model::ClearModel() {
+  for (auto it = food_.rbegin(); it != food_.rend(); ++it) {
+      food_.remove(*it);
+  }
+
+  for (auto it = cats_.rbegin(); it != cats_.rend(); ++it) {
+      cats_.remove(*it);
+  }
+
+  for (auto it = dogs_.rbegin(); it != dogs_.rend(); ++it) {
+      dogs_.remove(*it);
+  }
+  for (auto it = static_objects_.rbegin(); it != static_objects_.rend();
+       ++it) {
+      static_objects_.remove(*it);
+  }
 }

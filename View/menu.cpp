@@ -60,6 +60,24 @@ void Menu::Settings() {
 void Menu::MainMenu() {
   ui->widget->setCurrentIndex(MenuPageIndex::kStartMenu);
 }
+QPushButton* Menu::GetLeftArrowButton() const {
+  return ui->left_arrow;
+}
+QPushButton* Menu::GetRightArrowButton() const {
+  return ui->right_arrow;
+}
+QPushButton* Menu::GetBackButton() const {
+  return ui->back_to_main_window;
+}
+QPushButton* Menu::GetRestartButton() const {
+  return ui->restart;
+}
+QPushButton* Menu::GetResumeButton() const {
+  return ui->resume;
+}
+QPushButton* Menu::GetMenuButton() const {
+  return ui->menu;
+}
 
 
 
