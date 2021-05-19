@@ -1,16 +1,19 @@
 #include "music_player.h"
 
+#include <QDebug>
+
 MusicPlayer::MusicPlayer()
     : main_player_(std::make_shared<QMediaPlayer>()),
       main_playlist_(std::make_shared<QMediaPlaylist>(main_player_.get())),
       button_sound_(std::make_shared<QMediaPlayer>()) {
   main_player_->setPlaylist(main_playlist_.get());
 
-  main_playlist_->addMedia(QUrl("qrc:resources/sounds/menu_music.mp3"));
-  main_playlist_->addMedia(QUrl("qrc:resources/sounds/game_music.mp3"));
+  main_playlist_->addMedia(QUrl("qrc:resourses/sounds/menu_music.mp3"));
+  main_playlist_->addMedia(QUrl("qrc:resourses/sounds/game_music.mp3"));
   main_playlist_->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
+  main_player_->setVolume(100);
 
-  SetSound(button_sound_.get(), "qrc:resources/sounds/button_click.mp3");
+  SetSound(button_sound_.get(), "qrc:resourses/sounds/button_click.mp3");
 
   SetVolume(100);
   main_player_->play();

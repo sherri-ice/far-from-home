@@ -17,7 +17,7 @@ View::View(AbstractController* controller,
   resizer_.ChangeSystem(width(), height());
   setMouseTracking(true);
   setFocusPolicy(Qt::ClickFocus);
-  menu_.resize(constants::kGameWidth, constants::kGameHeight);
+  // menu_.resize(constants::kGameWidth, constants::kGameHeight);
   menu_.show();
   SetWindows();
 }
