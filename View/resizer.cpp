@@ -5,6 +5,7 @@
 void Resizer::ChangeSystem(double window_width, double window_height) {
   game_size_.SetWidth(window_width);
   game_size_.SetHeight(window_height);
+  min_window_parameter_ = std::min(window_width, window_height);
 }
 
 Point Resizer::WindowToGameCoordinate(const Point& window_coordinate) const {
@@ -36,4 +37,9 @@ double Resizer::GameToWindowLength(double length) const {
 
 double Resizer::WindowToGameLength(double length) const {
   return length * scaling_coefficient_;
+}
+
+double Resizer::ResizeLength(double length,
+                             int new_parameter) const {
+  return length * new_parameter / min_window_parameter_;
 }

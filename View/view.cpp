@@ -86,6 +86,7 @@ void View::Resize() {
 }
 
 void View::resizeEvent(QResizeEvent*) {
+  model_->GetProgressBar()->UpdateSize(&resizer_, std::min(width(), height()));
   Resize();
 }
 

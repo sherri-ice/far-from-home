@@ -18,10 +18,14 @@ void GlobalProgressBar::Draw(QPainter* painter) const {
   painter->save();
   painter->translate(position_.GetX(), position_.GetY());
 
-  QRect inner_rect = QRect(width_shift_, height_shift_, inner_width_,
-                          inner_height_);
-  QRect inner_small_rect = QRect(width_shift_, height_shift_, inner_width_,
-                                 inner_small_height_);
+  QRect inner_rect = QRect(static_cast<int>(width_shift_),
+                           static_cast<int>(height_shift_),
+                           static_cast<int>(inner_width_),
+                          static_cast<int>(inner_height_));
+  QRect inner_small_rect = QRect(static_cast<int>(width_shift_),
+                                 static_cast<int>(height_shift_),
+                                 static_cast<int>(inner_width_),
+                                 static_cast<int>(inner_small_height_));
   painter->setBrush(QBrush(blue_));
   painter->setPen(QPen(blue_));
   painter->drawRect(inner_rect);
@@ -57,7 +61,8 @@ void GlobalProgressBar::Draw(QPainter* painter) const {
     painter->drawRect(inner_small_rect);
   }
 
-  painter->drawPixmap(0, 0, size_.GetWidth(), size_.GetHeight(), skin_);
+  painter->drawPixmap(0, 0, static_cast<int>(size_.GetWidth()),
+                      static_cast<int>(size_.GetHeight()), skin_);
   painter->restore();
 }
 
@@ -67,4 +72,20 @@ void GlobalProgressBar::SetMaxValue(int max_value) {
 
 void GlobalProgressBar::SetSkin(const QPixmap& skin) {
   skin_ = skin;
+}
+
+void GlobalProgressBar::UpdateSize(Resizer* resizer, int new_parameter) {
+  position_ = Point(resizer->ResizeLength(position_.GetX(),
+                                          new_parameter),
+                    resizer->ResizeLength(position_.GetY(),
+                                          new_parameter));
+  size_ = Size(resizer->ResizeLength(size_.GetWidth(), new_parameter),
+               resizer->ResizeLength(size_
+                                         .GetHeight(),
+                                     new_parameter));
+  inner_width_ = size_.GetWidth() * constants::kGetInnerWidthCoeff;
+  inner_height_ = size_.GetHeight() * constants::kGetInnerHeightCoeff;
+  inner_small_height_ = size_.GetHeight() * constants::kGetInnerSmallHeightCoeff;
+  width_shift_ = size_.GetWidth() * constants::kGetWidthShiftCoeff;
+  height_shift_ = size_.GetHeight() * constants::kGetHeightShiftCoeff;
 }

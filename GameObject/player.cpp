@@ -58,16 +58,7 @@ void Player::OrderCatsToMove(Size velocity_from_player) {
                                         cat_group_.second_radius_)) {
       if (cat->GetCatState() != CatState::kIsComingDestination) {
         cat->SetCatState(CatState::kIsComingDestination);
-        std::uniform_int_distribution<> x_destination
-            (cat_group_.central_position_.GetX() - cat_group_.first_radius_,
-             cat_group_.central_position_.GetX() + cat_group_.first_radius_);
-        std::uniform_int_distribution<> y_destination
-            (cat_group_.central_position_.GetY() - cat_group_.first_radius_ *
-                 constants::kSemiMinorCoefficient,
-             cat_group_.central_position_.GetY() + cat_group_.first_radius_ *
-                 constants::kSemiMinorCoefficient);
-        auto destination = Point(x_destination(random_generator_),
-                                 y_destination(random_generator_));
+        auto destination = GenerateRandomDestination();
         cat->SetDestination(destination);
       }
     } else {
@@ -350,4 +341,17 @@ double Player::GetFoodSaturation() const {
 
 int Player::GetMaxFoodSaturation() const {
   return max_food_saturation_;
+}
+
+Point Player::GenerateRandomDestination() const {
+  std::uniform_int_distribution<> x_destination
+      (cat_group_.central_position_.GetX() - cat_group_.first_radius_,
+       cat_group_.central_position_.GetX() + cat_group_.first_radius_);
+  std::uniform_int_distribution<> y_destination
+      (cat_group_.central_position_.GetY() - cat_group_.first_radius_ *
+           constants::kSemiMinorCoefficient,
+       cat_group_.central_position_.GetY() + cat_group_.first_radius_ *
+           constants::kSemiMinorCoefficient);
+  return Point(x_destination(random_generator_), y_destination
+  (random_generator_));
 }

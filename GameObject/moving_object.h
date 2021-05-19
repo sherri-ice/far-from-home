@@ -1,9 +1,10 @@
 #ifndef GAMEOBJECT_MOVING_OBJECT_H_
 #define GAMEOBJECT_MOVING_OBJECT_H_
 
+#include <vector>
+
 #include "../GameObject/game_object.h"
 #include "../View/animation.h"
-#include <vector>
 
 class MovingObject : public GameObject {
  public:
@@ -39,6 +40,8 @@ class MovingObject : public GameObject {
     Size velocity_;
     static std::mt19937 random_generator_;
     Animation object_animation_;
+
+    Size saved_walking_velocity_{};
 };
 
 #endif  // GAMEOBJECT_MOVING_OBJECT_H_

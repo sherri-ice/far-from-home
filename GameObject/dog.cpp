@@ -76,6 +76,7 @@ void Dog::Tick(int delta_time) {
             (random_generator_);
         velocity_ = Size(velocity(random_generator_), velocity
         (random_generator_));
+        saved_walking_velocity_ = velocity_;
         --change_directions_count_;
         timers_.StartTimerWithRandom(dog_constants::kTimeToWalkMin,
                                      dog_constants::kTimeToWalkMax,
@@ -89,6 +90,7 @@ void Dog::Tick(int delta_time) {
           velocity_ = Size(velocity(random_generator_), velocity
               (random_generator_));
           --change_directions_count_;
+          saved_walking_velocity_ = velocity_;
           timers_.StartTimerWithRandom(dog_constants::kTimeToWalkMin,
                                        dog_constants::kTimeToWalkMax,
                                        static_cast<int>(DogState::kIsWalking));
@@ -98,6 +100,7 @@ void Dog::Tick(int delta_time) {
           destination_ = home_position_;
         }
       }
+      velocity_ = saved_walking_velocity_;
       if (velocity_.GetLength() > constants::kEpsilon) {
         velocity_ /= velocity_.GetLength();
         velocity_ *= walking_speed_ * delta_time / constants::kTimeScale;

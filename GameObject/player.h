@@ -29,6 +29,7 @@ class Player {
   [[nodiscard]] std::vector<std::shared_ptr<Cat>> GetCats() const;
 
   void OrderCatsToMove(Size velocity_from_player);
+  Point GenerateRandomDestination() const;
 
   void UpdateDogsAround(const std::list<std::shared_ptr<Dog>>& dogs) const;
 

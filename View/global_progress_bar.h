@@ -6,6 +6,15 @@
 #include "../Model/constants.h"
 #include "../Model/point.h"
 #include "../Model/size.h"
+#include "../View/resizer.h"
+
+namespace constants {
+const double kGetInnerWidthCoeff = 0.74;
+const double kGetInnerHeightCoeff = 0.64;
+const double kGetInnerSmallHeightCoeff = 0.17;
+const double kGetWidthShiftCoeff = 0.21;
+const double kGetHeightShiftCoeff = 0.22;
+}  // namespace constants
 
 class GlobalProgressBar {
  public:
@@ -18,6 +27,7 @@ class GlobalProgressBar {
 
   void SetMaxValue(int max_value);
   void SetSkin(const QPixmap& skin);
+  void UpdateSize(Resizer* resizer, int new_parameter);
 
  private:
   int max_value_;
@@ -26,11 +36,11 @@ class GlobalProgressBar {
   Size size_;
   QPixmap skin_{};
 
-  int inner_width_{154};
-  int inner_height_{32};
-  int inner_small_height_{6};
-  int height_shift_{11};
-  int width_shift_{45};
+  double inner_width_{154};
+  double inner_height_{32};
+  double inner_small_height_{6};
+  double height_shift_{11};
+  double width_shift_{45};
 
   QColor light_blue_ = QColor(123, 104, 238);
   QColor blue_ = QColor(72, 61, 139);

@@ -8,7 +8,6 @@
 #include "../Model/size.h"
 
 namespace constants {
-  const int kCheckIfBordersAreClose = 1;
   const double kCheckIfVelocityIsCloseToZero = 0.05;
 }
 
@@ -20,13 +19,22 @@ enum class Border {
   kNone
 };
 
+struct Rect {
+  double x;
+  double y;
+  double width;
+  double height;
+};
+
 class RigidBody {
  public:
   RigidBody() = default;
   RigidBody(const Size* size, const Point* position);
   ~RigidBody() = default;
 
-  QRect GetRect() const;
+  Rect GetRect() const;
+  Rect GetRectInNewPosition(const Point& position) const;
+  static bool Intersects(const Rect& first_rect, const Rect& second_rect) ;
   bool IsCollide(const RigidBody& other_rigid_body) const;
   void Draw(QPainter* painter, Resizer* resizer) const;
 
@@ -36,10 +44,10 @@ class RigidBody {
 
   bool IfCollisionWillHappen(const RigidBody& other_rigid_body, const Size&
   velocity) const;
-  Size GetVelocityToAvoidCollision(const RigidBody& other_rigid_body,
-                                   const Size& current_velocity);
-  Border GetBorderIfObjectIsNotClose(const QRect& other_rect) const;
-  Border GetBorderIfObjectIsClose(const QRect& other_rect) const;
+  Size GetVelocityToGoAround(const RigidBody& other_rigid_body,
+                             const Size& current_velocity);
+  Border GetIntersectedBorder(const Rect& other_rect) const;
+  bool IsDestinationCollideWithRect(const Rect& other_rect) const;
 
  private:
   const Size* object_size_;

@@ -12,6 +12,7 @@ void Controller::Tick(int time) {
   current_game_time_ = time;
 
   TickPlayer(delta_time);
+  CheckIfDestinationIsInsideStaticObject();
   TickFood(delta_time);
   TickHunger();
   TickCats(delta_time);
@@ -68,6 +69,7 @@ void Controller::TickDogs(int delta_time) {
       dog->SetReachableCat(player->GetCats());
       dog->Tick(delta_time);
       MovingAndStaticObjectsIntersect(dog);
+      DogsIntersect(dog);
       dog->Move(delta_time);
       for (auto& cat : player->GetCats()) {
         if (dog->GetRigidBody()->IsCollide(*(cat->GetRigidBody()))) {
@@ -142,7 +144,7 @@ moving_object) {
         GetRigidBody()->IfCollisionWillHappen(*(static_object->GetRigidBody()),
                                               moving_object->GetVelocity())) {
       Size new_velocity = moving_object->GetRigidBody()
-          ->GetVelocityToAvoidCollision(*(static_object->GetRigidBody()),
+          ->GetVelocityToGoAround(*(static_object->GetRigidBody()),
                                         moving_object->GetVelocity());
       moving_object->SetVelocity(new_velocity * moving_object->GetVelocity()
           .GetLength());
@@ -265,5 +267,39 @@ void Controller::TickHunger() {
     player->ResetNeedToShowWarnings();
     model_->GenerateFood(player->GetPosition(), view_->GetWidthOfScreenAsGame(),
                          view_->GetHeightOfScreeAsGame(), 15);
+  }
+}
+
+void Controller::CheckIfDestinationIsInsideStaticObject() {
+  auto player = model_->GetPlayer();
+  auto player_cats = player->GetCats();
+  auto static_objects = model_->GetStaticObjects();
+  for (int i{0}; i < player_cats.size(); ++i) {
+    if (player_cats.at(i)->IsComingDestination()) {
+      auto destination = player_cats.at(i)->GetDestination();
+      for (const auto& static_object : static_objects) {
+        if (view_->IsOnTheScreen(static_object)) {
+          while (static_object->GetRigidBody()->IsDestinationCollideWithRect
+          (player_cats.at(i)->GetRigidBody()->GetRectInNewPosition(destination))) {
+            destination = player->GenerateRandomDestination();
+          }
+          player_cats.at(i)->SetDestination(destination);
+        }
+      }
+    }
+
+  }
+}
+
+void Controller::DogsIntersect(const std::shared_ptr<Dog>& dog) {
+  for (const auto& other_dog : model_->GetDogs()) {
+    if (view_->IsOnTheScreen(other_dog) && other_dog != dog) {
+      if (dog->GetRigidBody()->IfCollisionWillHappen(*(other_dog->GetRigidBody
+      ()), dog->GetVelocity())) {
+        Size new_velocity = dog->GetRigidBody()->GetVelocityToGoAround(*
+            (other_dog->GetRigidBody()), dog->GetVelocity());
+        dog->SetVelocity(new_velocity * dog->GetVelocity().GetLength());
+      }
+    }
   }
 }

@@ -47,6 +47,7 @@ void Cat::Tick(int delta_time) {
             (random_generator_);
         velocity_ = Size(velocity(random_generator_), velocity
             (random_generator_));
+        saved_walking_velocity_ = velocity_;
         --change_directions_count_;
         timers_.StartTimerWithRandom(constants::kTimeToWalkMin,
                                      constants::kTimeToWalkMax,
@@ -59,6 +60,7 @@ void Cat::Tick(int delta_time) {
         if (change_directions_count_ != 0) {
           velocity_ = Size(velocity(random_generator_), velocity
               (random_generator_));
+          saved_walking_velocity_ = velocity_;
           --change_directions_count_;
           timers_.StartTimerWithRandom(constants::kTimeToWalkMin,
                                        constants::kTimeToWalkMax,
@@ -69,6 +71,7 @@ void Cat::Tick(int delta_time) {
           destination_ = home_position_;
         }
       }
+      velocity_ = saved_walking_velocity_;
       if (velocity_.GetLength() > constants::kEpsilon) {
         velocity_ /= velocity_.GetLength();
         velocity_ *= delta_time * speed_ / constants::kTimeScale;
@@ -238,4 +241,12 @@ void Cat::FeedCat() {
 
 void Cat::SetFoodSaturation(double food_saturation) {
   food_saturation_ = food_saturation;
+}
+
+bool Cat::IsComingDestination() const {
+  return cat_state_ == CatState::kIsComingDestination;
+}
+
+Point Cat::GetDestination() const {
+  return destination_;
 }
