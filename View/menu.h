@@ -5,6 +5,12 @@
 #include <QPushButton>
 #include <memory>
 
+enum MenuPageIndex {
+  kStartMenu,
+  kSettings,
+  kPause
+};
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class Menu; }
 QT_END_NAMESPACE
@@ -17,8 +23,15 @@ class Menu : public QWidget {
   ~Menu() override;
   void LoadStyleSheet();
   [[nodiscard]] QPushButton* GetPlayButton() const;
+  [[nodiscard]] QPushButton* GetExitButton() const;
+  [[nodiscard]] QPushButton* GetSettingsButton() const;
+
+  void Pause();
 
  private:
+  void SetObjectsNames();
+  void Settings();
+  void MainMenu();
   Ui::Menu* ui;
 };
 #endif // MENU_H

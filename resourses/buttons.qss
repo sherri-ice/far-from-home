@@ -5,10 +5,76 @@ QWidget#background {
 QPushButton#play {
     background-color: rgba(255, 255, 255, 0);
     qproperty-icon: url(":images/menu/buttons/play.png");
-    qproperty-iconSize: 250px;
+    qproperty-iconSize: 350px;
     border: none
 }
 
 QPushButton#play:pressed {
     qproperty-icon: url(":images/menu/buttons/play_clicked.png");
 }
+
+QPushButton#exit {
+    background-color: rgba(255, 255, 255, 0);
+    qproperty-icon: url(":images/menu/buttons/exit.png");
+    qproperty-iconSize: 180px;
+    border: none
+}
+
+QPushButton#exit:pressed {
+    qproperty-icon: url(":images/menu/buttons/exit_clicked.png");
+}
+
+
+QPushButton#settings {
+    background-color: rgba(255, 255, 255, 0);
+    qproperty-icon: url(":images/menu/buttons/settings.png");
+    qproperty-iconSize: 200px;
+    border: none
+}
+
+QPushButton#settings:pressed {
+    qproperty-icon: url(":images/menu/buttons/settings_clicked.png");
+}
+
+QPushButton#left_arrow {
+    background-color: rgba(255, 255, 255, 0);
+    qproperty-icon: url(":images/menu/buttons/left_arrow.png");
+    qproperty-iconSize: 50px;
+    border: none
+}
+
+QPushButton#right_arrow {
+    background-color: rgba(255, 255, 255, 0);
+    qproperty-icon: url(":images/menu/buttons/right_arrow.png");
+    qproperty-iconSize: 50px;
+    border: none
+}
+
+QPushButton#back_to_main_window {
+    background-color: rgba(255, 255, 255, 0);
+    qproperty-icon: url(":images/menu/buttons/back.png");
+    qproperty-iconSize: 100px;
+    border: none
+}
+
+QPushButton#restart {
+    background-color: rgba(255, 255, 255, 0);
+    qproperty-icon: url(":images/menu/buttons/restart.png");
+    qproperty-iconSize: 100px;
+    border: none
+}
+
+QPushButton#menu {
+    background-color: rgba(255, 255, 255, 0);
+    qproperty-icon: url(":images/menu/buttons/menu.png");
+    qproperty-iconSize: 100px;
+    border: none
+}
+
+QPushButton#resume {
+    background-color: rgba(255, 255, 255, 0);
+    qproperty-icon: url(":images/menu/buttons/resume.png");
+    qproperty-iconSize: 100px;
+    border: none
+}
+

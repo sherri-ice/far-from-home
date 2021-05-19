@@ -6,12 +6,24 @@
 Menu::Menu(QWidget* parent)
     : QWidget(parent), ui(new Ui::Menu) {
   ui->setupUi(this);
+  setMinimumSize(QSize(500, 500));
+  SetObjectsNames();
+  LoadStyleSheet();
+  connect(ui->settings, &QPushButton::released, this, &Menu::Settings);
+  connect(ui->back_to_main_window, &QPushButton::released, this, &Menu::MainMenu);
+}
+
+void Menu::SetObjectsNames() {
   ui->widget->setObjectName(QObject::tr("background"));
   ui->play->setObjectName(QObject::tr("play"));
-  LoadStyleSheet();
-  // ui->play->setIcon(QIcon(QPixmap(":images/menu/buttons/play.png")));
-  // ui->play->setIconSize(QPixmap(":images/menu/buttons/play.png").rect().size());
-  // ui->buttons->layout()->addWidget(play_);
+  ui->exit->setObjectName(QObject::tr("exit"));
+  ui->settings->setObjectName(QObject::tr("settings"));
+  ui->left_arrow->setObjectName(QObject::tr("left_arrow"));
+  ui->right_arrow->setObjectName(QObject::tr("right_arrow"));
+  ui->back_to_main_window->setObjectName(QObject::tr("back_to_main_window"));
+  ui->restart->setObjectName(QObject::tr("restart"));
+  ui->resume->setObjectName(QObject::tr("resume"));
+  ui->menu->setObjectName(QObject::tr("menu"));
 }
 
 void Menu::LoadStyleSheet() {
@@ -28,6 +40,28 @@ Menu::~Menu() {
 QPushButton* Menu::GetPlayButton() const {
   return ui->play;
 }
+
+QPushButton* Menu::GetExitButton() const {
+  return ui->exit;
+}
+
+QPushButton* Menu::GetSettingsButton() const {
+  return ui->settings;
+}
+
+void Menu::Pause() {
+  ui->widget->setCurrentIndex(MenuPageIndex::kPause);
+}
+
+void Menu::Settings() {
+  ui->widget->setCurrentIndex(MenuPageIndex::kSettings);
+}
+
+void Menu::MainMenu() {
+  ui->widget->setCurrentIndex(MenuPageIndex::kStartMenu);
+}
+
+
 
 
 

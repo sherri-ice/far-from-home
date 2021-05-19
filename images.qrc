@@ -95,6 +95,16 @@
         <file>images/menu/background/background.png</file>
         <file>images/menu/buttons/play.png</file>
         <file>images/menu/buttons/play_clicked.png</file>
+        <file>images/menu/buttons/exit.png</file>
+        <file>images/menu/buttons/exit_clicked.png</file>
+        <file>images/menu/buttons/settings.png</file>
+        <file>images/menu/buttons/settings_clicked.png</file>
+        <file>images/menu/buttons/left_arrow.png</file>
+        <file>images/menu/buttons/right_arrow.png</file>
+        <file>images/menu/buttons/back.png</file>
+        <file>images/menu/buttons/restart.png</file>
+        <file>images/menu/buttons/menu.png</file>
+        <file>images/menu/buttons/resume.png</file>
 
     </qresource>
 </RCC>

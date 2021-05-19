@@ -18,6 +18,7 @@ View::View(AbstractController* controller,
   menu_.resize(constants::kGameWidth, constants::kGameHeight);
   menu_.show();
   connect(menu_.GetPlayButton(), &QPushButton::released, this, &View::StartGame);
+  connect(menu_.GetExitButton(), &QPushButton::released, this, &View::CloseGame);
 }
 
 void View::StartGame() {
@@ -27,6 +28,16 @@ void View::StartGame() {
   controller_timer_id_ = startTimer(constants::kTimeBetweenTicks);
   view_timer_.start();
   controller_->StartGame();
+}
+
+void View::CloseGame() {
+  menu_.close();
+  close();
+}
+
+void View::Pause() {
+  menu_.show();
+  menu_.Pause();
 }
 
 void View::paintEvent(QPaintEvent*) {
@@ -44,6 +55,10 @@ void View::timerEvent(QTimerEvent* event) {
 }
 
 void View::keyPressEvent(QKeyEvent* event) {
+  if (event->key() == Qt::Key_Space) {
+    Pause();
+    return;
+  }
   pressed_keys_[event->key()] = true;
 }
 
@@ -127,4 +142,5 @@ bool View::IsOnTheScreen(const std::shared_ptr<GameObject>& object) {
   }
     return true;
 }
+
 

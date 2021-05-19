@@ -42,6 +42,8 @@ class View : public QMainWindow {
   void DrawGameObjects(QPainter* painter);
 
   void StartGame();
+  void CloseGame();
+  void Pause();
 
   Size player_velocity_;
   std::map<int, bool> pressed_keys_;
