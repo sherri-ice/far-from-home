@@ -93,6 +93,8 @@
         <file>images/objects/tree/Frame 3.png</file>
 
         <file>images/menu/background/background.png</file>
+        <file>images/menu/buttons/play.png</file>
+        <file>images/menu/buttons/play_clicked.png</file>
 
     </qresource>
 </RCC>

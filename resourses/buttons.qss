@@ -1,0 +1,14 @@
+QWidget#background {
+    background-image: url(":images/menu/background/background.png")
+}
+
+QPushButton#play {
+    background-color: rgba(255, 255, 255, 0);
+    qproperty-icon: url(":images/menu/buttons/play.png");
+    qproperty-iconSize: 250px;
+    border: none
+}
+
+QPushButton#play:pressed {
+    qproperty-icon: url(":images/menu/buttons/play_clicked.png");
+}

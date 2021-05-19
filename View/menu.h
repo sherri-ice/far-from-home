@@ -15,10 +15,10 @@ class Menu : public QWidget {
  public:
   explicit Menu(QWidget* parent = nullptr);
   ~Menu() override;
-  [[nodiscard]] QPushButton* GetPlay() const;
+  void LoadStyleSheet();
+  [[nodiscard]] QPushButton* GetPlayButton() const;
 
  private:
   Ui::Menu* ui;
-  QPushButton* play_;
 };
 #endif // MENU_H

@@ -1,5 +1,6 @@
 <RCC>
     <qresource>
         <file>resourses/tiles_templates.json</file>
+        <file>resourses/buttons.qss</file>
     </qresource>
 </RCC>

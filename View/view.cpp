@@ -17,7 +17,7 @@ View::View(AbstractController* controller,
   resizer_.ChangeSystem(width(), height());
   menu_.resize(constants::kGameWidth, constants::kGameHeight);
   menu_.show();
-  connect(menu_.GetPlay(), &QPushButton::released, this, &View::StartGame);
+  connect(menu_.GetPlayButton(), &QPushButton::released, this, &View::StartGame);
 }
 
 void View::StartGame() {
