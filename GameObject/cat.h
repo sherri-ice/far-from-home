@@ -61,6 +61,7 @@ class Cat : public MovingObject {
   void SetFoodSaturation(double food_saturation);
   bool IsComingDestination() const;
   Point GetDestination() const;
+  bool IsMainCat() const;
 
  private:
   bool is_in_group_{false};

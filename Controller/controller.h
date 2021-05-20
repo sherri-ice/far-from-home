@@ -40,6 +40,10 @@ class Controller : public AbstractController {
   void CatsAndPortalsIntersect(const std::shared_ptr<Cat>& cat);
   void CheckIfDestinationIsInsideStaticObject();
   void DogsIntersect(const std::shared_ptr<Dog>& dog);
+  void CatsInGroupIntersect(const std::shared_ptr<Cat>& cat);
+  void CheckIfDestinationIntersectsWithCat();
+  void WildCatsAndDogsIntersect(const std::shared_ptr<MovingObject>&
+      moving_object);
 
   int current_game_time_{0};
   std::shared_ptr<Model> model_;

@@ -250,3 +250,7 @@ bool Cat::IsComingDestination() const {
 Point Cat::GetDestination() const {
   return destination_;
 }
+
+bool Cat::IsMainCat() const {
+  return cat_state_ == CatState::kIsMainCat;
+}
