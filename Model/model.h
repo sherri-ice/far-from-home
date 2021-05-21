@@ -45,24 +45,22 @@ class Model {
 
   void ClearObjects();
 
-  void LoadDinamicAnimation();
   void LoadStaticAnimation();
-  void LoadAnimation();
+  [[nodiscard]] std::vector<std::vector<QPixmap>> LoadRandomCatsAnimation() const;
+  [[nodiscard]] std::vector<std::vector<QPixmap>> LoadRandomDogsAnimation() const;
 
   [[nodiscard]] std::vector<std::vector<QPixmap>> GetImagesByFramePath
       (const QString& path) const;
 
  private:
-    std::map<QString, std::vector<std::vector<QPixmap>>> animations_;
     std::vector<std::vector<QPixmap>> objects_pics_{};
-    int current_level_ = 0;
-  int game_state_ = GameState::kMenu;
 
   std::list<std::shared_ptr<Cat>> cats_;
   std::list<std::shared_ptr<GameObject>> static_objects_;
   Player* player_;
   std::list<std::shared_ptr<Food>> food_;
   std::list<std::shared_ptr<Dog>> dogs_;
+  static std::mt19937 random_generator_;
 };
 
 #endif  // MODEL_MODEL_H_
