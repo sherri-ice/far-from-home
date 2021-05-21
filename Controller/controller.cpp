@@ -4,8 +4,6 @@ Controller::Controller() {
   music_player_ = std::make_shared<MusicPlayer>();
   model_ = std::make_shared<Model>();
   view_ = std::make_shared<View>(this, model_);
-  // map_generator_.SetModel(model_);
-  // map_generator_.GenerateMap();
   music_player_->StartMenuMusic();
 }
 
@@ -112,7 +110,6 @@ void Controller::EndGame() {
 }
 void Controller::SetGameVolume(int volume) {
   music_player_->SetVolume(volume);
-  // model_->SetParticlesVolume(volume);
 }
 std::shared_ptr<MusicPlayer> Controller::GetMusicPlayer() {
   return music_player_;

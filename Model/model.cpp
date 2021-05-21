@@ -4,18 +4,6 @@
 
 Model::Model() {
   LoadAnimation();
-  // std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
-  //                                                       10,
-  //                                                       Point(0, 0));
-  // main_cat->SetIsInGroup(true);
-  // main_cat->SetAnimations(animations_["cat"]);
-  // cats_.emplace_back(main_cat);
-  // for (auto& food : food_) {
-  //   food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
-  // }
-  // player_ = new Player(main_cat);
-  // player_->SetViewCircle(ViewCircle(player_->GetPosition(),
-  //                                   constants::kViewCircleDefault));
 }
 
 Player* Model::GetPlayer() {

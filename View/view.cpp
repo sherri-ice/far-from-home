@@ -154,6 +154,19 @@ void View::SetMenuWindow() {
     close();
   };
   connect(menu_.GetExitButton(), &QPushButton::released, this, exit_button_click);
+  // auto sound_button_click = [this]() {
+  //   if (is_sound_on_) {
+  //     // controller_->GetMusicPlayer()->Pause();
+  //     menu_.GetSoundButton()->setIcon( QIcon(":images/menu/buttons/sound_off"
+  //                                            ".png"));
+  //   } else {
+  //     // controller_->GetMusicPlayer()->Resume();
+  //     menu_.GetSoundButton()->setIcon( QIcon(
+  //         ":images/menu/buttons/sound_on.png"));
+  //   }
+  // };
+  // connect(menu_.GetSoundButton(), &QPushButton::released, this,
+  //         sound_button_click);
 }
 void View::SetPauseWindow() {
   auto resume_button_click = [this]() {
