@@ -16,6 +16,7 @@ View::View(AbstractController* controller,
   resize(constants::kGameWidth, constants::kGameHeight);
   resizer_.ChangeSystem(width(), height());
   controller->StartGame();
+  setStyleSheet("background-color: #56C34E");
   show();
   time_between_ticks_.start();
   controller_timer_id_ = startTimer(constants::kTimeBetweenTicks);
