@@ -1,6 +1,7 @@
 #include "result_window.h"
 #include "./ui_result_window.h"
 #include "../Model/constants.h"
+#include <QDebug>
 
 ResultWindow::ResultWindow(QWidget* parent)
     : QDialog(parent), ui(new Ui::ResultWindow) {
@@ -13,8 +14,15 @@ ResultWindow::~ResultWindow() {
 }
 
 void ResultWindow::ConnectButtons() {
-  connect(ui->okay_button, &QPushButton::released, this, &ResultWindow::close);
-  connect(ui->cancel_button, &QPushButton::released, this, &ResultWindow::close);
+  connect(ui->okay_button, &QPushButton::released, this, [this] {
+    reject();
+  });
+  connect(ui->cancel_button, &QPushButton::released, this, [this] {
+    reject();
+  });
+  connect(ui->send_button, &QPushButton::released, this, [this] {
+    accept();
+  });
 }
 
 void ResultWindow::Show(bool is_found) {
@@ -23,6 +31,13 @@ void ResultWindow::Show(bool is_found) {
   } else {
     ui->widget->setCurrentIndex(ResultState::kNotFound);
   }
-  show();
+
+  exec();
+  qDebug() << result();
 }
+
+bool ResultWindow::GetUserAnswer() {
+  return (result() == true);
+}
+
 

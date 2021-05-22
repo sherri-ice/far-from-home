@@ -34,7 +34,7 @@ class PortalObject : public GameObject {
   void SetSearchState();
   void SetWaitSearchState();
 
-  bool IsAlreadyClicked();
+  bool IsCollected();
   bool HasFinished();
   bool HasPortal() const;
 
@@ -43,6 +43,7 @@ class PortalObject : public GameObject {
 
   void SetIfMessageIsShown(bool is_shown);
   void SetWaitState();
+  void SetCollectedState();
 
   int GetSearchTime() const;
   void SetSearchTime(int search_time);

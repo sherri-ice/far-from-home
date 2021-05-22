@@ -22,6 +22,7 @@ class ResultWindow : public QDialog {
   ~ResultWindow() override;
 
   void Show(bool is_found);
+  bool GetUserAnswer();
 
  private:
   void ConnectButtons();

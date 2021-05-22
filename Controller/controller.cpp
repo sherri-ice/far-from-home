@@ -149,9 +149,13 @@ void Controller::ScanIfObjectWereClicked(const Point& point) {
       if (object->HasFinished()) {
         view_->ShowResultWindow(object->HasPortal());
         // todo pause
+        if (view_->GetResultWindow().GetUserAnswer()) {
+          // loose cat
+        }
+        object->SetCollectedState();
         continue;
       }
-      if (!object->IsAlreadyClicked()
+      if (!object->IsCollected()
           && model_->GetPlayer()->NotOnlyMainCat()) {
         auto cat =
             model_->GetPlayer()->SendCatToSearch(
@@ -160,26 +164,26 @@ void Controller::ScanIfObjectWereClicked(const Point& point) {
                 object->GetSearchTime());
         portal_and_searching_cat_[object] = cat;
       }
-      // if (object->IsAlreadyClicked()) {
-      //   model_->AddWarning(std::make_shared<Warning>(
-      //       "You've already searched a portal here!",
-      //       view_->
-      //           GetCoordinatesForWarning(),
-      //       32,
-      //       true,
-      //       true,
-      //       3000));
-      // }
-      // if (!model_->GetPlayer()->NotOnlyMainCat()) {
-      //   model_->AddWarning(std::make_shared<Warning>(
-      //       "You don't have enough cats!",
-      //       view_->
-      //           GetCoordinatesForWarning(),
-      //       32,
-      //       true,
-      //       true,
-      //       3000));
-      // }
+      if (object->IsCollected()) {
+        model_->AddWarning(std::make_shared<Warning>(
+            "You've already searched a portal here!",
+            view_->
+                GetCoordinatesForWarning(),
+            32,
+            true,
+            true,
+            3000));
+      }
+      if (!model_->GetPlayer()->NotOnlyMainCat()) {
+        model_->AddWarning(std::make_shared<Warning>(
+            "You don't have enough cats!",
+            view_->
+                GetCoordinatesForWarning(),
+            32,
+            true,
+            true,
+            3000));
+      }
     }
   }
 }
@@ -207,7 +211,6 @@ void Controller::TickWarnings(int delta_time) {
     warning->SetPosition(view_->GetCoordinatesForWarning());
   }
 }
-
 
 void Controller::CatsAndPortalsIntersect(const std::shared_ptr<Cat>& cat) {
   for (auto& static_object : model_->GetStaticObjects()) {

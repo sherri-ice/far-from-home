@@ -87,8 +87,8 @@ void PortalObject::SetSearchState() {
   }
 }
 
-bool PortalObject::IsAlreadyClicked() {
-  return (state_ == PortalState::kWaitToSearch);
+bool PortalObject::IsCollected() {
+  return (state_ == PortalState::kCollected);
 }
 
 bool PortalObject::HasPortal() const {
@@ -117,4 +117,8 @@ void PortalObject::SetWaitSearchState() {
 
 bool PortalObject::HasFinished() {
   return (state_ == PortalState::kWaitToSeeResult);
+}
+
+void PortalObject::SetCollectedState() {
+  state_ = PortalState::kCollected;
 }

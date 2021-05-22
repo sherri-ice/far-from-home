@@ -32,7 +32,7 @@ class View : public QMainWindow {
   bool IsOnTheScreen(const std::shared_ptr<GameObject>& object);
 
   void ShowResultWindow(bool is_found);
-
+  ResultWindow& GetResultWindow();
  private:
   int controller_timer_id_;
   QElapsedTimer time_between_ticks_;
