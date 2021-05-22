@@ -147,3 +147,8 @@ void View::DrawWarnings(QPainter* painter) {
     warning->Draw(painter, &resizer_);
   }
 }
+
+void View::ShowResultWindow(bool is_found) {
+  result_window_.setGeometry(width() / 2, height() / 2, 150, 150);
+  result_window_.Show(is_found);
+}

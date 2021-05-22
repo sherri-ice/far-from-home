@@ -75,7 +75,9 @@ void Controller::TickDogs(int delta_time) {
           dog->SetIsMainCatCaught(true);
           break;
         } else {
-          player->LosingCat(dog->GetRigidPosition(), cat);
+          if (!cat->GetIsBusy()) {
+            player->LosingCat(dog->GetRigidPosition(), cat);
+          }
         }
       }
     }
@@ -110,7 +112,7 @@ void Controller::CatsAndFoodIntersect() {
 void Controller::TickObjects(int delta_time) {
   for (auto& object : model_->GetStaticObjects()) {
     object->Tick(delta_time);
-    if (object->IsAlreadyClicked()) {
+    if (object->HasFinished()) {
       model_->AddWarning(std::make_shared<Warning>("Search is "
                                                    "finished. Come back to the "
                                                    "tree to see the result",
@@ -121,10 +123,6 @@ void Controller::TickObjects(int delta_time) {
                                                    true, 3000));
       object->SetWaitState();
     }
-  }
-  for (auto& object : model_->GetStaticObjects()) {
-    // if (object->IsAlreadyClicked()) {
-    // }
   }
 }
 
@@ -148,6 +146,11 @@ void Controller::ScanIfObjectWereClicked(const Point& point) {
   for (auto& object : model_->GetStaticObjects()) {
     if (object->GetDrawPosition().IsInEllipse(point,
                                               object->GetSize().GetLength())) {
+      if (object->HasFinished()) {
+        view_->ShowResultWindow(object->HasPortal());
+        // todo pause
+        continue;
+      }
       if (!object->IsAlreadyClicked()
           && model_->GetPlayer()->NotOnlyMainCat()) {
         auto cat =
@@ -155,29 +158,28 @@ void Controller::ScanIfObjectWereClicked(const Point& point) {
                 object->GetDrawPosition()
                     + Point(0, object->GetSize().GetHeight() / 2),
                 object->GetSearchTime());
-        // qDebug() << object->GetSearchTime();
         portal_and_searching_cat_[object] = cat;
       }
-      if (object->IsAlreadyClicked()) {
-        model_->AddWarning(std::make_shared<Warning>(
-            "You've already searched a portal here!",
-            view_->
-                GetCoordinatesForWarning(),
-            32,
-            true,
-            true,
-            3000));
-      }
-      if (!model_->GetPlayer()->NotOnlyMainCat()) {
-        model_->AddWarning(std::make_shared<Warning>(
-            "You don't have enough cats!",
-            view_->
-                GetCoordinatesForWarning(),
-            32,
-            true,
-            true,
-            3000));
-      }
+      // if (object->IsAlreadyClicked()) {
+      //   model_->AddWarning(std::make_shared<Warning>(
+      //       "You've already searched a portal here!",
+      //       view_->
+      //           GetCoordinatesForWarning(),
+      //       32,
+      //       true,
+      //       true,
+      //       3000));
+      // }
+      // if (!model_->GetPlayer()->NotOnlyMainCat()) {
+      //   model_->AddWarning(std::make_shared<Warning>(
+      //       "You don't have enough cats!",
+      //       view_->
+      //           GetCoordinatesForWarning(),
+      //       32,
+      //       true,
+      //       true,
+      //       3000));
+      // }
     }
   }
 }
@@ -213,6 +215,7 @@ void Controller::CatsAndPortalsIntersect(const std::shared_ptr<Cat>& cat) {
       switch (cat->GetCatState()) {
         case CatState::kIsGoingToSearch: {
           model_->SetSelectedPortalSkin(static_object);
+          static_object->SetWaitSearchState();
           break;
         }
         case CatState::kIsSearching: {

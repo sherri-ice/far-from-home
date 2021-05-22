@@ -1,8 +1,9 @@
 #include "portal_object.h"
 
+#include <QDebug>
+
 std::mt19937 PortalObject::random_generator_ = std::mt19937
     (std::chrono::system_clock::now().time_since_epoch().count());
-
 
 PortalObject::PortalObject(const Size& size,
                            const Point& position,
@@ -39,23 +40,36 @@ void PortalObject::Draw(QPainter* painter, Resizer* resizer) const {
 }
 
 void PortalObject::Tick(int time) {
-  // if (state_ == PortalState::kDefault || state_ == PortalState::kCollected) {
-  // }
-  if (state_ == PortalState::kSearching) {
-    if (!search_timer_.IsTimeOut()) {
-      progress_bar_.IncCurrentValue();
-      search_timer_.Tick(time);
-    } else {
+  switch (state_) {
+    case PortalState::kWaitToSearch: {
+      break;
+    }
+    case PortalState::kSearching: {
+      if (!search_timer_.IsTimeOut()) {
+        progress_bar_.IncCurrentValue();
+        search_timer_.Tick(time);
+      } else {
+        state_ = PortalState::kFinishedSearch;
+      }
+      break;
+    }
+    case PortalState::kFinishedSearch: {
       warning_.UpdateMessage("Click on a tree to see the result!");
       state_ = PortalState::kWaitToSeeResult;
       progress_bar_.SetInvisible();
       search_timer_.Stop();
+      break;
     }
+    case PortalState::kWaitToSeeResult: {
+      break;
+    }
+    case PortalState::kDefault:
+    default: {
+      break;
+    }
+
+
   }
-  // if (state_ == PortalState::kPendingInfo) {
-  //   // MakeIconWithInfo(has_portal_)
-  //   state_ = PortalState::kCollected;
-  // }
 }
 
 void PortalObject::SetPortal() {
@@ -74,7 +88,7 @@ void PortalObject::SetSearchState() {
 }
 
 bool PortalObject::IsAlreadyClicked() {
-  return (state_ != PortalState::kDefault);
+  return (state_ == PortalState::kWaitToSearch);
 }
 
 bool PortalObject::HasPortal() const {
@@ -95,4 +109,12 @@ int PortalObject::GetSearchTime() const {
 
 void PortalObject::SetSearchTime(int search_time) {
   search_time_ = search_time;
+}
+
+void PortalObject::SetWaitSearchState() {
+  state_ = PortalState::kWaitToSearch;
+}
+
+bool PortalObject::HasFinished() {
+  return (state_ == PortalState::kWaitToSeeResult);
 }

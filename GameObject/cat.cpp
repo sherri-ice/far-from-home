@@ -230,3 +230,7 @@ int Cat::GetSearchingTime() const {
 void Cat::SetSearchingTime(int searching_time) {
   searching_time_ = searching_time;
 }
+
+bool Cat::GetIsBusy() {
+  return (cat_state_ == CatState::kIsSearching);
+}
