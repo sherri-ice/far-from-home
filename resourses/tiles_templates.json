@@ -17,52 +17,52 @@
           "object_type": "dog",
           "point": [
             {
-              "x": 180,
-              "y": 250
-            }
-          ],
-          "size": 60,
-          "speed": 7.5,
-          "visibility_radius": 50,
-          "walking_speed" : 1.75
-        },
-        {
-          "object_type": "dog",
-          "point": [
-            {
-              "x": 250,
+              "x": 300,
               "y": 180
             }
           ],
           "size": 60,
           "speed": 7.5,
-          "visibility_radius": 50,
+          "visibility_radius": 70,
           "walking_speed" : 1.75
         },
         {
           "object_type": "dog",
           "point": [
             {
-              "x": 320,
-              "y": 250
+              "x": 180,
+              "y": 180
             }
           ],
           "size": 60,
           "speed": 7.5,
-          "visibility_radius": 50,
+          "visibility_radius": 70,
           "walking_speed" : 1.75
         },
         {
           "object_type": "dog",
           "point": [
             {
-              "x": 250,
-              "y": 320
+              "x": 300,
+              "y": 300
             }
           ],
           "size": 60,
           "speed": 7.5,
-          "visibility_radius": 50,
+          "visibility_radius": 70,
+          "walking_speed" : 1.75
+        },
+        {
+          "object_type": "dog",
+          "point": [
+            {
+              "x": 180,
+              "y": 300
+            }
+          ],
+          "size": 60,
+          "speed": 7.5,
+          "visibility_radius": 70,
           "walking_speed" : 1.75
         }
       ]
@@ -89,7 +89,7 @@
           ],
           "size": 40,
           "speed": 7.5,
-          "visibility_radius": 70,
+          "visibility_radius": 100,
           "walking_speed" : 1.75
         },
         {
