@@ -8,10 +8,10 @@ MusicPlayer::MusicPlayer()
       button_sound_(std::make_shared<QMediaPlayer>()) {
   main_player_->setPlaylist(main_playlist_.get());
 
-  main_playlist_->addMedia(QUrl("qrc:resourses/sounds/menu_music.mp3"));
   main_playlist_->addMedia(QUrl("qrc:resourses/sounds/game_music.mp3"));
+  // main_playlist_->addMedia(QUrl("qrc:resourses/sounds/game_music.mp3"));
   main_playlist_->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
-  main_player_->setVolume(100);
+  main_player_->setVolume(20);
 
   SetSound(button_sound_.get(), "qrc:resourses/sounds/button_click.mp3");
 

@@ -4,7 +4,7 @@ Controller::Controller() {
   music_player_ = std::make_shared<MusicPlayer>();
   model_ = std::make_shared<Model>();
   view_ = std::make_shared<View>(this, model_);
-  music_player_->StartMenuMusic();
+  // music_player_->StartMenuMusic();
 }
 
 void Controller::Tick(int time) {
@@ -29,7 +29,6 @@ void Controller::StartGame() {
   model_->SetModel();
   map_generator_.SetModel(model_);
   map_generator_.GenerateMap();
-  view_->SetIsPaused(false);
   current_game_time_ = 0;
   music_player_->StartGameMusic();
 }
@@ -104,9 +103,8 @@ void Controller::CatsAndFoodIntersect() {
 
 void Controller::EndGame() {
   model_->ClearModel();
-  view_->SetIsPaused(true);
   current_game_time_ = 0;
-  music_player_->StartMenuMusic();
+  // music_player_->StartMenuMusic();
 }
 void Controller::SetGameVolume(int volume) {
   music_player_->SetVolume(volume);

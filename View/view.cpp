@@ -23,8 +23,7 @@ View::View(AbstractController* controller,
 }
 
 void View::Pause() {
-  controller_->GetMusicPlayer()->StartMenuMusic();
-  is_paused_ = true;
+  // controller_->GetMusicPlayer()->StartMenuMusic();
   menu_.show();
   menu_.Pause();
 }
@@ -35,7 +34,7 @@ void View::paintEvent(QPaintEvent*) {
 }
 
 void View::timerEvent(QTimerEvent* event) {
-  if (event->timerId() == controller_timer_id_ && !is_paused_) {
+  if (event->timerId() == controller_timer_id_ && menu_.isHidden()) {
     int delta_time = time_between_ticks_.elapsed();
     time_between_ticks_.restart();
     controller_->Tick(controller_->GetCurrentTime() + delta_time);
@@ -136,6 +135,7 @@ void View::SetWindows() {
     SetSettingsWindow();
     SetPauseWindow();
 }
+
 void View::SetMenuWindow() {
   auto start_game_button_click = [this]() {
     menu_.close();
@@ -171,7 +171,6 @@ void View::SetMenuWindow() {
 void View::SetPauseWindow() {
   auto resume_button_click = [this]() {
     controller_->GetMusicPlayer()->PlayButtonSound();
-    is_paused_ = false;
     menu_.close();
     show();
   };
@@ -200,8 +199,5 @@ void View::SetSettingsWindow() {
 
 }
 
-void View::SetIsPaused(bool is_paused) {
-  is_paused_ = is_paused;
-}
 
 

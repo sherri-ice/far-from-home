@@ -23,7 +23,6 @@ class View : public QMainWindow {
   void ClearVelocity();
   void Resize();
   void UpdateResizer(double radius, const Point& position);
-  void SetIsPaused(bool is_paused);
  private:
   int controller_timer_id_;
   QElapsedTimer time_between_ticks_;
@@ -52,7 +51,6 @@ class View : public QMainWindow {
   void resizeEvent(QResizeEvent*) override;
   Menu menu_;
   WindowType window_type_ = WindowType::kMainMenu;
-  bool is_paused_ = false;
   bool is_sound_on_ = true;
 };
 
