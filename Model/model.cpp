@@ -245,42 +245,39 @@ void Model::GenerateFood(const Point& player_position, double
   // Надо написать другой генератор
   double part_of_height = 0.5 * height;
   double part_of_width = 0.5 * width;
-  std::uniform_int_distribution<> top_area_y(static_cast<int>(player_position
-  .GetY() - height), static_cast<int>(player_position.GetY() - part_of_height));
-  std::uniform_int_distribution<> bottom_area_y(static_cast<int>
-  (player_position.GetY() + part_of_height), static_cast<int>(player_position
-  .GetY() + height));
-  std::uniform_int_distribution<> same_height_area(static_cast<int>
-  (player_position.GetY() - part_of_height), static_cast<int>(player_position
-  .GetY() + part_of_height));
-  std::uniform_int_distribution<> top_and_bottom_x(static_cast<int>
-  (player_position.GetX() - width), static_cast<int>(player_position
-  .GetX() + width));
-  std::uniform_int_distribution<> left_area_x(static_cast<int>
-  (player_position.GetX() - width), static_cast<int>(player_position.GetX() -
-  part_of_width));
-  std::uniform_int_distribution<> right_area_x(static_cast<int>
-  (player_position.GetX() + part_of_width), static_cast<int>(player_position
-  .GetX() + width));
+  std::uniform_int_distribution<> top_and_bottom_x(
+      static_cast<int>(player_position.GetX() - width),
+      static_cast<int>(player_position.GetX() + width));
+  std::uniform_int_distribution<> left_area_x(
+      static_cast<int>(player_position.GetX() - width),
+      static_cast<int>(player_position.GetX() - part_of_width));
+  std::uniform_int_distribution<> right_area_x(
+      static_cast<int>(player_position.GetX() + part_of_width),
+      static_cast<int>(player_position.GetX() + width));
+
+  std::uniform_int_distribution<> top_area_y(
+      static_cast<int>(player_position.GetY() - height),
+      static_cast<int>(player_position.GetY() - part_of_height));
+  std::uniform_int_distribution<> bottom_area_y(
+      static_cast<int>(player_position.GetY() + part_of_height),
+      static_cast<int>(player_position.GetY() + height));
+  std::uniform_int_distribution<> same_height_area(
+      static_cast<int>(player_position.GetY() - part_of_height),
+      static_cast<int>(player_position.GetY() + part_of_height));
 
   int num_of_food_for_large_areas = number_of_food / 3;
   int num_of_food_for_small_areas = (number_of_food -
       num_of_food_for_large_areas * 2) / 2;
 
-  int i{0};
-  for (; i < num_of_food_for_large_areas; ++i) {
+  for (int i = 0; i < num_of_food_for_large_areas; ++i) {
     MakeNewFood(Size(20, 20), Point(top_and_bottom_x(random_generator_),
                                     top_area_y(random_generator_)));
-  }
-  for (; i < num_of_food_for_large_areas; ++i) {
     MakeNewFood(Size(20, 20), Point(top_and_bottom_x(random_generator_),
                                     bottom_area_y(random_generator_)));
   }
-  for (; i < num_of_food_for_small_areas; ++i) {
+  for (int i = 0; i < num_of_food_for_small_areas; ++i) {
     MakeNewFood(Size(20, 20), Point(left_area_x(random_generator_),
                                     same_height_area(random_generator_)));
-  }
-  for (; i < number_of_food; ++i) {
     MakeNewFood(Size(20, 20), Point(right_area_x(random_generator_),
                                     same_height_area(random_generator_)));
   }
