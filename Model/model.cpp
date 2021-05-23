@@ -175,6 +175,6 @@ QString path = "../images/cats skins/" + QString::number(random_time
 std::vector<std::vector<QPixmap>> Model::LoadRandomDogsAnimation() const {
   std::uniform_int_distribution<> random_time(0, 4);
   QString path = "../images/dogs skins/" + QString::number(random_time
-                                                               (random_generator_)) + "/";
+                                        (random_generator_)) + "/";
   return GetImagesByFramePath(path);
 }
