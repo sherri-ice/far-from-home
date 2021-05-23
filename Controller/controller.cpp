@@ -315,7 +315,8 @@ void Controller::DogsIntersect(const std::shared_ptr<Dog>& dog) {
       if (rigid_body->IfCollisionWillHappen(*(other_dog->GetRigidBody()),
                                             current_velocity)) {
         Size new_velocity = rigid_body->GetVelocityToGoAround(*
-            (other_dog->GetRigidBody()), current_velocity, other_dog->GetVelocity());
+            (other_dog->GetRigidBody()), current_velocity,
+            other_dog->GetVelocity());
         dog->SetVelocity(new_velocity * current_velocity.GetLength());
       }
     }
@@ -401,12 +402,14 @@ void Controller::WildCatsAndDogsIntersect(const std::shared_ptr<Cat>& cat) {
   }
 }
 
-void Controller::MainCatIntersectsWithCats(const std::shared_ptr<Cat>& main_cat) {
+void Controller::MainCatIntersectsWithCats(const std::shared_ptr<Cat>&
+    main_cat) {
   auto rigid_body = main_cat->GetRigidBody();
   auto cats = model_->GetCats();
   for (auto& cat : cats) {
     if (main_cat != cat && view_->IsOnTheScreen(cat) &&
-    rigid_body->IfCollisionWillHappen(*(cat->GetRigidBody()), main_cat->GetVelocity())) {
+    rigid_body->IfCollisionWillHappen(*(cat->GetRigidBody()),
+                                      main_cat->GetVelocity())) {
       auto current_velocity = cat->GetVelocity();
       auto new_velocity = rigid_body->GetVelocityToGoAround(*
           (cat->GetRigidBody()), main_cat->GetVelocity(), current_velocity);

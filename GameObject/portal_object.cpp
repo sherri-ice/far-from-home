@@ -65,8 +65,6 @@ void PortalObject::Tick(int time) {
     default: {
       break;
     }
-
-
   }
 }
 

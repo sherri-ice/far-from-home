@@ -218,7 +218,8 @@ Border RigidBody::GetIntersectedBorderIfNone(const Rect& other_rect) const {
   constants::kIntersectedBorder) {
     return Border::kLeft;
   }
-  if (GetRect().y + GetRect().height <= other_rect.y + constants::kIntersectedBorder) {
+  if (GetRect().y + GetRect().height <= other_rect.y +
+      constants::kIntersectedBorder) {
     return Border::kTop;
   }
   if (GetRect().y + constants::kIntersectedBorder >= other_rect.y +

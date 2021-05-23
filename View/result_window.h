@@ -1,5 +1,5 @@
-#ifndef RESULTWINDOW_H
-#define RESULTWINDOW_H
+#ifndef VIEW_RESULT_WINDOW_H_
+#define VIEW_RESULT_WINDOW_H_
 
 #include <QDialog>
 #include "../Model/point.h"
@@ -15,7 +15,7 @@ namespace Ui { class ResultWindow; }
 QT_END_NAMESPACE
 
 class ResultWindow : public QDialog {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   explicit ResultWindow(QWidget* parent = nullptr);
@@ -29,4 +29,4 @@ class ResultWindow : public QDialog {
   Ui::ResultWindow* ui;
   Size size_;
 };
-#endif // RESULTWINDOW_H
+#endif  // VIEW_RESULT_WINDOW_H_
