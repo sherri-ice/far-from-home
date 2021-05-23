@@ -89,7 +89,9 @@ void Controller::TickDogs(int delta_time) {
             dog->SetIsMainCatCaught(true);
             break;
           } else {
-            player->LosingCat(dog->GetRigidPosition(), cat);
+            if (!cat->GetIsBusy()) {
+              player->LosingCat(dog->GetRigidPosition(), cat);
+            }
           }
         }
       }
@@ -129,7 +131,7 @@ void Controller::CatsAndFoodIntersect() {
 void Controller::TickObjects(int delta_time) {
   for (auto& object : model_->GetStaticObjects()) {
     object->Tick(delta_time);
-    if (object->IsAlreadyClicked()) {
+    if (object->HasFinished()) {
       model_->AddWarning(std::make_shared<Warning>("Search is "
                                                    "finished. Come back to the "
                                                    "tree to see the result",
@@ -140,10 +142,6 @@ void Controller::TickObjects(int delta_time) {
                                                    true, 3000));
       object->SetWaitState();
     }
-  }
-  for (auto& object : model_->GetStaticObjects()) {
-    // if (object->IsAlreadyClicked()) {
-    // }
   }
 }
 
@@ -167,14 +165,23 @@ void Controller::ScanIfObjectWereClicked(const Point& point) {
   for (auto& object : model_->GetStaticObjects()) {
     if (object->GetDrawPosition().IsInEllipse(point,
                                               object->GetSize().GetLength())) {
-      if (!object->IsAlreadyClicked()
+      if (object->HasFinished()) {
+        view_->ShowResultWindow(object->HasPortal());
+        // todo pause
+        if (view_->GetResultWindow().GetUserAnswer()) {
+          // loose cat
+        }
+        object->SetCollectedState();
+        continue;
+      }
+      if (!object->IsCollected()
           && model_->GetPlayer()->NotOnlyMainCat()) {
             auto cat = model_->GetPlayer()->SendCatToSearch
                 (object->GetRigidPosition(), object->GetSearchTime(), object
                 ->GetRigidBody()->GetRect());
         portal_and_searching_cat_[object] = cat;
       }
-      if (object->IsAlreadyClicked()) {
+      if (object->IsCollected()) {
         model_->AddWarning(std::make_shared<Warning>(
             "You've already searched a portal here!",
             view_->
@@ -222,17 +229,17 @@ void Controller::TickWarnings(int delta_time) {
   }
 }
 
-
 void Controller::CatsAndPortalsIntersect(const std::shared_ptr<Cat>& cat) {
   for (auto& static_object : model_->GetStaticObjects()) {
     if (portal_and_searching_cat_[static_object] == cat) {
       switch (cat->GetCatState()) {
         case CatState::kIsGoingToSearch: {
-          model_->SetSkinSelected(static_object);
+          model_->SetSelectedPortalSkin(static_object);
+          static_object->SetWaitSearchState();
           break;
         }
         case CatState::kIsSearching: {
-          model_->SetNormalSkin(static_object);
+          model_->SetNormalPortalSkin(static_object);
           static_object->SetSearchState();
           break;
         }

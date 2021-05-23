@@ -13,6 +13,9 @@ Cat::Cat(const Size& size, double speed, const Point& position) :
 }
 
 void Cat::Draw(QPainter* painter, Resizer* resizer) const {
+  if (is_visible_) {
+    
+  }
   rigid_body_.Draw(painter, resizer);
   painter->save();
   auto position = resizer->GameToWindowCoordinate(position_);
@@ -157,14 +160,21 @@ void Cat::Tick(int delta_time) {
       if (!timers_.IsActive(static_cast<int>(CatState::kIsSearching))) {
         timers_.Start(searching_time_,
                       static_cast<int>(CatState::kIsSearching));
+        is_hidding_ = true;
+      } else {
+        is_hidding_ = false;
+        is_visible_ = false;
       }
       if (timers_.IsTimeOut(static_cast<int>(CatState::kIsSearching))) {
         cat_state_ = CatState::kHasFinishedSearching;
+        is_visible_ = true;
+        is_back_ = true;
       }
       break;
     }
     case CatState::kHasFinishedSearching: {
       timers_.Stop(static_cast<int>(CatState::kIsSearching));
+      is_back_ = false;
       if (position_ == destination_) {
         cat_state_ = CatState::kIsFollowingPlayer;
       }
@@ -224,6 +234,10 @@ int Cat::GetSearchingTime() const {
 
 void Cat::SetSearchingTime(int searching_time) {
   searching_time_ = searching_time;
+}
+
+bool Cat::GetIsBusy() {
+  return (cat_state_ == CatState::kIsSearching);
 }
 
 double Cat::GetFoodSaturation() const {

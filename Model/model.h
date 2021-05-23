@@ -61,8 +61,11 @@ class Model {
   [[nodiscard]] std::vector<std::vector<QPixmap>> GetImagesByFramePath
       (const QString& path) const;
 
-  void SetSkinSelected(const std::shared_ptr<PortalObject>& portal);
-  void SetNormalSkin(const std::shared_ptr<PortalObject>& portal);
+  void SetSelectedPortalSkin(std::shared_ptr<PortalObject> portal);
+  void SetNormalPortalSkin(std::shared_ptr<PortalObject> portal);
+
+  void SetCatHidingAnimation(std::shared_ptr<Cat> cat);
+  void SetCatGettingOutAnimation(std::shared_ptr<Cat> cat);
 
   void GenerateFood(const Point& player_position, double width,
                     double height, int number_of_food);

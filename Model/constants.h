@@ -10,13 +10,13 @@ const int kGameWidth = 1920;
 const int kGameHeight = 1080;
 
 const double kViewCircleDefault = 540;
-const double kViewCircleMax = 3200;
+const double kViewCircleMax = 2200;
 const double kViewCircleMin = 500;
 
 const int kTimeBetweenTicks = 10;
 const int kTimeScale = 100;
 
-const double kResizerSpeed = 60.;
+const double kResizerSpeed = 25.;
 const double kResizerScale = 50.;
 
 const int kMinTimeToGoHome = 1e3;

@@ -44,6 +44,8 @@ class MovingObject : public GameObject {
     Animation object_animation_;
 
     Size saved_walking_velocity_{};
+    bool is_hidding_ = false;
+    bool is_back_ = false;
 };
 
 #endif  // GAMEOBJECT_MOVING_OBJECT_H_

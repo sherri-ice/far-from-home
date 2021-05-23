@@ -2,7 +2,7 @@
 
 #include "../Model/model.h"
 
-namespace  {
+namespace {
 
 int GetRandomSkin() {
   std::mt19937 random_generator = std::mt19937
@@ -115,13 +115,12 @@ void Model::ClearObjects() {
     }
   }
   for (auto it = static_objects_.rbegin(); it != static_objects_.rend();
-                                                                        ++it) {
-        if ((*it)->IsDead()) {
-            static_objects_.remove(*it);
-        }
+       ++it) {
+    if ((*it)->IsDead()) {
+      static_objects_.remove(*it);
     }
+  }
 }
-
 
 std::list<std::shared_ptr<PortalObject>>& Model::GetStaticObjects() {
   return static_objects_;
@@ -167,7 +166,6 @@ std::shared_ptr<Dog> Model::MakeNewDog(const Size& size,
   return dogs_.back();
 }
 
-
 std::shared_ptr<Food> Model::MakeNewFood(const Size& size, const Point& point) {
   food_.push_back(std::make_shared<Food>(size, point));
   int skin_id = GetRandomSkin();
@@ -182,7 +180,7 @@ void Model::LoadAnimation() {
 }
 
 void Model::LoadDynamicAnimation() {
-    Q_INIT_RESOURCE(images);
+  Q_INIT_RESOURCE(images);
   std::vector<QString> paths = {"cat", "dog"};
   for (const auto& path : paths) {
     animations_[path] = GetImagesByFramePath(":images/" + path + "/");
@@ -208,12 +206,13 @@ void Model::LoadStaticAnimation() {
 std::vector<std::vector<QPixmap>> Model::GetImagesByFramePath(
     const QString& path) const {
   std::vector<std::vector<QPixmap>> result;
-  std::vector<QString> objects_animations = {"down", "up", "left", "right"};
+  std::vector<QString> objects_animations = {"down", "up", "left", "right", "hiding", "back"};
   for (const auto& animation : objects_animations) {
     std::vector<QPixmap> im{};
-    for (int i = 0; i < 4; ++i) {
-      im.emplace_back(
-          path + animation + "/Frame " + QString::number(i) + ".png");
+    for (int frame_number = 0; frame_number < 4; ++frame_number) {
+      QPixmap current =
+          QPixmap(path + animation + "/Frame " + QString::number(frame_number) + ".png");
+      im.push_back(current);
     }
     result.emplace_back(im);
   }
@@ -228,13 +227,13 @@ std::vector<std::vector<QPixmap>> Model::GetImagesByFramePath(
   }
   return result;
 }
-void Model::SetSkinSelected(const std::shared_ptr<PortalObject>& portal) {
+void Model::SetSelectedPortalSkin(std::shared_ptr<PortalObject> portal) {
   auto id = portal->GetSkinId();
   auto new_skin = objects_pics_["tree_selected"].at(id);
   portal->SetSkin(new_skin);
 }
 
-void Model::SetNormalSkin(const std::shared_ptr<PortalObject>& portal) {
+void Model::SetNormalPortalSkin(std::shared_ptr<PortalObject> portal) {
   auto id = portal->GetSkinId();
   auto new_skin = objects_pics_["tree"].at(id);
   portal->SetSkin(new_skin);

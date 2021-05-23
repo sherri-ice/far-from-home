@@ -34,6 +34,8 @@ class View : public QMainWindow {
 
   bool IsOnTheScreen(const std::shared_ptr<GameObject>& object);
 
+  void ShowResultWindow(bool is_found);
+  ResultWindow& GetResultWindow();
  private:
   int controller_timer_id_;
   QElapsedTimer time_between_ticks_;
@@ -55,6 +57,8 @@ class View : public QMainWindow {
   Size player_velocity_;
   std::map<int, bool> pressed_keys_;
   void resizeEvent(QResizeEvent*) override;
+
+  ResultWindow result_window_;
 };
 
 #endif  // VIEW_VIEW_H_

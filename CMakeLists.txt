@@ -55,7 +55,9 @@ set(SOURCES
         View/progress_bar.cpp
         View/resizer.cpp
         View/view.cpp
-        View/warning.cpp)
+        View/warning.cpp
+        View/result_window.cpp
+        View/result_window.ui)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 
