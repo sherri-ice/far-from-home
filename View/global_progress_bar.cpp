@@ -43,18 +43,21 @@ void GlobalProgressBar::Draw(QPainter* painter) const {
 
   if (current_value_ < max_value_ * constants::kSevereHungerPercent) {
     painter->setBrush(red_);
+    painter->setPen(red_);
     painter->drawRect(inner_rect);
     painter->setBrush(light_red_);
     painter->setPen(light_red_);
     painter->drawRect(inner_small_rect);
   } else if (current_value_ < max_value_ * constants::kMediumHungerPercent) {
     painter->setBrush(QBrush(orange_));
+    painter->setPen(orange_);
     painter->drawRect(inner_rect);
     painter->setBrush(light_orange_);
     painter->setPen(light_orange_);
     painter->drawRect(inner_small_rect);
   } else {
     painter->setBrush(green_);
+    painter->setPen(green_);
     painter->drawRect(inner_rect);
     painter->setBrush(light_green);
     painter->setPen(light_green);

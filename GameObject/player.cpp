@@ -250,10 +250,12 @@ void Player::LosingCat(Point dog_position, const std::shared_ptr<Cat>& cat) {
 }
 
 std::shared_ptr<Cat> Player::SendCatToSearch(const Point& portal_coordinates,
-                                             int search_time) {
+                                             int search_time, const Rect&
+                                             portal_rect) {
   cats_.back()->SetCatState(CatState::kIsGoingToSearch);
   cats_.back()->SetSearchingTime(search_time);
   cats_.back()->SetDestination(portal_coordinates);
+  cats_.back()->SetPortalRect(portal_rect);
   return cats_.back();
 }
 

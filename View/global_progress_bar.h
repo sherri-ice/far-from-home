@@ -9,10 +9,10 @@
 #include "../View/resizer.h"
 
 namespace constants {
-const double kGetInnerWidthCoeff = 0.74;
+const double kGetInnerWidthCoeff = 0.75;
 const double kGetInnerHeightCoeff = 0.64;
 const double kGetInnerSmallHeightCoeff = 0.17;
-const double kGetWidthShiftCoeff = 0.21;
+const double kGetWidthShiftCoeff = 0.2;
 const double kGetHeightShiftCoeff = 0.22;
 }  // namespace constants
 

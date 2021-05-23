@@ -1,5 +1,5 @@
 #include "cat.h"
-
+#include <iostream>
 std::mt19937 Cat::random_generator_ = std::mt19937
     (std::chrono::system_clock::now().time_since_epoch().count());
 
@@ -17,10 +17,12 @@ void Cat::Draw(QPainter* painter, Resizer* resizer) const {
   painter->save();
   auto position = resizer->GameToWindowCoordinate(position_);
   auto size = resizer->GameToWindowSize(size_);
-  painter->drawPixmap(position.GetX() - size.GetWidth() / 2,
-                      position.GetY() - size.GetHeight() / 2,
-                      size.GetWidth(),
-                      size.GetHeight(),
+  painter->translate(position.GetX(), position.GetY());
+  auto draw_size = GetDrawSize(size);
+  painter->drawPixmap(static_cast<int>(-draw_size.GetWidth() / 2),
+                      static_cast<int>(-draw_size.GetHeight() / 2),
+                      static_cast<int>(draw_size.GetWidth()),
+                      static_cast<int>(draw_size.GetHeight()),
                       object_animation_.GetCurrentFrame());
   painter->restore();
 }
@@ -143,11 +145,12 @@ void Cat::Tick(int delta_time) {
     }
     case CatState::kIsGoingToSearch: {
       timers_.Stop(static_cast<int>(CatState::kIsFollowingPlayer));
-      if (position_ == destination_) {
+      if (GetRigidBody()->IsCollide(portal_rect_)) {
         cat_state_ = CatState::kIsSearching;
+      } else {
+        velocity_ = position_.GetVelocityVector(destination_, delta_time *
+            speed_ / constants::kTimeScale);
       }
-      velocity_ = position_.GetVelocityVector(destination_, delta_time *
-          speed_ / constants::kTimeScale);
       break;
     }
     case CatState::kIsSearching: {
@@ -173,13 +176,6 @@ void Cat::Tick(int delta_time) {
       break;
     }
   }
-  if (velocity_.GetLength() > constants::kEpsilon) {
-    is_moving_ = true;
-  } else {
-    is_moving_ = false;
-  }
-  object_animation_.Tick(delta_time, GetAnimation());
-  was_moving_ = is_moving_;
   timers_.Tick(delta_time);
 
   if (!GetIsInGroup()) {
@@ -253,4 +249,12 @@ Point Cat::GetDestination() const {
 
 bool Cat::IsMainCat() const {
   return cat_state_ == CatState::kIsMainCat;
+}
+
+bool Cat::IsGoingToSearch() const {
+  return cat_state_ == CatState::kIsGoingToSearch;
+}
+
+void Cat::SetPortalRect(const Rect& rect) {
+  portal_rect_ = rect;
 }

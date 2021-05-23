@@ -15,12 +15,11 @@ class MovingObject : public GameObject {
 
   Size GetVelocity() const;
 
-    void Move(int delta_time);
-
-    virtual void SetSpeed(double speed);
-    double GetSpeed() const;
-    [[nodiscard]] AnimationState GetAnimation() const;
-    virtual void SetAnimations(std::vector<std::vector<QPixmap>>
+  void Move(int delta_time);
+  virtual void SetSpeed(double speed);
+  double GetSpeed() const;
+  [[nodiscard]] AnimationState GetAnimation() const;
+  virtual void SetAnimations(std::vector<std::vector<QPixmap>>
                                                   animation = {});
   virtual void IncSpeed(double speed);
   virtual void DecSpeed(double speed);
@@ -31,6 +30,9 @@ class MovingObject : public GameObject {
                                      int x);
   bool IsVelocityChange(Size main_velocity);
   void SetDestination(const Point& destination);
+
+  Size GetDrawSize(const Size& object_size) const;
+  void TickAnimation(int delta_time);
 
  protected:
     Point destination_{};

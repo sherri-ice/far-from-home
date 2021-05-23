@@ -8,6 +8,7 @@
 #include "../Model/size.h"
 
 namespace constants {
+  const double kIntersectedBorder = 2.5;
   const double kCheckIfVelocityIsCloseToZero = 0.05;
 }
 
@@ -36,6 +37,7 @@ class RigidBody {
   Rect GetRectInNewPosition(const Point& position) const;
   static bool Intersects(const Rect& first_rect, const Rect& second_rect);
   bool IsCollide(const RigidBody& other_rigid_body) const;
+  bool IsCollide(const Rect& other_rect) const;
   void Draw(QPainter* painter, Resizer* resizer) const;
 
   void SetScaleCoefficients(double coefficient_x, double coefficient_y);
@@ -45,9 +47,17 @@ class RigidBody {
   bool IfCollisionWillHappen(const RigidBody& other_rigid_body, const Size&
   velocity) const;
   Size GetVelocityToGoAround(const RigidBody& other_rigid_body,
-                             const Size& current_velocity);
+                             const Size& current_velocity, const Size&
+                             other_velocity = Size(0, 0));
   Border GetIntersectedBorder(const Rect& other_rect) const;
+  Border GetIntersectedBorderIfNone(const Rect& other_rect) const;
   bool IsDestinationCollideWithRect(const Rect& other_rect) const;
+  Rect GetCollidedRect(const Rect& other_rect) const;
+  // Size GetVectorToAvoidMovingCollision(const RigidBody& other_rigid_body,
+  //                                      const Size& current_velocity);
+
+
+  bool IfPointIsInsideBody(const Point& point) const;
 
  private:
   const Size* object_size_;

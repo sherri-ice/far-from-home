@@ -1,5 +1,5 @@
 #include "dog.h"
-
+#include <iostream>
 std::mt19937 Dog::random_generator_ = std::mt19937
     (std::chrono::system_clock::now().time_since_epoch().count());
 
@@ -24,9 +24,8 @@ void Dog::Draw(QPainter* painter, Resizer* resizer) const {
   painter->save();
   auto position = resizer->GameToWindowCoordinate(position_);
   auto size = resizer->GameToWindowSize(size_);
-  painter->translate(position.GetX(), position.GetY());
-  int object_width = static_cast<int>(size.GetWidth());
-  int object_height = static_cast<int>(size.GetHeight());
+  auto rigid_position = resizer->GameToWindowCoordinate(GetRigidPosition());
+  painter->translate(rigid_position.GetX(), rigid_position.GetY());
   if (is_visible_to_player_) {
     Size radius = resizer->GameToWindowSize(Size(visibility_radius_,
                                                  visibility_radius_));
@@ -37,9 +36,16 @@ void Dog::Draw(QPainter* painter, Resizer* resizer) const {
                          2 * static_cast<int>(radius.GetHeight() *
                              constants::kSemiMinorCoefficient));
   }
-  painter->drawPixmap(-object_width / 2, -object_height / 2,
-                      object_width,
-                      object_height, object_animation_.GetCurrentFrame());
+  painter->restore();
+  painter->save();
+  painter->translate(position.GetX(), position.GetY());
+  auto draw_size = GetDrawSize(size);
+
+  painter->drawPixmap(static_cast<int>(-draw_size.GetWidth() / 2),
+                      static_cast<int>(-draw_size.GetHeight() / 2),
+                      static_cast<int>(draw_size.GetWidth()),
+                      static_cast<int>(draw_size.GetHeight()),
+                      object_animation_.GetCurrentFrame());
   painter->restore();
 }
 
@@ -139,9 +145,6 @@ void Dog::Tick(int delta_time) {
       break;
     }
   }
-    is_moving_ = !(dog_state_ == DogState::kIsResting);
-    object_animation_.Tick(delta_time, GetAnimation());
-    was_moving_ = is_moving_;
 }
 
 void Dog::SetIfItVisibleToPlayer(bool is_visible) {

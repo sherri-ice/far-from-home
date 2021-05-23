@@ -33,6 +33,7 @@ class Controller : public AbstractController {
   void TickWarnings(int delta_time);
   void TickViewCircle();
   void TickHunger();
+  void MoveCatsAndDogs(int delta_time);
 
   void CatsAndFoodIntersect();
   void MovingAndStaticObjectsIntersect(const std::shared_ptr<MovingObject>&
@@ -42,8 +43,8 @@ class Controller : public AbstractController {
   void DogsIntersect(const std::shared_ptr<Dog>& dog);
   void CatsInGroupIntersect(const std::shared_ptr<Cat>& cat);
   void CheckIfDestinationIntersectsWithCat();
-  void WildCatsAndDogsIntersect(const std::shared_ptr<MovingObject>&
-      moving_object);
+  void WildCatsAndDogsIntersect(const std::shared_ptr<Cat>& cat);
+  void MainCatIntersectsWithCats(const std::shared_ptr<Cat>& main_cat);
 
   int current_game_time_{0};
   std::shared_ptr<Model> model_;
