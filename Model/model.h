@@ -46,8 +46,10 @@ class Model {
   void ClearObjects();
 
   void LoadStaticAnimation();
-  [[nodiscard]] std::vector<std::vector<QPixmap>> LoadRandomCatsAnimation() const;
-  [[nodiscard]] std::vector<std::vector<QPixmap>> LoadRandomDogsAnimation() const;
+  [[nodiscard]] std::vector<std::vector<QPixmap>> LoadRandomCatsAnimation()
+                                                                      const;
+  [[nodiscard]] std::vector<std::vector<QPixmap>> LoadRandomDogsAnimation()
+                                                                      const;
 
   [[nodiscard]] std::vector<std::vector<QPixmap>> GetImagesByFramePath
       (const QString& path) const;
