@@ -10,7 +10,7 @@
               "y": 250
             }
           ],
-          "speed": 10,
+          "speed": 9,
           "size": 40
         },
         {
@@ -89,7 +89,7 @@
           ],
           "size": 40,
           "speed": 7.5,
-          "visibility_radius": 100,
+          "visibility_radius": 70,
           "walking_speed" : 1.75
         },
         {
@@ -139,7 +139,7 @@
             }
           ],
           "size": 20,
-          "speed" : 10
+          "speed" : 11
         }
       ]
     },
