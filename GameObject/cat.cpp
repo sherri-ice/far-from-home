@@ -1,5 +1,5 @@
 #include "cat.h"
-#include <iostream>
+
 std::mt19937 Cat::random_generator_ = std::mt19937
     (std::chrono::system_clock::now().time_since_epoch().count());
 
@@ -14,20 +14,19 @@ Cat::Cat(const Size& size, double speed, const Point& position) :
 
 void Cat::Draw(QPainter* painter, Resizer* resizer) const {
   if (is_visible_) {
-    
+    rigid_body_.Draw(painter, resizer);
+    painter->save();
+    auto position = resizer->GameToWindowCoordinate(position_);
+    auto size = resizer->GameToWindowSize(size_);
+    painter->translate(position.GetX(), position.GetY());
+    auto draw_size = GetDrawSize(size);
+    painter->drawPixmap(static_cast<int>(-draw_size.GetWidth() / 2),
+                        static_cast<int>(-draw_size.GetHeight() / 2),
+                        static_cast<int>(draw_size.GetWidth()),
+                        static_cast<int>(draw_size.GetHeight()),
+                        object_animation_.GetCurrentFrame());
+    painter->restore();
   }
-  rigid_body_.Draw(painter, resizer);
-  painter->save();
-  auto position = resizer->GameToWindowCoordinate(position_);
-  auto size = resizer->GameToWindowSize(size_);
-  painter->translate(position.GetX(), position.GetY());
-  auto draw_size = GetDrawSize(size);
-  painter->drawPixmap(static_cast<int>(-draw_size.GetWidth() / 2),
-                      static_cast<int>(-draw_size.GetHeight() / 2),
-                      static_cast<int>(draw_size.GetWidth()),
-                      static_cast<int>(draw_size.GetHeight()),
-                      object_animation_.GetCurrentFrame());
-  painter->restore();
 }
 
 void Cat::Tick(int delta_time) {
@@ -263,10 +262,6 @@ Point Cat::GetDestination() const {
 
 bool Cat::IsMainCat() const {
   return cat_state_ == CatState::kIsMainCat;
-}
-
-bool Cat::IsGoingToSearch() const {
-  return cat_state_ == CatState::kIsGoingToSearch;
 }
 
 void Cat::SetPortalRect(const Rect& rect) {

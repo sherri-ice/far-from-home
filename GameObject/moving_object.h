@@ -33,6 +33,7 @@ class MovingObject : public GameObject {
 
   Size GetDrawSize(const Size& object_size) const;
   void TickAnimation(int delta_time);
+  AnimationState GetAnimationState() const;
 
  protected:
     Point destination_{};

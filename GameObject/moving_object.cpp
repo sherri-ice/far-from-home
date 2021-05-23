@@ -123,6 +123,6 @@ void MovingObject::TickAnimation(int delta_time) {
   } else {
     is_moving_ = false;
   }
-  object_animation_.Tick(delta_time, GetAnimation());
+  object_animation_.Tick(delta_time, GetAnimationState());
   was_moving_ = is_moving_;
 }

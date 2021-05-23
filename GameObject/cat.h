@@ -64,7 +64,6 @@ class Cat : public MovingObject {
   bool IsComingDestination() const;
   Point GetDestination() const;
   bool IsMainCat() const;
-  bool IsGoingToSearch() const;
 
  private:
   bool is_in_group_{false};

@@ -1,5 +1,5 @@
 #include "dog.h"
-#include <iostream>
+
 std::mt19937 Dog::random_generator_ = std::mt19937
     (std::chrono::system_clock::now().time_since_epoch().count());
 

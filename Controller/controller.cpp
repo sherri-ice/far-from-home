@@ -1,5 +1,5 @@
 #include "controller.h"
-#include <iostream>
+
 Controller::Controller() {
   model_ = std::make_shared<Model>();
   view_ = std::make_shared<View>(this, model_);
