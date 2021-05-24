@@ -28,7 +28,7 @@ void Menu::SetObjectsNames() {
   ui->resume->setObjectName(QObject::tr("resume"));
   ui->menu->setObjectName(QObject::tr("menu"));
   ui->sound->setObjectName(QObject::tr("sound-on"));
-  ui->pause_layout->addWidget(ui->sound, 3, 1);
+  ui->sound_on_pause->setObjectName(QObject::tr("sound-on"));
   ui->cur_lang->setObjectName(QObject::tr("lang"));
 }
 
@@ -93,6 +93,9 @@ QPushButton* Menu::GetMenuButton() const {
 
 QPushButton* Menu::GetSoundButton() const {
   return ui->sound;
+}
+QPushButton* Menu::GetSoundOnPauseButton() const {
+  return ui->sound_on_pause;
 }
 
 

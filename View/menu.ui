@@ -302,10 +302,9 @@
            </widget>
           </item>
           <item row="3" column="1">
-           <widget class="QPushButton" name="pushButton">
+           <widget class="QPushButton" name="sound_on_pause">
             <property name="styleSheet">
-             <string notr="true">background: none;
-border: none;</string>
+             <string notr="true"/>
             </property>
             <property name="text">
              <string/>
