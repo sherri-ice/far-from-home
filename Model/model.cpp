@@ -117,11 +117,11 @@ std::shared_ptr<Food> Model::MakeNewFood(const Size& size, const Point& point) {
 }
 
 void Model::LoadAnimation() {
-    LoadDinamicAnimation();
+    LoadDynamicAnimation();
     LoadStaticAnimation();
 }
 
-void Model::LoadDinamicAnimation() {
+void Model::LoadDynamicAnimation() {
     Q_INIT_RESOURCE(images);
   std::vector<QString> paths = {"cat", "dog"};
   for (const auto& path : paths) {
@@ -187,4 +187,7 @@ void Model::ClearModel() {
   food_.clear();
   dogs_.clear();
   static_objects_.clear();
+}
+
+void Model::ChangeLanguage(Language lang) {
 }

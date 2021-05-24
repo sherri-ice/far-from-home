@@ -105,6 +105,10 @@
         <file>images/menu/buttons/restart.png</file>
         <file>images/menu/buttons/menu.png</file>
         <file>images/menu/buttons/resume.png</file>
+        <file>images/menu/buttons/eng.png</file>
+        <file>images/menu/buttons/rus.png</file>
+        <file>images/menu/buttons/sound_on.png</file>
+        <file>images/menu/buttons/sound_off.png</file>
 
     </qresource>
 </RCC>

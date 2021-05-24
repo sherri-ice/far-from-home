@@ -27,6 +27,9 @@ void Menu::SetObjectsNames() {
   ui->restart->setObjectName(QObject::tr("restart"));
   ui->resume->setObjectName(QObject::tr("resume"));
   ui->menu->setObjectName(QObject::tr("menu"));
+  ui->sound->setObjectName(QObject::tr("sound-on"));
+  ui->pause_layout->addWidget(ui->sound, 3, 1);
+  ui->cur_lang->setObjectName(QObject::tr("lang"));
 }
 
 void Menu::LoadStyleSheet() {
@@ -63,23 +66,33 @@ void Menu::Settings() {
 void Menu::MainMenu() {
   ui->widget->setCurrentIndex(MenuPageIndex::kStartMenu);
 }
+
 QPushButton* Menu::GetLeftArrowButton() const {
   return ui->left_arrow;
 }
+
 QPushButton* Menu::GetRightArrowButton() const {
   return ui->right_arrow;
 }
+
 QPushButton* Menu::GetBackButton() const {
   return ui->back_to_main_window;
 }
+
 QPushButton* Menu::GetRestartButton() const {
   return ui->restart;
 }
+
 QPushButton* Menu::GetResumeButton() const {
   return ui->resume;
 }
+
 QPushButton* Menu::GetMenuButton() const {
   return ui->menu;
+}
+
+QPushButton* Menu::GetSoundButton() const {
+  return ui->sound;
 }
 
 

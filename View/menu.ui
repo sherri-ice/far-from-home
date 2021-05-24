@@ -17,6 +17,9 @@
    <string notr="true"/>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <property name="rightMargin">
+    <number>7</number>
+   </property>
    <item row="0" column="1">
     <widget class="QStackedWidget" name="widget">
      <property name="currentIndex">
@@ -122,6 +125,13 @@
        <item row="0" column="0">
         <widget class="QWidget" name="settings_widget" native="true">
          <layout class="QGridLayout" name="gridLayout_5">
+          <item row="0" column="4">
+           <widget class="QPushButton" name="right_arrow">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="1">
            <widget class="QPushButton" name="left_arrow">
             <property name="text">
@@ -135,17 +145,36 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="4">
-           <widget class="QPushButton" name="right_arrow">
+          <item row="0" column="5">
+           <spacer name="horizontalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="2" column="0">
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="2" column="2">
+           <widget class="QPushButton" name="back_to_main_window">
             <property name="text">
              <string/>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2">
-           <widget class="QLabel" name="cur_lang">
-            <property name="text">
-             <string>Language</string>
             </property>
            </widget>
           </item>
@@ -162,33 +191,7 @@
             </property>
            </spacer>
           </item>
-          <item row="0" column="5">
-           <spacer name="horizontalSpacer_4">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="1" column="0">
-           <spacer name="horizontalSpacer_5">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="1" column="5">
+          <item row="2" column="5">
            <spacer name="horizontalSpacer_6">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -201,8 +204,15 @@
             </property>
            </spacer>
           </item>
+          <item row="0" column="2">
+           <widget class="QLabel" name="cur_lang">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
           <item row="1" column="2">
-           <widget class="QPushButton" name="back_to_main_window">
+           <widget class="QPushButton" name="sound">
             <property name="text">
              <string/>
             </property>
@@ -217,7 +227,7 @@
       <layout class="QGridLayout" name="gridLayout_6">
        <item row="0" column="1">
         <widget class="QWidget" name="pause_widget" native="true">
-         <layout class="QGridLayout" name="gridLayout_7">
+         <layout class="QGridLayout" name="pause_layout">
           <item row="2" column="0">
            <spacer name="horizontalSpacer_8">
             <property name="orientation">
@@ -244,19 +254,6 @@
             </property>
            </spacer>
           </item>
-          <item row="0" column="1">
-           <spacer name="verticalSpacer_7">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
           <item row="1" column="1">
            <widget class="QPushButton" name="resume">
             <property name="text">
@@ -271,14 +268,20 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="1">
-           <widget class="QPushButton" name="menu">
-            <property name="text">
-             <string/>
+          <item row="0" column="1">
+           <spacer name="verticalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
             </property>
-           </widget>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
           </item>
-          <item row="4" column="1">
+          <item row="5" column="1">
            <spacer name="verticalSpacer_8">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
@@ -290,6 +293,24 @@
              </size>
             </property>
            </spacer>
+          </item>
+          <item row="4" column="1">
+           <widget class="QPushButton" name="menu">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QPushButton" name="pushButton">
+            <property name="styleSheet">
+             <string notr="true">background: none;
+border: none;</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>

@@ -12,10 +12,10 @@
 #include "../GameObject/food.h"
 #include "../GameObject/player.h"
 
-// enum GameState {
-//   kGame,
-//   kMenu
-// };
+enum Language {
+  kRussian,
+  kEnglish
+};
 
 class Model {
  public:
@@ -47,9 +47,11 @@ class Model {
   void ClearObjects();
   void ClearModel();
 
-  void LoadDinamicAnimation();
+  void LoadDynamicAnimation();
   void LoadStaticAnimation();
   void LoadAnimation();
+
+  void ChangeLanguage(Language lang);
 
   [[nodiscard]] std::vector<std::vector<QPixmap>> GetImagesByFramePath
       (const QString& path) const;
@@ -65,6 +67,7 @@ class Model {
   Player* player_;
   std::list<std::shared_ptr<Food>> food_;
   std::list<std::shared_ptr<Dog>> dogs_;
+  Language lang_ = Language::kEnglish;
 };
 
 #endif  // MODEL_MODEL_H_

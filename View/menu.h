@@ -31,6 +31,7 @@ class Menu : public QWidget {
   [[nodiscard]] QPushButton* GetRestartButton() const;
   [[nodiscard]] QPushButton* GetResumeButton() const;
   [[nodiscard]] QPushButton* GetMenuButton() const;
+  [[nodiscard]] QPushButton* GetSoundButton() const;
 
   void MainMenu();
   void Pause();

@@ -78,3 +78,21 @@ QPushButton#resume {
     border: none
 }
 
+QPushButton#sound-on {
+    background-color: rgba(255, 255, 255, 0);
+    qproperty-icon: url(":images/menu/buttons/sound_on.png");
+    qproperty-iconSize: 100px;
+    border: none
+}
+
+QPushButton#sound-off {
+    background-color: rgba(255, 255, 255, 0);
+    qproperty-icon: url(":images/menu/buttons/sound_off.png");
+    qproperty-iconSize: 100px;
+    border: none
+}
+
+QLabel#lang {
+    border-image: url(":images/menu/buttons/eng.png")  0 0 0 0 stretch stretch;
+}
+

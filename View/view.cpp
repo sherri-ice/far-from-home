@@ -201,4 +201,18 @@ void View::SetPauseWindow() {
 }
 
 void View::SetSettingsWindow() {
+  auto sound_button_click = [this]() {
+    controller_->GetMusicPlayer()->PlayButtonSound();
+    if (menu_->GetSoundButton()->objectName() == QObject::tr("sound-on")) {
+      menu_->GetSoundButton()->setObjectName(QObject::tr("sound-off"));
+      menu_->LoadStyleSheet();
+      controller_->GetMusicPlayer()->SetVolume(0);
+    } else {
+      menu_->GetSoundButton()->setObjectName(QObject::tr("sound-on"));
+      menu_->LoadStyleSheet();
+      controller_->GetMusicPlayer()->SetVolume(100);
+    }
+  };
+  connect(menu_->GetSoundButton(), &QPushButton::released, this,
+          sound_button_click);
 }
