@@ -177,13 +177,14 @@ void Model::SetModel() {
   player_->SetViewCircle(ViewCircle(player_->GetPosition(),
                                     constants::kViewCircleDefault));
 }
+
 // QPixmap Model::GetBackground(int type) const {
 //   return type < 2 ? backgrounds_[type] : backgrounds_[2];
 // }
+
 void Model::ClearModel() {
-  cats_.erase(cats_.begin(), cats_.end());
-  food_.erase(food_.begin(), food_.end());
-  dogs_.erase(dogs_.begin(), dogs_.end());
-  static_objects_.erase(static_objects_.begin(), static_objects_.end());
-  player_->Clear();
+  cats_.clear();
+  food_.clear();
+  dogs_.clear();
+  static_objects_.clear();
 }

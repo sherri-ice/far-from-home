@@ -35,8 +35,6 @@ class Player {
   void Tick();
   void GroupTick(int delta_time);
 
-  void Clear();
-
  private:
   std::vector<std::shared_ptr<Cat>> cats_;
   ViewCircle view_circle_ = ViewCircle();

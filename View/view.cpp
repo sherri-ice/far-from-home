@@ -132,6 +132,7 @@ bool View::IsOnTheScreen(const std::shared_ptr<GameObject>& object) {
   }
   return true;
 }
+
 void View::SetWindows() {
   SetMenuWindow();
   SetSettingsWindow();
@@ -174,6 +175,7 @@ void View::SetMenuWindow() {
   // connect(menu_.GetSoundButton(), &QPushButton::released, this,
   //         sound_button_click);
 }
+
 void View::SetPauseWindow() {
   auto resume_button_click = [this]() {
     controller_->GetMusicPlayer()->PlayButtonSound();
@@ -200,8 +202,3 @@ void View::SetPauseWindow() {
 
 void View::SetSettingsWindow() {
 }
-
-
-
-
-

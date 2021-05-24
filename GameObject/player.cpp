@@ -194,15 +194,9 @@ void Player::LosingCat(Point dog_position, std::shared_ptr<Cat> cat) {
            cats_.end());
 }
 
-void Player::Clear() {
-  cats_.clear();
-  // free_cats_.clear();
-}
-
 void Player::GroupTick(int delta_time) {
   cat_group_.central_position_ = GetMainCat()->GetRigidPosition();
   cat_group_.speed_ = GetMainCat()->GetSpeed();
   cat_group_.Tick(delta_time);
   cat_group_.Move();
 }
-
