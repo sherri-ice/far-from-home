@@ -94,6 +94,7 @@ QPushButton* Menu::GetMenuButton() const {
 QPushButton* Menu::GetSoundButton() const {
   return ui->sound;
 }
+
 QPushButton* Menu::GetSoundOnPauseButton() const {
   return ui->sound_on_pause;
 }
