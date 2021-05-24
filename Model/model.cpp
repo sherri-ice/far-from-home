@@ -171,13 +171,13 @@ std::vector<std::vector<QPixmap>> Model::LoadRandomCatsAnimation() const {
   std::uniform_int_distribution<> random_time(0, 7);
 QString path = "../images/cats skins/" + QString::number(random_time
     (random_generator_)) + "/";
-  std::vector<std::vector<QPixmap>> result =GetImagesByFramePath(path);
+  std::vector<std::vector<QPixmap>> result = GetImagesByFramePath(path);
   QString send_home_path = "../images/cats skins/send home/Frame ";
   std::vector<QPixmap> send_home_animation;
   for (int i = 0; i < 4; ++i) {
     send_home_animation.emplace_back(send_home_path + QString::number(i) + ""
                                                                            ""
-                                                                           ".png");
+                                                                        ".png");
   }
   result.emplace_back(send_home_animation);
   return result;
