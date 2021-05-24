@@ -35,6 +35,8 @@ class Player {
 
   void Tick();
 
+  void Clear();
+
  private:
   std::vector<std::shared_ptr<Cat>> cats_;
   ViewCircle view_circle_ = ViewCircle();

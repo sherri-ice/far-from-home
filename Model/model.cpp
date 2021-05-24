@@ -4,7 +4,6 @@
 
 Model::Model() {
   LoadAnimation();
-  MakeNewCat(Size(50, 50), 10, Point());
 }
 
 Player* Model::GetPlayer() {
@@ -165,7 +164,9 @@ std::vector<std::vector<QPixmap>> Model::GetImagesByFramePath(
   }
   return result;
 }
+
 void Model::SetModel() {
+  MakeNewCat(Size(50, 50), 10, Point());
   auto main_cat = cats_.back();
   main_cat->SetIsInGroup(true);
   main_cat->SetAnimations(animations_["cat"]);
@@ -177,19 +178,9 @@ void Model::SetModel() {
 //   return type < 2 ? backgrounds_[type] : backgrounds_[2];
 // }
 void Model::ClearModel() {
-  for (auto it = food_.rbegin(); it != food_.rend(); ++it) {
-      food_.remove(*it);
-  }
-
-  for (auto it = cats_.rbegin(); it != cats_.rend(); ++it) {
-      cats_.remove(*it);
-  }
-
-  for (auto it = dogs_.rbegin(); it != dogs_.rend(); ++it) {
-      dogs_.remove(*it);
-  }
-  for (auto it = static_objects_.rbegin(); it != static_objects_.rend();
-       ++it) {
-      static_objects_.remove(*it);
-  }
+  cats_.erase(cats_.begin(),cats_.end());
+  food_.erase(food_.begin(), food_.end());
+  dogs_.erase(dogs_.begin(), dogs_.end());
+  static_objects_.erase(static_objects_.begin(), static_objects_.end());
+  player_->Clear();
 }

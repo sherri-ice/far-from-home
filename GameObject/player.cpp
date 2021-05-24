@@ -194,3 +194,9 @@ void Player::LosingCat(Point dog_position, std::shared_ptr<Cat> cat) {
            [](const std::shared_ptr<Cat>& cat){return !(cat->GetIsInGroup());}),
            cats_.end());
 }
+
+
+void Player::Clear() {
+  cats_.clear();
+  // free_cats_.clear();
+}
