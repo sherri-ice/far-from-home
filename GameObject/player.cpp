@@ -14,6 +14,7 @@ std::vector<std::shared_ptr<Cat>> Player::GetCats() const {
 
 void Player::OrderCatsToMove(Size velocity_from_player) {
   cat_group_.velocity_ = velocity_from_player;
+
   Point cat_position;
   std::uniform_real_distribution<> velocity(-1, 1);
 
@@ -102,6 +103,7 @@ void Player::DismissCats() {
 
   for (size_t i = 1; i < cats_.size(); i++) {
     cats_.at(i)->SetIsInGroup(false);
+    cats_.at(i)->SetIsRunAway(true);
     cats_.at(i)->SetDestination(Point(x_destination(random_generator_),
                                       y_destination(random_generator_)));
     cats_.at(i)->SetCatState(CatState::kIsComingDestination);
@@ -134,6 +136,9 @@ void Player::UpdateCatsGroup(const std::list<std::shared_ptr<Cat>>& all_cats) {
       }
       auto length = cat_group_.central_position_.
           GetVectorTo(wild_cat->GetDrawPosition()).GetLength();
+      if (wild_cat->GetIsRunAway()) {
+        continue;
+      }
       if (length < cat_group_.first_radius_ &&
           !(wild_cat->GetIsInGroup())) {
         cats_.push_back(wild_cat);
@@ -170,33 +175,34 @@ const Group& Player::GetCatGroup() const {
   return cat_group_;
 }
 
-void Player::GroupTick(int time) {
-  cat_group_.SetSpeed(GetMainCat()->GetSpeed());
-  cat_group_.Tick(time);
-  cat_group_.Move(time);
-}
-
 std::shared_ptr<Cat> Player::GetMainCat() {
   return cats_.at(0);
 }
 
 void Player::LosingCat(Point dog_position, std::shared_ptr<Cat> cat) {
   cat->SetIsInGroup(false);
-  std::uniform_int_distribution<> x_destination(constants::kMaxRunAwayDistance,
+  cat->SetIsRunAway(true);
+  std::uniform_int_distribution<> x_destination(constants::kMinRunAwayDistance,
                                                 constants::kMaxRunAwayDistance);
   cat->SetRunAwayDestination(dog_position, cat_group_.central_position_,
                              cat->GetRigidPosition(),
                              x_destination(random_generator_));
   cat->SetCatState(CatState::kIsComingDestination);
-
   cat_group_.DecGroup();
   cats_.erase(std::remove_if(cats_.begin(), cats_.end(),
            [](const std::shared_ptr<Cat>& cat){return !(cat->GetIsInGroup());}),
            cats_.end());
 }
 
-
 void Player::Clear() {
   cats_.clear();
   // free_cats_.clear();
 }
+
+void Player::GroupTick(int delta_time) {
+  cat_group_.central_position_ = GetMainCat()->GetRigidPosition();
+  cat_group_.speed_ = GetMainCat()->GetSpeed();
+  cat_group_.Tick(delta_time);
+  cat_group_.Move();
+}
+

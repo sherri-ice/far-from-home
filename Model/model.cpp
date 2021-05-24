@@ -4,6 +4,9 @@
 
 Model::Model() {
   LoadAnimation();
+  for (auto& food : food_) {
+    food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
+  }
 }
 
 Player* Model::GetPlayer() {

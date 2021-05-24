@@ -29,8 +29,12 @@ void Cat::Tick(int delta_time) {
   std::uniform_real_distribution<> pos_velocity(0, 1);
   std::uniform_real_distribution<> neg_velocity(-1, 0);
   std::uniform_real_distribution<> velocity(-1, 1);
+  if (timers_.IsActive(static_cast<int>(CatState::kIsComingDestination))) {
+    cat_state_ = CatState::kIsComingDestination;
+  }
   switch (cat_state_) {
     case CatState::kIsResting: {
+      home_position_ = position_;
       timers_.Stop(static_cast<int>(CatState::kIsFollowingPlayer));
       if (!timers_.IsActive(static_cast<int>(CatState::kIsResting))) {
         timers_.StartTimerWithRandom(constants::kTimeToRestMin,
@@ -75,23 +79,6 @@ void Cat::Tick(int delta_time) {
       }
       break;
     }
-    case CatState::kIsComingDestination: {
-      if (position_ == destination_) {
-        if (is_reachable_cat_) {
-          is_reachable_cat_ = false;
-          DecSpeed(constants::kCatRunCoefficient);
-        }
-        cat_state_ = CatState::kIsResting;
-        velocity_ = Size(0, 0);
-        timers_.StartTimerWithRandom(constants::kTimeToRestMin,
-                                     constants::kTimeToRestMax,
-                                     static_cast<int>(CatState::kIsResting));
-      } else {
-        velocity_ = position_.GetVelocityVector(destination_, delta_time *
-            speed_ / constants::kTimeScale);
-      }
-      break;
-    }
     case CatState::kIsFollowingPlayer: {
       if (timers_.IsTimeOut(static_cast<int>(CatState::kIsFollowingPlayer)) ||
       !timers_.IsActive(static_cast<int>(CatState::kIsFollowingPlayer))) {
@@ -128,6 +115,36 @@ void Cat::Tick(int delta_time) {
       if (velocity_.GetLength() > constants::kEpsilon) {
         velocity_ /= velocity_.GetLength();
         velocity_ *= delta_time * speed_ / constants::kTimeScale;
+      }
+      break;
+    }
+    case CatState::kIsComingDestination: {
+      if (is_run_away_ && !(timers_.IsActive(static_cast<int>
+                            (CatState::kIsComingDestination)))) {
+        timers_.StartTimerWithRandom(constants::kTimeToCommingDestinationMin,
+                                     constants::kTimeToCommingDestinationMax,
+                                     static_cast<int>
+                                     (CatState::kIsComingDestination));
+      }
+      if (timers_.IsTimeOut(static_cast<int>(CatState::kIsComingDestination))) {
+        is_run_away_ = false;
+        timers_.Stop(static_cast<int>(CatState::kIsComingDestination));
+      }
+      if (position_ == destination_) {
+        if (is_reachable_cat_) {
+          is_reachable_cat_ = false;
+          DecSpeed(constants::kCatRunCoefficient);
+        }
+        is_run_away_ = false;
+        timers_.Stop(static_cast<int>(CatState::kIsComingDestination));
+        cat_state_ = CatState::kIsResting;
+        velocity_ = Size(0, 0);
+        timers_.StartTimerWithRandom(constants::kTimeToRestMin,
+                                     constants::kTimeToRestMax,
+                                     static_cast<int>(CatState::kIsResting));
+      } else {
+        velocity_ = position_.GetVelocityVector(destination_, delta_time *
+            speed_ / constants::kTimeScale);
       }
       break;
     }
@@ -182,4 +199,12 @@ bool Cat::GetIsReachable() {
 
 void Cat::SetHomePosition(const Point& position) {
   home_position_ = position;
+}
+
+void Cat::SetIsRunAway(bool is_run_away) {
+  is_run_away_ = is_run_away;
+}
+
+bool Cat::GetIsRunAway() const {
+  return is_run_away_;
 }

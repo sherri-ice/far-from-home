@@ -15,10 +15,9 @@ class Group {
 
   void Draw(QPainter* painter, Resizer* resizer) const;
   void Tick(int delta_time);
-  void Move(int delta_time);
+  void Move();
   void IncGroup();
   void DecGroup(int num_of_cats = 1);
-  void SetSpeed(double speed);
 
   double first_radius_;
   double second_radius_;
@@ -26,6 +25,7 @@ class Group {
   double speed_;
   Point central_position_ = Point();
   Size velocity_;
+  double speed_;
 };
 
 #endif  //  MODEL_GROUP_H_
