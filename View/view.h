@@ -57,7 +57,7 @@ class View : public QWidget {
   void resizeEvent(QResizeEvent*) override;
   Menu* menu_ = new Menu(this);
   bool is_sound_on_ = true;
-  QHBoxLayout layout_;
+  QVBoxLayout* layout_;
 };
 
 #endif  // VIEW_VIEW_H_

@@ -17,7 +17,8 @@ View::View(AbstractController* controller,
   resizer_.ChangeSystem(width(), height());
   setMouseTracking(true);
   setFocusPolicy(Qt::StrongFocus);
-  layout_.insertWidget(0, menu_);
+  layout_ = new QVBoxLayout(this);
+  layout_->insertWidget(0, menu_);
   SetWindows();
   show();
 }
