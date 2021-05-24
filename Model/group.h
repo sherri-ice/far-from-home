@@ -25,7 +25,6 @@ class Group {
   double speed_;
   Point central_position_ = Point();
   Size velocity_;
-  double speed_;
 };
 
 #endif  //  MODEL_GROUP_H_
