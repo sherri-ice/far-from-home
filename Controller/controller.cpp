@@ -83,7 +83,6 @@ void Controller::TickFood(int time) {
 void Controller::TickViewCircle() {
   double player_view = view_->GetViewSize();
   auto view_circle = GetPlayer()->GetViewCircle();
-  qDebug() << "here" << GetPlayer()->GetPosition().GetX() << ' ' << GetPlayer()->GetPosition().GetX();
   view_circle.SetCenter(GetPlayer()->GetPosition());
   view_circle.SetWantedRadius(player_view);
   model_->GetPlayer()->SetViewCircle(view_circle);

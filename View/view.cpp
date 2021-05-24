@@ -6,7 +6,6 @@
 #include <utility>
 #include <vector>
 #include <algorithm>
-#include <QGraphicsBlurEffect>
 
 View::View(AbstractController* controller,
            std::shared_ptr<Model> model)
@@ -25,7 +24,6 @@ View::View(AbstractController* controller,
 
 void View::Pause() {
   // controller_->GetMusicPlayer()->StartMenuMusic();
-  MakeBlur();
   menu_->show();
   menu_->Pause();
 }
@@ -175,7 +173,6 @@ void View::SetPauseWindow() {
   auto resume_button_click = [this]() {
     controller_->GetMusicPlayer()->PlayButtonSound();
     menu_->close();
-    graphicsEffect()->setEnabled(false);
   };
   connect(menu_->GetResumeButton(), &QPushButton::released, this,
           resume_button_click);
@@ -184,7 +181,6 @@ void View::SetPauseWindow() {
     controller_->EndGame();
     controller_->StartGame();
     menu_->close();
-    graphicsEffect()->setEnabled(false);
   };
   connect(menu_->GetRestartButton(), &QPushButton::released, this,
           restart_button_click);
@@ -199,21 +195,6 @@ void View::SetPauseWindow() {
 }
 void View::SetSettingsWindow() {
 
-}
-
-void View::MakeBlur() {
-  QGraphicsEffect* effect = new QGraphicsBlurEffect;
-  this->setGraphicsEffect(effect);
-  // menu_->graphicsEffect()->setEnabled(false);
-}
-
-void View::focusOutEvent(QFocusEvent* event) {
-  MakeBlur();
-}
-
-void View::focusInEvent(QFocusEvent* event) {
-  // qDebug() << graphicsEffect();
-  // graphicsEffect()->setEnabled(false);
 }
 
 

@@ -1,8 +1,6 @@
 #include <QPainter>
 #include "view_circle.h"
 
-#include <QDebug>
-
 const Point& ViewCircle::GetCenter() const {
   return center_;
 }
@@ -26,7 +24,6 @@ ViewCircle::ViewCircle(const Point& center, double radius)
 void ViewCircle::Draw(QPainter* painter, Resizer* resizer) const {
   painter->save();
   auto new_center = resizer->GameToWindowCoordinate(center_);
-  qDebug() << center_.GetX() << ' ' << center_.GetY();
   auto new_size = resizer->GameToWindowSize(Size(radius_, radius_));
   painter->drawEllipse(new_center.GetX() - new_size.GetWidth()/2,
                        new_center.GetY() - new_size.GetHeight()/2,

@@ -38,8 +38,6 @@ class View : public QWidget {
   void keyPressEvent(QKeyEvent* event) override;
   void keyReleaseEvent(QKeyEvent* event) override;
   void timerEvent(QTimerEvent* event) override;
-  void focusOutEvent(QFocusEvent* event) override;
-  void focusInEvent(QFocusEvent* event) override;
 
   bool IsOnTheScreen(const std::shared_ptr<GameObject>& object);
   void DrawGameObjects(QPainter* painter);
@@ -50,7 +48,6 @@ class View : public QWidget {
   void SetSettingsWindow();
   void SetPauseWindow();
 
-  void MakeBlur();
 
   Size player_velocity_;
   std::map<int, bool> pressed_keys_;
