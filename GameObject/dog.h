@@ -48,6 +48,8 @@ class Dog : public MovingObject {
   double GetWalkingSpeed() const;
   void SetIsMainCatCaught(bool);
 
+  void ComeHome();
+
  private:
   Point home_position_;
   double visibility_radius_;

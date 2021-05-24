@@ -2,8 +2,6 @@
 
 #include <iostream>
 
-#include <QDebug>
-
 ProgressBar::ProgressBar(const Point& center, const Size& size) {
   center_ = center;
   this->setWidth(constants::kWidth);
@@ -27,7 +25,6 @@ void ProgressBar::IncCurrentValue() {
     return;
   }
     cur_value_ += (max_value_ - min_value_) / time_to_be_full_;
-    // qDebug() << cur_value_;
 }
 
 bool ProgressBar::IsFull() {

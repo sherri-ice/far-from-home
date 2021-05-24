@@ -3,8 +3,6 @@
 #include "../Model/model.h"
 #include "../View/progress_bar.h"
 
-#include <QDebug>
-
 namespace {
 
 int GetRandomSkin() {
@@ -14,7 +12,7 @@ int GetRandomSkin() {
       random_id_generator(0, 3);
   return random_id_generator(random_generator);
 }
-}  // namspace
+}  // namespace
 
 
 Model::Model() {
