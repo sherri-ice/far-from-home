@@ -357,3 +357,7 @@ Point Player::GenerateRandomDestination() const {
   return Point(x_destination(random_generator_), y_destination
   (random_generator_));
 }
+
+void Player::DecHunger(double hunger) {
+  food_saturation_ -= hunger;
+}

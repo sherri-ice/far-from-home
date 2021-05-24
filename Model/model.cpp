@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <iostream>
 
 #include "../Model/model.h"
 
@@ -242,10 +243,12 @@ void Model::SetNormalPortalSkin(std::shared_ptr<PortalObject> portal) {
 }
 
 void Model::GenerateFood(const Point& player_position, double
-  width, double height, int number_of_food) {
+  window_width, double window_height, int number_of_food) {
   // Надо написать другой генератор
-  double part_of_height = 0.5 * height;
-  double part_of_width = 0.5 * width;
+  double part_of_height = 0.5 * window_height;
+  double part_of_width = 0.5 * window_width;
+  double width = part_of_width + constants::kWidthForFoodGeneration;
+  double height = part_of_height + constants::kHeightForFoodGeneration;
   std::uniform_int_distribution<> top_and_bottom_x(
       static_cast<int>(player_position.GetX() - width),
       static_cast<int>(player_position.GetX() + width));

@@ -87,10 +87,12 @@ void Controller::TickDogs(int delta_time) {
           if (cat == player->GetMainCat()) {
             player->DismissCats();
             dog->SetIsMainCatCaught(true);
+            player->DecHunger(1);
             break;
           } else {
             if (!cat->GetIsBusy()) {
               player->LosingCat(dog->GetRigidPosition(), cat);
+              player->DecHunger(0.5);
             }
           }
         }
