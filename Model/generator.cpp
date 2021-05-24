@@ -55,10 +55,12 @@ left_corner) {
   }
   for (const auto& static_object : new_tile.static_objects) {
     model_->MakeNewStaticObject(static_object.GetSize(),
-                                static_object.GetDrawPosition() + left_corner + left_corner);
+                                static_object.GetDrawPosition() + left_corner
+                                + left_corner);
   }
   for (const auto& food : new_tile.food) {
-    model_->MakeNewFood(food.GetSize(), food.GetDrawPosition() + left_corner + left_corner);
+    model_->MakeNewFood(food.GetSize(), food.GetDrawPosition() + left_corner
+                        + left_corner);
   }
 }
 
