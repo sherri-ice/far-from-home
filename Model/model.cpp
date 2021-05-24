@@ -15,6 +15,7 @@ Model::Model() {
   QString skin = GetCatRandomSkinPath();
   main_cat->SetAnimations(animations_[skin]);
   cats_.emplace_back(main_cat);
+
   for (auto& food : food_) {
     food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
   }
