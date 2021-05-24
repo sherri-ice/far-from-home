@@ -235,4 +235,3 @@ void Model::SetNormalPortalSkin(std::shared_ptr<PortalObject> portal) {
   auto new_skin = objects_pics_["tree"].at(id);
   portal->SetSkin(new_skin);
 }
-

@@ -1,5 +1,6 @@
 #include <QFontMetrics>
 #include <utility>
+#include <iostream>
 
 #include "warning.h"
 
@@ -15,6 +16,7 @@ Warning::Warning(QString message,
   if (supposed_to_fade_) {
     timer_.Start(time_before_fade_);
   }
+ font_id_ = QFontDatabase::addApplicationFont("../resourses/font.ttf");
 }
 
 void Warning::Tick(int delta_time) {
@@ -37,9 +39,10 @@ void Warning::Tick(int delta_time) {
 void Warning::Draw(QPainter* painter, Resizer* resizer) const {
   if (is_drawn_) {
     painter->save();
-
+    std::cout << font_id_ << '\n';
+    QString family = QFontDatabase::applicationFontFamilies(font_id_).at(0);
     double font_size = resizer->GameToWindowLength(font_size_);
-    QFont font("Rockwell", QFont::ExtraBold);
+    QFont font(family, QFont::ExtraBold);
     font.setPixelSize(font_size);
     painter->setFont(font);
 
