@@ -1,10 +1,9 @@
 #ifndef VIEW_ANIMATION_H_
 #define VIEW_ANIMATION_H_
 
-#include <iostream>
-#include <vector>
 #include <QPixmap>
 #include <random>
+#include <vector>
 
 #include "../Model/constants.h"
 #include "../Model/size.h"
@@ -23,8 +22,7 @@ enum AnimationState {
 class Animation {
  public:
   Animation() = default;
-  explicit Animation(const std::vector<std::vector<QPixmap>>& frames,
-                     int animation_duration = 10);
+  explicit Animation(const std::vector<std::vector<QPixmap>>& frames);
 
   void Tick(int delta_time, const AnimationState& animation_state);
   void Reset();
@@ -37,16 +35,13 @@ class Animation {
  private:
   Size picture_size_{0, 0};
 
-    //--------
-    uint animation_loops_number = 2;
-    uint current_road_ = 0;
-    uint current_frame_ = 0;
-    int wait_till_next_frame_ = 0;
-    int time_between_frames_ = 25;
-    //---------
+  uint animation_loops_number = 2;
+  uint current_road_ = 0;
+  uint current_frame_ = 0;
+  int wait_till_next_frame_ = 0;
+  int time_between_frames_ = 150;
 
-    static std::mt19937 random_generator_;
-
+  static std::mt19937 random_generator_;
 
   std::vector<std::vector<QPixmap>> frames_{};
   std::vector<std::vector<QPixmap>> frames_rescaled_{};

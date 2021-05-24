@@ -46,16 +46,16 @@ class Model {
   void ClearObjects();
 
   void LoadStaticAnimation();
-  [[nodiscard]] std::vector<std::vector<QPixmap>> LoadRandomCatsAnimation()
-                                                                      const;
-  [[nodiscard]] std::vector<std::vector<QPixmap>> LoadRandomDogsAnimation()
-                                                                      const;
+  void LoadAnimation();
+  static QString GetCatRandomSkinPath();
+  static QString GetDogRandomSkinPath();
 
   [[nodiscard]] std::vector<std::vector<QPixmap>> GetImagesByFramePath
       (const QString& path) const;
 
  private:
-    std::vector<std::vector<QPixmap>> objects_pics_{};
+  std::vector<std::vector<QPixmap>> objects_pics_{};
+  std::map<QString, std::vector<std::vector<QPixmap>>> animations_;
 
   std::list<std::shared_ptr<Cat>> cats_;
   std::list<std::shared_ptr<GameObject>> static_objects_;

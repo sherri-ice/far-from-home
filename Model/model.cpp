@@ -6,12 +6,14 @@ std::mt19937 Model::random_generator_ = std::mt19937
     (std::chrono::system_clock::now().time_since_epoch().count());
 
 Model::Model() {
+  LoadAnimation();
   LoadStaticAnimation();
   std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
                                                         10,
                                                         Point(0, 0));
   main_cat->SetIsInGroup(true);
-  main_cat->SetAnimations(LoadRandomCatsAnimation());
+  QString skin = GetCatRandomSkinPath();
+  main_cat->SetAnimations(animations_[skin]);
   cats_.emplace_back(main_cat);
   for (auto& food : food_) {
     food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
@@ -50,7 +52,8 @@ std::shared_ptr<Cat> Model::MakeNewCat(const Size& size,
                                        double speed,
                                        const Point& point) {
   cats_.push_back(std::make_shared<Cat>(size, speed, point));
-  cats_.back()->SetAnimations(LoadRandomCatsAnimation());
+  QString skin = GetCatRandomSkinPath();
+  cats_.back()->SetAnimations(animations_[skin]);
   return cats_.back();
 }
 
@@ -107,7 +110,8 @@ std::shared_ptr<Dog> Model::MakeNewDog(const Size& size,
                                        double walking_speed) {
   dogs_.push_back(std::make_shared<Dog>(size, speed, point, visibility_radius,
                                         walking_speed));
-  dogs_.back()->SetAnimations(LoadRandomDogsAnimation());
+  QString skin = GetDogRandomSkinPath();
+  dogs_.back()->SetAnimations(animations_[skin]);
   return dogs_.back();
 }
 
@@ -166,15 +170,33 @@ std::vector<std::vector<QPixmap>> Model::GetImagesByFramePath(
   }
   return result;
 }
-std::vector<std::vector<QPixmap>> Model::LoadRandomCatsAnimation() const {
-  std::uniform_int_distribution<> random_time(0, 7);
-QString path = "../images/cats skins/" + QString::number(random_time
-    (random_generator_)) + "/";
-  return GetImagesByFramePath(path);
+
+void Model::LoadAnimation() {
+  Q_INIT_RESOURCE(images);
+  std::vector<QString> paths;
+  for (int i{0}; i < 8; ++i) {
+    QString path = "../images/cats skins/" + QString::number(i) + "/";
+    paths.push_back(path);
+  }
+  for (int i{0}; i < 5; ++i) {
+    QString path = "../images/dogs skins/" + QString::number(i) + "/";
+    paths.push_back(path);
+  }
+  for (const auto& path : paths) {
+    animations_[path] = GetImagesByFramePath(path);
+  }
 }
-std::vector<std::vector<QPixmap>> Model::LoadRandomDogsAnimation() const {
+
+QString Model::GetCatRandomSkinPath() {
+  std::uniform_int_distribution<> random_time(0, 7);
+  QString path = "../images/cats skins/" + QString::number(random_time
+      (random_generator_)) + "/";
+  return path;
+}
+
+QString Model::GetDogRandomSkinPath() {
   std::uniform_int_distribution<> random_time(0, 4);
   QString path = "../images/dogs skins/" + QString::number(random_time
-                                        (random_generator_)) + "/";
-  return GetImagesByFramePath(path);
+      (random_generator_)) + "/";
+  return path;
 }
