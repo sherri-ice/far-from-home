@@ -22,7 +22,7 @@ void ProgressBar::IncCurrentValue() {
   if (cur_value_ >= max_value_) {
     return;
   }
-    cur_value_ += (max_value_ - min_value_) / time_to_be_full_;
+  cur_value_ += (max_value_ - min_value_) / time_to_be_full_;
 }
 
 bool ProgressBar::IsFull() {

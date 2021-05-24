@@ -6,6 +6,10 @@
 #include "../GameObject/game_object.h"
 #include "../View/animation.h"
 
+namespace constants {
+const double kCheckIfVelocityIsCloseToZero = 0.1;
+}  // namespace constants
+
 class MovingObject : public GameObject {
  public:
   MovingObject(const Size& size,
@@ -18,7 +22,6 @@ class MovingObject : public GameObject {
   void Move(int delta_time);
   virtual void SetSpeed(double speed);
   double GetSpeed() const;
-  [[nodiscard]] AnimationState GetAnimation() const;
   virtual void SetAnimations(std::vector<std::vector<QPixmap>>
                                                   animation = {});
   virtual void IncSpeed(double speed);
@@ -34,6 +37,8 @@ class MovingObject : public GameObject {
   Size GetDrawSize(const Size& object_size) const;
   void TickAnimation(int delta_time);
   AnimationState GetAnimationState() const;
+
+  Point GetDestination() const;
 
  protected:
     Point destination_{};

@@ -44,15 +44,13 @@ Point RigidBody::GetCenterOfRigidBody() const {
 }
 
 bool RigidBody::IfCollisionWillHappen(const RigidBody&
-  other_rigid_body, const Size& velocity) const {
+  other_rigid_body, const Size& velocity, const Size& other_velocity) const {
+  auto other_new_center = other_rigid_body.GetObjectPosition() +
+      other_velocity;
+  auto other_rect = other_rigid_body.GetRectInNewPosition(other_new_center);
   Point new_center = *object_position_ + velocity;
-  double x = new_center.GetX() - scale_coefficient_x_ *
-      object_size_->GetWidth() / 2;
-  double y = new_center.GetY() + object_size_->GetHeight() / 2 -
-      scale_coefficient_y_ * object_size_->GetHeight();
-  Rect new_rect = Rect{x, y, object_size_->GetWidth() * scale_coefficient_x_,
-                       object_size_->GetHeight() * scale_coefficient_y_};
-  return Intersects(new_rect, other_rigid_body.GetRect());
+  auto rect = GetRectInNewPosition(new_center);
+  return Intersects(rect, other_rect);
 }
 
 bool RigidBody::Intersects(const Rect& first_rect, const Rect& second_rect) {
@@ -111,17 +109,6 @@ Size RigidBody::GetVelocityToGoAround(const RigidBody& other_rigid_body,
   switch (border_which_is_collide_) {
     case Border::kTop:
     case Border::kBottom: {
-      if (std::abs(current_velocity.GetWidth()) <
-          constants::kCheckIfVelocityIsCloseToZero) {
-        need_to_get_around_ = true;
-        if (GetCenterOfRigidBody().GetX() < other_rigid_body
-            .GetCenterOfRigidBody().GetX()) {
-          saved_vector_to_get_around_ = Size(-1, 0);
-        } else {
-          saved_vector_to_get_around_ = Size(1, 0);
-        }
-        return saved_vector_to_get_around_;
-      }
       auto velocity = Size(1, 0);
       if (current_velocity.GetWidth() < 0) {
         velocity.SetWidth(-1);
@@ -140,17 +127,6 @@ Size RigidBody::GetVelocityToGoAround(const RigidBody& other_rigid_body,
     }
     case Border::kLeft:
     case Border::kRight: {
-      if (std::abs(current_velocity.GetHeight()) <
-          constants::kCheckIfVelocityIsCloseToZero) {
-        need_to_get_around_ = true;
-        if (GetCenterOfRigidBody().GetY() < other_rigid_body
-            .GetCenterOfRigidBody().GetY()) {
-          saved_vector_to_get_around_ = Size(0, -1);
-        } else {
-          saved_vector_to_get_around_ = Size(0, 1);
-        }
-        return saved_vector_to_get_around_;
-      }
       auto velocity = Size(0, 1);
       if (current_velocity.GetHeight() < 0) {
         velocity.SetHeight(-1);
@@ -227,4 +203,8 @@ Border RigidBody::GetIntersectedBorderIfNone(const Rect& other_rect) const {
     return Border::kBottom;
   }
   return Border::kNone;
+}
+
+Point RigidBody::GetObjectPosition() const {
+  return *object_position_;
 }

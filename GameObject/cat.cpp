@@ -256,10 +256,6 @@ bool Cat::IsComingDestination() const {
   return cat_state_ == CatState::kIsComingDestination;
 }
 
-Point Cat::GetDestination() const {
-  return destination_;
-}
-
 bool Cat::IsMainCat() const {
   return cat_state_ == CatState::kIsMainCat;
 }

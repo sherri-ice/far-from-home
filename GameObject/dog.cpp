@@ -186,3 +186,7 @@ double Dog::GetWalkingSpeed() const {
 void Dog::SetIsMainCatCaught(bool is_caught) {
   is_main_cat_caught_ = is_caught;
 }
+
+bool Dog::IsComingHome() const {
+  return dog_state_ == DogState::kIsComingHome;
+}

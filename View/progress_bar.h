@@ -1,7 +1,3 @@
-//
-// Created by sienna on 27.04.21.
-//
-
 #ifndef VIEW_PROGRESS_BAR_H_
 #define VIEW_PROGRESS_BAR_H_
 

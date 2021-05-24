@@ -8,8 +8,7 @@
 #include "../Model/size.h"
 
 namespace constants {
-  const double kIntersectedBorder = 2.5;
-  const double kCheckIfVelocityIsCloseToZero = 0.05;
+  const double kIntersectedBorder = 5.;
 }
 
 enum class Border {
@@ -45,7 +44,7 @@ class RigidBody {
   Point GetCenterOfRigidBody() const;
 
   bool IfCollisionWillHappen(const RigidBody& other_rigid_body, const Size&
-  velocity) const;
+  velocity, const Size& other_velocity = Size(0, 0)) const;
   Size GetVelocityToGoAround(const RigidBody& other_rigid_body,
                              const Size& current_velocity, const Size&
                              other_velocity = Size(0, 0));
@@ -55,6 +54,7 @@ class RigidBody {
   Rect GetCollidedRect(const Rect& other_rect) const;
   // Size GetVectorToAvoidMovingCollision(const RigidBody& other_rigid_body,
   //                                      const Size& current_velocity);
+  Point GetObjectPosition() const;
 
 
   bool IfPointIsInsideBody(const Point& point) const;

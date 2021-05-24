@@ -62,7 +62,6 @@ class Cat : public MovingObject {
   void FeedCat();
   void SetFoodSaturation(double food_saturation);
   bool IsComingDestination() const;
-  Point GetDestination() const;
   bool IsMainCat() const;
 
  private:

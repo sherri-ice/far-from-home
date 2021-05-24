@@ -82,13 +82,13 @@ AnimationState MovingObject::GetAnimationState() const {
   } else {
     double x = velocity_.GetWidth();
     double y = velocity_.GetHeight();
-    if (std::abs(x) < 0.05) {
-      if (y > 0.05) {
+    if (std::abs(x) < constants::kCheckIfVelocityIsCloseToZero) {
+      if (y > 0) {
         animation_state = kWalkDown;
       } else {
         animation_state = kWalkUp;
       }
-    } else if (x > 0.05) {
+    } else if (x > 0) {
       animation_state = kWalkRight;
     } else {
       animation_state = kWalkLeft;
@@ -118,11 +118,15 @@ Size MovingObject::GetDrawSize(const Size& object_size) const {
 }
 
 void MovingObject::TickAnimation(int delta_time) {
-  if (velocity_.GetLength() > constants::kEpsilon) {
+  if (velocity_ != Size(0, 0)) {
     is_moving_ = true;
   } else {
     is_moving_ = false;
   }
   object_animation_.Tick(delta_time, GetAnimationState());
   was_moving_ = is_moving_;
+}
+
+Point MovingObject::GetDestination() const {
+  return destination_;
 }
