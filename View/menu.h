@@ -1,5 +1,5 @@
-#ifndef MENU_H
-#define MENU_H
+#ifndef VIEW_MENU_H_
+#define VIEW_MENU_H_
 
 #include <QWidget>
 #include <QPushButton>
@@ -16,7 +16,7 @@ namespace Ui { class Menu; }
 QT_END_NAMESPACE
 
 class Menu : public QWidget {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   explicit Menu(QWidget* parent = nullptr);
@@ -40,4 +40,4 @@ class Menu : public QWidget {
   void Settings();
   Ui::Menu* ui;
 };
-#endif // MENU_H
+#endif  // VIEW_MENU_H_

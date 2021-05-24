@@ -178,7 +178,7 @@ void Model::SetModel() {
 //   return type < 2 ? backgrounds_[type] : backgrounds_[2];
 // }
 void Model::ClearModel() {
-  cats_.erase(cats_.begin(),cats_.end());
+  cats_.erase(cats_.begin(), cats_.end());
   food_.erase(food_.begin(), food_.end());
   dogs_.erase(dogs_.begin(), dogs_.end());
   static_objects_.erase(static_objects_.begin(), static_objects_.end());

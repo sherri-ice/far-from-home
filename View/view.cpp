@@ -130,12 +130,12 @@ bool View::IsOnTheScreen(const std::shared_ptr<GameObject>& object) {
       || object_pos.GetY() > game_bottom_point.GetY()) {
     return false;
   }
-    return true;
+  return true;
 }
 void View::SetWindows() {
-    SetMenuWindow();
-    SetSettingsWindow();
-    SetPauseWindow();
+  SetMenuWindow();
+  SetSettingsWindow();
+  SetPauseWindow();
 }
 
 void View::SetMenuWindow() {
@@ -146,15 +146,20 @@ void View::SetMenuWindow() {
     view_timer_.start();
     controller_->StartGame();
     menu_->close();
-    // graphicsEffect()->setEnabled(false);
   };
-  connect(menu_->GetPlayButton(), &QPushButton::released, this, start_game_button_click);
+  connect(menu_->GetPlayButton(),
+          &QPushButton::released,
+          this,
+          start_game_button_click);
   auto exit_button_click = [this]() {
     controller_->GetMusicPlayer()->PlayButtonSound();
     controller_->EndGame();
     close();
   };
-  connect(menu_->GetExitButton(), &QPushButton::released, this, exit_button_click);
+  connect(menu_->GetExitButton(),
+          &QPushButton::released,
+          this,
+          exit_button_click);
   // auto sound_button_click = [this]() {
   //   if (is_sound_on_) {
   //     // controller_->GetMusicPlayer()->Pause();
@@ -191,10 +196,9 @@ void View::SetPauseWindow() {
   };
   connect(menu_->GetMenuButton(), &QPushButton::released, this,
           menu_button_click);
-
 }
-void View::SetSettingsWindow() {
 
+void View::SetSettingsWindow() {
 }
 
 

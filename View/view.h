@@ -25,6 +25,7 @@ class View : public QWidget {
   void ClearVelocity();
   void Resize();
   void UpdateResizer(double radius, const Point& position);
+
  private:
   int controller_timer_id_;
   QElapsedTimer time_between_ticks_;

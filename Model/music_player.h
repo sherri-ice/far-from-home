@@ -1,5 +1,5 @@
-#ifndef MODEL_MUSIC_PLAYER_H
-#define MODEL_MUSIC_PLAYER_H
+#ifndef MODEL_MUSIC_PLAYER_H_
+#define MODEL_MUSIC_PLAYER_H_
 
 #include <QMainWindow>
 #include <QMediaPlaylist>
@@ -37,4 +37,4 @@ class MusicPlayer {
   std::vector<std::shared_ptr<QMediaPlaylist>> playlists_;
 };
 
-#endif // MODEL_MUSIC_PLAYER_H
+#endif  // MODEL_MUSIC_PLAYER_H_

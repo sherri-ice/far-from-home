@@ -10,7 +10,10 @@ Menu::Menu(QWidget* parent)
   SetObjectsNames();
   LoadStyleSheet();
   connect(ui->settings, &QPushButton::released, this, &Menu::Settings);
-  connect(ui->back_to_main_window, &QPushButton::released, this, &Menu::MainMenu);
+  connect(ui->back_to_main_window,
+          &QPushButton::released,
+          this,
+          &Menu::MainMenu);
 }
 
 void Menu::SetObjectsNames() {
