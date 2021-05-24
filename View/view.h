@@ -31,7 +31,7 @@ class View : public QWidget {
   QElapsedTimer view_timer_;
 
   AbstractController* controller_;
-  Resizer resizer_;
+  Resizer resizer_{};
   std::shared_ptr<Model> model_;
 
   void paintEvent(QPaintEvent*) override;
