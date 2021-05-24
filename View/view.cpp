@@ -6,7 +6,7 @@
 #include <utility>
 #include <vector>
 #include <algorithm>
-
+#include <QGraphicsBlurEffect>
 
 View::View(AbstractController* controller,
            std::shared_ptr<Model> model)
@@ -16,16 +16,17 @@ View::View(AbstractController* controller,
   resize(constants::kGameWidth, constants::kGameHeight);
   resizer_.ChangeSystem(width(), height());
   setMouseTracking(true);
-  setFocusPolicy(Qt::ClickFocus);
-  // menu_.resize(constants::kGameWidth, constants::kGameHeight);
-  menu_.show();
+  setFocusPolicy(Qt::StrongFocus);
+  // layout_.insertWidget(0, menu_);
   SetWindows();
+  show();
 }
 
 void View::Pause() {
   // controller_->GetMusicPlayer()->StartMenuMusic();
-  menu_.show();
-  menu_.Pause();
+  MakeBlur();
+  menu_->show();
+  menu_->Pause();
 }
 
 void View::paintEvent(QPaintEvent*) {
@@ -34,7 +35,7 @@ void View::paintEvent(QPaintEvent*) {
 }
 
 void View::timerEvent(QTimerEvent* event) {
-  if (event->timerId() == controller_timer_id_ && menu_.isHidden()) {
+  if (event->timerId() == controller_timer_id_ && menu_->isHidden()) {
     int delta_time = time_between_ticks_.elapsed();
     time_between_ticks_.restart();
     controller_->Tick(controller_->GetCurrentTime() + delta_time);
@@ -138,22 +139,21 @@ void View::SetWindows() {
 
 void View::SetMenuWindow() {
   auto start_game_button_click = [this]() {
-    menu_.close();
-    show();
     controller_->GetMusicPlayer()->PlayButtonSound();
     time_between_ticks_.start();
     controller_timer_id_ = startTimer(constants::kTimeBetweenTicks);
     view_timer_.start();
     controller_->StartGame();
+    menu_->close();
+    graphicsEffect()->setEnabled(false);
   };
-  connect(menu_.GetPlayButton(), &QPushButton::released, this, start_game_button_click);
+  connect(menu_->GetPlayButton(), &QPushButton::released, this, start_game_button_click);
   auto exit_button_click = [this]() {
     controller_->GetMusicPlayer()->PlayButtonSound();
-    menu_.close();
     controller_->EndGame();
     close();
   };
-  connect(menu_.GetExitButton(), &QPushButton::released, this, exit_button_click);
+  connect(menu_->GetExitButton(), &QPushButton::released, this, exit_button_click);
   // auto sound_button_click = [this]() {
   //   if (is_sound_on_) {
   //     // controller_->GetMusicPlayer()->Pause();
@@ -171,33 +171,49 @@ void View::SetMenuWindow() {
 void View::SetPauseWindow() {
   auto resume_button_click = [this]() {
     controller_->GetMusicPlayer()->PlayButtonSound();
-    menu_.close();
-    show();
+    menu_->close();
+    graphicsEffect()->setEnabled(false);
   };
-  connect(menu_.GetResumeButton(), &QPushButton::released, this,
+  connect(menu_->GetResumeButton(), &QPushButton::released, this,
           resume_button_click);
   auto restart_button_click = [this]() {
     controller_->GetMusicPlayer()->PlayButtonSound();
-    menu_.close();
     controller_->EndGame();
     controller_->StartGame();
+    menu_->close();
+    graphicsEffect()->setEnabled(false);
   };
-  connect(menu_.GetRestartButton(), &QPushButton::released, this,
+  connect(menu_->GetRestartButton(), &QPushButton::released, this,
           restart_button_click);
   auto menu_button_click = [this]() {
     controller_->GetMusicPlayer()->PlayButtonSound();
-    close();
-    menu_.MainMenu();
-    menu_.show();
+    menu_->MainMenu();
     controller_->EndGame();
   };
-  connect(menu_.GetMenuButton(), &QPushButton::released, this,
+  connect(menu_->GetMenuButton(), &QPushButton::released, this,
           menu_button_click);
 
 }
 void View::SetSettingsWindow() {
 
 }
+
+void View::MakeBlur() {
+  QGraphicsEffect* effect = new QGraphicsBlurEffect;
+  this->setGraphicsEffect(effect);
+  // menu_->graphicsEffect()->setEnabled(false);
+}
+
+void View::focusOutEvent(QFocusEvent* event) {
+  MakeBlur();
+}
+
+void View::focusInEvent(QFocusEvent* event) {
+  qDebug() << graphicsEffect();
+  graphicsEffect()->setEnabled(false);
+}
+
+
 
 
 

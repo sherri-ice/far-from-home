@@ -4,7 +4,7 @@
 #include "../Model/point.h"
 #include "../View/resizer.h"
 
-class ViewCircle  {
+class ViewCircle {
  public:
   ViewCircle() = default;
   ViewCircle(const Point& center, double radius);
@@ -19,9 +19,9 @@ class ViewCircle  {
   [[nodiscard]] double GetWantedRadius() const;
 
  private:
-  Point center_ = Point(0, 0);
-  double radius_ = constants::kViewCircleMax;
-  double wanted_radius_ = constants::kViewCircleDefault;
+  Point center_{Point(0, 0)};
+  double radius_{constants::kViewCircleMax};
+  double wanted_radius_{constants::kViewCircleDefault};
 };
 
 #endif  // GAMEOBJECT_VIEW_CIRCLE_H_

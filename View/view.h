@@ -6,12 +6,14 @@
 #include <QTimer>
 #include <map>
 #include <memory>
+#include <QStackedWidget>
+#include <QLayout>
 
 #include "../Controller/abstract_controller.h"
 #include "../Model/model.h"
 #include "menu.h"
 
-class View : public QMainWindow {
+class View : public QWidget {
   Q_OBJECT
 
  public:
@@ -36,6 +38,8 @@ class View : public QMainWindow {
   void keyPressEvent(QKeyEvent* event) override;
   void keyReleaseEvent(QKeyEvent* event) override;
   void timerEvent(QTimerEvent* event) override;
+  void focusOutEvent(QFocusEvent* event) override;
+  void focusInEvent(QFocusEvent* event) override;
 
   bool IsOnTheScreen(const std::shared_ptr<GameObject>& object);
   void DrawGameObjects(QPainter* painter);
@@ -46,12 +50,14 @@ class View : public QMainWindow {
   void SetSettingsWindow();
   void SetPauseWindow();
 
+  void MakeBlur();
+
   Size player_velocity_;
   std::map<int, bool> pressed_keys_;
   void resizeEvent(QResizeEvent*) override;
-  Menu menu_;
-  WindowType window_type_ = WindowType::kMainMenu;
+  Menu* menu_ = new Menu(this);
   bool is_sound_on_ = true;
+  QHBoxLayout layout_;
 };
 
 #endif  // VIEW_VIEW_H_

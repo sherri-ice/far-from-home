@@ -1,12 +1,12 @@
 #include <QFile>
 #include "menu.h"
 #include "./ui_menu.h"
-#include <QDebug>
 
 Menu::Menu(QWidget* parent)
     : QWidget(parent), ui(new Ui::Menu) {
   ui->setupUi(this);
   setMinimumSize(QSize(500, 500));
+  setAttribute(Qt::WA_NoSystemBackground);
   SetObjectsNames();
   LoadStyleSheet();
   connect(ui->settings, &QPushButton::released, this, &Menu::Settings);
