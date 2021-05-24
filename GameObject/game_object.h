@@ -46,7 +46,6 @@ class GameObject {
   RigidBody rigid_body_;
   bool is_dead_{false};
   bool is_visible_ = true;
-  int font_id_ =  QFontDatabase::addApplicationFont(":resources/font.ttf");;
 };
 
 #endif  // GAMEOBJECT_GAME_OBJECT_H_

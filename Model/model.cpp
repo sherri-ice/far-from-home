@@ -17,6 +17,7 @@ int GetRandomSkin() {
 
 Model::Model() {
   LoadAnimation();
+  QFontDatabase::addApplicationFont("../resourses/font.ttf");
   std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
                                                         10,
                                                         Point(0, 0));
