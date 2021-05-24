@@ -7,7 +7,6 @@
 #include <vector>
 #include <algorithm>
 
-
 View::View(AbstractController* controller,
            std::shared_ptr<Model> model)
     : controller_(controller),
@@ -15,20 +14,29 @@ View::View(AbstractController* controller,
   setWindowTitle(constants::kApplicationName);
   resize(constants::kGameWidth, constants::kGameHeight);
   resizer_.ChangeSystem(width(), height());
-  controller->StartGame();
+  setMouseTracking(true);
+  setFocusPolicy(Qt::StrongFocus);
+  layout_ = new QVBoxLayout(this);
+  layout_->insertWidget(0, menu_);
+  SetWindows();
   show();
-  time_between_ticks_.start();
-  controller_timer_id_ = startTimer(constants::kTimeBetweenTicks);
-  view_timer_.start();
+}
+
+void View::Pause() {
+  // controller_->GetMusicPlayer()->StartMenuMusic();
+  menu_->show();
+  menu_->Pause();
 }
 
 void View::paintEvent(QPaintEvent*) {
+  if (menu_->isHidden()) {
     QPainter painter(this);
     DrawGameObjects(&painter);
+  }
 }
 
 void View::timerEvent(QTimerEvent* event) {
-  if (event->timerId() == controller_timer_id_) {
+  if (event->timerId() == controller_timer_id_ && menu_->isHidden()) {
     int delta_time = time_between_ticks_.elapsed();
     time_between_ticks_.restart();
     controller_->Tick(controller_->GetCurrentTime() + delta_time);
@@ -37,6 +45,10 @@ void View::timerEvent(QTimerEvent* event) {
 }
 
 void View::keyPressEvent(QKeyEvent* event) {
+  if (event->key() == Qt::Key_Space) {
+    Pause();
+    return;
+  }
   pressed_keys_[event->key()] = true;
 }
 
@@ -118,5 +130,89 @@ bool View::IsOnTheScreen(const std::shared_ptr<GameObject>& object) {
       || object_pos.GetY() > game_bottom_point.GetY()) {
     return false;
   }
-    return true;
+  return true;
+}
+
+void View::SetWindows() {
+  SetMenuWindow();
+  SetSettingsWindow();
+  SetPauseWindow();
+}
+
+void View::SetMenuWindow() {
+  auto start_game_button_click = [this]() {
+    controller_->GetMusicPlayer()->PlayButtonSound();
+    time_between_ticks_.start();
+    controller_timer_id_ = startTimer(constants::kTimeBetweenTicks);
+    view_timer_.start();
+    controller_->StartGame();
+    menu_->close();
+  };
+  connect(menu_->GetPlayButton(),
+          &QPushButton::released,
+          this,
+          start_game_button_click);
+  auto exit_button_click = [this]() {
+    controller_->GetMusicPlayer()->PlayButtonSound();
+    controller_->EndGame();
+    close();
+  };
+  connect(menu_->GetExitButton(),
+          &QPushButton::released,
+          this,
+          exit_button_click);
+  // auto sound_button_click = [this]() {
+  //   if (is_sound_on_) {
+  //     // controller_->GetMusicPlayer()->Pause();
+  //     menu_.GetSoundButton()->setIcon( QIcon(":images/menu/buttons/sound_off"
+  //                                            ".png"));
+  //   } else {
+  //     // controller_->GetMusicPlayer()->Resume();
+  //     menu_.GetSoundButton()->setIcon( QIcon(
+  //         ":images/menu/buttons/sound_on.png"));
+  //   }
+  // };
+  // connect(menu_.GetSoundButton(), &QPushButton::released, this,
+  //         sound_button_click);
+}
+
+void View::SetPauseWindow() {
+  auto resume_button_click = [this]() {
+    controller_->GetMusicPlayer()->PlayButtonSound();
+    menu_->close();
+  };
+  connect(menu_->GetResumeButton(), &QPushButton::released, this,
+          resume_button_click);
+  auto restart_button_click = [this]() {
+    controller_->GetMusicPlayer()->PlayButtonSound();
+    controller_->EndGame();
+    controller_->StartGame();
+    menu_->close();
+  };
+  connect(menu_->GetRestartButton(), &QPushButton::released, this,
+          restart_button_click);
+  auto menu_button_click = [this]() {
+    controller_->GetMusicPlayer()->PlayButtonSound();
+    menu_->MainMenu();
+    controller_->EndGame();
+  };
+  connect(menu_->GetMenuButton(), &QPushButton::released, this,
+          menu_button_click);
+}
+
+void View::SetSettingsWindow() {
+  auto sound_button_click = [this]() {
+    controller_->GetMusicPlayer()->PlayButtonSound();
+    if (menu_->GetSoundButton()->objectName() == QObject::tr("sound-on")) {
+      menu_->GetSoundButton()->setObjectName(QObject::tr("sound-off"));
+      menu_->LoadStyleSheet();
+      controller_->GetMusicPlayer()->SetVolume(0);
+    } else {
+      menu_->GetSoundButton()->setObjectName(QObject::tr("sound-on"));
+      menu_->LoadStyleSheet();
+      controller_->GetMusicPlayer()->SetVolume(100);
+    }
+  };
+  connect(menu_->GetSoundButton(), &QPushButton::released, this,
+          sound_button_click);
 }

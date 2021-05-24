@@ -3,7 +3,7 @@
 
 Group::Group(double first_radius, double second_radius, Point central_position)
              : first_radius_(first_radius), second_radius_(second_radius),
-             central_position_(Point(0, 0)) {}
+             central_position_(Point()) {}
 
 void Group::Draw(QPainter* painter, Resizer* resizer) const {
   painter->save();

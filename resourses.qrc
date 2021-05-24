@@ -1,5 +1,11 @@
 <RCC>
     <qresource>
         <file>resourses/tiles_templates.json</file>
+        <file>resourses/buttons.qss</file>
+        <file>resourses/sounds/button_click.mp3</file>
+        <file>resourses/sounds/game_music.mp3</file>
+        <file>resourses/sounds/hungry_meow.wav</file>
+        <file>resourses/sounds/normal_meow.wav</file>
+        <file>resourses/sounds/menu_music.mp3</file>
     </qresource>
 </RCC>

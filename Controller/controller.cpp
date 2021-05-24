@@ -1,22 +1,22 @@
 #include "controller.h"
 
 Controller::Controller() {
+  music_player_ = std::make_shared<MusicPlayer>();
   model_ = std::make_shared<Model>();
   view_ = std::make_shared<View>(this, model_);
-  map_generator_.SetModel(model_);
-  map_generator_.GenerateMap();
+  // music_player_->StartMenuMusic();
 }
 
 void Controller::Tick(int time) {
   int delta_time = time - current_game_time_;
   current_game_time_ = time;
 
+  TickViewCircle();
   TickPlayer(delta_time);
   TickCats(delta_time);
   TickDogs(delta_time);
   CatsAndFoodIntersect();
   TickFood(delta_time);
-  TickViewCircle();
 
   model_->ClearObjects();
 }
@@ -26,7 +26,11 @@ int Controller::GetCurrentTime() {
 }
 
 void Controller::StartGame() {
-  model_->SetGameState(GameState::kGame);
+  model_->SetModel();
+  map_generator_.SetModel(model_);
+  map_generator_.GenerateMap();
+  current_game_time_ = 0;
+  music_player_->StartGameMusic();
 }
 
 Player* Controller::GetPlayer() {
@@ -96,3 +100,22 @@ void Controller::CatsAndFoodIntersect() {
     }
   }
 }
+
+void Controller::EndGame() {
+  model_->ClearModel();
+  current_game_time_ = 0;
+  // music_player_->StartMenuMusic();
+}
+void Controller::SetGameVolume(int volume) {
+  music_player_->SetVolume(volume);
+}
+std::shared_ptr<MusicPlayer> Controller::GetMusicPlayer() {
+  return music_player_;
+}
+void Controller::PauseMusic() {
+  music_player_->Pause();
+}
+void Controller::ResumeMusic() {
+  music_player_->Resume();
+}
+

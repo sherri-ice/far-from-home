@@ -23,7 +23,7 @@ endif (MINGW)
 
 set(QT_VERSION 5)
 set(REQUIRED_LIBS Core Gui Widgets Multimedia MultimediaWidgets)
-set(REQUIRED_LIBS_QUALIFIED Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Multimedia Qt5::MultimediaWidgets)
+set(REQUIRED_LIBS_QUALIFIED Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Multimedia )
 
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-no-pie -Wall -Wextra -Wno-sign-compare -Wno-attributes")
 set(CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS} "-fno-omit-frame-pointer ${THREADS_OPTION}")
@@ -51,7 +51,9 @@ set(SOURCES
         Model/timer.cpp
         resourses.qrc
         images.qrc
-        Model/group.cpp)
+        Model/group.cpp
+        View/menu.cpp
+        View/menu.ui Model/music_player.cpp Model/music_player.h)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 
