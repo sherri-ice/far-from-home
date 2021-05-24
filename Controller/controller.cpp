@@ -11,12 +11,12 @@ void Controller::Tick(int time) {
   int delta_time = time - current_game_time_;
   current_game_time_ = time;
 
+  TickViewCircle();
   TickPlayer(delta_time);
   TickCats(delta_time);
   TickDogs(delta_time);
   CatsAndFoodIntersect();
   TickFood(delta_time);
-  TickViewCircle();
 
   model_->ClearObjects();
 }
@@ -83,6 +83,7 @@ void Controller::TickFood(int time) {
 void Controller::TickViewCircle() {
   double player_view = view_->GetViewSize();
   auto view_circle = GetPlayer()->GetViewCircle();
+  qDebug() << "here" << GetPlayer()->GetPosition().GetX() << ' ' << GetPlayer()->GetPosition().GetX();
   view_circle.SetCenter(GetPlayer()->GetPosition());
   view_circle.SetWantedRadius(player_view);
   model_->GetPlayer()->SetViewCircle(view_circle);

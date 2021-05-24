@@ -17,7 +17,7 @@ View::View(AbstractController* controller,
   resizer_.ChangeSystem(width(), height());
   setMouseTracking(true);
   setFocusPolicy(Qt::StrongFocus);
-  // layout_.insertWidget(0, menu_);
+  layout_.insertWidget(0, menu_);
   SetWindows();
   show();
 }
@@ -30,8 +30,10 @@ void View::Pause() {
 }
 
 void View::paintEvent(QPaintEvent*) {
+  if (menu_->isHidden()) {
     QPainter painter(this);
     DrawGameObjects(&painter);
+  }
 }
 
 void View::timerEvent(QTimerEvent* event) {
@@ -145,7 +147,7 @@ void View::SetMenuWindow() {
     view_timer_.start();
     controller_->StartGame();
     menu_->close();
-    graphicsEffect()->setEnabled(false);
+    // graphicsEffect()->setEnabled(false);
   };
   connect(menu_->GetPlayButton(), &QPushButton::released, this, start_game_button_click);
   auto exit_button_click = [this]() {
@@ -209,8 +211,8 @@ void View::focusOutEvent(QFocusEvent* event) {
 }
 
 void View::focusInEvent(QFocusEvent* event) {
-  qDebug() << graphicsEffect();
-  graphicsEffect()->setEnabled(false);
+  // qDebug() << graphicsEffect();
+  // graphicsEffect()->setEnabled(false);
 }
 
 

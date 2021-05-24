@@ -4,6 +4,7 @@
 
 Model::Model() {
   LoadAnimation();
+  MakeNewCat(Size(50, 50), 10, Point());
 }
 
 Player* Model::GetPlayer() {
@@ -165,12 +166,9 @@ std::vector<std::vector<QPixmap>> Model::GetImagesByFramePath(
   return result;
 }
 void Model::SetModel() {
-  std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
-                                                        10,
-                                                        Point(0, 0));
+  auto main_cat = cats_.back();
   main_cat->SetIsInGroup(true);
   main_cat->SetAnimations(animations_["cat"]);
-  cats_.emplace_back(main_cat);
   player_ = new Player(main_cat);
   player_->SetViewCircle(ViewCircle(player_->GetPosition(),
                                     constants::kViewCircleDefault));

@@ -19,7 +19,7 @@ class ViewCircle {
   [[nodiscard]] double GetWantedRadius() const;
 
  private:
-  Point center_{Point(0, 0)};
+  Point center_{Point(constants::kGameWidth / 2, constants::kGameHeight / 2)};
   double radius_{constants::kViewCircleMax};
   double wanted_radius_{constants::kViewCircleDefault};
 };
