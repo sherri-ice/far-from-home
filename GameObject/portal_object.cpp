@@ -1,7 +1,5 @@
 #include "portal_object.h"
 
-#include <QDebug>
-
 std::mt19937 PortalObject::random_generator_ = std::mt19937
     (std::chrono::system_clock::now().time_since_epoch().count());
 

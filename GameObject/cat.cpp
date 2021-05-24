@@ -1,6 +1,5 @@
 #include "cat.h"
 
-#include <QDebug>
 
 std::mt19937 Cat::random_generator_ = std::mt19937
     (std::chrono::system_clock::now().time_since_epoch().count());
@@ -231,6 +230,6 @@ void Cat::SetSearchingTime(int searching_time) {
   searching_time_ = searching_time;
 }
 
-bool Cat::GetIsBusy() {
-  return (cat_state_ == CatState::kIsSearching);
+bool Cat::GetIsVisible() {
+  return is_visible_;
 }
