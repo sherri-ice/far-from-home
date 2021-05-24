@@ -184,8 +184,6 @@ void Dog::SetIsMainCatCaught(bool is_caught) {
 }
 
 void Dog::ComeHome() {
-  qDebug() << position_.GetX() << ' ' << position_.GetY();
-  qDebug() << home_position_.GetX() << ' ' << home_position_.GetY();
   SetDestination(home_position_);
   dog_state_ = DogState::kIsComingHome;
 }
