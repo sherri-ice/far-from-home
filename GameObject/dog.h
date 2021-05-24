@@ -50,6 +50,8 @@ class Dog : public MovingObject {
   double GetWalkingSpeed() const;
   int GetNumOfCatsToRunAway() const;
   void SetIsMainCatCaught(bool);
+  DogState GetDogState();
+  void ComeHome();
 
   void RunAway(const Point& cat_position);
 

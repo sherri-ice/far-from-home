@@ -10,6 +10,10 @@
 #include "../Controller/abstract_controller.h"
 #include "../Model/model.h"
 
+namespace constants {
+const double kFactorForScreen = 0.3;
+}  // namespace constants
+
 class View : public QMainWindow {
   Q_OBJECT
 

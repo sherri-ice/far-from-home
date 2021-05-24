@@ -71,6 +71,11 @@ void Controller::TickDogs(int delta_time) {
         dog->RunAway(cat->GetRigidPosition());
         break;
       }
+      if (dog->GetDogState() == DogState::kIsWalking && dog->GetRigidPosition().
+          GetVectorTo(cat->GetRigidPosition()).GetLength() <
+          dog->GetVisibilityRadius()) {
+        dog->ComeHome();
+      }
       if (dog->GetRigidBody().IsCollide(cat->GetRigidBody())) {
         if (cat == player->GetMainCat()) {
           player->DismissCats();

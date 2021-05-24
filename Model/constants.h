@@ -16,7 +16,7 @@ const double kViewCircleMin = 250;
 const int kTimeBetweenTicks = 100;
 const int kTimeScale = 100;
 
-const double kResizerSpeed = 60.;
+const double kResizerSpeed = 25.;
 const double kResizerScale = 50.;
 
 const double kSemiMinorCoefficient = 0.8;

@@ -209,3 +209,13 @@ void Dog::RunAway(const Point& cat_position) {
   }
   reachable_cat_ = nullptr;
 }
+
+DogState Dog::GetDogState() {
+  return dog_state_;
+}
+
+void Dog::ComeHome() {
+  timers_.Stop(static_cast<int>(DogState::kIsWalking));
+  dog_state_ = DogState::kIsComingHome;
+  destination_ = home_position_;
+}
