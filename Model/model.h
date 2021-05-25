@@ -12,10 +12,10 @@
 #include "../GameObject/food.h"
 #include "../GameObject/player.h"
 
-enum GameState {
-  kGame,
-  kMenu
-};
+// enum GameState {
+//   kGame,
+//   kMenu
+// };
 
 enum Language {
   kRussian,
@@ -31,7 +31,7 @@ class Model {
   Player* GetPlayer();
   [[nodiscard]] std::vector<std::shared_ptr<GameObject>>
   GetDrawableGameObjects() const;
-  void SetGameState(int game_state);
+  // void SetGameState(int game_state);
   std::shared_ptr<Cat> MakeNewCat(const Size& size,
                                   double speed,
                                   const Point& point);
@@ -80,7 +80,7 @@ class Model {
     std::map<QString, std::vector<std::vector<QPixmap>>> animations_;
     std::map<QString, std::vector<QPixmap>> objects_pics_{};
     int current_level_ = 0;
-  int game_state_ = GameState::kMenu;
+  // int game_state_ = GameState::kMenu;
 
   std::list<std::shared_ptr<Cat>> cats_;
   Player* player_;

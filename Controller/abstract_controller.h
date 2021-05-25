@@ -11,10 +11,10 @@
 #include "../View/menu.h"
 #include "../Model/music_player.h"
 
-enum WindowType {
-  kMainMenu,
-  kGame
-};
+// enum WindowType {
+//   kMainMenu,
+//   kGame
+// };
 
 class AbstractController {
  public:

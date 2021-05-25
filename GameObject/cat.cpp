@@ -256,3 +256,9 @@ void Cat::ComeHome() {
   cat_state_ = CatState::kIsComingDestination;
   destination_ = home_position_;
 }
+void Cat::SetIsRunAway(bool is_run_away) {
+  is_run_away_ = is_run_away;
+}
+bool Cat::GetIsRunAway() const {
+  return is_run_away_;
+}

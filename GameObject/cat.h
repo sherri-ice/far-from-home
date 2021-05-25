@@ -47,7 +47,7 @@ class Cat : public MovingObject {
   void SetHomePosition(const Point& position);
   void SetIsInGroup(bool);
   void SetIsReachable(bool);
-  void SetIsRunAway(bool);
+  void SetIsRunAway(bool is_run_away);
   bool GetIsRunAway() const;
   void ComeHome();
 

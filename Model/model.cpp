@@ -66,9 +66,9 @@ void Model::LoadLevel(int level) {
   // TODO(anyone)
 }
 
-void Model::SetGameState(int) {
-  // TODO(anyone)
-}
+// void Model::SetGameState(int) {
+//   // TODO(anyone)
+// }
 
 std::list<std::shared_ptr<Food>> Model::GetFood() {
   return food_;
