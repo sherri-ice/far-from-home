@@ -171,7 +171,6 @@ void Cat::Tick(int delta_time) {
       timers_.Stop(static_cast<int>(CatState::kIsSearching));
       is_back_ = false;
       if (position_ == destination_) {
-        came_back_to_player = true;
         cat_state_ = CatState::kIsFollowingPlayer;
       }
       velocity_ = position_.GetVelocityVector(destination_, delta_time *

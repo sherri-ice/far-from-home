@@ -28,7 +28,7 @@ void Player::OrderCatsToMove(Size velocity_from_player) {
       continue;
     }
     if (cat->GetCatState() == CatState::kHasFinishedSearching) {
-      cat->SetDestination(cats_.at(0)->GetDrawPosition());
+      cat->SetDestination(cats_.at(0)->GetDrawPosition() + Point(20, 50));
       free_cats_.push_back(cat);
       continue;
     }
@@ -182,8 +182,7 @@ void Player::UpdateCatsGroup(const std::list<std::shared_ptr<Cat>>& all_cats) {
           GetVectorTo(wild_cat->GetDrawPosition()).GetLength();
       if (length < cat_group_.first_radius_ &&
           !(wild_cat->GetIsInGroup())
-          && wild_cat->GetCatState() != CatState::kIsGoingToSearch &&
-          !wild_cat->IsDead()) {
+          && wild_cat->GetCatState() != CatState::kIsGoingToSearch) {
         cats_.push_back(wild_cat);
         free_cats_.push_back(wild_cat);
         wild_cat->SetIsInGroup(true);
