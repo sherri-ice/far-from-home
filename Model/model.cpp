@@ -169,7 +169,7 @@ std::vector<std::vector<QPixmap>> Model::GetImagesByFramePath(
 }
 
 void Model::SetModel() {
-  MakeNewCat(Size(50, 50), 100, Point());
+  MakeNewCat(Size(50, 50), 10, Point());
   auto main_cat = cats_.back();
   main_cat->SetIsInGroup(true);
   main_cat->SetAnimations(animations_["cat"]);

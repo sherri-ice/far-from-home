@@ -23,7 +23,7 @@
           ],
           "size": 60,
           "speed": 7.5,
-          "visibility_radius": 70,
+          "visibility_radius": 80,
           "walking_speed" : 1.8
         },
         {
@@ -36,7 +36,7 @@
           ],
           "size": 60,
           "speed": 7.5,
-          "visibility_radius": 70,
+          "visibility_radius": 80,
           "walking_speed" : 1.9
         },
         {
@@ -89,7 +89,7 @@
           ],
           "size": 70,
           "speed": 8.5,
-          "visibility_radius": 70,
+          "visibility_radius": 80,
           "walking_speed" : 2.8
         },
         {
@@ -102,7 +102,7 @@
           ],
           "size": 65,
           "speed": 7.5,
-          "visibility_radius": 70,
+          "visibility_radius": 80,
           "walking_speed" : 3.8
         },
         {
@@ -115,7 +115,7 @@
           ],
           "size": 70,
           "speed": 8.5,
-          "visibility_radius": 70,
+          "visibility_radius": 80,
           "walking_speed" : 2.8
         },
         {
@@ -128,7 +128,7 @@
           ],
           "size": 60,
           "speed": 8.5,
-          "visibility_radius": 70,
+          "visibility_radius": 80,
           "walking_speed" : 2.8
         },
         {
@@ -170,7 +170,7 @@
           ],
           "size": 60,
           "speed": 7.5,
-          "visibility_radius": 70,
+          "visibility_radius": 90,
           "walking_speed" : 1.8
         },
         {
@@ -196,7 +196,7 @@
           ],
           "size": 60,
           "speed": 8.5,
-          "visibility_radius": 70,
+          "visibility_radius": 80,
           "walking_speed" : 2
         },
         {
@@ -209,7 +209,7 @@
           ],
           "size": 60,
           "speed": 8.5,
-          "visibility_radius": 70,
+          "visibility_radius": 80,
           "walking_speed" : 2
         }
       ]
@@ -238,7 +238,7 @@
           ],
           "size": 60,
           "speed": 7.5,
-          "visibility_radius": 70,
+          "visibility_radius": 80,
           "walking_speed" : 1.8
         },
         {
@@ -264,7 +264,7 @@
           ],
           "size": 60,
           "speed": 8.5,
-          "visibility_radius": 70,
+          "visibility_radius": 80,
           "walking_speed" : 2
         },
         {
@@ -277,7 +277,7 @@
           ],
           "size": 60,
           "speed": 9.5,
-          "visibility_radius": 70,
+          "visibility_radius": 90,
           "walking_speed" : 2.5
         }
       ]
@@ -317,7 +317,7 @@
           ],
           "size": 70,
           "speed": 9.5,
-          "visibility_radius": 70,
+          "visibility_radius": 80,
           "walking_speed" : 3.75
         },
         {
