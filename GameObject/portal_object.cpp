@@ -59,6 +59,7 @@ void PortalObject::Tick(int time) {
       break;
     }
     case PortalState::kWaitToSeeResult: {
+      skin_ = QPixmap("../images/objects/portal.png");
       break;
     }
     case PortalState::kDefault:

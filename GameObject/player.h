@@ -4,6 +4,7 @@
 #include <list>
 #include <memory>
 #include <vector>
+#include <set>
 
 #include "../Model/timer.h"
 #include "../Model/group.h"
@@ -68,6 +69,7 @@ class Player {
   std::vector<std::shared_ptr<Cat>> cats_;
   ViewCircle view_circle_;
   Group cat_group_;
+  std::vector<std::shared_ptr<Cat>> free_cats_;
 
   double visibility_radius_{150};
 

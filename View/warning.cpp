@@ -37,9 +37,9 @@ void Warning::Tick(int delta_time) {
 void Warning::Draw(QPainter* painter, Resizer* resizer) const {
   if (is_drawn_) {
     painter->save();
-
+    QString family = QFontDatabase::applicationFontFamilies(0).at(0);
     double font_size = resizer->GameToWindowLength(font_size_);
-    QFont font("Rockwell", QFont::ExtraBold);
+    QFont font(family, QFont::ExtraBold);
     font.setPixelSize(font_size);
     painter->setFont(font);
 

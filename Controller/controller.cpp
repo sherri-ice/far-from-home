@@ -88,10 +88,11 @@ void Controller::TickDogs(int delta_time) {
             player->DismissCats();
             dog->SetIsMainCatCaught(true);
             break;
-          } else {
-            if (!cat->GetIsBusy()) {
-              player->LosingCat(dog->GetRigidPosition(), cat);
-            }
+          } else if (cat->GetCatState() != CatState::kIsSearching) {
+            player->LosingCat(dog->GetRigidPosition(), cat);
+          } else if (cat->GetCatState() == CatState::kIsSearching
+              || cat->GetCatState() == CatState::kIsGoingToSearch) {
+            dog->ComeHome();
           }
         }
       }

@@ -3,6 +3,7 @@
 
 #include <QPainter>
 #include <vector>
+#include <QFontDatabase>
 #include "../GameObject/rigid_body.h"
 #include "../Model/point.h"
 #include "../Model/size.h"

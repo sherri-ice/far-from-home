@@ -138,7 +138,7 @@ void Dog::Tick(int delta_time) {
                                      static_cast<int>(DogState::kIsResting));
       } else {
         velocity_ = position_.GetVelocityVector(destination_, delta_time *
-        walking_speed_ / constants::kTimeScale);
+            walking_speed_ / constants::kTimeScale);
       }
       break;
     }
@@ -159,7 +159,8 @@ void Dog::SetReachableCat(const std::vector<std::shared_ptr<Cat>>& cats) {
     Size cat_distance = position_.GetVectorTo(cat->GetRigidPosition());
     if (CheckIfCanSeeCat(&(*cat)) &&
         cat_distance.GetLength() < min_distance.GetLength() &&
-        (!timers_.IsActive(static_cast<int>(DogState::kIsComingHome)))) {
+        !timers_.IsActive(static_cast<int>(DogState::kIsComingHome))
+        && cat->GetCatState() == CatState::kIsGoingToSearch) {
       reachable_cat_ = &(*cat);
       min_distance = cat_distance;
     }
@@ -189,4 +190,9 @@ void Dog::SetIsMainCatCaught(bool is_caught) {
 
 bool Dog::IsComingHome() const {
   return dog_state_ == DogState::kIsComingHome;
+}
+
+void Dog::ComeHome() {
+  SetDestination(home_position_);
+  dog_state_ = DogState::kIsComingHome;
 }

@@ -32,6 +32,7 @@ void Player::OrderCatsToMove(Size velocity_from_player) {
     }
     if (cat->GetCatState() == CatState::kHasFinishedSearching) {
       cat->SetDestination(cats_.at(0)->GetDrawPosition());
+      free_cats_.push_back(cat);
       continue;
     }
     cat_position = cat->GetRigidPosition();
@@ -88,6 +89,11 @@ void Player::OrderCatsToMove(Size velocity_from_player) {
                                return !(cat->GetIsInGroup());
                              }),
               cats_.end());
+  free_cats_.erase(std::remove_if(free_cats_.begin(), free_cats_.end(),
+                                  [](const std::shared_ptr<Cat>& cat) {
+                                    return !(cat->GetIsInGroup());
+                                  }),
+                   free_cats_.end());
 }
 
 void Player::UpdateDogsAround(const std::list<std::shared_ptr<Dog>>& dogs)
@@ -123,6 +129,11 @@ void Player::DismissCats() {
   }
   cat_group_.DecGroup(cats_.size() - 1);
   cats_.erase(cats_.cbegin() + 1, cats_.cend());
+  free_cats_.erase(std::remove_if(free_cats_.begin(), free_cats_.end(),
+                                  [](const std::shared_ptr<Cat>& cat) {
+                                    return !(cat->GetIsInGroup());
+                                  }),
+                   free_cats_.end());
 }
 
 const ViewCircle& Player::GetViewCircle() const {
@@ -174,6 +185,7 @@ void Player::UpdateCatsGroup(const std::list<std::shared_ptr<Cat>>& all_cats) {
           && wild_cat->GetCatState() != CatState::kIsGoingToSearch &&
           hunger_state_ != HungerState::kSevereHunger) {
         cats_.push_back(wild_cat);
+        free_cats_.push_back(wild_cat);
         wild_cat->SetIsInGroup(true);
         wild_cat->SetCatState(CatState::kIsFollowingPlayer);
         food_saturation_ += wild_cat->GetFoodSaturation();
@@ -247,20 +259,28 @@ void Player::LosingCat(Point dog_position, const std::shared_ptr<Cat>& cat) {
                                return !(cat->GetIsInGroup());
                              }),
               cats_.end());
+
+  free_cats_.erase(std::remove_if(free_cats_.begin(), free_cats_.end(),
+                                  [](const std::shared_ptr<Cat>& cat) {
+                                    return !(cat->GetIsInGroup());
+                                  }),
+                   free_cats_.end());
 }
 
 std::shared_ptr<Cat> Player::SendCatToSearch(const Point& portal_coordinates,
                                              int search_time, const Rect&
-                                             portal_rect) {
-  cats_.back()->SetCatState(CatState::kIsGoingToSearch);
-  cats_.back()->SetSearchingTime(search_time);
-  cats_.back()->SetDestination(portal_coordinates);
-  cats_.back()->SetPortalRect(portal_rect);
-  return cats_.back();
+portal_rect) {
+  auto cat = free_cats_.begin();
+  (*cat)->SetCatState(CatState::kIsGoingToSearch);
+  (*cat)->SetSearchingTime(search_time);
+  (*cat)->SetDestination(portal_coordinates);
+  (*cat)->SetPortalRect(portal_rect);
+  free_cats_.erase(free_cats_.begin());
+  return *cat;
 }
 
 bool Player::NotOnlyMainCat() {
-  return (cats_.size() >= 2);
+  return (cats_.size() >= 2 && !free_cats_.empty());
 }
 
 void Player::FeedCats(double food) {

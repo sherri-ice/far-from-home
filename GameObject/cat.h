@@ -51,7 +51,7 @@ class Cat : public MovingObject {
   void SetCatState(CatState cat_state);
   CatState GetCatState();
   bool GetIsReachable();
-  bool GetIsBusy();
+  bool GetIsVisible();
 
   Timer GetTimer();
   int GetSearchingTime() const;

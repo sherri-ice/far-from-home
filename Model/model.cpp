@@ -1,6 +1,7 @@
 #include <algorithm>
 
 #include "../Model/model.h"
+#include "../View/progress_bar.h"
 
 namespace {
 
@@ -18,6 +19,7 @@ std::mt19937 Model::random_generator_ = std::mt19937
 
 Model::Model() : hunger_bar_(100, 100) {
   LoadAnimation();
+  QFontDatabase::addApplicationFont("../resourses/font.ttf");
   std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
                                                         10,
                                                         Point(0, 0));

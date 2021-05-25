@@ -235,8 +235,8 @@ void Cat::SetSearchingTime(int searching_time) {
   searching_time_ = searching_time;
 }
 
-bool Cat::GetIsBusy() {
-  return (cat_state_ == CatState::kIsSearching);
+bool Cat::GetIsVisible() {
+  return is_visible_;
 }
 
 double Cat::GetFoodSaturation() const {

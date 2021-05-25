@@ -1,7 +1,6 @@
 #include "result_window.h"
 #include "./ui_result_window.h"
 #include "../Model/constants.h"
-#include <QDebug>
 
 ResultWindow::ResultWindow(QWidget* parent)
     : QDialog(parent), ui(new Ui::ResultWindow) {
@@ -33,7 +32,6 @@ void ResultWindow::Show(bool is_found) {
   }
 
   exec();
-  qDebug() << result();
 }
 
 bool ResultWindow::GetUserAnswer() {

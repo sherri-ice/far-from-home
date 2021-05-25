@@ -50,6 +50,8 @@ class Dog : public MovingObject {
 
   bool IsComingHome() const;
 
+  void ComeHome();
+
  private:
   Point home_position_;
   double visibility_radius_;
