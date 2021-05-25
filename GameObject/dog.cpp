@@ -138,7 +138,7 @@ void Dog::Tick(int delta_time) {
       break;
     }
   }
-  is_moving_ = !(dog_state_ == DogState::kIsResting);
+  is_moving_ = dog_state_ != DogState::kIsResting;
   object_animation_.Tick(delta_time, GetAnimationState());
   was_moving_ = is_moving_;
 }

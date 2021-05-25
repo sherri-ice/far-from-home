@@ -53,13 +53,12 @@ void PortalObject::Tick(int time) {
     }
     case PortalState::kFinishedSearch: {
       warning_.UpdateMessage("Click on a tree to see the result!");
-      state_ = PortalState::kWaitToSeeResult;
       progress_bar_.SetInvisible();
       search_timer_.Stop();
+      state_ = PortalState::kWaitToSeeResult;
       break;
     }
     case PortalState::kWaitToSeeResult: {
-      skin_ = QPixmap("../images/objects/portal.png");
       break;
     }
     case PortalState::kDefault:
@@ -98,10 +97,6 @@ void PortalObject::SetIfMessageIsShown(bool is_shown) {
   warning_.SetIfIsDrawn(is_shown);
 }
 
-void PortalObject::SetWaitState() {
-  state_ = PortalState::kWaitToSeeResult;
-}
-
 int PortalObject::GetSearchTime() const {
   return search_time_;
 }
@@ -110,14 +105,18 @@ void PortalObject::SetSearchTime(int search_time) {
   search_time_ = search_time;
 }
 
-void PortalObject::SetWaitSearchState() {
-  state_ = PortalState::kWaitToSearch;
-}
-
-bool PortalObject::HasFinished() {
+bool PortalObject::ReadyToShowResult() {
   return (state_ == PortalState::kWaitToSeeResult);
 }
 
-void PortalObject::SetCollectedState() {
-  state_ = PortalState::kCollected;
+void PortalObject::SetState(PortalState state) {
+  state_ = state;
+}
+
+bool PortalObject::IsNotificationShown() {
+  return  (state_ == PortalState::kNotificationShown);
+}
+
+void PortalObject::SetSuperSkin() {
+  skin_ = QPixmap(":images/objects/portal.png");
 }

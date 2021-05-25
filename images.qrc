@@ -107,6 +107,8 @@
         <file>images/objects/tree_selected/Frame 2.png</file>
         <file>images/objects/tree_selected/Frame 3.png</file>
 
+        <file>images/objects/portal.png</file>
+
 
     </qresource>
 </RCC>

@@ -2,6 +2,8 @@
 #include "./ui_result_window.h"
 #include "../Model/constants.h"
 
+#include <QDebug>
+
 ResultWindow::ResultWindow(QWidget* parent)
     : QDialog(parent), ui(new Ui::ResultWindow) {
   ui->setupUi(this);
@@ -25,6 +27,7 @@ void ResultWindow::ConnectButtons() {
 }
 
 void ResultWindow::Show(bool is_found) {
+  qDebug() << is_found;
   if (is_found) {
     ui->widget->setCurrentIndex(ResultState::kFound);
   } else {
