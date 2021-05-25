@@ -12,10 +12,6 @@
 #include "../GameObject/food.h"
 #include "../GameObject/player.h"
 
-enum GameState {
-  kGame,
-  kMenu
-};
 enum Language {
   kRussian,
   kEnglish
@@ -78,7 +74,6 @@ class Model {
   std::map<QString, std::vector<std::vector<QPixmap>>> animations_;
   std::map<QString, std::vector<QPixmap>> objects_pics_{};
   int current_level_ = 0;
-  int game_state_ = GameState::kMenu;
 
   std::list<std::shared_ptr<Cat>> cats_;
   Player* player_;
