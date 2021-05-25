@@ -58,8 +58,8 @@ class Cat : public MovingObject {
   Timer GetTimer();
   int GetSearchingTime() const;
   void SetSearchingTime(int searching_time);
-  void SetPortalRect(const Rect& rect);
-  Rect GetPortalRect() const;
+  void SetDestinationRect(const Rect& rect);
+  Rect GetDestinationRect() const;
 
   double GetFoodSaturation() const;
   void FeedCat();
@@ -67,6 +67,7 @@ class Cat : public MovingObject {
   bool IsComingDestination() const;
   bool IsGoingToSearch() const;
   bool IsMainCat() const;
+  bool HasFinishedSearch() const;
 
  private:
   bool is_in_group_{false};
@@ -77,7 +78,7 @@ class Cat : public MovingObject {
   int change_directions_count_{0};
   Timer timers_;
   int searching_time_{1000};
-  Rect portal_rect_{};
+  Rect destination_rect_{};
 
   double food_saturation_{100.};
   double speed_of_hunger_{constants::kSpeedOfHunger};

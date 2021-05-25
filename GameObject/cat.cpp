@@ -147,8 +147,9 @@ void Cat::Tick(int delta_time) {
     }
     case CatState::kIsGoingToSearch: {
       timers_.Stop(static_cast<int>(CatState::kIsFollowingPlayer));
-      if (GetRigidBody()->IsCollide(portal_rect_)) {
+      if (GetRigidBody()->IsCollide(destination_rect_)) {
         cat_state_ = CatState::kIsSearching;
+        velocity_ = Size(0, 0);
       } else {
         velocity_ = position_.GetVelocityVector(destination_, delta_time *
             speed_ / constants::kTimeScale);
@@ -174,7 +175,7 @@ void Cat::Tick(int delta_time) {
     case CatState::kHasFinishedSearching: {
       timers_.Stop(static_cast<int>(CatState::kIsSearching));
       is_back_ = false;
-      if (position_ == destination_) {
+      if (GetRigidBody()->IsCollide(destination_rect_)) {
         cat_state_ = CatState::kIsFollowingPlayer;
       }
       velocity_ = position_.GetVelocityVector(destination_, delta_time *
@@ -260,16 +261,16 @@ bool Cat::IsMainCat() const {
   return cat_state_ == CatState::kIsMainCat;
 }
 
-void Cat::SetPortalRect(const Rect& rect) {
-  portal_rect_ = rect;
+void Cat::SetDestinationRect(const Rect& rect) {
+  destination_rect_ = rect;
 }
 
 bool Cat::IsGoingToSearch() const {
   return cat_state_ == CatState::kIsGoingToSearch;
 }
 
-Rect Cat::GetPortalRect() const {
-  return portal_rect_;
+Rect Cat::GetDestinationRect() const {
+  return destination_rect_;
 }
 
 void Cat::SetIsRunAway(bool is_run_away) {
@@ -278,4 +279,8 @@ void Cat::SetIsRunAway(bool is_run_away) {
 
 bool Cat::GetIsRunAway() const {
   return is_run_away_;
+}
+
+bool Cat::HasFinishedSearch() const {
+  return cat_state_ == CatState::kHasFinishedSearching;
 }

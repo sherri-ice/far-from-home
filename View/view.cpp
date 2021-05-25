@@ -20,7 +20,6 @@ View::View(AbstractController* controller,
   layout_->insertWidget(0, menu_);
   SetWindows();
   show();
-  setStyleSheet("background-color: #32CD32");
 
   time_between_ticks_.start();
   controller_timer_id_ = startTimer(constants::kTimeBetweenTicks);

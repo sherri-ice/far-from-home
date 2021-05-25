@@ -32,6 +32,7 @@ void Player::OrderCatsToMove(Size velocity_from_player) {
     }
     if (cat->GetCatState() == CatState::kHasFinishedSearching) {
       cat->SetDestination(cats_.at(0)->GetDrawPosition());
+      cat->SetDestinationRect(cats_.at(0)->GetRigidBody()->GetRect());
       free_cats_.push_back(cat);
       continue;
     }
@@ -277,7 +278,7 @@ portal_rect) {
   (*cat)->SetCatState(CatState::kIsGoingToSearch);
   (*cat)->SetSearchingTime(search_time);
   (*cat)->SetDestination(portal_coordinates);
-  (*cat)->SetPortalRect(portal_rect);
+  (*cat)->SetDestinationRect(portal_rect);
   free_cats_.erase(free_cats_.begin());
   return *cat;
 }

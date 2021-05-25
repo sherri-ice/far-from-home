@@ -352,8 +352,8 @@ void Controller::DogsIntersect(const std::shared_ptr<Dog>& dog) {
 void Controller::CatsInGroupIntersect(const std::shared_ptr<Cat>& cat) {
   auto rigid_body = cat->GetRigidBody();
   auto main_cat = model_->GetPlayer()->GetMainCat();
-  if (main_cat->GetVelocity() != cat->GetVelocity() &&
-  rigid_body->IfCollisionWillHappen(*(main_cat->GetRigidBody()),
+  if (!cat->HasFinishedSearch() && main_cat->GetVelocity() != cat->GetVelocity
+  () && rigid_body->IfCollisionWillHappen(*(main_cat->GetRigidBody()),
                                     cat->GetVelocity(), main_cat->GetVelocity
                                     ())) {
     auto new_velocity = rigid_body->GetVelocityToGoAround(*
@@ -467,12 +467,12 @@ void Controller::MoveCatsAndDogs(int delta_time) {
 void Controller::CatAndStaticObjectsIntersect(const std::shared_ptr<Cat>& cat) {
   auto rigid_body = cat->GetRigidBody();
   for (const auto& static_object : model_->GetStaticObjects()) {
-    if (rigid_body->IfCollisionWillHappen(*(static_object->GetRigidBody()),
-                                              cat->GetVelocity())) {
+    if (rigid_body->IfCollisionWillHappen(*
+    (static_object->GetRigidBody()), cat->GetVelocity())) {
       Size new_velocity = cat->GetRigidBody()
           ->GetVelocityToGoAround(*(static_object->GetRigidBody()),
                                   cat->GetVelocity());
-      if (cat->IsGoingToSearch() && cat->GetPortalRect() ==
+      if (cat->IsGoingToSearch() && cat->GetDestinationRect() ==
       static_object->GetRigidBody()->GetRect()) {
         return;
       }
