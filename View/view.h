@@ -12,6 +12,7 @@
 #include "../Controller/abstract_controller.h"
 #include "../Model/model.h"
 #include "menu.h"
+#include "background.h"
 
 class View : public QWidget {
   Q_OBJECT
@@ -56,6 +57,7 @@ class View : public QWidget {
   Menu* menu_ = new Menu(this);
   bool is_sound_on_ = true;
   QVBoxLayout* layout_;
+  Background background_;
 };
 
 #endif  // VIEW_VIEW_H_

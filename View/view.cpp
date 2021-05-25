@@ -77,6 +77,7 @@ void View::keyReleaseEvent(QKeyEvent* event) {
 }
 
 void View::DrawGameObjects(QPainter* painter) {
+  background_.Draw(painter, &resizer_, controller_->GetPlayer()->GetPosition());
   controller_->GetPlayer()->GetViewCircle().Draw(painter, &resizer_);
   controller_->GetPlayer()->GetCatGroup().Draw(painter, &resizer_);
   std::vector<std::shared_ptr<GameObject>>

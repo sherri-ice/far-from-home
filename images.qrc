@@ -110,5 +110,7 @@
         <file>images/menu/buttons/sound_on.png</file>
         <file>images/menu/buttons/sound_off.png</file>
 
+        <file>images/texture/background.png</file>
+
     </qresource>
 </RCC>
