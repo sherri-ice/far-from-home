@@ -27,6 +27,9 @@ enum class CatState {
   kIsFollowingPlayer,
   kIsComingDestination,
   kIsMainCat,
+  kIsSearching,
+  kIsGoingToSearch,
+  kHasFinishedSearching,
   SIZE
 };
 
@@ -48,8 +51,11 @@ class Cat : public MovingObject {
   void SetCatState(CatState cat_state);
   CatState GetCatState();
   bool GetIsReachable();
+  bool GetIsVisible();
 
   Timer GetTimer();
+  int GetSearchingTime() const;
+  void SetSearchingTime(int searching_time);
 
  private:
   bool is_in_group_{false};
@@ -59,6 +65,7 @@ class Cat : public MovingObject {
   CatState cat_state_{CatState::kIsResting};
   int change_directions_count_{0};
   Timer timers_;
+  int searching_time_{1000};
 
   static std::mt19937 random_generator_;
 };

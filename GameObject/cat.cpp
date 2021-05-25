@@ -1,5 +1,6 @@
 #include "cat.h"
 
+
 std::mt19937 Cat::random_generator_ = std::mt19937
     (std::chrono::system_clock::now().time_since_epoch().count());
 
@@ -13,28 +14,30 @@ Cat::Cat(const Size& size, double speed, const Point& position) :
 }
 
 void Cat::Draw(QPainter* painter, Resizer* resizer) const {
-  rigid_body_.Draw(painter, resizer);
-  painter->save();
-  auto position = resizer->GameToWindowCoordinate(position_);
-  auto size = resizer->GameToWindowSize(size_);
+  if (is_visible_) {
+    rigid_body_.Draw(painter, resizer);
+    painter->save();
+    auto position = resizer->GameToWindowCoordinate(position_);
+    auto size = resizer->GameToWindowSize(size_);
     painter->drawPixmap(position.GetX() - size.GetWidth() / 2,
-                      position.GetY() - size.GetHeight() / 2,
-                      size.GetWidth(),
-                      size.GetHeight(),
-                      object_animation_.GetCurrentFrame());
-  painter->restore();
+                        position.GetY() - size.GetHeight() / 2,
+                        size.GetWidth(),
+                        size.GetHeight(),
+                        object_animation_.GetCurrentFrame());
+    painter->restore();
+  }
 }
 
 void Cat::Tick(int delta_time) {
   std::uniform_real_distribution<> pos_velocity(0, 1);
   std::uniform_real_distribution<> neg_velocity(-1, 0);
   std::uniform_real_distribution<> velocity(-1, 1);
-  if (timers_.IsActive(static_cast<int>(CatState::kIsComingDestination))) {
-    cat_state_ = CatState::kIsComingDestination;
-  }
+  // if (timers_.IsActive(static_cast<int>(CatState::kIsComingDestination))) {
+  //   cat_state_ = CatState::kIsComingDestination;
+  // }
   switch (cat_state_) {
     case CatState::kIsResting: {
-      home_position_ = position_;
+      // home_position_ = position_;
       timers_.Stop(static_cast<int>(CatState::kIsFollowingPlayer));
       if (!timers_.IsActive(static_cast<int>(CatState::kIsResting))) {
         timers_.StartTimerWithRandom(constants::kTimeToRestMin,
@@ -79,9 +82,26 @@ void Cat::Tick(int delta_time) {
       }
       break;
     }
+    case CatState::kIsComingDestination: {
+      if (position_ == destination_) {
+        if (is_reachable_cat_) {
+          is_reachable_cat_ = false;
+          DecSpeed(constants::kCatRunCoefficient);
+        }
+        cat_state_ = CatState::kIsResting;
+        velocity_ = Size(0, 0);
+        timers_.StartTimerWithRandom(constants::kTimeToRestMin,
+                                     constants::kTimeToRestMax,
+                                     static_cast<int>(CatState::kIsResting));
+      } else {
+        velocity_ = position_.GetVelocityVector(destination_, delta_time *
+            speed_ / constants::kTimeScale);
+      }
+      break;
+    }
     case CatState::kIsFollowingPlayer: {
       if (timers_.IsTimeOut(static_cast<int>(CatState::kIsFollowingPlayer)) ||
-      !timers_.IsActive(static_cast<int>(CatState::kIsFollowingPlayer))) {
+          !timers_.IsActive(static_cast<int>(CatState::kIsFollowingPlayer))) {
         if (velocity_ == Size(1, 1)) {
           velocity_ = Size(pos_velocity(random_generator_),
                            pos_velocity(random_generator_));
@@ -118,41 +138,76 @@ void Cat::Tick(int delta_time) {
       }
       break;
     }
-    case CatState::kIsComingDestination: {
-      if (is_run_away_ && !(timers_.IsActive(static_cast<int>
-                            (CatState::kIsComingDestination)))) {
-        timers_.StartTimerWithRandom(constants::kTimeToCommingDestinationMin,
-                                     constants::kTimeToCommingDestinationMax,
-                                     static_cast<int>
-                                     (CatState::kIsComingDestination));
-      }
-      if (timers_.IsTimeOut(static_cast<int>(CatState::kIsComingDestination))) {
-        is_run_away_ = false;
-        timers_.Stop(static_cast<int>(CatState::kIsComingDestination));
-      }
-      if (position_ == destination_) {
-        if (is_reachable_cat_) {
-          is_reachable_cat_ = false;
-          DecSpeed(constants::kCatRunCoefficient);
-        }
-        is_run_away_ = false;
-        timers_.Stop(static_cast<int>(CatState::kIsComingDestination));
-        cat_state_ = CatState::kIsResting;
-        velocity_ = Size(0, 0);
-        timers_.StartTimerWithRandom(constants::kTimeToRestMin,
-                                     constants::kTimeToRestMax,
-                                     static_cast<int>(CatState::kIsResting));
-      } else {
-        velocity_ = position_.GetVelocityVector(destination_, delta_time *
-            speed_ / constants::kTimeScale);
-      }
-      break;
-    }
+    // case CatState::kIsComingDestination: {
+    //   if (is_run_away_ && !(timers_.IsActive(static_cast<int>
+    //                         (CatState::kIsComingDestination)))) {
+    //     timers_.StartTimerWithRandom(constants::kTimeToCommingDestinationMin,
+    //                                  constants::kTimeToCommingDestinationMax,
+    //                                  static_cast<int>
+    //                                  (CatState::kIsComingDestination));
+    //   }
+    //   if (timers_.IsTimeOut(static_cast<int>(CatState::kIsComingDestination))) {
+    //     is_run_away_ = false;
+    //     timers_.Stop(static_cast<int>(CatState::kIsComingDestination));
+    //   }
+    //   if (position_ == destination_) {
+    //     if (is_reachable_cat_) {
+    //       is_reachable_cat_ = false;
+    //       DecSpeed(constants::kCatRunCoefficient);
+    //     }
+    //     is_run_away_ = false;
+    //     timers_.Stop(static_cast<int>(CatState::kIsComingDestination));
+    //     cat_state_ = CatState::kIsResting;
+    //     velocity_ = Size(0, 0);
+    //     timers_.StartTimerWithRandom(constants::kTimeToRestMin,
+    //                                  constants::kTimeToRestMax,
+    //                                  static_cast<int>(CatState::kIsResting));
+    //   } else {
+    //     velocity_ = position_.GetVelocityVector(destination_, delta_time *
+    //         speed_ / constants::kTimeScale);
+    //   }
+    //   break;
+    // }
     case CatState::kIsMainCat: {
       if (velocity_.GetLength() > constants::kEpsilon) {
         velocity_ /= velocity_.GetLength();
         velocity_ *= delta_time * speed_ / constants::kTimeScale;
       }
+      break;
+    }
+    case CatState::kIsGoingToSearch: {
+      timers_.Stop(static_cast<int>(CatState::kIsFollowingPlayer));
+      if (position_ == destination_) {
+        cat_state_ = CatState::kIsSearching;
+      }
+      velocity_ = position_.GetVelocityVector(destination_, delta_time *
+          speed_ / constants::kTimeScale);
+      break;
+    }
+    case CatState::kIsSearching: {
+      if (!timers_.IsActive(static_cast<int>(CatState::kIsSearching))) {
+        timers_.Start(searching_time_,
+                      static_cast<int>(CatState::kIsSearching));
+        is_hidding_ = true;
+      } else {
+        is_hidding_ = false;
+        is_visible_ = false;
+      }
+      if (timers_.IsTimeOut(static_cast<int>(CatState::kIsSearching))) {
+        cat_state_ = CatState::kHasFinishedSearching;
+        is_visible_ = true;
+        is_back_ = true;
+      }
+      break;
+    }
+    case CatState::kHasFinishedSearching: {
+      timers_.Stop(static_cast<int>(CatState::kIsSearching));
+      is_back_ = false;
+      if (position_ == destination_) {
+        cat_state_ = CatState::kIsFollowingPlayer;
+      }
+      velocity_ = position_.GetVelocityVector(destination_, delta_time *
+          speed_ / constants::kTimeScale);
       break;
     }
     default: {
@@ -164,7 +219,7 @@ void Cat::Tick(int delta_time) {
   } else {
     is_moving_ = false;
   }
-  object_animation_.Tick(delta_time, GetAnimation());
+  object_animation_.Tick(delta_time, GetAnimationState());
   was_moving_ = is_moving_;
   timers_.Tick(delta_time);
 }
@@ -201,10 +256,22 @@ void Cat::SetHomePosition(const Point& position) {
   home_position_ = position;
 }
 
-void Cat::SetIsRunAway(bool is_run_away) {
-  is_run_away_ = is_run_away;
+int Cat::GetSearchingTime() const {
+  return searching_time_;
 }
 
-bool Cat::GetIsRunAway() const {
-  return is_run_away_;
+void Cat::SetSearchingTime(int searching_time) {
+  searching_time_ = searching_time;
 }
+
+bool Cat::GetIsVisible() {
+  return is_visible_;
+}
+
+// void Cat::SetIsRunAway(bool is_run_away) {
+//   is_run_away_ = is_run_away;
+// }
+//
+// bool Cat::GetIsRunAway() const {
+//   return is_run_away_;
+// }

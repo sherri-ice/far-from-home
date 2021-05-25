@@ -11,6 +11,7 @@ class Timer {
   ~Timer() = default;
 
   void Tick(int delta_time);
+  void Start(int time, int index_of_timer = 0);
   void StartTimerWithRandom(int min_time, int max_time, int index_of_timer = 0);
   void Stop(int index_of_timer = 0);
 

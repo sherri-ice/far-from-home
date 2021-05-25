@@ -46,12 +46,17 @@ set(SOURCES
         View/view.cpp
         View/resizer.cpp
         GameObject/view_circle.cpp
+        GameObject/portal_object.cpp
+        View/progress_bar.cpp
+        View/warning.cpp
         View/animation.cpp
         Model/generator.cpp
         Model/timer.cpp
         resourses.qrc
         images.qrc
-        Model/group.cpp)
+        Model/group.cpp
+        View/result_window.cpp
+        View/result_window.ui)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 

@@ -1,6 +1,8 @@
 #ifndef VIEW_ANIMATION_H_
 #define VIEW_ANIMATION_H_
 
+#include <iostream>
+#include <vector>
 #include <QPixmap>
 #include <random>
 #include <vector>
@@ -13,6 +15,8 @@ enum AnimationState {
     kWalkUp = 1,
     kWalkLeft = 2,
     kWalkRight = 3,
+    kHide = 4,
+    kBack = 5,
     kSit = 6,
     kSiting = 7
 };

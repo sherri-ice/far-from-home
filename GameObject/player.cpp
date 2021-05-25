@@ -3,7 +3,6 @@
 std::mt19937 Player::random_generator_ = std::mt19937
     (std::chrono::system_clock::now().time_since_epoch().count());
 
-
 Player::Player(const std::shared_ptr<Cat>& cat) : cat_group_(60, 150) {
   cats_.emplace_back(cat);
 }
@@ -14,7 +13,6 @@ std::vector<std::shared_ptr<Cat>> Player::GetCats() const {
 
 void Player::OrderCatsToMove(Size velocity_from_player) {
   cat_group_.velocity_ = velocity_from_player;
-
   Point cat_position;
   std::uniform_real_distribution<> velocity(-1, 1);
 
@@ -24,7 +22,19 @@ void Player::OrderCatsToMove(Size velocity_from_player) {
       cat->SetVelocity(velocity_from_player);
       continue;
     }
+    if (cat->GetCatState() == CatState::kIsGoingToSearch) {
+      continue;
+    }
+    if (cat->GetCatState() == CatState::kIsSearching) {
+      continue;
+    }
+    if (cat->GetCatState() == CatState::kHasFinishedSearching) {
+      cat->SetDestination(cats_.at(0)->GetDrawPosition());
+      free_cats_.push_back(cat);
+      continue;
+    }
     cat_position = cat->GetRigidPosition();
+
     if (cat_position.IsInEllipse(cat_group_.central_position_,
                                  cat_group_.first_radius_)) {
       if (velocity_from_player == Size(0, 0)) {
@@ -72,9 +82,15 @@ void Player::OrderCatsToMove(Size velocity_from_player) {
   }
 
   cats_.erase(std::remove_if(cats_.begin(), cats_.end(),
-                             [](const std::shared_ptr<Cat>& cat)
-                             {return !(cat->GetIsInGroup());}),
+                             [](const std::shared_ptr<Cat>& cat) {
+                               return !(cat->GetIsInGroup());
+                             }),
               cats_.end());
+  free_cats_.erase(std::remove_if(free_cats_.begin(), free_cats_.end(),
+                                  [](const std::shared_ptr<Cat>& cat) {
+                                    return !(cat->GetIsInGroup());
+                                  }),
+                   free_cats_.end());
 }
 
 void Player::UpdateDogsAround(std::list<std::shared_ptr<Dog>> dogs) {
@@ -103,13 +119,18 @@ void Player::DismissCats() {
 
   for (size_t i = 1; i < cats_.size(); i++) {
     cats_.at(i)->SetIsInGroup(false);
-    cats_.at(i)->SetIsRunAway(true);
     cats_.at(i)->SetDestination(Point(x_destination(random_generator_),
                                       y_destination(random_generator_)));
     cats_.at(i)->SetCatState(CatState::kIsComingDestination);
+
   }
   cat_group_.DecGroup(cats_.size() - 1);
   cats_.erase(cats_.cbegin() + 1, cats_.cend());
+  free_cats_.erase(std::remove_if(free_cats_.begin(), free_cats_.end(),
+                                  [](const std::shared_ptr<Cat>& cat) {
+                                    return !(cat->GetIsInGroup());
+                                  }),
+                   free_cats_.end());
 }
 
 const ViewCircle& Player::GetViewCircle() const {
@@ -128,6 +149,26 @@ void Player::Tick() {
   view_circle_.Tick();
 }
 
+void Player::UpdateStaticObjectsAround(const
+                                       std::list<std::shared_ptr<PortalObject>>&
+static_objects) {
+  Point cat_position;
+  Size distance;
+  for (const auto& cat : cats_) {
+    cat_position = cat->GetRigidPosition();
+    for (auto& static_object : static_objects) {
+      if (static_object->HasPortal()) {
+        distance = cat_position.GetVectorTo(static_object->GetRigidPosition());
+        if (distance.GetLength() < visibility_radius_) {
+          static_object->SetIfMessageIsShown(true);
+        } else {
+          static_object->SetIfMessageIsShown(false);
+        }
+      }
+    }
+  }
+}
+
 void Player::UpdateCatsGroup(const std::list<std::shared_ptr<Cat>>& all_cats) {
   for (auto& cat : cats_) {
     for (auto& wild_cat : all_cats) {
@@ -136,12 +177,11 @@ void Player::UpdateCatsGroup(const std::list<std::shared_ptr<Cat>>& all_cats) {
       }
       auto length = cat_group_.central_position_.
           GetVectorTo(wild_cat->GetDrawPosition()).GetLength();
-      if (wild_cat->GetIsRunAway()) {
-        continue;
-      }
       if (length < cat_group_.first_radius_ &&
-          !(wild_cat->GetIsInGroup())) {
+          !(wild_cat->GetIsInGroup())
+          && wild_cat->GetCatState() != CatState::kIsGoingToSearch) {
         cats_.push_back(wild_cat);
+        free_cats_.push_back(wild_cat);
         wild_cat->SetIsInGroup(true);
         wild_cat->SetCatState(CatState::kIsFollowingPlayer);
         cat_group_.IncGroup();
@@ -175,29 +215,55 @@ const Group& Player::GetCatGroup() const {
   return cat_group_;
 }
 
+void Player::GroupTick(int time) {
+  cat_group_.SetCentralPosition(GetMainCat()->GetDrawPosition());
+  cat_group_.SetSpeed(GetMainCat()->GetSpeed());
+  cat_group_.Tick(time);
+  cat_group_.Move(time);
+}
+
 std::shared_ptr<Cat> Player::GetMainCat() {
   return cats_.at(0);
 }
 
 void Player::LosingCat(Point dog_position, std::shared_ptr<Cat> cat) {
+  auto state = cat->GetCatState();
+  if (state == CatState::kIsSearching || state == CatState::kIsGoingToSearch
+      || state == CatState::kHasFinishedSearching) {
+    return;
+  }
   cat->SetIsInGroup(false);
-  cat->SetIsRunAway(true);
-  std::uniform_int_distribution<> x_destination(constants::kMinRunAwayDistance,
+  std::uniform_int_distribution<> x_destination(constants::kMaxRunAwayDistance,
                                                 constants::kMaxRunAwayDistance);
   cat->SetRunAwayDestination(dog_position, cat_group_.central_position_,
                              cat->GetRigidPosition(),
                              x_destination(random_generator_));
   cat->SetCatState(CatState::kIsComingDestination);
+
   cat_group_.DecGroup();
   cats_.erase(std::remove_if(cats_.begin(), cats_.end(),
-           [](const std::shared_ptr<Cat>& cat){return !(cat->GetIsInGroup());}),
-           cats_.end());
+                             [](const std::shared_ptr<Cat>& cat) {
+                               return !(cat->GetIsInGroup());
+                             }),
+              cats_.end());
+
+  free_cats_.erase(std::remove_if(free_cats_.begin(), free_cats_.end(),
+                                  [](const std::shared_ptr<Cat>& cat) {
+                                    return !(cat->GetIsInGroup());
+                                  }),
+                   free_cats_.end());
+}
+std::shared_ptr<Cat> Player::SendCatToSearch(const Point& portal_coordinates,
+                                             int search_time) {
+  auto cat = free_cats_.begin();
+  (*cat)->SetCatState(CatState::kIsGoingToSearch);
+  (*cat)->SetSearchingTime(search_time);
+  (*cat)->SetDestination(portal_coordinates);
+
+  free_cats_.erase(free_cats_.begin());
+  return *cat;
 }
 
-void Player::GroupTick(int delta_time) {
-  cat_group_.central_position_ = GetMainCat()->GetRigidPosition();
-  cat_group_.speed_ = GetMainCat()->GetSpeed();
-  cat_group_.Tick(delta_time);
-  cat_group_.Move();
+bool Player::NotOnlyMainCat() {
+  return (cats_.size() >= 2 && !free_cats_.empty());
 }
-

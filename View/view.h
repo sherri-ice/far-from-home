@@ -10,6 +10,10 @@
 #include "../Controller/abstract_controller.h"
 #include "../Model/model.h"
 
+namespace constants {
+const double kFactorForScreen = 0.3;
+}  // namespace constants
+
 class View : public QMainWindow {
   Q_OBJECT
 
@@ -23,6 +27,12 @@ class View : public QMainWindow {
   void Resize();
   void UpdateResizer(double radius, const Point& position);
 
+  Point GetCoordinatesForWarning() const;
+
+  bool IsOnTheScreen(const std::shared_ptr<GameObject>& object);
+
+  void ShowResultWindow(bool is_found);
+  ResultWindow& GetResultWindow();
  private:
   int controller_timer_id_;
   QElapsedTimer time_between_ticks_;
@@ -36,13 +46,16 @@ class View : public QMainWindow {
   void keyPressEvent(QKeyEvent* event) override;
   void keyReleaseEvent(QKeyEvent* event) override;
   void timerEvent(QTimerEvent* event) override;
+  void mousePressEvent(QMouseEvent* event) override;
 
-  bool IsOnTheScreen(const std::shared_ptr<GameObject>& object);
   void DrawGameObjects(QPainter* painter);
+  void DrawWarnings(QPainter* painter);
 
   Size player_velocity_;
   std::map<int, bool> pressed_keys_;
   void resizeEvent(QResizeEvent*) override;
+
+  ResultWindow result_window_;
 };
 
 #endif  // VIEW_VIEW_H_
