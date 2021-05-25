@@ -16,10 +16,16 @@ class Controller : public AbstractController {
   ~Controller() override = default;
 
   void StartGame() override;
+  void EndGame() override;
   void Tick(int time) override;
   int GetCurrentTime() override;
 
   Player* GetPlayer() override;
+  void SetGameVolume(int volume) override;
+  std::shared_ptr<MusicPlayer> GetMusicPlayer() override;
+
+  void PauseMusic() override;
+  void ResumeMusic() override;
 
   void ScanIfObjectWereClicked(const Point& point) override;
 
@@ -43,6 +49,7 @@ class Controller : public AbstractController {
   Generator map_generator_;
   std::map<std::shared_ptr<PortalObject>, std::shared_ptr<Cat>>
       portal_and_searching_cat_;
+  std::shared_ptr<MusicPlayer> music_player_;
 };
 
 #endif  // CONTROLLER_CONTROLLER_H_

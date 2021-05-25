@@ -7,14 +7,15 @@
 
 class Group {
  public:
+  Group() = default;
   friend class Player;
   Group(double  first_radius, double second_radius,
-        Point central_position = Point(0, 0));
+        Point central_position = Point());
   ~Group() = default;
 
   void Draw(QPainter* painter, Resizer* resizer) const;
   void Tick(int delta_time);
-  void Move(int delta_time);
+  void Move();
   void IncGroup();
   void DecGroup(int num_of_cats = 1);
   void SetSpeed(double speed);
@@ -24,7 +25,7 @@ class Group {
   double second_radius_;
 
   double speed_;
-  Point central_position_;
+  Point central_position_ = Point();
   Size velocity_;
 };
 

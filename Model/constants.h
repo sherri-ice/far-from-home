@@ -6,8 +6,8 @@
 namespace constants {
 const double kEpsilon = 0.0001;
 
-const int kGameWidth = 1920;
-const int kGameHeight = 1080;
+const int kGameWidth = 1600;
+const int kGameHeight = 900;
 
 const double kViewCircleDefault = 540;
 const double kViewCircleMax = 2200;
@@ -19,13 +19,9 @@ const int kTimeScale = 100;
 const double kResizerSpeed = 25.;
 const double kResizerScale = 50.;
 
-const int kMinTimeToGoHome = 1e3;
-const int kMaxTimeToGoHome = 1e8;
-
 const double kSemiMinorCoefficient = 0.8;
 
 const double kCatRunCoefficient = 2;
-const double kCatGroupSpeed = 10;
 
 const int kMinRunAwayDistance = 100;
 const int kMaxRunAwayDistance = 500;

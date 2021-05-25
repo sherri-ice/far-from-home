@@ -16,11 +16,16 @@ enum GameState {
   kGame,
   kMenu
 };
+enum Language {
+  kRussian,
+  kEnglish
+};
 
 class Model {
  public:
   Model();
   void LoadLevel(int level);
+  void SetModel();
 
   Player* GetPlayer();
   [[nodiscard]] std::vector<std::shared_ptr<GameObject>>
@@ -52,10 +57,13 @@ class Model {
   std::vector<std::shared_ptr<Warning>> GetWarnings();
 
   void ClearObjects();
+  void ClearModel();
 
   void LoadDynamicAnimation();
   void LoadStaticAnimation();
   void LoadAnimation();
+
+  void ChangeLanguage(Language lang);
 
   [[nodiscard]] std::vector<std::vector<QPixmap>> GetImagesByFramePath
       (const QString& path) const;
@@ -67,15 +75,16 @@ class Model {
   void SetCatGettingOutAnimation(std::shared_ptr<Cat> cat);
 
  private:
-    std::map<QString, std::vector<std::vector<QPixmap>>> animations_;
-    std::map<QString, std::vector<QPixmap>> objects_pics_{};
-    int current_level_ = 0;
+  std::map<QString, std::vector<std::vector<QPixmap>>> animations_;
+  std::map<QString, std::vector<QPixmap>> objects_pics_{};
+  int current_level_ = 0;
   int game_state_ = GameState::kMenu;
 
   std::list<std::shared_ptr<Cat>> cats_;
   Player* player_;
   std::list<std::shared_ptr<Food>> food_;
   std::list<std::shared_ptr<Dog>> dogs_;
+  Language lang_ = Language::kEnglish;
   std::list<std::shared_ptr<PortalObject>> static_objects_;
   std::list<std::shared_ptr<Warning>> warnings_;
 

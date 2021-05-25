@@ -55,6 +55,9 @@ set(SOURCES
         resourses.qrc
         images.qrc
         Model/group.cpp
+        View/menu.cpp
+        View/menu.ui Model/music_player.cpp Model/music_player.h
+        Model/group.cpp
         View/result_window.cpp
         View/result_window.ui)
 

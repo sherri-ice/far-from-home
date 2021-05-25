@@ -234,3 +234,27 @@ void Model::SetNormalPortalSkin(std::shared_ptr<PortalObject> portal) {
   auto new_skin = objects_pics_["tree"].at(id);
   portal->SetSkin(new_skin);
 }
+
+void Model::SetModel() {
+  MakeNewCat(Size(50, 50), 10, Point());
+  auto main_cat = cats_.back();
+  main_cat->SetIsInGroup(true);
+  main_cat->SetAnimations(animations_["cat"]);
+  player_ = new Player(main_cat);
+  player_->SetViewCircle(ViewCircle(player_->GetPosition(),
+                                    constants::kViewCircleDefault));
+}
+
+// QPixmap Model::GetBackground(int type) const {
+//   return type < 2 ? backgrounds_[type] : backgrounds_[2];
+// }
+
+void Model::ClearModel() {
+  cats_.clear();
+  food_.clear();
+  dogs_.clear();
+  static_objects_.clear();
+}
+
+void Model::ChangeLanguage(Language lang) {
+}

@@ -1,6 +1,5 @@
 #include "cat.h"
 
-
 std::mt19937 Cat::random_generator_ = std::mt19937
     (std::chrono::system_clock::now().time_since_epoch().count());
 
@@ -232,4 +231,12 @@ void Cat::SetSearchingTime(int searching_time) {
 
 bool Cat::GetIsVisible() {
   return is_visible_;
+}
+
+void Cat::SetIsRunAway(bool is_run_away) {
+  is_run_away_ = is_run_away;
+}
+
+bool Cat::GetIsRunAway() const {
+  return is_run_away_;
 }

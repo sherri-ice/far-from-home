@@ -47,7 +47,7 @@ class Player {
 
  private:
   std::vector<std::shared_ptr<Cat>> cats_;
-  ViewCircle view_circle_;
+  ViewCircle view_circle_ = ViewCircle();
   Group cat_group_;
   std::vector<std::shared_ptr<Cat>> free_cats_;
 
