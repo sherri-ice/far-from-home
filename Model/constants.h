@@ -36,6 +36,10 @@ const double kMediumHungerPercent = 0.4;
 const double kSevereHungerPercent = 0.15;
 const double kSpeedOfHunger = 0.03;
 
+const double kWidthForFoodGeneration = 250;
+const double kHeightForFoodGeneration = 500;
+
+
 const QString kApplicationName = "Far from home";
 }  // namespace constants
 

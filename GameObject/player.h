@@ -58,6 +58,7 @@ class Player {
 
   void FeedCats(double food);
   void UpdateHunger();
+  void DecHunger(double hunger);
   double GetFoodSaturation() const;
   int GetMaxFoodSaturation() const;
 
