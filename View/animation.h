@@ -16,7 +16,8 @@ enum AnimationState {
     kWalkLeft = 2,
     kWalkRight = 3,
     kHide = 4,
-    kBack = 5,
+    kSendToPortal = 5,
+    kBack = 4,
     kSit = 6,
     kSiting = 7
 };

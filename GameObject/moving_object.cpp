@@ -60,6 +60,9 @@ bool MovingObject::IsVelocityChange(Size main_velocity) {
 
 AnimationState MovingObject::GetAnimationState() const {
   AnimationState animation_state;
+  if (is_sended_home_) {
+    return kSendToPortal;
+  }
   if (is_hidding_) {
     return kHide;
   }
@@ -72,13 +75,9 @@ AnimationState MovingObject::GetAnimationState() const {
   if (!is_moving_) {
     if (was_moving_) {
       return kSit;
+    } else {
+      return kSiting;
     }
-    std::vector<double> probabilities = {0.05, 0.95};
-    std::discrete_distribution<>
-        dist(probabilities.begin(), probabilities.end());
-    const int kStateShift = 7;
-    animation_state = static_cast<AnimationState>(
-        dist(random_generator_) + kStateShift);
   } else {
     double x = velocity_.GetWidth();
     double y = velocity_.GetHeight();

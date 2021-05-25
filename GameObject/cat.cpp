@@ -138,36 +138,6 @@ void Cat::Tick(int delta_time) {
       }
       break;
     }
-    // case CatState::kIsComingDestination: {
-    //   if (is_run_away_ && !(timers_.IsActive(static_cast<int>
-    //                         (CatState::kIsComingDestination)))) {
-    //     timers_.StartTimerWithRandom(constants::kTimeToCommingDestinationMin,
-    //                                  constants::kTimeToCommingDestinationMax,
-    //                                  static_cast<int>
-    //                                  (CatState::kIsComingDestination));
-    //   }
-    //   if (timers_.IsTimeOut(static_cast<int>(CatState::kIsComingDestination))) {
-    //     is_run_away_ = false;
-    //     timers_.Stop(static_cast<int>(CatState::kIsComingDestination));
-    //   }
-    //   if (position_ == destination_) {
-    //     if (is_reachable_cat_) {
-    //       is_reachable_cat_ = false;
-    //       DecSpeed(constants::kCatRunCoefficient);
-    //     }
-    //     is_run_away_ = false;
-    //     timers_.Stop(static_cast<int>(CatState::kIsComingDestination));
-    //     cat_state_ = CatState::kIsResting;
-    //     velocity_ = Size(0, 0);
-    //     timers_.StartTimerWithRandom(constants::kTimeToRestMin,
-    //                                  constants::kTimeToRestMax,
-    //                                  static_cast<int>(CatState::kIsResting));
-    //   } else {
-    //     velocity_ = position_.GetVelocityVector(destination_, delta_time *
-    //         speed_ / constants::kTimeScale);
-    //   }
-    //   break;
-    // }
     case CatState::kIsMainCat: {
       if (velocity_.GetLength() > constants::kEpsilon) {
         velocity_ /= velocity_.GetLength();
@@ -208,6 +178,11 @@ void Cat::Tick(int delta_time) {
       }
       velocity_ = position_.GetVelocityVector(destination_, delta_time *
           speed_ / constants::kTimeScale);
+      break;
+    }
+    case CatState::kNeedsToBeSendHome: {
+      is_sended_home_ = true;
+      SetIsDead();
       break;
     }
     default: {

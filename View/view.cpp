@@ -36,7 +36,7 @@ void View::paintEvent(QPaintEvent*) {
 }
 
 void View::timerEvent(QTimerEvent* event) {
-  if (event->timerId() == controller_timer_id_) {
+  if (event->timerId() == controller_timer_id_ && result_window_.isHidden()) {
     int delta_time = time_between_ticks_.elapsed();
     time_between_ticks_.restart();
     controller_->Tick(controller_->GetCurrentTime() + delta_time);

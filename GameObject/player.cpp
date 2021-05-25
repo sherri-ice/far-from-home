@@ -171,6 +171,10 @@ static_objects) {
 
 void Player::UpdateCatsGroup(const std::list<std::shared_ptr<Cat>>& all_cats) {
   for (auto& cat : cats_) {
+    if (cat->GetCatState() == CatState::kNeedsToBeSendHome) {
+      SendCatToPortal(cat);
+      continue;
+    }
     for (auto& wild_cat : all_cats) {
       if (cat == wild_cat) {
         continue;
@@ -266,4 +270,22 @@ std::shared_ptr<Cat> Player::SendCatToSearch(const Point& portal_coordinates,
 
 bool Player::NotOnlyMainCat() {
   return (cats_.size() >= 2 && !free_cats_.empty());
+}
+
+void Player::SendCatToPortal(std::shared_ptr<Cat> cat) {
+  std::cout << "before erasing cats\n";
+  cat->SetIsInGroup(false);
+  cat_group_.DecGroup();
+  cats_.erase(std::remove_if(cats_.begin(), cats_.end(),
+                             [](const std::shared_ptr<Cat>& cat) {
+                               return !(cat->GetIsInGroup());
+                             }),
+              cats_.end());
+
+  free_cats_.erase(std::remove_if(free_cats_.begin(), free_cats_.end(),
+                                  [](const std::shared_ptr<Cat>& cat) {
+                                    return !(cat->GetIsInGroup());
+                                  }),
+                   free_cats_.end());
+  std::cout << "after erasing cats\n";
 }

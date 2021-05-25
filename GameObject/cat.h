@@ -30,6 +30,7 @@ enum class CatState {
   kIsSearching,
   kIsGoingToSearch,
   kHasFinishedSearching,
+  kNeedsToBeSendHome,
   SIZE
 };
 

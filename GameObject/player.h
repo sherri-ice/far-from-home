@@ -38,6 +38,7 @@ class Player {
   [[nodiscard]] const Point& GetPosition() const;
 
   void LosingCat(Point dog_position, std::shared_ptr<Cat> cat);
+  void SendCatToPortal(std::shared_ptr<Cat> cat);
   std::shared_ptr<Cat> SendCatToSearch(const Point& portal_coordinates,
                                        int search_time);
 

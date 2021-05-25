@@ -57,6 +57,12 @@ void Controller::TickCats(int delta_time) {
       cat->Move(delta_time);
     }
   }
+  // model_->GetCats().erase(std::remove_if(model_->GetCats().begin(),
+  //                                        model_->GetCats().end(),
+  //                                 [](const std::shared_ptr<Cat>& cat) {
+  //                                   return (cat->IsDead());
+  //                                 }),
+  //                         model_->GetCats().end());
 }
 
 void Controller::TickDogs(int delta_time) {
@@ -147,14 +153,20 @@ void Controller::ScanIfObjectWereClicked(const Point& point) {
                                               object->GetSize().GetLength())) {
       if (object->HasFinished()) {
         view_->ShowResultWindow(object->HasPortal());
-        // todo pause
+        while (view_->GetResultWindow().isVisible()) {
+          continue;
+        }
+
+        std::cout << "иуащку portal state is set\n";
         if (view_->GetResultWindow().GetUserAnswer()) {
-          // loose cat
+          std::cout << "иуащку аааьаь portal state is set\n";
+          portal_and_searching_cat_[object]->SetCatState
+          (CatState::kNeedsToBeSendHome);
+          std::cout << "portal state is set\n";
         }
         object->SetCollectedState();
         continue;
-      }
-      if (!object->IsCollected()
+      } else if (!object->IsCollected()
           && model_->GetPlayer()->NotOnlyMainCat()) {
         auto cat =
             model_->GetPlayer()->SendCatToSearch(
@@ -162,8 +174,7 @@ void Controller::ScanIfObjectWereClicked(const Point& point) {
                     + Point(0, object->GetSize().GetHeight() / 2),
                 object->GetSearchTime());
         portal_and_searching_cat_[object] = cat;
-      }
-      if (object->IsCollected()) {
+      } else if (object->IsCollected()) {
         model_->AddWarning(std::make_shared<Warning>(
             "You've already searched a portal here!",
             view_->
@@ -172,8 +183,7 @@ void Controller::ScanIfObjectWereClicked(const Point& point) {
             true,
             true,
             3000));
-      }
-      if (!model_->GetPlayer()->NotOnlyMainCat()) {
+      } else if (!model_->GetPlayer()->NotOnlyMainCat()) {
         model_->AddWarning(std::make_shared<Warning>(
             "You don't have enough cats!",
             view_->
