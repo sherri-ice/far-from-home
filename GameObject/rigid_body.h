@@ -65,7 +65,7 @@ class RigidBody {
   double scale_coefficient_x_{0.8};
   double scale_coefficient_y_{0.3};
 
-  bool need_to_get_around_{false};
+  bool correct_saved_velocity_{true};
   Size saved_vector_to_get_around_{Size(0, 0)};
   Border border_which_is_collide_{Border::kNone};
 };
