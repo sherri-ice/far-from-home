@@ -50,6 +50,13 @@ void Controller::TickPlayer(int delta_time) {
 
 void Controller::TickCats(int time) {
   for (auto& cat : model_->GetCats()) {
+    for (auto& dog : model_->GetDogs()) {
+      if (cat->GetCatState() == CatState::kIsWalking && cat->GetRigidPosition().
+          GetVectorTo(dog->GetRigidPosition()).GetLength() <
+          dog->GetVisibilityRadius()) {
+        cat->ComeHome();
+      }
+    }
     cat->Tick(time);
     cat->Move(time);
   }
@@ -60,9 +67,14 @@ void Controller::TickDogs(int delta_time) {
   auto player = model_->GetPlayer();
   for (auto& dog : dogs) {
     dog->SetReachableCat(player->GetCats());
-    dog->Tick(delta_time);
-    dog->Move(delta_time);
     for (auto& cat : player->GetCats()) {
+      if (cat->GetRigidPosition().
+          GetVectorTo(dog->GetRigidPosition()).GetLength() <
+          dog->GetVisibilityRadius() && player->GetCats().size() >
+          dog->GetNumOfCatsToRunAway()) {
+        dog->RunAway(cat->GetRigidPosition());
+        break;
+      }
       if (dog->GetRigidBody().IsCollide(cat->GetRigidBody())) {
         if (cat == player->GetMainCat()) {
           player->DismissCats();
@@ -73,6 +85,16 @@ void Controller::TickDogs(int delta_time) {
         }
       }
     }
+    for (auto& wild_cat : model_->GetCats()) {
+      if (!wild_cat->GetIsInGroup() &&
+          dog->GetDogState() == DogState::kIsWalking &&
+          dog->GetRigidPosition().GetVectorTo(wild_cat->GetRigidPosition()).
+          GetLength() < dog->GetVisibilityRadius()) {
+        dog->ComeHome();
+      }
+    }
+    dog->Tick(delta_time);
+    dog->Move(delta_time);
   }
 }
 

@@ -69,8 +69,7 @@ void Cat::Tick(int delta_time) {
                                        static_cast<int>(CatState::kIsWalking));
         } else {
           timers_.Stop(static_cast<int>(CatState::kIsWalking));
-          cat_state_ = CatState::kIsComingDestination;
-          destination_ = home_position_;
+          ComeHome();
         }
       }
       if (velocity_.GetLength() > constants::kEpsilon) {
@@ -207,4 +206,10 @@ void Cat::SetIsRunAway(bool is_run_away) {
 
 bool Cat::GetIsRunAway() const {
   return is_run_away_;
+}
+
+void Cat::ComeHome() {
+  timers_.Stop(static_cast<int>(CatState::kIsWalking));
+  cat_state_ = CatState::kIsComingDestination;
+  destination_ = home_position_;
 }

@@ -14,7 +14,7 @@ namespace constants {
 const int kGameMapWidth = 7'000;
 const int kGameMapHeight = 7'000;
 const int kTileSize = 500;
-const int kNumOfTilesTemplates = 7;
+const int kNumOfTilesTemplates = 9;
 const int kNumOfBorderTemplates = 2;
 }  // namespace constants
 

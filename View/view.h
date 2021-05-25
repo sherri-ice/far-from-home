@@ -13,6 +13,10 @@
 #include "../Model/model.h"
 #include "menu.h"
 
+namespace constants {
+const double kFactorForScreen = 0.3;
+}  // namespace constants
+
 class View : public QWidget {
   Q_OBJECT
 
