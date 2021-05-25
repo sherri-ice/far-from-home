@@ -12,15 +12,16 @@
 #include "../GameObject/food.h"
 #include "../GameObject/player.h"
 
-enum GameState {
-  kGame,
-  kMenu
+enum Language {
+  kRussian,
+  kEnglish
 };
 
 class Model {
  public:
   Model();
   void LoadLevel(int level);
+  void SetModel();
 
   Player* GetPlayer();
   [[nodiscard]] std::vector<std::shared_ptr<GameObject>>
@@ -44,25 +45,29 @@ class Model {
   const std::list<std::shared_ptr<GameObject>>& GetStaticObjects() const;
 
   void ClearObjects();
+  void ClearModel();
 
-  void LoadDinamicAnimation();
+  void LoadDynamicAnimation();
   void LoadStaticAnimation();
   void LoadAnimation();
+
+  void ChangeLanguage(Language lang);
 
   [[nodiscard]] std::vector<std::vector<QPixmap>> GetImagesByFramePath
       (const QString& path) const;
 
  private:
-    std::map<QString, std::vector<std::vector<QPixmap>>> animations_;
-    std::vector<std::vector<QPixmap>> objects_pics_{};
-    int current_level_ = 0;
-  int game_state_ = GameState::kMenu;
+  std::map<QString, std::vector<std::vector<QPixmap>>> animations_;
+  std::vector<std::vector<QPixmap>> objects_pics_{};
+  int current_level_ = 0;
+  // int game_state_ = GameState::kMenu;
 
   std::list<std::shared_ptr<Cat>> cats_;
   std::list<std::shared_ptr<GameObject>> static_objects_;
   Player* player_;
   std::list<std::shared_ptr<Food>> food_;
   std::list<std::shared_ptr<Dog>> dogs_;
+  Language lang_ = Language::kEnglish;
 };
 
 #endif  // MODEL_MODEL_H_

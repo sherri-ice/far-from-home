@@ -7,9 +7,10 @@
 
 class Group {
  public:
+  Group() = default;
   friend class Player;
   Group(double  first_radius, double second_radius,
-        Point central_position = Point(0, 0));
+        Point central_position = Point());
   ~Group() = default;
 
   void Draw(QPainter* painter, Resizer* resizer) const;
@@ -21,9 +22,9 @@ class Group {
   double first_radius_;
   double second_radius_;
 
-  Point central_position_;
-  Size velocity_;
   double speed_;
+  Point central_position_ = Point();
+  Size velocity_;
 };
 
 #endif  //  MODEL_GROUP_H_

@@ -92,6 +92,23 @@
         <file>images/objects/tree/Frame 2.png</file>
         <file>images/objects/tree/Frame 3.png</file>
 
+        <file>images/menu/background/background.png</file>
+        <file>images/menu/buttons/play.png</file>
+        <file>images/menu/buttons/play_clicked.png</file>
+        <file>images/menu/buttons/exit.png</file>
+        <file>images/menu/buttons/exit_clicked.png</file>
+        <file>images/menu/buttons/settings.png</file>
+        <file>images/menu/buttons/settings_clicked.png</file>
+        <file>images/menu/buttons/left_arrow.png</file>
+        <file>images/menu/buttons/right_arrow.png</file>
+        <file>images/menu/buttons/back.png</file>
+        <file>images/menu/buttons/restart.png</file>
+        <file>images/menu/buttons/menu.png</file>
+        <file>images/menu/buttons/resume.png</file>
+        <file>images/menu/buttons/eng.png</file>
+        <file>images/menu/buttons/rus.png</file>
+        <file>images/menu/buttons/sound_on.png</file>
+        <file>images/menu/buttons/sound_off.png</file>
 
     </qresource>
 </RCC>

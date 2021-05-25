@@ -6,15 +6,18 @@
 #include <QTimer>
 #include <map>
 #include <memory>
+#include <QStackedWidget>
+#include <QLayout>
 
 #include "../Controller/abstract_controller.h"
 #include "../Model/model.h"
+#include "menu.h"
 
 namespace constants {
 const double kFactorForScreen = 0.3;
 }  // namespace constants
 
-class View : public QMainWindow {
+class View : public QWidget {
   Q_OBJECT
 
  public:
@@ -33,7 +36,7 @@ class View : public QMainWindow {
   QElapsedTimer view_timer_;
 
   AbstractController* controller_;
-  Resizer resizer_;
+  Resizer resizer_{};
   std::shared_ptr<Model> model_;
 
   void paintEvent(QPaintEvent*) override;
@@ -44,9 +47,19 @@ class View : public QMainWindow {
   bool IsOnTheScreen(const std::shared_ptr<GameObject>& object);
   void DrawGameObjects(QPainter* painter);
 
+  void Pause();
+  void SetWindows();
+  void SetMenuWindow();
+  void SetSettingsWindow();
+  void SetPauseWindow();
+
+
   Size player_velocity_;
   std::map<int, bool> pressed_keys_;
   void resizeEvent(QResizeEvent*) override;
+  Menu* menu_ = new Menu(this);
+  bool is_sound_on_ = true;
+  QVBoxLayout* layout_;
 };
 
 #endif  // VIEW_VIEW_H_

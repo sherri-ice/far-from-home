@@ -16,10 +16,16 @@ class Controller : public AbstractController {
   ~Controller() override = default;
 
   void StartGame() override;
+  void EndGame() override;
   void Tick(int time) override;
   int GetCurrentTime() override;
 
   Player* GetPlayer() override;
+  void SetGameVolume(int volume) override;
+  std::shared_ptr<MusicPlayer> GetMusicPlayer() override;
+
+  void PauseMusic() override;
+  void ResumeMusic() override;
 
  private:
   void TickPlayer(int delta_time);
@@ -34,6 +40,7 @@ class Controller : public AbstractController {
   std::shared_ptr<Model> model_;
   std::shared_ptr<View> view_;
   Generator map_generator_;
+  std::shared_ptr<MusicPlayer> music_player_;
 };
 
 #endif  // CONTROLLER_CONTROLLER_H_

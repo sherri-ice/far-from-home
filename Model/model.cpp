@@ -4,19 +4,9 @@
 
 Model::Model() {
   LoadAnimation();
-  std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
-                                                        10,
-                                                        Point(0, 0));
-  main_cat->SetIsInGroup(true);
-  main_cat->SetAnimations(animations_["cat"]);
-  cats_.emplace_back(main_cat);
-
   for (auto& food : food_) {
     food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
   }
-  player_ = new Player(main_cat);
-  player_->SetViewCircle(ViewCircle(player_->GetPosition(),
-                                    constants::kViewCircleDefault));
 }
 
 Player* Model::GetPlayer() {
@@ -127,11 +117,11 @@ std::shared_ptr<Food> Model::MakeNewFood(const Size& size, const Point& point) {
 }
 
 void Model::LoadAnimation() {
-    LoadDinamicAnimation();
+    LoadDynamicAnimation();
     LoadStaticAnimation();
 }
 
-void Model::LoadDinamicAnimation() {
+void Model::LoadDynamicAnimation() {
     Q_INIT_RESOURCE(images);
   std::vector<QString> paths = {"cat", "dog"};
   for (const auto& path : paths) {
@@ -176,4 +166,28 @@ std::vector<std::vector<QPixmap>> Model::GetImagesByFramePath(
     result.emplace_back(images);
   }
   return result;
+}
+
+void Model::SetModel() {
+  MakeNewCat(Size(50, 50), 10, Point());
+  auto main_cat = cats_.back();
+  main_cat->SetIsInGroup(true);
+  main_cat->SetAnimations(animations_["cat"]);
+  player_ = new Player(main_cat);
+  player_->SetViewCircle(ViewCircle(player_->GetPosition(),
+                                    constants::kViewCircleDefault));
+}
+
+// QPixmap Model::GetBackground(int type) const {
+//   return type < 2 ? backgrounds_[type] : backgrounds_[2];
+// }
+
+void Model::ClearModel() {
+  cats_.clear();
+  food_.clear();
+  dogs_.clear();
+  static_objects_.clear();
+}
+
+void Model::ChangeLanguage(Language lang) {
 }

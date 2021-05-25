@@ -200,4 +200,3 @@ void Player::GroupTick(int delta_time) {
   cat_group_.Tick(delta_time);
   cat_group_.Move();
 }
-

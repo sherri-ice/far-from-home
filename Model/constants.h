@@ -6,8 +6,8 @@
 namespace constants {
 const double kEpsilon = 0.0001;
 
-const int kGameWidth = 1920;
-const int kGameHeight = 1080;
+const int kGameWidth = 1600;
+const int kGameHeight = 900;
 
 const double kViewCircleDefault = 540;
 const double kViewCircleMax = 4200;
