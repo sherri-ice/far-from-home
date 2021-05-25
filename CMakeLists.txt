@@ -52,6 +52,9 @@ set(SOURCES
         resourses.qrc
         View/animation.cpp
         View/global_progress_bar.cpp
+        Model/music_player.cpp
+        View/menu.cpp
+        View/menu.ui
         View/progress_bar.cpp
         View/resizer.cpp
         View/view.cpp

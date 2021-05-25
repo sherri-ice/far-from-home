@@ -123,6 +123,7 @@ void Player::DismissCats() {
 
   for (size_t i = 1; i < cats_.size(); i++) {
     cats_.at(i)->SetIsInGroup(false);
+    cats_.at(i)->SetIsRunAway(true);
     cats_.at(i)->SetDestination(Point(x_destination(random_generator_),
                                       y_destination(random_generator_)));
     cats_.at(i)->SetCatState(CatState::kIsComingDestination);
@@ -160,13 +161,11 @@ static_objects) {
   for (const auto& cat : cats_) {
     cat_position = cat->GetRigidPosition();
     for (auto& static_object : static_objects) {
-      if (static_object->HasPortal()) {
-        distance = cat_position.GetVectorTo(static_object->GetRigidPosition());
-        if (distance.GetLength() < visibility_radius_) {
-          static_object->SetIfMessageIsShown(true);
-        } else {
-          static_object->SetIfMessageIsShown(false);
-        }
+      distance = cat_position.GetVectorTo(static_object->GetRigidPosition());
+      if (distance.GetLength() < visibility_radius_) {
+        static_object->SetIfMessageIsShown(true);
+      } else {
+        static_object->SetIfMessageIsShown(false);
       }
     }
   }
@@ -180,6 +179,9 @@ void Player::UpdateCatsGroup(const std::list<std::shared_ptr<Cat>>& all_cats) {
       }
       auto length = cat_group_.central_position_.
           GetVectorTo(wild_cat->GetDrawPosition()).GetLength();
+      if (wild_cat->GetIsRunAway()) {
+        continue;
+      }
       if (length < cat_group_.first_radius_ &&
           !(wild_cat->GetIsInGroup())
           && wild_cat->GetCatState() != CatState::kIsGoingToSearch &&
@@ -226,7 +228,7 @@ void Player::GroupTick(int time) {
   cat_group_.SetCentralPosition(GetMainCat()->GetRigidPosition());
   cat_group_.SetSpeed(GetMainCat()->GetSpeed());
   cat_group_.Tick(time);
-  cat_group_.Move(time);
+  cat_group_.Move();
 }
 
 std::shared_ptr<Cat> Player::GetMainCat() {
@@ -240,7 +242,8 @@ void Player::LosingCat(Point dog_position, const std::shared_ptr<Cat>& cat) {
     return;
   }
   cat->SetIsInGroup(false);
-  std::uniform_int_distribution<> x_destination(constants::kMaxRunAwayDistance,
+  cat->SetIsRunAway(true);
+  std::uniform_int_distribution<> x_destination(constants::kMinRunAwayDistance,
                                                 constants::kMaxRunAwayDistance);
   cat->SetRunAwayDestination(dog_position, cat_group_.central_position_,
                              cat->GetRigidPosition(),

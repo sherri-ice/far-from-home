@@ -2,11 +2,13 @@
 #define MODEL_POINT_H_
 
 #include "../Model/size.h"
+#include "constants.h"
 
 class Point {
  public:
   // TODO(anyone): player must appear in the center of the window
-  explicit Point(double x = 0., double y = 0.);
+  explicit Point(double x = constants::kGameWidth / 2,
+                 double y = constants::kGameHeight / 2);
   Point& operator=(const Point& point);
 
   void SetX(double x);

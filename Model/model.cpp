@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <iostream>
 
 #include "../Model/model.h"
 #include "../View/progress_bar.h"
@@ -244,9 +243,28 @@ void Model::SetNormalPortalSkin(std::shared_ptr<PortalObject> portal) {
   portal->SetSkin(new_skin);
 }
 
+void Model::SetModel() {
+  MakeNewCat(Size(50, 50), 10, Point());
+  auto main_cat = cats_.back();
+  main_cat->SetIsInGroup(true);
+  main_cat->SetAnimations(animations_["cat"]);
+  player_ = new Player(main_cat);
+  player_->SetViewCircle(ViewCircle(player_->GetPosition(),
+                                    constants::kViewCircleDefault));
+}
+
+void Model::ClearModel() {
+  cats_.clear();
+  food_.clear();
+  dogs_.clear();
+  static_objects_.clear();
+}
+
+void Model::ChangeLanguage(Language lang) {
+}
+
 void Model::GenerateFood(const Point& player_position, double
   window_width, double window_height, int number_of_food) {
-  // Надо написать другой генератор
   double part_of_height = 0.5 * window_height;
   double part_of_width = 0.5 * window_width;
   double width = part_of_width + constants::kWidthForFoodGeneration;

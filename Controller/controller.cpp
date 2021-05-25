@@ -1,16 +1,17 @@
 #include "controller.h"
 
 Controller::Controller() {
+  music_player_ = std::make_shared<MusicPlayer>();
   model_ = std::make_shared<Model>();
   view_ = std::make_shared<View>(this, model_);
-  map_generator_.SetModel(model_);
-  map_generator_.GenerateMap();
+  // music_player_->StartMenuMusic();
 }
 
 void Controller::Tick(int time) {
   int delta_time = time - current_game_time_;
   current_game_time_ = time;
 
+  TickViewCircle();
   TickPlayer(delta_time);
   CheckIfDestinationIsInsideStaticObject();
   CheckIfDestinationIntersectsWithCat();
@@ -35,7 +36,11 @@ int Controller::GetCurrentTime() {
 }
 
 void Controller::StartGame() {
-  model_->SetGameState(GameState::kGame);
+  model_->SetModel();
+  map_generator_.SetModel(model_);
+  map_generator_.GenerateMap();
+  current_game_time_ = 0;
+  music_player_->StartGameMusic();
 }
 
 Player* Controller::GetPlayer() {
@@ -135,7 +140,7 @@ void Controller::CatsAndFoodIntersect() {
 void Controller::TickObjects(int delta_time) {
   for (auto& object : model_->GetStaticObjects()) {
     object->Tick(delta_time);
-    if (object->HasFinished()) {
+    if (object->ReadyToShowResult()) {
       model_->AddWarning(std::make_shared<Warning>("Search is "
                                                    "finished. Come back to the "
                                                    "tree to see the result",
@@ -144,7 +149,7 @@ void Controller::TickObjects(int delta_time) {
                                                        (),
                                                    32, true,
                                                    true, 3000));
-      object->SetWaitState();
+      object->SetState(PortalState::kNotificationShown);
     }
   }
 }
@@ -153,23 +158,24 @@ void Controller::ScanIfObjectWereClicked(const Point& point) {
   for (auto& object : model_->GetStaticObjects()) {
     if (object->GetDrawPosition().IsInEllipse(point,
                                               object->GetSize().GetLength())) {
-      if (object->HasFinished()) {
+      if (object->IsNotificationShown()) {
         view_->ShowResultWindow(object->HasPortal());
         // todo pause
         if (view_->GetResultWindow().GetUserAnswer()) {
           // loose cat
         }
-        object->SetCollectedState();
+        if (object->HasPortal()) {
+          object->SetSuperSkin();
+        }
+        object->SetState(PortalState::kCollected);
         continue;
-      }
-      if (!object->IsCollected()
+      } else if (!object->IsCollected()
           && model_->GetPlayer()->NotOnlyMainCat()) {
             auto cat = model_->GetPlayer()->SendCatToSearch
                 (object->GetRigidPosition(), object->GetSearchTime(), object
                 ->GetRigidBody()->GetRect());
         portal_and_searching_cat_[object] = cat;
-      }
-      if (object->IsCollected()) {
+      } else if (object->IsCollected()) {
         model_->AddWarning(std::make_shared<Warning>(
             "You've already searched a portal here!",
             view_->
@@ -178,8 +184,7 @@ void Controller::ScanIfObjectWereClicked(const Point& point) {
             true,
             true,
             3000));
-      }
-      if (!model_->GetPlayer()->NotOnlyMainCat()) {
+      } else if (!model_->GetPlayer()->NotOnlyMainCat()) {
         model_->AddWarning(std::make_shared<Warning>(
             "You don't have enough cats!",
             view_->
@@ -223,7 +228,7 @@ void Controller::CatsAndPortalsIntersect(const std::shared_ptr<Cat>& cat) {
       switch (cat->GetCatState()) {
         case CatState::kIsGoingToSearch: {
           model_->SetSelectedPortalSkin(static_object);
-          static_object->SetWaitSearchState();
+          static_object->SetState(PortalState::kWaitToSearch);
           break;
         }
         case CatState::kIsSearching: {
@@ -521,3 +526,22 @@ void Controller::CatsAndDogIntersect(const std::shared_ptr<Cat>& cat) {
     }
   }
 }
+
+void Controller::EndGame() {
+  model_->ClearModel();
+  current_game_time_ = 0;
+  // music_player_->StartMenuMusic();
+}
+void Controller::SetGameVolume(int volume) {
+  music_player_->SetVolume(volume);
+}
+std::shared_ptr<MusicPlayer> Controller::GetMusicPlayer() {
+  return music_player_;
+}
+void Controller::PauseMusic() {
+  music_player_->Pause();
+}
+void Controller::ResumeMusic() {
+  music_player_->Resume();
+}
+

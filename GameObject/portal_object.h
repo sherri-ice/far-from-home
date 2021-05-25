@@ -19,6 +19,7 @@ enum class PortalState {
   kSearching,
   kFinishedSearch,
   kWaitToSeeResult,
+  kNotificationShown,
   kCollected
 };
 
@@ -32,25 +33,27 @@ class PortalObject : public GameObject {
   void SetPortal();
   void RemovePortal();
   void SetSearchState();
-  void SetWaitSearchState();
 
   bool IsCollected();
-  bool HasFinished();
+  bool IsNotificationShown();
+  bool ReadyToShowResult();
   bool HasPortal() const;
 
   void Draw(QPainter* painter, Resizer* resizer) const override;
   void Tick(int time) override;
 
   void SetIfMessageIsShown(bool is_shown);
-  void SetWaitState();
-  void SetCollectedState();
+
+  void SetState(PortalState state);
 
   int GetSearchTime() const;
   void SetSearchTime(int search_time);
 
+  void SetSuperSkin();
+
 
  private:
-  bool has_portal_{true};
+  bool has_portal_{false};
   QString skin_path_;
   Timer search_timer_ = Timer(1);
   int search_time_{};

@@ -271,3 +271,11 @@ bool Cat::IsGoingToSearch() const {
 Rect Cat::GetPortalRect() const {
   return portal_rect_;
 }
+
+void Cat::SetIsRunAway(bool is_run_away) {
+  is_run_away_ = is_run_away;
+}
+
+bool Cat::GetIsRunAway() const {
+  return is_run_away_;
+}
