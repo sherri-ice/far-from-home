@@ -36,8 +36,8 @@ class Controller : public AbstractController {
   void MoveCatsAndDogs(int delta_time);
 
   void CatsAndFoodIntersect();
-  void MovingAndStaticObjectsIntersect(const std::shared_ptr<MovingObject>&
-  moving_object);
+  void CatAndStaticObjectsIntersect(const std::shared_ptr<Cat>& cat);
+  void DogAndStaticObjectIntersect(const std::shared_ptr<Dog>& dog);
   void CatsAndPortalsIntersect(const std::shared_ptr<Cat>& cat);
   void CheckIfDestinationIsInsideStaticObject();
   void DogsIntersect(const std::shared_ptr<Dog>& dog);

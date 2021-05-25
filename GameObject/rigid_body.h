@@ -24,6 +24,12 @@ struct Rect {
   double y;
   double width;
   double height;
+
+  bool operator==(const Rect& rhs) const {
+    return std::abs(x - rhs.x) < constants::kEpsilon && std::abs(y - rhs.y) <
+        constants::kEpsilon && std::abs(width - rhs.width) < constants::kEpsilon
+        && std::abs(height - rhs.height) < constants::kEpsilon;
+  }
 };
 
 class RigidBody {
@@ -51,13 +57,7 @@ class RigidBody {
   Border GetIntersectedBorder(const Rect& other_rect) const;
   Border GetIntersectedBorderIfNone(const Rect& other_rect) const;
   bool IsDestinationCollideWithRect(const Rect& other_rect) const;
-  Rect GetCollidedRect(const Rect& other_rect) const;
-  // Size GetVectorToAvoidMovingCollision(const RigidBody& other_rigid_body,
-  //                                      const Size& current_velocity);
   Point GetObjectPosition() const;
-
-
-  bool IfPointIsInsideBody(const Point& point) const;
 
  private:
   const Size* object_size_;

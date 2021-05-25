@@ -263,3 +263,11 @@ bool Cat::IsMainCat() const {
 void Cat::SetPortalRect(const Rect& rect) {
   portal_rect_ = rect;
 }
+
+bool Cat::IsGoingToSearch() const {
+  return cat_state_ == CatState::kIsGoingToSearch;
+}
+
+Rect Cat::GetPortalRect() const {
+  return portal_rect_;
+}

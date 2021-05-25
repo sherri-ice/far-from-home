@@ -16,8 +16,7 @@ PortalObject::PortalObject(const Size& size,
   std::uniform_int_distribution<>
       time(PortalConstants::kMinSearchTime, PortalConstants::kMaxSearchTime);
   search_time_ = time(random_generator_);
-  progress_bar_.SetRange(0, 100'000);
-  progress_bar_.SetTimeToBeFull(search_time_);
+  progress_bar_.SetRange(0, search_time_);
   search_timer_.Start(search_time_);
 }
 
@@ -44,7 +43,7 @@ void PortalObject::Tick(int time) {
     }
     case PortalState::kSearching: {
       if (!search_timer_.IsTimeOut()) {
-        progress_bar_.IncCurrentValue();
+        progress_bar_.IncCurrentValue(time);
         search_timer_.Tick(time);
       } else {
         state_ = PortalState::kFinishedSearch;

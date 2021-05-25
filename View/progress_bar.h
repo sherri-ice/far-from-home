@@ -22,7 +22,7 @@ class ProgressBar : public QRect {
   void SetRange(int min_value, int max_value);
   void Draw(QPainter* painter, Resizer* resizer) const;
 
-  void IncCurrentValue();
+  void IncCurrentValue(int delta_time);
   bool IsFull();
 
   void SetVisible();

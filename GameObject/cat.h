@@ -57,11 +57,13 @@ class Cat : public MovingObject {
   int GetSearchingTime() const;
   void SetSearchingTime(int searching_time);
   void SetPortalRect(const Rect& rect);
+  Rect GetPortalRect() const;
 
   double GetFoodSaturation() const;
   void FeedCat();
   void SetFoodSaturation(double food_saturation);
   bool IsComingDestination() const;
+  bool IsGoingToSearch() const;
   bool IsMainCat() const;
 
  private:

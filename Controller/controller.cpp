@@ -58,7 +58,7 @@ void Controller::TickCats(int delta_time) {
   for (auto& cat : model_->GetCats()) {
     if (view_->IsOnTheScreen(cat)) {
       cat->Tick(delta_time);
-      MovingAndStaticObjectsIntersect(cat);
+      CatAndStaticObjectsIntersect(cat);
       CatsAndPortalsIntersect(cat);
       if (cat->GetIsInGroup() && !cat->IsMainCat()) {
         CatsInGroupIntersect(cat);
@@ -79,7 +79,7 @@ void Controller::TickDogs(int delta_time) {
     if (view_->IsOnTheScreen(dog)) {
       dog->SetReachableCat(player->GetCats());
       dog->Tick(delta_time);
-      MovingAndStaticObjectsIntersect(dog);
+      DogAndStaticObjectIntersect(dog);
       DogsIntersect(dog);
       dog->TickAnimation(delta_time);
       for (auto& cat : player->GetCats()) {
@@ -142,24 +142,6 @@ void Controller::TickObjects(int delta_time) {
                                                    32, true,
                                                    true, 3000));
       object->SetWaitState();
-    }
-  }
-}
-
-void Controller::MovingAndStaticObjectsIntersect(const
-                                                 std::shared_ptr<MovingObject>&
-moving_object) {
-  for (const auto& static_object : model_->GetStaticObjects()) {
-    if (moving_object->
-        GetRigidBody()->IfCollisionWillHappen(*(static_object->GetRigidBody()),
-                                              moving_object->GetVelocity())) {
-      Size new_velocity = moving_object->GetRigidBody()
-          ->GetVelocityToGoAround(*(static_object->GetRigidBody()),
-                                        moving_object->GetVelocity());
-      if (new_velocity != moving_object->GetVelocity()) {
-        moving_object->SetVelocity(new_velocity * moving_object->GetVelocity()
-            .GetLength());
-      }
     }
   }
 }
@@ -487,6 +469,42 @@ void Controller::MoveCatsAndDogs(int delta_time) {
   for (auto& dog : model_->GetDogs()) {
     if (view_->IsOnTheScreen(dog)) {
       dog->Move(delta_time);
+    }
+  }
+}
+
+void Controller::CatAndStaticObjectsIntersect(const std::shared_ptr<Cat>& cat) {
+  auto rigid_body = cat->GetRigidBody();
+  for (const auto& static_object : model_->GetStaticObjects()) {
+    if (rigid_body->IfCollisionWillHappen(*(static_object->GetRigidBody()),
+                                              cat->GetVelocity())) {
+      Size new_velocity = cat->GetRigidBody()
+          ->GetVelocityToGoAround(*(static_object->GetRigidBody()),
+                                  cat->GetVelocity());
+      if (cat->IsGoingToSearch() && cat->GetPortalRect() ==
+      static_object->GetRigidBody()->GetRect()) {
+        return;
+      }
+      if (new_velocity != cat->GetVelocity()) {
+        cat->SetVelocity(new_velocity * cat->GetVelocity()
+            .GetLength());
+      }
+    }
+  }
+}
+
+void Controller::DogAndStaticObjectIntersect(const std::shared_ptr<Dog>& dog) {
+  auto rigid_body = dog->GetRigidBody();
+  for (const auto& static_object : model_->GetStaticObjects()) {
+    if (rigid_body->IfCollisionWillHappen(*(static_object->GetRigidBody()),
+                                              dog->GetVelocity())) {
+      Size new_velocity = dog->GetRigidBody()
+          ->GetVelocityToGoAround(*(static_object->GetRigidBody()),
+                                  dog->GetVelocity());
+      if (new_velocity != dog->GetVelocity()) {
+        dog->SetVelocity(new_velocity * dog->GetVelocity()
+            .GetLength());
+      }
     }
   }
 }
