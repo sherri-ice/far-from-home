@@ -32,12 +32,8 @@ void Cat::Tick(int delta_time) {
   std::uniform_real_distribution<> pos_velocity(0, 1);
   std::uniform_real_distribution<> neg_velocity(-1, 0);
   std::uniform_real_distribution<> velocity(-1, 1);
-  // if (timers_.IsActive(static_cast<int>(CatState::kIsComingDestination))) {
-  //   cat_state_ = CatState::kIsComingDestination;
-  // }
   switch (cat_state_) {
     case CatState::kIsResting: {
-      // home_position_ = position_;
       timers_.Stop(static_cast<int>(CatState::kIsFollowingPlayer));
       if (!timers_.IsActive(static_cast<int>(CatState::kIsResting))) {
         timers_.StartTimerWithRandom(constants::kTimeToRestMin,
@@ -181,7 +177,18 @@ void Cat::Tick(int delta_time) {
       break;
     }
     case CatState::kNeedsToBeSendHome: {
+      if (!timers_.IsActive(static_cast<int>(CatState::kNeedsToBeSendHome))) {
+        timers_.Start(time_for_cats_homesending_,
+                      static_cast<int>(CatState::kNeedsToBeSendHome));
+      }
+      if (timers_.IsTimeOut(static_cast<int>(CatState::kNeedsToBeSendHome))) {
+        cat_state_ = CatState::kIsReadyToDie;
+      }
       is_sended_home_ = true;
+      break;
+    }
+    case CatState::kIsReadyToDie: {
+      timers_.Stop(static_cast<int>(CatState::kNeedsToBeSendHome));
       SetIsDead();
       break;
     }
@@ -238,15 +245,3 @@ int Cat::GetSearchingTime() const {
 void Cat::SetSearchingTime(int searching_time) {
   searching_time_ = searching_time;
 }
-
-bool Cat::GetIsVisible() {
-  return is_visible_;
-}
-
-// void Cat::SetIsRunAway(bool is_run_away) {
-//   is_run_away_ = is_run_away;
-// }
-//
-// bool Cat::GetIsRunAway() const {
-//   return is_run_away_;
-// }

@@ -57,12 +57,6 @@ void Controller::TickCats(int delta_time) {
       cat->Move(delta_time);
     }
   }
-  // model_->GetCats().erase(std::remove_if(model_->GetCats().begin(),
-  //                                        model_->GetCats().end(),
-  //                                 [](const std::shared_ptr<Cat>& cat) {
-  //                                   return (cat->IsDead());
-  //                                 }),
-  //                         model_->GetCats().end());
 }
 
 void Controller::TickDogs(int delta_time) {
@@ -156,17 +150,17 @@ void Controller::ScanIfObjectWereClicked(const Point& point) {
         while (view_->GetResultWindow().isVisible()) {
           continue;
         }
-
-        std::cout << "иуащку portal state is set\n";
         if (view_->GetResultWindow().GetUserAnswer()) {
-          std::cout << "иуащку аааьаь portal state is set\n";
           portal_and_searching_cat_[object]->SetCatState
           (CatState::kNeedsToBeSendHome);
-          std::cout << "portal state is set\n";
+        } else {
+          portal_and_searching_cat_[object]->SetCatState
+              (CatState::kIsFollowingPlayer);
         }
         object->SetCollectedState();
         continue;
-      } else if (!object->IsCollected()
+      }
+      if (!object->IsCollected()
           && model_->GetPlayer()->NotOnlyMainCat()) {
         auto cat =
             model_->GetPlayer()->SendCatToSearch(
@@ -233,10 +227,6 @@ void Controller::CatsAndPortalsIntersect(const std::shared_ptr<Cat>& cat) {
         case CatState::kIsSearching: {
           model_->SetNormalPortalSkin(static_object);
           static_object->SetSearchState();
-          break;
-        }
-        case CatState::kHasFinishedSearching: {
-          portal_and_searching_cat_.erase(static_object);
           break;
         }
       }

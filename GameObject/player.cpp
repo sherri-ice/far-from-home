@@ -171,7 +171,7 @@ static_objects) {
 
 void Player::UpdateCatsGroup(const std::list<std::shared_ptr<Cat>>& all_cats) {
   for (auto& cat : cats_) {
-    if (cat->GetCatState() == CatState::kNeedsToBeSendHome) {
+    if (cat->GetCatState() == CatState::kIsReadyToDie) {
       SendCatToPortal(cat);
       continue;
     }
@@ -273,7 +273,6 @@ bool Player::NotOnlyMainCat() {
 }
 
 void Player::SendCatToPortal(std::shared_ptr<Cat> cat) {
-  std::cout << "before erasing cats\n";
   cat->SetIsInGroup(false);
   cat_group_.DecGroup();
   cats_.erase(std::remove_if(cats_.begin(), cats_.end(),
@@ -287,5 +286,4 @@ void Player::SendCatToPortal(std::shared_ptr<Cat> cat) {
                                     return !(cat->GetIsInGroup());
                                   }),
                    free_cats_.end());
-  std::cout << "after erasing cats\n";
 }
