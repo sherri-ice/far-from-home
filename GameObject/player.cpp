@@ -179,7 +179,7 @@ void Player::UpdateCatsGroup(const std::list<std::shared_ptr<Cat>>& all_cats) {
         continue;
       }
       auto length = cat_group_.central_position_.
-          GetVectorTo(wild_cat->GetDrawPosition()).GetLength();
+          GetVectorTo(wild_cat->GetRigidPosition()).GetLength();
       if (wild_cat->GetIsRunAway()) {
         continue;
       }

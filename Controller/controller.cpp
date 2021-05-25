@@ -4,7 +4,6 @@ Controller::Controller() {
   music_player_ = std::make_shared<MusicPlayer>();
   model_ = std::make_shared<Model>();
   view_ = std::make_shared<View>(this, model_);
-  // music_player_->StartMenuMusic();
 }
 
 void Controller::Tick(int time) {
@@ -351,10 +350,8 @@ void Controller::DogsIntersect(const std::shared_ptr<Dog>& dog) {
 void Controller::CatsInGroupIntersect(const std::shared_ptr<Cat>& cat) {
   auto rigid_body = cat->GetRigidBody();
   auto main_cat = model_->GetPlayer()->GetMainCat();
-  if (!cat->HasFinishedSearch() && main_cat->GetVelocity() != cat->GetVelocity
-  () && rigid_body->IfCollisionWillHappen(*(main_cat->GetRigidBody()),
-                                    cat->GetVelocity(), main_cat->GetVelocity
-                                    ())) {
+  if (!cat->HasFinishedSearch() && rigid_body->IfCollisionWillHappen(*
+  (main_cat->GetRigidBody()), cat->GetVelocity(), main_cat->GetVelocity())) {
     auto new_velocity = rigid_body->GetVelocityToGoAround(*
         (main_cat->GetRigidBody()), cat->GetVelocity(), main_cat->GetVelocity
         ());
@@ -529,17 +526,20 @@ void Controller::CatsAndDogIntersect(const std::shared_ptr<Cat>& cat) {
 void Controller::EndGame() {
   model_->ClearModel();
   current_game_time_ = 0;
-  // music_player_->StartMenuMusic();
 }
+
 void Controller::SetGameVolume(int volume) {
   music_player_->SetVolume(volume);
 }
+
 std::shared_ptr<MusicPlayer> Controller::GetMusicPlayer() {
   return music_player_;
 }
+
 void Controller::PauseMusic() {
   music_player_->Pause();
 }
+
 void Controller::ResumeMusic() {
   music_player_->Resume();
 }
