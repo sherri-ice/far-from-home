@@ -158,13 +158,11 @@ static_objects) {
   for (const auto& cat : cats_) {
     cat_position = cat->GetRigidPosition();
     for (auto& static_object : static_objects) {
-      if (static_object->HasPortal()) {
-        distance = cat_position.GetVectorTo(static_object->GetRigidPosition());
-        if (distance.GetLength() < visibility_radius_) {
-          static_object->SetIfMessageIsShown(true);
-        } else {
-          static_object->SetIfMessageIsShown(false);
-        }
+      distance = cat_position.GetVectorTo(static_object->GetRigidPosition());
+      if (distance.GetLength() < visibility_radius_) {
+        static_object->SetIfMessageIsShown(true);
+      } else {
+        static_object->SetIfMessageIsShown(false);
       }
     }
   }

@@ -12,6 +12,7 @@ PortalObject::PortalObject(const Size& size,
                      Point(position.GetX(),
                            position.GetY() - size.GetHeight() / 2),
                      15);
+  warning_.SetIfIsDrawn(false);
   progress_bar_ = ProgressBar(position, size);
   std::uniform_int_distribution<>
       time(PortalConstants::kMinSearchTime, PortalConstants::kMaxSearchTime);

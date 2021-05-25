@@ -51,7 +51,7 @@ class Player {
   Group cat_group_;
   std::vector<std::shared_ptr<Cat>> free_cats_;
 
-  double visibility_radius_{150};
+  double visibility_radius_{200};
 
   static std::mt19937 random_generator_;
 };
