@@ -392,7 +392,8 @@ void Controller::CheckIfDestinationIntersectsWithCat() {
   }
 }
 
-void Controller::WildCatsAndOtherCatsIntersect(const std::shared_ptr<Cat>& cat) {
+void Controller::WildCatsAndOtherCatsIntersect(const std::shared_ptr<Cat>&
+    cat) {
   if (cat->GetVelocity().GetLength() < constants::kEpsilon) {
     return;
   }
@@ -432,7 +433,8 @@ void Controller::MainCatIntersectsWithCats(const std::shared_ptr<Cat>&
                                       main_cat->GetVelocity(),
                                       cat_velocity)) {
       auto new_velocity = rigid_body->GetVelocityToGoAround(*cat_rigid_body,
-                                                            main_cat->GetVelocity(),
+                                                            main_cat->
+                                                            GetVelocity(),
                                                             cat_velocity);
       if (cat->GetIsInGroup()) {
         cat->SetVelocity(main_cat->GetVelocity());

@@ -22,7 +22,7 @@ const double kGetHeightShiftCoeff = 0.22;
 class ProgressBar : public QRect {
  public:
   ProgressBar() = default;
-  ProgressBar(const Point& center);
+  explicit ProgressBar(const Point& center);
   ~ProgressBar() = default;
 
   void SetRange(int min_value, int max_value);
