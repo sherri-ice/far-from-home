@@ -23,9 +23,7 @@ View::View(AbstractController* controller,
   layout_->insertWidget(0, menu_);
   SetWindows();
   controller->StartGame();
-  setStyleSheet("background-color: #56C34E");
   show();
-  setStyleSheet("background-color: #32CD32");
 
   time_between_ticks_.start();
   controller_timer_id_ = startTimer(constants::kTimeBetweenTicks);
@@ -270,3 +268,8 @@ void View::SetSettingsWindow() {
   connect(menu_->GetSoundButton(), &QPushButton::released, this,
           sound_button_click);
 }
+void View::Pause() {
+    // controller_->GetMusicPlayer()->StartMenuMusic();
+    menu_->show();
+    menu_->Pause();
+  }

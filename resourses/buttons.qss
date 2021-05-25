@@ -1,5 +1,5 @@
 QWidget#background {
-    background-image: url(":images/menu/background/background.png")
+    background-image: url("../images/menu/background/background.png")
 }
 
 QPushButton#play {
