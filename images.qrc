@@ -21,6 +21,16 @@
         <file>images/cat/left/Frame 2.png</file>
         <file>images/cat/left/Frame 3.png</file>
 
+        <file>images/cat/hiding/Frame 0.png</file>
+        <file>images/cat/hiding/Frame 1.png</file>
+        <file>images/cat/hiding/Frame 2.png</file>
+        <file>images/cat/hiding/Frame 3.png</file>
+
+        <file>images/cat/back/Frame 0.png</file>
+        <file>images/cat/back/Frame 1.png</file>
+        <file>images/cat/back/Frame 2.png</file>
+        <file>images/cat/back/Frame 3.png</file>
+
         <file>images/cat/random/0/Frame 0.png</file>
         <file>images/cat/random/0/Frame 1.png</file>
         <file>images/cat/random/0/Frame 2.png</file>
@@ -36,10 +46,10 @@
         <file>images/cat/random/2/Frame 2.png</file>
         <file>images/cat/random/2/Frame 3.png</file>
 
-        <file>images/cat/random/3/Frame 0.png</file>
-        <file>images/cat/random/3/Frame 1.png</file>
-        <file>images/cat/random/3/Frame 2.png</file>
-        <file>images/cat/random/3/Frame 3.png</file>
+<!--        <file>images/cat/random/3/Frame 0.png</file>-->
+<!--        <file>images/cat/random/3/Frame 1.png</file>-->
+<!--        <file>images/cat/random/3/Frame 2.png</file>-->
+<!--        <file>images/cat/random/3/Frame 3.png</file>-->
 
         <file>images/dog/up/Frame 0.png</file>
         <file>images/dog/up/Frame 1.png</file>
@@ -92,6 +102,13 @@
         <file>images/objects/tree/Frame 2.png</file>
         <file>images/objects/tree/Frame 3.png</file>
 
+        <file>images/objects/tree_selected/Frame 0.png</file>
+        <file>images/objects/tree_selected/Frame 1.png</file>
+        <file>images/objects/tree_selected/Frame 2.png</file>
+        <file>images/objects/tree_selected/Frame 3.png</file>
+
+        <file>images/objects/portal.png</file>
+
         <file>images/menu/background/background.png</file>
         <file>images/menu/buttons/play.png</file>
         <file>images/menu/buttons/play_clicked.png</file>
@@ -110,5 +127,9 @@
         <file>images/menu/buttons/sound_on.png</file>
         <file>images/menu/buttons/sound_off.png</file>
 
+        <file>images/objects/progress_bar/Frame 0.png</file>
+        <file>images/objects/progress_bar/Frame 1.png</file>
+        <file>images/objects/progress_bar/Frame 2.png</file>
+        <file>images/objects/progress_bar/Frame 3.png</file>
     </qresource>
 </RCC>

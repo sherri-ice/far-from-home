@@ -1,4 +1,5 @@
 #include <QPainter>
+
 #include "view_circle.h"
 
 const Point& ViewCircle::GetCenter() const {
