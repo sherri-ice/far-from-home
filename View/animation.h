@@ -13,9 +13,7 @@ enum AnimationState {
     kWalkUp = 1,
     kWalkLeft = 2,
     kWalkRight = 3,
-    kSit = 4,
-    kLicking = 5,
-    kSleeping = 6,
+    kSit = 6,
     kSiting = 7
 };
 

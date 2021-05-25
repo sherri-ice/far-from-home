@@ -151,7 +151,8 @@ void Model::LoadStaticAnimation() {
 std::vector<std::vector<QPixmap>> Model::GetImagesByFramePath(
     const QString& path) const {
   std::vector<std::vector<QPixmap>> result;
-  std::vector<QString> objects_animations = {"down", "up", "left", "right"};
+  std::vector<QString> objects_animations = {"down", "up", "left", "right",
+                                             "send home", "dead cat"};
   for (const auto& animation : objects_animations) {
     std::vector<QPixmap> im{};
     for (int i = 0; i < 4; ++i) {
@@ -160,7 +161,7 @@ std::vector<std::vector<QPixmap>> Model::GetImagesByFramePath(
     }
     result.emplace_back(im);
   }
-  for (int i = 0; i < 4; ++i) {
+  for (int i = 0; i < 2; ++i) {
     std::vector<QPixmap> images{};
     for (int j = 0; j < 4; ++j) {
       images.emplace_back(
