@@ -46,6 +46,9 @@ set(SOURCES
         View/view.cpp
         View/resizer.cpp
         GameObject/view_circle.cpp
+        GameObject/portal_object.cpp
+        View/progress_bar.cpp
+        View/warning.cpp
         View/animation.cpp
         Model/generator.cpp
         Model/timer.cpp
@@ -53,7 +56,10 @@ set(SOURCES
         images.qrc
         Model/group.cpp
         View/menu.cpp
-        View/menu.ui Model/music_player.cpp Model/music_player.h)
+        View/menu.ui Model/music_player.cpp Model/music_player.h
+        Model/group.cpp
+        View/result_window.cpp
+        View/result_window.ui)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 

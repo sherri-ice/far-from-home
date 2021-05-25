@@ -10,8 +10,8 @@ const int kGameWidth = 1600;
 const int kGameHeight = 900;
 
 const double kViewCircleDefault = 540;
-const double kViewCircleMax = 4200;
-const double kViewCircleMin = 250;
+const double kViewCircleMax = 2200;
+const double kViewCircleMin = 500;
 
 const int kTimeBetweenTicks = 10;
 const int kTimeScale = 100;

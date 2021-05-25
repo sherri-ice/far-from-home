@@ -7,15 +7,18 @@
 
 class MovingObject : public GameObject {
  public:
-    MovingObject(const Size& size,
-                 double speed,
-                 const Point& position = Point(0, 0));
-    ~MovingObject() override = default;
+  MovingObject(const Size& size,
+               double speed,
+               const Point& position = Point(0, 0));
+  ~MovingObject() override = default;
+
+  Size GetVelocity() const;
+
     void Move(int delta_time);
 
     virtual void SetSpeed(double speed);
     double GetSpeed() const;
-    [[nodiscard]] AnimationState GetAnimation() const;
+    [[nodiscard]] AnimationState GetAnimationState() const;
     virtual void SetAnimations(std::vector<std::vector<QPixmap>>
                                                   animation = {});
   virtual void IncSpeed(double speed);
@@ -36,6 +39,9 @@ class MovingObject : public GameObject {
     Size velocity_;
     static std::mt19937 random_generator_;
     Animation object_animation_;
+    bool is_hidding_ = false;
+    bool is_ready_to_die = false;
+    bool is_back_ = false;
 };
 
 #endif  // GAMEOBJECT_MOVING_OBJECT_H_

@@ -4,12 +4,14 @@
 #include <list>
 #include <memory>
 #include <vector>
+#include <set>
 
 #include "../Model/timer.h"
 #include "../Model/group.h"
 #include "../GameObject/cat.h"
 #include "../GameObject/dog.h"
 #include "view_circle.h"
+#include "portal_object.h"
 
 class Player {
  public:
@@ -20,8 +22,13 @@ class Player {
   void OrderCatsToMove(Size velocity_from_player);
 
   void UpdateDogsAround(std::list<std::shared_ptr<Dog>> dogs);
+
+  void UpdateStaticObjectsAround
+      (const std::list<std::shared_ptr<PortalObject>>& static_objects);
+
   void IsReachable(std::list<std::shared_ptr<Dog>> dogs);
   void UpdateCatsGroup(const std::list<std::shared_ptr<Cat>>& all_cats);
+
   void DismissCats();
 
   [[nodiscard]] const ViewCircle& GetViewCircle() const;
@@ -31,14 +38,19 @@ class Player {
   [[nodiscard]] const Point& GetPosition() const;
 
   void LosingCat(Point dog_position, std::shared_ptr<Cat> cat);
+  void SendCatToPortal(std::shared_ptr<Cat> cat);
+  std::shared_ptr<Cat> SendCatToSearch(const Point& portal_coordinates,
+                                       int search_time);
 
   void Tick();
   void GroupTick(int delta_time);
+  bool NotOnlyMainCat();
 
  private:
   std::vector<std::shared_ptr<Cat>> cats_;
   ViewCircle view_circle_ = ViewCircle();
   Group cat_group_;
+  std::vector<std::shared_ptr<Cat>> free_cats_;
 
   double visibility_radius_{150};
 

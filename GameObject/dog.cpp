@@ -1,5 +1,6 @@
 #include "dog.h"
 
+
 std::mt19937 Dog::random_generator_ = std::mt19937
     (std::chrono::system_clock::now().time_since_epoch().count());
 
@@ -41,10 +42,10 @@ void Dog::Draw(QPainter* painter, Resizer* resizer) const {
                          2 * static_cast<int>(radius.GetHeight() *
                              constants::kSemiMinorCoefficient));
   }
-    painter->drawPixmap(-object_width / 2, -object_height / 2,
+  painter->drawPixmap(-object_width / 2, -object_height / 2,
                       object_width,
                       object_height, object_animation_.GetCurrentFrame());
-    painter->restore();
+  painter->restore();
 }
 
 void Dog::Tick(int delta_time) {
@@ -81,7 +82,7 @@ void Dog::Tick(int delta_time) {
         change_directions_count_ = times_to_change_directions
             (random_generator_);
         velocity_ = Size(velocity(random_generator_), velocity
-        (random_generator_));
+            (random_generator_));
         --change_directions_count_;
         timers_.StartTimerWithRandom(dog_constants::kTimeToWalkMin,
                                      dog_constants::kTimeToWalkMax,
@@ -106,7 +107,7 @@ void Dog::Tick(int delta_time) {
       }
       if (velocity_.GetLength() > constants::kEpsilon) {
         velocity_ /= velocity_.GetLength();
-        velocity_ *= delta_time * walking_speed_ / constants::kTimeScale;
+        velocity_ *= walking_speed_ * delta_time / constants::kTimeScale;
       }
       break;
     }
@@ -148,9 +149,9 @@ void Dog::Tick(int delta_time) {
       break;
     }
   }
-    is_moving_ = !(dog_state_ == DogState::kIsResting);
-    object_animation_.Tick(delta_time, GetAnimation());
-    was_moving_ = is_moving_;
+  is_moving_ = !(dog_state_ == DogState::kIsResting);
+  object_animation_.Tick(delta_time, GetAnimationState());
+  was_moving_ = is_moving_;
 }
 
 void Dog::SetIfItVisibleToPlayer(bool is_visible) {
@@ -164,7 +165,8 @@ void Dog::SetReachableCat(const std::vector<std::shared_ptr<Cat>>& cats) {
     Size cat_distance = GetRigidPosition().GetVectorTo(cat->GetRigidPosition());
     if (CheckIfCanSeeCat(&(*cat)) &&
         cat_distance.GetLength() < min_distance.GetLength() &&
-        (!timers_.IsActive(static_cast<int>(DogState::kIsComingHome)))) {
+        !timers_.IsActive(static_cast<int>(DogState::kIsComingHome))
+        && cat->GetCatState() == CatState::kIsGoingToSearch) {
       reachable_cat_ = &(*cat);
       min_distance = cat_distance;
     }
@@ -172,7 +174,7 @@ void Dog::SetReachableCat(const std::vector<std::shared_ptr<Cat>>& cats) {
 }
 
 bool Dog::CheckIfCanSeeCat(const Cat* cat) const {
-  return cat->GetRigidPosition().IsInEllipse(position_,
+  return cat->GetRigidPosition().IsInEllipse(GetRigidPosition(),
                                              visibility_radius_);
 }
 

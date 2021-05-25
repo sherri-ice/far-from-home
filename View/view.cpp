@@ -1,11 +1,14 @@
-#include "view.h"
-#include "../Model/constants.h"
+#include <algorithm>
 
 #include <QKeyEvent>
 #include <QGraphicsScene>
 #include <utility>
 #include <vector>
-#include <algorithm>
+
+#include "../GameObject/portal_object.h"
+#include "../Model/constants.h"
+#include "progress_bar.h"
+#include "view.h"
 
 View::View(AbstractController* controller,
            std::shared_ptr<Model> model)
@@ -19,24 +22,27 @@ View::View(AbstractController* controller,
   layout_ = new QVBoxLayout(this);
   layout_->insertWidget(0, menu_);
   SetWindows();
+  controller->StartGame();
+  setStyleSheet("background-color: #56C34E");
   show();
-}
+  setStyleSheet("background-color: #32CD32");
 
-void View::Pause() {
-  // controller_->GetMusicPlayer()->StartMenuMusic();
-  menu_->show();
-  menu_->Pause();
+  time_between_ticks_.start();
+  controller_timer_id_ = startTimer(constants::kTimeBetweenTicks);
+  view_timer_.start();
 }
 
 void View::paintEvent(QPaintEvent*) {
   if (menu_->isHidden()) {
     QPainter painter(this);
     DrawGameObjects(&painter);
+    DrawWarnings(&painter);
   }
 }
 
 void View::timerEvent(QTimerEvent* event) {
-  if (event->timerId() == controller_timer_id_ && menu_->isHidden()) {
+  if (event->timerId() == controller_timer_id_ && result_window_.isHidden()
+                        && menu_->isHidden()) {
     int delta_time = time_between_ticks_.elapsed();
     time_between_ticks_.restart();
     controller_->Tick(controller_->GetCurrentTime() + delta_time);
@@ -113,6 +119,16 @@ double View::GetViewSize() {
   return radius;
 }
 
+void View::mousePressEvent(QMouseEvent* event) {
+  Point point = Point(event->x(), event->y());
+  auto needed = resizer_.WindowToGameCoordinate(point);
+  controller_->ScanIfObjectWereClicked(needed);
+}
+
+Point View::GetCoordinatesForWarning() const {
+  return Point(width() / 2, 0);
+}
+
 bool View::IsOnTheScreen(const std::shared_ptr<GameObject>& object) {
   auto object_pos = object->GetDrawPosition();
   auto screen_rect = this->rect();
@@ -135,6 +151,21 @@ bool View::IsOnTheScreen(const std::shared_ptr<GameObject>& object) {
     return false;
   }
   return true;
+}
+
+void View::DrawWarnings(QPainter* painter) {
+  for (const auto& warning : model_->GetWarnings()) {
+    warning->Draw(painter, &resizer_);
+  }
+}
+
+void View::ShowResultWindow(bool is_found) {
+  result_window_.setGeometry(width() / 2, height() / 2, 150, 150);
+  result_window_.Show(is_found);
+}
+
+ResultWindow& View::GetResultWindow() {
+  return result_window_;
 }
 
 void View::SetWindows() {
