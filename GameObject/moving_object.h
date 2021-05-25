@@ -34,7 +34,7 @@ class MovingObject : public GameObject {
   bool IsVelocityChange(Size main_velocity);
   void SetDestination(const Point& destination);
 
-  Size GetDrawSize(const Size& object_size) const;
+  Size GetDrawSize(const Size& object_size) const override;
   void TickAnimation(int delta_time);
   AnimationState GetAnimationState() const;
 

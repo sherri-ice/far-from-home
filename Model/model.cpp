@@ -135,10 +135,14 @@ std::shared_ptr<PortalObject> Model::MakeNewPortal(const Size& size,
   static_objects_.push_back(std::make_shared<PortalObject>(size,
                                                            position,
                                                            skin_path));
-  static_objects_.back()->SetScaleCoefficientsInRigidBody(0.3, 0.3);
   int skin_id = GetRandomSkin();
   static_objects_.back()->SetSkin(objects_pics_["tree"][skin_id]);
   static_objects_.back()->SetSkinId(skin_id);
+  if (skin_id == 2) {
+    static_objects_.back()->SetScaleCoefficientsInRigidBody(0.34, 0.3);
+  } else {
+    static_objects_.back()->SetScaleCoefficientsInRigidBody(0.3, 0.3);
+  }
   if (has_portal) {
     static_objects_.back()->SetPortal();
   }

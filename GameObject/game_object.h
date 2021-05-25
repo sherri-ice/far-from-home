@@ -38,6 +38,8 @@ class GameObject {
   int GetSkinId() const;
   void SetSkinId(int skin_id);
 
+  virtual Size GetDrawSize(const Size& object_size) const;
+
  protected:
   QPixmap skin_;
   int skin_id_ = 0;

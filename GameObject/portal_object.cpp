@@ -27,9 +27,10 @@ void PortalObject::Draw(QPainter* painter, Resizer* resizer) const {
   painter->save();
   auto position = resizer->GameToWindowCoordinate(position_);
   auto size = resizer->GameToWindowSize(size_);
+  auto draw_size = GetDrawSize(size);
   painter->translate(position.GetX(), position.GetY());
-  int width = static_cast<int>(size.GetWidth());
-  int height = static_cast<int>(size.GetHeight());
+  int width = static_cast<int>(draw_size.GetWidth());
+  int height = static_cast<int>(draw_size.GetHeight());
   painter->drawPixmap(-width / 2, -height / 2, width, height, skin_);
   painter->restore();
   progress_bar_.Draw(painter, resizer);
