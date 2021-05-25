@@ -1,6 +1,5 @@
 #include "dog.h"
 
-
 std::mt19937 Dog::random_generator_ = std::mt19937
     (std::chrono::system_clock::now().time_since_epoch().count());
 
@@ -155,7 +154,7 @@ void Dog::SetReachableCat(const std::vector<std::shared_ptr<Cat>>& cats) {
     if (CheckIfCanSeeCat(&(*cat)) &&
         cat_distance.GetLength() < min_distance.GetLength() &&
         !timers_.IsActive(static_cast<int>(DogState::kIsComingHome))
-        && cat->GetCatState() == CatState::kIsGoingToSearch) {
+        && cat->GetCatState() != CatState::kIsSearching) {
       reachable_cat_ = &(*cat);
       min_distance = cat_distance;
     }
