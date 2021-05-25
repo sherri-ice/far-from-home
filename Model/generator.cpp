@@ -14,7 +14,6 @@ int Generator::GenerateId(const Point& left_corner) {
                std::fabs(left_corner.GetY() / constants::kGameMapHeight));
   // let put coefficient in the power of 6, to reach smoothness
   distancing_coeff = std::pow(distancing_coeff, 6);
-
   // std::discrete_distribution<> generates different values according to
   // vector of probabilities, given to it
   // let's push border templates probabilities to the end of that vector
@@ -42,25 +41,33 @@ void Generator::GenerateTile(const Point&
 left_corner) {
   int id = GenerateId(left_corner);
   Tile new_tile(tiles_templates_.at(id));
+  std::uniform_int_distribution<> x_deviation(-20, 20);
+  std::uniform_int_distribution<> y_deviation(-20, 20);
   for (const auto& cat : new_tile.cats) {
     model_->MakeNewCat(cat.GetSize(),
                        cat.GetSpeed(),
-                       cat.GetDrawPosition() + left_corner + left_corner);
+                       cat.GetDrawPosition() + left_corner + left_corner
+                           + Point(x_deviation(random_generator),
+                                   y_deviation(random_generator)));
   }
   for (const auto& dog : new_tile.dogs) {
     model_->MakeNewDog(dog.GetSize(),
                        dog.GetSpeed(),
-                       dog.GetDrawPosition() + left_corner + left_corner,
+                       dog.GetDrawPosition() + left_corner + left_corner
+                           + Point(x_deviation(random_generator),
+                                   y_deviation(random_generator)),
                        dog.GetVisibilityRadius(), dog.GetWalkingSpeed());
   }
   for (const auto& static_object : new_tile.static_objects) {
     model_->MakeNewStaticObject(static_object.GetSize(),
                                 static_object.GetDrawPosition() + left_corner
-                                + left_corner);
+                                + left_corner + Point(x_deviation(random_generator),
+                                                      y_deviation(random_generator)));
   }
   for (const auto& food : new_tile.food) {
     model_->MakeNewFood(food.GetSize(), food.GetDrawPosition() + left_corner
-                        + left_corner);
+                        + left_corner + Point(x_deviation(random_generator),
+                                              y_deviation(random_generator)));
   }
 }
 

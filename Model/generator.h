@@ -14,7 +14,7 @@ namespace constants {
 const int kGameMapWidth = 7'000;
 const int kGameMapHeight = 7'000;
 const int kTileSize = 500;
-const int kNumOfTilesTemplates = 9;
+const int kNumOfTilesTemplates = 10;
 const int kNumOfBorderTemplates = 2;
 }  // namespace constants
 
@@ -41,6 +41,7 @@ class Generator {
     std::vector<GameObject> static_objects;
   };
   std::vector<Tile> tiles_templates_;
+  int num_of_cats_{0};
   static std::mt19937 random_generator;
 };
 
