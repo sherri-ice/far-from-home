@@ -45,12 +45,12 @@ left_corner) {
   for (const auto& cat : new_tile.cats) {
     model_->MakeNewCat(cat.GetSize(),
                        cat.GetSpeed(),
-                       cat.GetDrawPosition() + left_corner);
+                       cat.GetDrawPosition() + left_corner + left_corner);
   }
   for (const auto& dog : new_tile.dogs) {
     model_->MakeNewDog(dog.GetSize(),
                        dog.GetSpeed(),
-                       dog.GetDrawPosition() + left_corner,
+                       dog.GetDrawPosition() + left_corner + left_corner,
                        dog.GetVisibilityRadius(), dog.GetWalkingSpeed());
   }
   for (const auto& static_object : new_tile.static_objects) {

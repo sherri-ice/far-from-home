@@ -26,7 +26,6 @@ void Controller::Tick(int time) {
   TickWarnings(delta_time);
 
   CatsAndFoodIntersect();
-  TickViewCircle();
 
   model_->ClearObjects();
 }
@@ -544,4 +543,3 @@ void Controller::PauseMusic() {
 void Controller::ResumeMusic() {
   music_player_->Resume();
 }
-

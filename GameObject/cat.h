@@ -49,6 +49,7 @@ class Cat : public MovingObject {
   void SetIsReachable(bool);
   void SetIsRunAway(bool);
   bool GetIsRunAway() const;
+  void ComeHome();
 
   void SetCatState(CatState cat_state);
   CatState GetCatState();

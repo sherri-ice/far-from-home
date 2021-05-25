@@ -284,3 +284,9 @@ bool Cat::GetIsRunAway() const {
 bool Cat::HasFinishedSearch() const {
   return cat_state_ == CatState::kHasFinishedSearching;
 }
+
+void Cat::ComeHome() {
+  timers_.Stop(static_cast<int>(CatState::kIsWalking));
+  cat_state_ = CatState::kIsComingDestination;
+  destination_ = home_position_;
+}
