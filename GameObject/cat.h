@@ -31,7 +31,7 @@ enum class CatState {
   kIsGoingToSearch,
   kHasFinishedSearching,
   kNeedsToBeSendHome,
-  kIsReadyToDie,
+  kReadyToBeDeleted,
   SIZE
 };
 
@@ -59,12 +59,13 @@ class Cat : public MovingObject {
  private:
   bool is_in_group_{false};
   bool is_reachable_cat_{false};
+  bool came_back_to_player = true;
   Point home_position_;
   CatState cat_state_{CatState::kIsResting};
   int change_directions_count_{0};
   Timer timers_;
   int searching_time_{1000};
-  int time_for_cats_homesending_{800};
+  int time_for_cats_homesending_{1000};
 
   static std::mt19937 random_generator_;
 };

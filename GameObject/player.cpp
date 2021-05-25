@@ -22,10 +22,9 @@ void Player::OrderCatsToMove(Size velocity_from_player) {
       cat->SetVelocity(velocity_from_player);
       continue;
     }
-    if (cat->GetCatState() == CatState::kIsGoingToSearch) {
-      continue;
-    }
-    if (cat->GetCatState() == CatState::kIsSearching) {
+    if (cat->GetCatState() == CatState::kIsGoingToSearch || cat->GetCatState
+    () == CatState::kIsSearching || cat->GetCatState() ==
+    CatState::kNeedsToBeSendHome || cat->GetCatState() == CatState::kReadyToBeDeleted) {
       continue;
     }
     if (cat->GetCatState() == CatState::kHasFinishedSearching) {
@@ -171,7 +170,7 @@ static_objects) {
 
 void Player::UpdateCatsGroup(const std::list<std::shared_ptr<Cat>>& all_cats) {
   for (auto& cat : cats_) {
-    if (cat->GetCatState() == CatState::kIsReadyToDie) {
+    if (cat->GetCatState() == CatState::kReadyToBeDeleted) {
       SendCatToPortal(cat);
       continue;
     }
@@ -183,7 +182,8 @@ void Player::UpdateCatsGroup(const std::list<std::shared_ptr<Cat>>& all_cats) {
           GetVectorTo(wild_cat->GetDrawPosition()).GetLength();
       if (length < cat_group_.first_radius_ &&
           !(wild_cat->GetIsInGroup())
-          && wild_cat->GetCatState() != CatState::kIsGoingToSearch) {
+          && wild_cat->GetCatState() != CatState::kIsGoingToSearch &&
+          !wild_cat->IsDead()) {
         cats_.push_back(wild_cat);
         free_cats_.push_back(wild_cat);
         wild_cat->SetIsInGroup(true);
@@ -274,16 +274,6 @@ bool Player::NotOnlyMainCat() {
 
 void Player::SendCatToPortal(std::shared_ptr<Cat> cat) {
   cat->SetIsInGroup(false);
+  cat->SetIsDead();
   cat_group_.DecGroup();
-  cats_.erase(std::remove_if(cats_.begin(), cats_.end(),
-                             [](const std::shared_ptr<Cat>& cat) {
-                               return !(cat->GetIsInGroup());
-                             }),
-              cats_.end());
-
-  free_cats_.erase(std::remove_if(free_cats_.begin(), free_cats_.end(),
-                                  [](const std::shared_ptr<Cat>& cat) {
-                                    return !(cat->GetIsInGroup());
-                                  }),
-                   free_cats_.end());
 }

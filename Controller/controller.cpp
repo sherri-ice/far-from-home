@@ -147,8 +147,9 @@ void Controller::ScanIfObjectWereClicked(const Point& point) {
                                               object->GetSize().GetLength())) {
       if (object->HasFinished()) {
         view_->ShowResultWindow(object->HasPortal());
-        while (view_->GetResultWindow().isVisible()) {
-          continue;
+        int i;
+        while (!view_->GetResultWindow().isHidden()) {
+          i++;
         }
         if (view_->GetResultWindow().GetUserAnswer()) {
           portal_and_searching_cat_[object]->SetCatState

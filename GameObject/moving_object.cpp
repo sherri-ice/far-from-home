@@ -60,7 +60,7 @@ bool MovingObject::IsVelocityChange(Size main_velocity) {
 
 AnimationState MovingObject::GetAnimationState() const {
   AnimationState animation_state;
-  if (is_sended_home_) {
+  if (is_ready_to_die) {
     return kSendToPortal;
   }
   if (is_hidding_) {

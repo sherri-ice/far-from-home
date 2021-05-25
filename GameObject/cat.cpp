@@ -146,6 +146,7 @@ void Cat::Tick(int delta_time) {
       if (position_ == destination_) {
         cat_state_ = CatState::kIsSearching;
       }
+      came_back_to_player = false;
       velocity_ = position_.GetVelocityVector(destination_, delta_time *
           speed_ / constants::kTimeScale);
       break;
@@ -170,6 +171,7 @@ void Cat::Tick(int delta_time) {
       timers_.Stop(static_cast<int>(CatState::kIsSearching));
       is_back_ = false;
       if (position_ == destination_) {
+        came_back_to_player = true;
         cat_state_ = CatState::kIsFollowingPlayer;
       }
       velocity_ = position_.GetVelocityVector(destination_, delta_time *
@@ -177,19 +179,24 @@ void Cat::Tick(int delta_time) {
       break;
     }
     case CatState::kNeedsToBeSendHome: {
-      if (!timers_.IsActive(static_cast<int>(CatState::kNeedsToBeSendHome))) {
-        timers_.Start(time_for_cats_homesending_,
-                      static_cast<int>(CatState::kNeedsToBeSendHome));
+      if (position_ == destination_) {
+        timers_.Stop(static_cast<int>(CatState::kIsFollowingPlayer));
+        if (!timers_.IsActive(static_cast<int>(CatState::kNeedsToBeSendHome))) {
+          timers_.Start(time_for_cats_homesending_,
+                        static_cast<int>(CatState::kNeedsToBeSendHome));
+          is_ready_to_die = true;
+        }
+      } else {
+        velocity_ = position_.GetVelocityVector(destination_, delta_time *
+            speed_ / constants::kTimeScale);
       }
       if (timers_.IsTimeOut(static_cast<int>(CatState::kNeedsToBeSendHome))) {
-        cat_state_ = CatState::kIsReadyToDie;
+        cat_state_ = CatState::kReadyToBeDeleted;
       }
-      is_sended_home_ = true;
       break;
     }
-    case CatState::kIsReadyToDie: {
+    case CatState::kReadyToBeDeleted: {
       timers_.Stop(static_cast<int>(CatState::kNeedsToBeSendHome));
-      SetIsDead();
       break;
     }
     default: {

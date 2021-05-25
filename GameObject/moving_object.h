@@ -40,7 +40,7 @@ class MovingObject : public GameObject {
     static std::mt19937 random_generator_;
     Animation object_animation_;
     bool is_hidding_ = false;
-    bool is_sended_home_ = false;
+    bool is_ready_to_die = false;
     bool is_back_ = false;
 };
 
