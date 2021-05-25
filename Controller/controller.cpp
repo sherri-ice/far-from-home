@@ -12,15 +12,15 @@ void Controller::Tick(int time) {
   int delta_time = time - current_game_time_;
   current_game_time_ = time;
 
-  // TickViewCircle();
+
+  TickViewCircle();
   TickPlayer(delta_time);
   TickCats(delta_time);
   TickDogs(delta_time);
+  CatsAndFoodIntersect();
   TickFood(delta_time);
   TickObjects(delta_time);
   TickWarnings(delta_time);
-  CatsAndFoodIntersect();
-  TickViewCircle();
 
   model_->ClearObjects();
 }
