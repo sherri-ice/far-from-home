@@ -8,7 +8,7 @@
 #include "../Model/size.h"
 
 namespace constants {
-  const double kIntersectedBorder = 5.;
+  const double kIntersectedBorder = 4.5;
 }
 
 enum class Border {

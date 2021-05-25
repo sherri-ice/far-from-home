@@ -196,3 +196,7 @@ void Dog::ComeHome() {
   SetDestination(home_position_);
   dog_state_ = DogState::kIsComingHome;
 }
+
+bool Dog::IsMainCatCaught() const {
+  return is_main_cat_caught_;
+}

@@ -1,5 +1,5 @@
 #include "rigid_body.h"
-
+#include <iostream>
 RigidBody::RigidBody(const Size* size, const Point* position) : object_size_
     (size), object_position_(position) {
 }
@@ -154,15 +154,19 @@ Size RigidBody::GetVelocityToGoAround(const RigidBody& other_rigid_body,
 Border RigidBody::GetIntersectedBorder(const Rect& other_rect) const {
   if (GetRect().x >= other_rect.x + other_rect
   .width) {
+    std::cout << "right" << std::endl;
     return Border::kRight;
   }
   if (GetRect().x + GetRect().width <= other_rect.x) {
+    std::cout << "left" << std::endl;
     return Border::kLeft;
   }
   if (GetRect().y + GetRect().height <= other_rect.y) {
+    std::cout << "top" << std::endl;
     return Border::kTop;
   }
   if (GetRect().y >= other_rect.y + other_rect.height) {
+    std::cout << "bottom" << std::endl;
     return Border::kBottom;
   }
   return Border::kNone;
@@ -188,18 +192,22 @@ bool RigidBody::IsCollide(const Rect& other_rect) const {
 Border RigidBody::GetIntersectedBorderIfNone(const Rect& other_rect) const {
   if (GetRect().x + constants::kIntersectedBorder >= other_rect.x + other_rect
       .width) {
+    std::cout << "r" << std::endl;
     return Border::kRight;
   }
   if (GetRect().x + GetRect().width <= other_rect.x +
   constants::kIntersectedBorder) {
+    std::cout << "l" << std::endl;
     return Border::kLeft;
   }
   if (GetRect().y + GetRect().height <= other_rect.y +
       constants::kIntersectedBorder) {
+    std::cout << "t" << std::endl;
     return Border::kTop;
   }
   if (GetRect().y + constants::kIntersectedBorder >= other_rect.y +
   other_rect.height) {
+    std::cout << "b" << std::endl;
     return Border::kBottom;
   }
   return Border::kNone;
