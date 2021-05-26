@@ -1,9 +1,11 @@
-#include "resizer.h"
 #include <algorithm>
+
+#include "resizer.h"
 
 void Resizer::ChangeSystem(double window_width, double window_height) {
   game_size_.SetWidth(window_width);
   game_size_.SetHeight(window_height);
+  min_window_parameter_ = std::min(window_width, window_height);
 }
 
 Point Resizer::WindowToGameCoordinate(const Point& window_coordinate) const {
@@ -27,4 +29,17 @@ void Resizer::Update(double radius, const Point& position) {
       radius / std::min(game_size_.GetWidth(), game_size_.GetHeight());
   auto pos_size = Size(position.GetX(), position.GetY());
   origin_offset_ = pos_size / scaling_coefficient_ * -1 + game_size_ / 2;
+}
+
+double Resizer::GameToWindowLength(double length) const {
+  return length / scaling_coefficient_;
+}
+
+double Resizer::WindowToGameLength(double length) const {
+  return length * scaling_coefficient_;
+}
+
+double Resizer::ResizeLength(double length,
+                             int new_parameter) const {
+  return length * new_parameter / min_window_parameter_;
 }

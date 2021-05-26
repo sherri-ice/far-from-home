@@ -55,6 +55,9 @@ class Dog : public MovingObject {
 
   void RunAway(const Point& cat_position);
 
+  bool IsComingHome() const;
+  bool IsMainCatCaught() const;
+
  private:
   Point home_position_;
   double visibility_radius_;

@@ -19,6 +19,8 @@ const int kTimeToCommingDestinationMin = 1000;
 const int kTimeToCommingDestinationMax = 1500;
 const int kTimesToChangeDirectionMin = 2;
 const int kTimesToChangeDirectionsMax = 5;
+
+const int kMaxFoodSaturation = 100;
 }  // namespace constants
 
 enum class CatState {
@@ -27,6 +29,9 @@ enum class CatState {
   kIsFollowingPlayer,
   kIsComingDestination,
   kIsMainCat,
+  kIsSearching,
+  kIsGoingToSearch,
+  kHasFinishedSearching,
   SIZE
 };
 
@@ -49,8 +54,21 @@ class Cat : public MovingObject {
   void SetCatState(CatState cat_state);
   CatState GetCatState();
   bool GetIsReachable();
+  bool GetIsVisible();
 
   Timer GetTimer();
+  int GetSearchingTime() const;
+  void SetSearchingTime(int searching_time);
+  void SetDestinationRect(const Rect& rect);
+  Rect GetDestinationRect() const;
+
+  double GetFoodSaturation() const;
+  void FeedCat();
+  void SetFoodSaturation(double food_saturation);
+  bool IsComingDestination() const;
+  bool IsGoingToSearch() const;
+  bool IsMainCat() const;
+  bool HasFinishedSearch() const;
 
  private:
   bool is_in_group_{false};
@@ -60,6 +78,11 @@ class Cat : public MovingObject {
   CatState cat_state_{CatState::kIsResting};
   int change_directions_count_{0};
   Timer timers_;
+  int searching_time_{1000};
+  Rect destination_rect_{};
+
+  double food_saturation_{100.};
+  double speed_of_hunger_{constants::kSpeedOfHunger};
 
   static std::mt19937 random_generator_;
 };

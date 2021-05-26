@@ -59,10 +59,11 @@ left_corner) {
   //                      dog.GetVisibilityRadius(), dog.GetWalkingSpeed());
   // }
   for (const auto& static_object : new_tile.static_objects) {
-    model_->MakeNewStaticObject(static_object.GetSize(),
-                                static_object.GetDrawPosition() + left_corner +
-                                Point(x_deviation(random_generator),
-                                      y_deviation(random_generator)));
+    model_->MakeNewPortal(static_object.GetSize(),
+                          static_object.GetDrawPosition() + left_corner + Point(x_deviation(random_generator),
+                                                                                y_deviation(random_generator)),
+                          "",
+                          false);
   }
   for (const auto& food : new_tile.food) {
     model_->MakeNewFood(food.GetSize(), food.GetDrawPosition() + left_corner
