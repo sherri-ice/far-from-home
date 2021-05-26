@@ -68,18 +68,12 @@ class Model {
   void SetSelectedPortalSkin(std::shared_ptr<PortalObject> portal);
   void SetNormalPortalSkin(std::shared_ptr<PortalObject> portal);
 
-  void SetCatHidingAnimation(std::shared_ptr<Cat> cat);
-  void SetCatGettingOutAnimation(std::shared_ptr<Cat> cat);
-
   void GenerateFood(const Point& player_position, double width,
                     double height, int number_of_food);
 
   GlobalProgressBar* GetProgressBar();
 
  private:
-  static bool StaticObjectIsInArea(std::shared_ptr<PortalObject>& static_object, int
-  left, int top, int right, int bottom);
-
   std::map<QString, std::vector<std::vector<QPixmap>>> animations_;
   std::map<QString, std::vector<QPixmap>> objects_pics_{};
   int current_level_ = 0;

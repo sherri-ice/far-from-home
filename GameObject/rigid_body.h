@@ -56,6 +56,7 @@ class RigidBody {
                              other_velocity = Size(0, 0));
   Border GetIntersectedBorder(const Rect& other_rect) const;
   Border GetIntersectedBorderIfNone(const Rect& other_rect) const;
+  Border GetIntersectedBorderForCollision(const Rect& other_rect) const;
   bool IsDestinationCollideWithRect(const Rect& other_rect) const;
   Point GetObjectPosition() const;
 

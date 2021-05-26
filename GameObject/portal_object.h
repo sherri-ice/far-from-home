@@ -2,11 +2,12 @@
 #define GAMEOBJECT_PORTAL_OBJECT_H_
 
 #include <QTimer>
+
 #include "../Model/timer.h"
-#include "../View/progress_bar.h"
-#include "../View/warning.h"
 #include "game_object.h"
+#include "../View/progress_bar.h"
 #include "../View/result_window.h"
+#include "../View/warning.h"
 
 namespace PortalConstants {
 const int kMaxSearchTime = 10'000;
@@ -51,6 +52,7 @@ class PortalObject : public GameObject {
 
   void SetSuperSkin();
 
+  bool IsInArea(int left, int top, int right, int bottom) const;
 
  private:
   bool has_portal_{false};

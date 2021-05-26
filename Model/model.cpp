@@ -292,50 +292,103 @@ void Model::GenerateFood(const Point& player_position, double
   double height_of_rigid_body = 20 * 0.9;
 
   for (int i = 0; i < num_of_food_for_large_areas; ++i) {
-    auto first_position = Point(top_and_bottom_x(random_generator_),
-                                top_area_y(random_generator_));
+    auto position = Point(top_and_bottom_x(random_generator_),
+                          top_area_y(random_generator_));
     QRect first_rect = QRect
-        (first_position.GetX() - width_of_rigid_body / 2, first_position.GetY() -
+        (position.GetX() - width_of_rigid_body / 2, position.GetY() -
             height_of_rigid_body / 2, width_of_rigid_body,
-            height_of_rigid_body);
+         height_of_rigid_body);
     for (const auto& static_object : static_objects_) {
-      if (StaticObjectIsInArea(static_object, player_position.GetX() - width,
-                               player_position.GetY() - height, ))
-      while (static_object->GetRigidBody()->IsInside(first_rect)) {
-        first_position = Point(top_and_bottom_x(random_generator_),
-                               top_area_y(random_generator_));
-        first_rect.setX(first_position.GetX() - width_of_rigid_body / 2);
-        first_rect.setY(first_position.GetY() - height_of_rigid_body / 2);
+      if (static_object->IsInArea(static_cast<int>(player_position.GetX() -
+      width), static_cast<int>(player_position.GetY() - height),
+                                  static_cast<int>(player_position.GetX() +
+                                  width), static_cast<int>(player_position
+                                  .GetY() - part_of_height))) {
+        while (static_object->GetRigidBody()->IsInside(first_rect)) {
+          position = Point(top_and_bottom_x(random_generator_),
+                           top_area_y(random_generator_));
+          first_rect.setX(position.GetX() - width_of_rigid_body / 2);
+          first_rect.setY(position.GetY() - height_of_rigid_body / 2);
+        }
       }
     }
-
-    MakeNewFood(Size(20, 20), first_position);
-    MakeNewFood(Size(20, 20), Point(top_and_bottom_x(random_generator_),
-                                    bottom_area_y(random_generator_)));
+    MakeNewFood(Size(20, 20), position);
   }
+
+  for (int i = 0; i < num_of_food_for_large_areas; ++i) {
+    auto position = Point(top_and_bottom_x(random_generator_),
+                          bottom_area_y(random_generator_));
+    QRect first_rect = QRect
+        (position.GetX() - width_of_rigid_body / 2, position.GetY() -
+             height_of_rigid_body / 2, width_of_rigid_body,
+         height_of_rigid_body);
+    for (const auto& static_object : static_objects_) {
+      if (static_object->IsInArea(static_cast<int>(player_position.GetX() -
+                                      width), static_cast<int>
+                                      (player_position.GetY() + part_of_height),
+                                  static_cast<int>(player_position.GetX() +
+                                      width), static_cast<int>
+                                      (player_position.GetY() + height))) {
+        while (static_object->GetRigidBody()->IsInside(first_rect)) {
+          position = Point(top_and_bottom_x(random_generator_),
+                           bottom_area_y(random_generator_));
+          first_rect.setX(position.GetX() - width_of_rigid_body / 2);
+          first_rect.setY(position.GetY() - height_of_rigid_body / 2);
+        }
+      }
+    }
+    MakeNewFood(Size(20, 20), position);
+  }
+
   for (int i = 0; i < num_of_food_for_small_areas; ++i) {
-    MakeNewFood(Size(20, 20), Point(left_area_x(random_generator_),
-                                    same_height_area(random_generator_)));
-    MakeNewFood(Size(20, 20), Point(right_area_x(random_generator_),
-                                    same_height_area(random_generator_)));
+    auto position = Point(left_area_x(random_generator_),
+                          same_height_area(random_generator_));
+    QRect first_rect = QRect
+        (position.GetX() - width_of_rigid_body / 2, position.GetY() -
+             height_of_rigid_body / 2, width_of_rigid_body,
+         height_of_rigid_body);
+    for (const auto& static_object : static_objects_) {
+      if (static_object->IsInArea(static_cast<int>(player_position.GetX() -
+      width), static_cast<int>(player_position.GetY() - part_of_height),
+                                  static_cast<int>(player_position.GetX() -
+                                  part_of_width), static_cast<int>
+                                  (player_position.GetY() + part_of_height))) {
+        while (static_object->GetRigidBody()->IsInside(first_rect)) {
+          position = Point(left_area_x(random_generator_),
+                           same_height_area(random_generator_));
+          first_rect.setX(position.GetX() - width_of_rigid_body / 2);
+          first_rect.setY(position.GetY() - height_of_rigid_body / 2);
+        }
+      }
+    }
+    MakeNewFood(Size(20, 20), position);
+  }
+
+  for (int i = 0; i < num_of_food_for_small_areas; ++i) {
+    auto position = Point(right_area_x(random_generator_),
+                          same_height_area(random_generator_));
+    QRect first_rect = QRect
+        (position.GetX() - width_of_rigid_body / 2, position.GetY() -
+             height_of_rigid_body / 2, width_of_rigid_body,
+         height_of_rigid_body);
+    for (const auto& static_object : static_objects_) {
+      if (static_object->IsInArea(static_cast<int>(player_position.GetX() +
+      part_of_width), static_cast<int>(player_position.GetY() - part_of_height),
+                                  static_cast<int>(player_position.GetX() +
+                                  width), static_cast<int>
+                                  (player_position.GetY() + part_of_height))) {
+        while (static_object->GetRigidBody()->IsInside(first_rect)) {
+          position = Point(right_area_x(random_generator_),
+                           same_height_area(random_generator_));
+          first_rect.setX(position.GetX() - width_of_rigid_body / 2);
+          first_rect.setY(position.GetY() - height_of_rigid_body / 2);
+        }
+      }
+    }
+    MakeNewFood(Size(20, 20), position);
   }
 }
 
 GlobalProgressBar* Model::GetProgressBar() {
   return &hunger_bar_;
 }
-
-bool Model::StaticObjectIsInArea(std::shared_ptr<PortalObject>& static_object, int
-left, int top, int right, int bottom) {
-  double x = static_object->GetRigidPosition().GetX();
-  double y = static_object->GetRigidPosition().GetY();
-  return x > left && x < right && y > top && y < bottom;
-}
-
-// Point Model::GetPositionNotIntersectedByStaticObjects(const QRect& rect) {
-//   Point result = Point(rect.x() + rect.width() / 2, rect.y() + rect.height()
-//   / 2);
-//   for (const auto& static_object : static_objects_) {
-//     while (static_objects_.)
-//   }
-// }

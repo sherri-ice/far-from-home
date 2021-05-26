@@ -120,3 +120,9 @@ bool PortalObject::IsNotificationShown() {
 void PortalObject::SetSuperSkin() {
   skin_ = QPixmap(":images/objects/portal.png");
 }
+
+bool PortalObject::IsInArea(int left, int top, int right, int bottom) const {
+  double x = GetRigidPosition().GetX();
+  double y = GetRigidPosition().GetY();
+  return x > left && x < right && y > top && y < bottom;
+}
