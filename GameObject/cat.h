@@ -34,6 +34,8 @@ enum class CatState {
   kHasFinishedSearching,
   kNeedsToBeSendHome,
   kReadyToBeDeleted,
+  kIsDying,
+  kIsDead,
   SIZE
 };
 
@@ -86,6 +88,7 @@ class Cat : public MovingObject {
   double food_saturation_{100.};
   double speed_of_hunger_{constants::kSpeedOfHunger};
   int time_for_cats_homesending_{1000};
+  int death_time_{3000};
 
   static std::mt19937 random_generator_;
 };

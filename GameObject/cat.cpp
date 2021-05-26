@@ -187,7 +187,7 @@ void Cat::Tick(int delta_time) {
         if (!timers_.IsActive(static_cast<int>(CatState::kNeedsToBeSendHome))) {
           timers_.Start(time_for_cats_homesending_,
                         static_cast<int>(CatState::kNeedsToBeSendHome));
-          is_ready_to_die = true;
+          is_ready_to_be_sent_home = true;
         }
       } else {
         velocity_ = position_.GetVelocityVector(destination_, delta_time *
@@ -200,6 +200,25 @@ void Cat::Tick(int delta_time) {
     }
     case CatState::kReadyToBeDeleted: {
       timers_.Stop(static_cast<int>(CatState::kNeedsToBeSendHome));
+      break;
+    }
+    case CatState::kIsDying: {
+      if (!timers_.IsActive(static_cast<int>(CatState::kIsDying))) {
+        timers_.Start(death_time_,
+                      static_cast<int>(CatState::kIsDying));
+        is_ready_to_die = true;
+    } else {
+        SetSpeed(17);
+    velocity_ = Size(0.01, -1);
+  }
+      if (timers_.IsTimeOut(static_cast<int>(CatState::kIsDying))) {
+        cat_state_ = CatState::kIsDead;
+      }
+      break;
+    }
+    case CatState::kIsDead: {
+      timers_.Stop(static_cast<int>(CatState::kIsDying));
+      SetIsDead();
       break;
     }
     default: {

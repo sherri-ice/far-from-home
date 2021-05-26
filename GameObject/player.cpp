@@ -297,7 +297,7 @@ void Player::FeedCats(double food) {
 void Player::UpdateHunger() {
   food_saturation_ -= speed_of_hunger_;
   if (food_saturation_ < 0) {
-    // смерть кота
+    GetMainCat()->SetCatState(CatState::kIsDying);
   }
   if (food_saturation_ > max_food_saturation_) {
     food_saturation_ = max_food_saturation_;

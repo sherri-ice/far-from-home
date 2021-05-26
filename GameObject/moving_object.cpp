@@ -61,6 +61,10 @@ bool MovingObject::IsVelocityChange(Size main_velocity) {
 AnimationState MovingObject::GetAnimationState() const {
   AnimationState animation_state;
   if (is_ready_to_die) {
+    return  kIsDead;
+  }
+
+  if (is_ready_to_be_sent_home) {
     return kSendToPortal;
   }
   if (is_hidding_) {
