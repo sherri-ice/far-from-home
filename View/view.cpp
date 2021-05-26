@@ -24,6 +24,8 @@ View::View(AbstractController* controller,
   time_between_ticks_.start();
   controller_timer_id_ = startTimer(constants::kTimeBetweenTicks);
   view_timer_.start();
+  ShowDeathWindow();
+
 }
 
 void View::Pause() {
@@ -161,6 +163,7 @@ void View::SetWindows() {
   SetMenuWindow();
   SetSettingsWindow();
   SetPauseWindow();
+  SetDeathWindow();
 }
 
 void View::SetMenuWindow() {
@@ -267,4 +270,30 @@ void View::ShowResultWindow(bool is_found) {
 
 ResultWindow& View::GetResultWindow() {
   return result_window_;
+}
+
+void View::ShowDeathWindow() {
+  death_window_->show();
+}
+
+DeathWindow* View::GetDeathWindow() {
+  return death_window_;
+}
+
+void View::SetDeathWindow() {
+  auto restart_button_click = [this]() {
+    controller_->GetMusicPlayer()->PlayButtonSound();
+    controller_->EndGame();
+    controller_->StartGame();
+    menu_->close();
+  };
+  connect(death_window_->GetReplayButton(), &QPushButton::released, this,
+          restart_button_click);
+  auto menu_button_click = [this]() {
+    controller_->GetMusicPlayer()->PlayButtonSound();
+    menu_->MainMenu();
+    controller_->EndGame();
+  };
+  connect(death_window_->GetMenuButton(), &QPushButton::released, this,
+          menu_button_click);
 }
