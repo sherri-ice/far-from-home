@@ -1,5 +1,4 @@
 #include "controller.h"
-#include<iostream>
 
 Controller::Controller() {
   music_player_ = std::make_shared<MusicPlayer>();
@@ -22,6 +21,7 @@ void Controller::Tick(int time) {
   TickFood(delta_time);
   TickHunger();
 
+  CatAndDogInteraction();
   TickCats(delta_time);
   TickDogs(delta_time);
   MoveCatsAndDogs(delta_time);
@@ -560,8 +560,22 @@ void Controller::PauseMusic() {
 void Controller::ResumeMusic() {
   music_player_->Resume();
 }
+
 void Controller::TickWin() {
   if (model_->GetCats().size() == 1) {
     view_->ShowWinWindow();
+  }
+}
+
+void Controller::CatAndDogInteraction() {
+  for (auto dog : model_->GetDogs()) {
+    for (auto cat : model_->GetCats()) {
+      double length = cat->GetRigidPosition().GetVectorTo
+                        (dog->GetRigidPosition()).GetLength();
+      if (!cat->GetIsInGroup() && length < dog->GetVisibilityRadius()) {
+        cat->ComeHome();
+        dog->ComeHome();
+      }
+    }
   }
 }
