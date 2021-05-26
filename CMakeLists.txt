@@ -60,7 +60,8 @@ set(SOURCES
         View/view.cpp
         View/warning.cpp
         View/result_window.cpp
-        View/result_window.ui)
+        View/result_window.ui
+        View/background.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 

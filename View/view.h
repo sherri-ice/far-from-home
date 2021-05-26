@@ -12,6 +12,7 @@
 #include "../Controller/abstract_controller.h"
 #include "../Model/model.h"
 #include "menu.h"
+#include "background.h"
 
 namespace constants {
 const double kFactorForScreen = 0.3;
@@ -73,6 +74,7 @@ class View : public QWidget {
   QVBoxLayout* layout_;
 
   ResultWindow result_window_;
+  Background background_;
 };
 
 #endif  // VIEW_VIEW_H_
