@@ -71,61 +71,58 @@ void Model::SetGameState(int) {
   // TODO(anyone)
 }
 
-std::list<std::shared_ptr<Food>> Model::GetFood() {
+std::vector<std::shared_ptr<Food>> Model::GetFood() {
   return food_;
 }
 
-std::list<std::shared_ptr<Dog>> Model::GetDogs() {
+std::vector<std::shared_ptr<Dog>> Model::GetDogs() {
   return dogs_;
 }
 
-std::list<std::shared_ptr<Cat>> Model::GetCats() {
+std::vector<std::shared_ptr<Cat>> Model::GetCats() {
   return cats_;
 }
 
 void Model::ClearObjects() {
-  for (auto it = food_.rbegin(); it != food_.rend(); ++it) {
-    if ((*it)->IsDead()) {
-      food_.remove(*it);
+  for (int i = food_.size() - 1; i >= 0; --i) {
+    if (food_.at(i)->IsDead()) {
+      food_.erase(food_.begin() + i);
     }
   }
 
-  for (auto it = cats_.rbegin(); it != cats_.rend(); ++it) {
-    if ((*it)->IsDead()) {
-      cats_.remove(*it);
+  for (int i = cats_.size() - 1; i >= 0; --i) {
+    if (cats_.at(i)->IsDead()) {
+      cats_.erase(cats_.begin() + i);
     }
   }
 
-  for (auto it = dogs_.rbegin(); it != dogs_.rend(); ++it) {
-    if ((*it)->IsDead()) {
-      dogs_.remove(*it);
+  for (int i = dogs_.size() - 1; i >= 0; --i) {
+    if (dogs_.at(i)->IsDead()) {
+      dogs_.erase(dogs_.begin() + i);
     }
   }
 
-  for (auto it = warnings_.rbegin(); it != warnings_.rend(); ++it) {
-    if ((*it)->IsDead()) {
-      warnings_.remove(*it);
+  for (int i = warnings_.size() - 1; i >= 0; --i) {
+    if (warnings_.at(i)->IsDead()) {
+      warnings_.erase(warnings_.begin() + i);
     }
   }
-  for (auto it = static_objects_.rbegin(); it != static_objects_.rend();
-       ++it) {
-    if ((*it)->IsDead()) {
-      static_objects_.remove(*it);
+  for (int i = static_objects_.size() - 1; i >= 0; --i) {
+    if (static_objects_.at(i)->IsDead()) {
+      static_objects_.erase(static_objects_.begin() + i);
     }
   }
 }
 
-std::list<std::shared_ptr<PortalObject>>& Model::GetStaticObjects() {
+std::vector<std::shared_ptr<PortalObject>>& Model::GetStaticObjects() {
   return static_objects_;
 }
 
 std::shared_ptr<PortalObject> Model::MakeNewPortal(const Size& size,
                                                    const Point& position,
-                                                   const QString& skin_path,
                                                    bool has_portal) {
   static_objects_.push_back(std::make_shared<PortalObject>(size,
-                                                           position,
-                                                           skin_path));
+                                                           position));
   int skin_id = GetRandomSkin();
   static_objects_.back()->SetSkin(objects_pics_["tree"][skin_id]);
   static_objects_.back()->SetSkinId(skin_id);

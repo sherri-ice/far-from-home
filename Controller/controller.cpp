@@ -35,7 +35,7 @@ int Controller::GetCurrentTime() {
 
 void Controller::StartGame() {
   model_->SetModel();
-  map_generator_.SetModel(model_);
+  map_generator_.SetModel(model_, 10);
   map_generator_.GenerateMap();
   current_game_time_ = 0;
   music_player_->StartGameMusic();
@@ -77,7 +77,7 @@ void Controller::TickCats(int delta_time) {
 }
 
 void Controller::TickDogs(int delta_time) {
-  std::list<std::shared_ptr<Dog>> dogs = model_->GetDogs();
+  std::vector<std::shared_ptr<Dog>> dogs = model_->GetDogs();
   auto player = model_->GetPlayer();
   for (auto& dog : dogs) {
     if (view_->IsOnTheScreen(dog)) {

@@ -25,13 +25,14 @@ class Generator {
   void GenerateMap();
 //  void GenerateFood();
   void Clear();
-  void SetModel(const std::shared_ptr<Model>& model);
+  void SetModel(const std::shared_ptr<Model>& model, int requested_portals);
 
  private:
   void GenerateTile(const Point& left_corner);
   void ParseTiles();
-  void GenerateCats();
   int GenerateId(const Point& left_corner);
+  void GenerateTruePortals();
+
   std::shared_ptr<Model> model_;
   class Tile {
    public:
@@ -39,10 +40,12 @@ class Generator {
     std::vector<Cat> cats;
     std::vector<Dog> dogs;
     std::vector<Food> food;
-    std::vector<GameObject> static_objects;
+    std::vector<PortalObject> static_objects;
   };
   std::vector<Tile> tiles_templates_;
   static std::mt19937 random_generator;
+  int requested_cats_and_portals_{};
+  int current_true_portals_{0};
 };
 
 #endif  // MODEL_GENERATOR_H_

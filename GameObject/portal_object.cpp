@@ -4,10 +4,8 @@ std::mt19937 PortalObject::random_generator_ = std::mt19937
     (std::chrono::system_clock::now().time_since_epoch().count());
 
 PortalObject::PortalObject(const Size& size,
-                           const Point& position,
-                           const QString& skin_path) : GameObject(size,
+                           const Point& position) : GameObject(size,
                                                                   position) {
-  skin_path_ = skin_path;
   warning_ = Warning("Click on a tree to send your cat on search",
                      Point(position.GetX(),
                            position.GetY() - size.GetHeight() / 2),

@@ -34,7 +34,6 @@ class Model {
 
   std::shared_ptr<PortalObject> MakeNewPortal(const Size& size,
                                               const Point& position,
-                                              const QString& skin_path,
                                               bool has_portal);
   void AddWarning(const std::shared_ptr<Warning>& warning);
 
@@ -46,11 +45,11 @@ class Model {
   std::shared_ptr<Food> MakeNewFood(const Size& size, const Point& point);
 
 
-  std::list<std::shared_ptr<Food>> GetFood();
-  std::list<std::shared_ptr<Dog>> GetDogs();
-  std::list<std::shared_ptr<Cat>> GetCats();
+  std::vector<std::shared_ptr<Food>> GetFood();
+  std::vector<std::shared_ptr<Dog>> GetDogs();
+  std::vector<std::shared_ptr<Cat>> GetCats();
 
-  std::list<std::shared_ptr<PortalObject>>& GetStaticObjects();
+  std::vector<std::shared_ptr<PortalObject>>& GetStaticObjects();
   std::vector<std::shared_ptr<Warning>> GetWarnings();
 
   void ClearObjects();
@@ -81,13 +80,13 @@ class Model {
   std::map<QString, std::vector<QPixmap>> objects_pics_{};
   int current_level_ = 0;
 
-  std::list<std::shared_ptr<Cat>> cats_;
+  std::vector<std::shared_ptr<Cat>> cats_;
   Player* player_;
-  std::list<std::shared_ptr<Food>> food_;
-  std::list<std::shared_ptr<Dog>> dogs_;
+  std::vector<std::shared_ptr<Food>> food_;
+  std::vector<std::shared_ptr<Dog>> dogs_;
   Language lang_ = Language::kEnglish;
-  std::list<std::shared_ptr<PortalObject>> static_objects_;
-  std::list<std::shared_ptr<Warning>> warnings_;
+  std::vector<std::shared_ptr<PortalObject>> static_objects_;
+  std::vector<std::shared_ptr<Warning>> warnings_;
 
   GlobalProgressBar hunger_bar_;
 
