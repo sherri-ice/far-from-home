@@ -11,8 +11,8 @@ void Background::Draw(QPainter* painter,
                                                 background_image_.height()));
   auto new_coordinates = resizer->GameToWindowCoordinate(center);
   painter->translate(QPoint(
-      new_coordinates.GetX() - constants::kGameWidth / 2,
-      new_coordinates.GetY() - constants::kGameHeight / 2));
+      center.GetX() - constants::kGameWidth / 2,
+      center.GetY() - constants::kGameHeight / 2));
 
   auto new_coordinates_q =
       QPoint(new_coordinates.GetX(),
