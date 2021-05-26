@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <iostream>
 
 #include "../Model/model.h"
 #include "../View/progress_bar.h"
@@ -23,7 +24,6 @@ Model::Model() : hunger_bar_(100, 100) {
   for (auto& food : food_) {
     food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
   }
-
   hunger_bar_.SetSkin(objects_pics_["progress_bar"][0]);
 }
 
@@ -176,7 +176,8 @@ std::shared_ptr<Food> Model::MakeNewFood(const Size& size, const Point& point) {
 void Model::LoadStaticAnimation() {
   Q_INIT_RESOURCE(images);
   QString path_for_objects = ":images/objects/";
-  std::vector<QString> objects_folders = {"food", "tree", "tree_selected"};
+  std::vector<QString> objects_folders = {"food", "tree", "tree_selected",
+                                          "progress_bar"};
   for (const auto& folder : objects_folders) {
     std::vector<QPixmap> skins;
     for (int i = 0; i < 4; ++i) {
@@ -320,9 +321,17 @@ void Model::GenerateFood(const Point& player_position, double
 GlobalProgressBar* Model::GetProgressBar() {
   return &hunger_bar_;
 }
+
 QString Model::GetCatRandomSkinPath() {
-  return QString();
+  std::uniform_int_distribution<> random_time(0, 7);
+  QString path = "../images/cats skins/" + QString::number(random_time
+                                                               (random_generator_)) + "/";
+  return path;
 }
+
 QString Model::GetDogRandomSkinPath() {
-  return QString();
+  std::uniform_int_distribution<> random_time(0, 4);
+  QString path = "../images/dogs skins/" + QString::number(random_time
+                                                               (random_generator_)) + "/";
+  return path;
 }
