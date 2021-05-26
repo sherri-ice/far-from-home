@@ -362,6 +362,8 @@
         <file>images/menu/buttons/sound_on.png</file>
         <file>images/menu/buttons/sound_off.png</file>
 
+        <file>images/texture/background.png</file>
+
         <file>images/objects/progress_bar/Frame 0.png</file>
         <file>images/objects/progress_bar/Frame 1.png</file>
         <file>images/objects/progress_bar/Frame 2.png</file>
