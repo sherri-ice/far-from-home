@@ -18,6 +18,7 @@ void Controller::Tick(int time) {
   TickFood(delta_time);
   TickHunger();
 
+  CatAndDogInteraction();
   TickCats(delta_time);
   TickDogs(delta_time);
   MoveCatsAndDogs(delta_time);
@@ -25,6 +26,8 @@ void Controller::Tick(int time) {
   TickWarnings(delta_time);
 
   CatsAndFoodIntersect();
+
+  TickWin();
 
   model_->ClearObjects();
 }
@@ -542,4 +545,23 @@ void Controller::PauseMusic() {
 
 void Controller::ResumeMusic() {
   music_player_->Resume();
+}
+
+void Controller::TickWin() {
+  if (model_->GetCats().size() == 1) {
+    view_->ShowWinWindow();
+  }
+}
+
+void Controller::CatAndDogInteraction() {
+  for (auto dog : model_->GetDogs()) {
+    for (auto cat : model_->GetCats()) {
+      double length = cat->GetRigidPosition().GetVectorTo
+                        (dog->GetRigidPosition()).GetLength();
+      if (!cat->GetIsInGroup() && length < dog->GetVisibilityRadius()) {
+        cat->ComeHome();
+        dog->ComeHome();
+      }
+    }
+  }
 }
