@@ -224,6 +224,13 @@ void Cat::Tick(int delta_time) {
       break;
     }
   }
+  // if (velocity_.GetLength() > constants::kEpsilon) {
+  //   is_moving_ = true;
+  // } else {
+  //   is_moving_ = false;
+  // }
+  // object_animation_.Tick(delta_time, GetAnimationState());
+  // was_moving_ = is_moving_;
   timers_.Tick(delta_time);
 
   if (!GetIsInGroup()) {

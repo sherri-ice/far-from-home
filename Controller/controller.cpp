@@ -168,9 +168,15 @@ void Controller::ScanIfObjectWereClicked(const Point& point) {
                                               object->GetSize().GetLength())) {
       if (object->IsNotificationShown()) {
         view_->ShowResultWindow(object->HasPortal());
-        // todo pause
+        while (view_->GetResultWindow().isVisible()) {
+          continue;
+        }
         if (view_->GetResultWindow().GetUserAnswer()) {
-          // loose cat
+          portal_and_searching_cat_[object]->SetCatState
+              (CatState::kNeedsToBeSendHome);
+        } else {
+          portal_and_searching_cat_[object]->SetCatState
+              (CatState::kIsFollowingPlayer);
         }
         if (object->HasPortal()) {
           object->SetSuperSkin();
@@ -245,7 +251,6 @@ void Controller::CatsAndPortalsIntersect(const std::shared_ptr<Cat>& cat) {
           break;
         }
         case CatState::kHasFinishedSearching: {
-          portal_and_searching_cat_.erase(static_object);
           break;
         }
       }
