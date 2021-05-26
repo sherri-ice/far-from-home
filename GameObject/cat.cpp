@@ -14,7 +14,6 @@ Cat::Cat(const Size& size, double speed, const Point& position) :
 
 void Cat::Draw(QPainter* painter, Resizer* resizer) const {
   if (is_visible_) {
-    rigid_body_.Draw(painter, resizer);
     painter->save();
     auto position = resizer->GameToWindowCoordinate(position_);
     auto size = resizer->GameToWindowSize(size_);
@@ -147,13 +146,12 @@ void Cat::Tick(int delta_time) {
     }
     case CatState::kIsGoingToSearch: {
       timers_.Stop(static_cast<int>(CatState::kIsFollowingPlayer));
-      if (GetRigidBody()->IsCollide(destination_rect_)) {
+      if (position_ == destination_) {
         cat_state_ = CatState::kIsSearching;
-        velocity_ = Size(0, 0);
-      } else {
-        velocity_ = position_.GetVelocityVector(destination_, delta_time *
-            speed_ / constants::kTimeScale);
       }
+      came_back_to_player = false;
+      velocity_ = position_.GetVelocityVector(destination_, delta_time *
+          speed_ / constants::kTimeScale);
       break;
     }
     case CatState::kIsSearching: {
@@ -175,11 +173,50 @@ void Cat::Tick(int delta_time) {
     case CatState::kHasFinishedSearching: {
       timers_.Stop(static_cast<int>(CatState::kIsSearching));
       is_back_ = false;
-      if (GetRigidBody()->IsCollide(destination_rect_)) {
+      if (position_ == destination_) {
         cat_state_ = CatState::kIsFollowingPlayer;
       }
       velocity_ = position_.GetVelocityVector(destination_, delta_time *
           speed_ / constants::kTimeScale);
+      break;
+    }
+    case CatState::kNeedsToBeSendHome: {
+      if (position_ == destination_) {
+        timers_.Stop(static_cast<int>(CatState::kIsFollowingPlayer));
+        if (!timers_.IsActive(static_cast<int>(CatState::kNeedsToBeSendHome))) {
+          timers_.Start(time_for_cats_homesending_,
+                        static_cast<int>(CatState::kNeedsToBeSendHome));
+          is_ready_to_be_sent_home = true;
+        }
+      } else {
+        velocity_ = position_.GetVelocityVector(destination_, delta_time *
+            speed_ / constants::kTimeScale);
+      }
+      if (timers_.IsTimeOut(static_cast<int>(CatState::kNeedsToBeSendHome))) {
+        cat_state_ = CatState::kReadyToBeDeleted;
+      }
+      break;
+    }
+    case CatState::kReadyToBeDeleted: {
+      timers_.Stop(static_cast<int>(CatState::kNeedsToBeSendHome));
+      break;
+    }
+    case CatState::kIsDying: {
+      if (!timers_.IsActive(static_cast<int>(CatState::kIsDying))) {
+        timers_.Start(death_time_,
+                      static_cast<int>(CatState::kIsDying));
+        is_ready_to_die = true;
+    } else {
+        velocity_ = Size(0, 0);
+    }
+      if (timers_.IsTimeOut(static_cast<int>(CatState::kIsDying))) {
+        cat_state_ = CatState::kIsDead;
+      }
+      break;
+    }
+    case CatState::kIsDead: {
+      timers_.Stop(static_cast<int>(CatState::kIsDying));
+      is_main_cat_dead_ = true;
       break;
     }
     default: {
@@ -289,4 +326,8 @@ void Cat::ComeHome() {
   timers_.Stop(static_cast<int>(CatState::kIsWalking));
   cat_state_ = CatState::kIsComingDestination;
   destination_ = home_position_;
+}
+
+bool Cat::IsDying() const {
+  return cat_state_ == CatState::kIsDying;
 }

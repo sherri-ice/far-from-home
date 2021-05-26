@@ -55,9 +55,10 @@ class Model {
   void ClearObjects();
   void ClearModel();
 
-  void LoadDynamicAnimation();
   void LoadStaticAnimation();
   void LoadAnimation();
+  static QString GetCatRandomSkinPath();
+  static QString GetDogRandomSkinPath();
 
   void ChangeLanguage(Language lang);
 

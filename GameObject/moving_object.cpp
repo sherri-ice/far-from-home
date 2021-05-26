@@ -60,6 +60,13 @@ bool MovingObject::IsVelocityChange(Size main_velocity) {
 
 AnimationState MovingObject::GetAnimationState() const {
   AnimationState animation_state;
+  if (is_ready_to_die) {
+    return  kIsDead;
+  }
+
+  if (is_ready_to_be_sent_home) {
+    return kSendToPortal;
+  }
   if (is_hidding_) {
     return kHide;
   }
@@ -72,23 +79,19 @@ AnimationState MovingObject::GetAnimationState() const {
   if (!is_moving_) {
     if (was_moving_) {
       return kSit;
+    } else {
+      return kSiting;
     }
-    std::vector<double> probabilities = {0.05, 0.95};
-    std::discrete_distribution<>
-        dist(probabilities.begin(), probabilities.end());
-    const int kStateShift = 7;
-    animation_state = static_cast<AnimationState>(
-        dist(random_generator_) + kStateShift);
   } else {
     double x = velocity_.GetWidth();
     double y = velocity_.GetHeight();
-    if (std::abs(x) < constants::kCheckIfVelocityIsCloseToZero) {
-      if (y > 0) {
+    if (std::abs(x) < 0.05) {
+      if (y > 0.05) {
         animation_state = kWalkDown;
       } else {
         animation_state = kWalkUp;
       }
-    } else if (x > 0) {
+    } else if (x > 0.05) {
       animation_state = kWalkRight;
     } else {
       animation_state = kWalkLeft;
@@ -129,4 +132,7 @@ void MovingObject::TickAnimation(int delta_time) {
 
 Point MovingObject::GetDestination() const {
   return destination_;
+}
+bool MovingObject::IsMainCatDead() const {
+  return is_main_cat_dead_;
 }

@@ -9,7 +9,10 @@ Controller::Controller() {
 void Controller::Tick(int time) {
   int delta_time = time - current_game_time_;
   current_game_time_ = time;
-
+  if (model_->GetPlayer()->GetMainCat()->GetCatState() == CatState::kIsDead) {
+       view_->ShowDeathWindow();
+  }
+  TickWin();
   TickViewCircle();
   TickPlayer(delta_time);
   CheckIfDestinationIsInsideStaticObject();
@@ -26,8 +29,6 @@ void Controller::Tick(int time) {
   TickWarnings(delta_time);
 
   CatsAndFoodIntersect();
-
-  TickWin();
 
   model_->ClearObjects();
 }
@@ -54,10 +55,14 @@ void Controller::TickPlayer(int delta_time) {
   view_->ClearVelocity();
   player->IsReachable(model_->GetDogs());
   player->UpdateCatsGroup(model_->GetCats());
-  player->OrderCatsToMove(player_velocity);
+  if (!(player->GetMainCat()->IsDying())) {
+    player->OrderCatsToMove(player_velocity);
+  }
   player->UpdateDogsAround(model_->GetDogs());
   player->UpdateStaticObjectsAround(model_->GetStaticObjects());
-  player->GroupTick(delta_time);
+  if (!(player->GetMainCat()->IsDying())) {
+    player->GroupTick(delta_time);
+  }
 }
 
 void Controller::TickCats(int delta_time) {
@@ -74,6 +79,9 @@ void Controller::TickCats(int delta_time) {
         WildCatsAndOtherCatsIntersect(cat);
       }
       CatsAndDogIntersect(cat);
+      if (cat->IsDying()) {
+        cat->SetVelocity(Size(0, 0));
+      }
       cat->TickAnimation(delta_time);
     }
   }
@@ -90,7 +98,8 @@ void Controller::TickDogs(int delta_time) {
       DogsIntersect(dog);
       dog->TickAnimation(delta_time);
       for (auto& cat : player->GetCats()) {
-        if (dog->GetRigidBody()->IsCollide(*(cat->GetRigidBody()))) {
+        if (dog->GetRigidBody()->IsCollide(*
+        (cat->GetRigidBody()))) {
           if (cat == player->GetMainCat()) {
             player->DismissCats();
             dog->SetIsMainCatCaught(true);
@@ -161,9 +170,15 @@ void Controller::ScanIfObjectWereClicked(const Point& point) {
                                               object->GetSize().GetLength())) {
       if (object->IsNotificationShown()) {
         view_->ShowResultWindow(object->HasPortal());
-        // todo pause
+        while (view_->GetResultWindow().isVisible()) {
+          continue;
+        }
         if (view_->GetResultWindow().GetUserAnswer()) {
-          // loose cat
+          portal_and_searching_cat_[object]->SetCatState
+              (CatState::kNeedsToBeSendHome);
+        } else {
+          portal_and_searching_cat_[object]->SetCatState
+              (CatState::kIsFollowingPlayer);
         }
         if (object->HasPortal()) {
           object->SetSuperSkin();
@@ -238,7 +253,6 @@ void Controller::CatsAndPortalsIntersect(const std::shared_ptr<Cat>& cat) {
           break;
         }
         case CatState::kHasFinishedSearching: {
-          portal_and_searching_cat_.erase(static_object);
           break;
         }
       }

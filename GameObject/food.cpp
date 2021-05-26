@@ -14,7 +14,6 @@ Food::Food(const Size& size, const Point& position) : GameObject(size,
 }
 
 void Food::Draw(QPainter* painter, Resizer* resizer) const {
-    rigid_body_.Draw(painter, resizer);
   painter->save();
   auto position = resizer->GameToWindowCoordinate(position_);
   auto size = resizer->GameToWindowSize(size_);

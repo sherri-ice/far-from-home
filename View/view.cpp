@@ -42,7 +42,8 @@ void View::paintEvent(QPaintEvent*) {
 }
 
 void View::timerEvent(QTimerEvent* event) {
-  if (event->timerId() == controller_timer_id_ && menu_->isHidden()) {
+  if (event->timerId() == controller_timer_id_ && result_window_.isHidden()
+                        && menu_->isHidden()) {
     int delta_time = time_between_ticks_.elapsed();
     time_between_ticks_.restart();
     controller_->Tick(controller_->GetCurrentTime() + delta_time);
@@ -211,23 +212,6 @@ void View::SetPauseWindow() {
   };
   connect(menu_->GetMenuButton(), &QPushButton::released, this,
           menu_button_click);
-  auto sound_button_click = [this]() {
-    controller_->GetMusicPlayer()->PlayButtonSound();
-    if (menu_->GetSoundOnPauseButton()->objectName()
-        == QObject::tr("sound-on")) {
-      menu_->GetSoundButton()->setObjectName(QObject::tr("sound-off"));
-      menu_->GetSoundOnPauseButton()->setObjectName(QObject::tr("sound-off"));
-      menu_->LoadStyleSheet();
-      controller_->GetMusicPlayer()->SetVolume(0);
-    } else {
-      menu_->GetSoundButton()->setObjectName(QObject::tr("sound-on"));
-      menu_->GetSoundOnPauseButton()->setObjectName(QObject::tr("sound-on"));
-      menu_->LoadStyleSheet();
-      controller_->GetMusicPlayer()->SetVolume(100);
-    }
-  };
-  connect(menu_->GetSoundOnPauseButton(), &QPushButton::released, this,
-          sound_button_click);
 }
 
 void View::SetSettingsWindow() {
@@ -284,13 +268,17 @@ void View::SetDeathWindow() {
     controller_->GetMusicPlayer()->PlayButtonSound();
     controller_->EndGame();
     controller_->StartGame();
+    death_window_->close();
     menu_->close();
   };
   connect(death_window_->GetReplayButton(), &QPushButton::released, this,
           restart_button_click);
   auto menu_button_click = [this]() {
     controller_->GetMusicPlayer()->PlayButtonSound();
+    death_window_->close();
+    menu_->close();
     menu_->MainMenu();
+    menu_->show();
     controller_->EndGame();
   };
   connect(death_window_->GetMenuButton(), &QPushButton::released, this,
@@ -308,7 +296,10 @@ WinWindow* View::GetWinWindow() {
 void View::SetWinWindow() {
   auto menu_button_click = [this]() {
     controller_->GetMusicPlayer()->PlayButtonSound();
+    win_window_->close();
+    menu_->close();
     menu_->MainMenu();
+    menu_->show();
     controller_->EndGame();
   };
   connect(win_window_->GetMenuButton(), &QPushButton::released, this,

@@ -9,16 +9,16 @@
 #include "../Model/size.h"
 
 enum AnimationState {
-  kWalkDown,
-  kWalkUp,
-  kWalkLeft,
-  kWalkRight,
-  kHide,
-  kBack,
-  kSit,
-  kLicking,
-  kSiting,
-  kSleeping
+    kWalkDown = 0,
+    kWalkUp = 1,
+    kWalkLeft = 2,
+    kWalkRight = 3,
+    kHide = 5,
+    kSendToPortal = 6,
+    kBack = 5,
+    kSit = 4,
+    kSiting = 5,
+    kIsDead = 7
 };
 
 class Animation {
@@ -29,15 +29,9 @@ class Animation {
   void Tick(int delta_time, const AnimationState& animation_state);
   void Reset();
   const QPixmap& GetCurrentFrame() const;
-  const std::vector<QPixmap>& GetCurrentAnimationRoad() const;
-  int GetCurrentAnimationDuration() const;
-  void Rescale(Size to_size);
   void SetCurrentRoad(int road);
 
  private:
-  Size picture_size_{0, 0};
-
-  uint animation_loops_number = 2;
   uint current_road_ = 0;
   uint current_frame_ = 0;
   int wait_till_next_frame_ = 0;

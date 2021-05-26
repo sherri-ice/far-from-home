@@ -21,7 +21,6 @@ PortalObject::PortalObject(const Size& size,
 }
 
 void PortalObject::Draw(QPainter* painter, Resizer* resizer) const {
-  rigid_body_.Draw(painter, resizer);
   painter->save();
   auto position = resizer->GameToWindowCoordinate(position_);
   auto size = resizer->GameToWindowSize(size_);

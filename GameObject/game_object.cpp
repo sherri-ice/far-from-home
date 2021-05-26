@@ -54,7 +54,6 @@ Point GameObject::GetRigidPosition() const {
 
 void GameObject::Draw(QPainter* painter, Resizer* resizer) const {
   if (is_visible_) {
-    rigid_body_.Draw(painter, resizer);
     painter->save();
     auto position = resizer->GameToWindowCoordinate(position_);
     auto size = resizer->GameToWindowSize(size_);

@@ -20,6 +20,7 @@ class Controller : public AbstractController {
   void EndGame() override;
   void Tick(int time) override;
   int GetCurrentTime() override;
+  void TickWin();
 
   Player* GetPlayer() override;
   void SetGameVolume(int volume) override;
@@ -40,7 +41,6 @@ class Controller : public AbstractController {
   void TickViewCircle();
   void TickHunger();
   void MoveCatsAndDogs(int delta_time);
-  void TickWin();
   void CatsAndFoodIntersect();
   void CatAndStaticObjectsIntersect(const std::shared_ptr<Cat>& cat);
   void DogAndStaticObjectIntersect(const std::shared_ptr<Dog>& dog);
@@ -55,6 +55,8 @@ class Controller : public AbstractController {
   void WildCatsAndOtherCatsIntersect(const std::shared_ptr<Cat>& cat);
   void MainCatIntersectsWithCats(const std::shared_ptr<Cat>& main_cat);
   void CatsAndDogIntersect(const std::shared_ptr<Cat>& cat);
+  void MovingAndStaticObjectsIntersect(const std::shared_ptr<MovingObject>&
+  moving_object);
 
   int current_game_time_{0};
   std::shared_ptr<Model> model_;

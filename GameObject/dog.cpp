@@ -24,23 +24,10 @@ Dog::Dog(const Size& size,
 }
 
 void Dog::Draw(QPainter* painter, Resizer* resizer) const {
-  rigid_body_.Draw(painter, resizer);
   painter->save();
   auto position = resizer->GameToWindowCoordinate(position_);
   auto size = resizer->GameToWindowSize(size_);
   painter->translate(position.GetX(), position.GetY());
-  int object_width = static_cast<int>(size.GetWidth());
-  int object_height = static_cast<int>(size.GetHeight());
-  if (is_visible_to_player_) {
-    Size radius = resizer->GameToWindowSize(Size(visibility_radius_,
-                                                 visibility_radius_));
-    painter->drawEllipse(static_cast<int>(-radius.GetWidth()),
-                         static_cast<int>(-radius.GetHeight() *
-                             constants::kSemiMinorCoefficient),
-                         2 * static_cast<int>(radius.GetWidth()),
-                         2 * static_cast<int>(radius.GetHeight() *
-                             constants::kSemiMinorCoefficient));
-  }
   painter->restore();
   painter->save();
   painter->translate(position.GetX(), position.GetY());
@@ -171,7 +158,7 @@ void Dog::SetReachableCat(const std::vector<std::shared_ptr<Cat>>& cats) {
   Size min_distance = Size(visibility_radius_, visibility_radius_);
   for (const auto& cat : cats) {
     Size cat_distance = GetRigidPosition().GetVectorTo(cat->GetRigidPosition());
-    if (CheckIfCanSeeCat(&(*cat)) &&
+    if (!cat->IsDying() && CheckIfCanSeeCat(&(*cat)) &&
         cat_distance.GetLength() < min_distance.GetLength() &&
         !timers_.IsActive(static_cast<int>(DogState::kIsComingHome))
         && cat->GetCatState() != CatState::kIsSearching) {

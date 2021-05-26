@@ -1,9 +1,11 @@
 #include <QFile>
 #include "generator.h"
+
 std::mt19937 Generator::random_generator = std::mt19937
     (std::chrono::system_clock::now().time_since_epoch().count());
 std::uniform_int_distribution<int>
     random_id_generator(0, constants::kNumOfTilesTemplates - 1);
+
 int Generator::GenerateId(const Point& left_corner) {
   // counts max coefficient of departure from the center, which affects
   // probability of generating boarder template
@@ -12,6 +14,7 @@ int Generator::GenerateId(const Point& left_corner) {
                std::fabs(left_corner.GetY() / constants::kGameMapHeight));
   // let put coefficient in the power of 6, to reach smoothness
   distancing_coeff = std::pow(distancing_coeff, 6);
+
   // std::discrete_distribution<> generates different values according to
   // vector of probabilities, given to it
   // let's push border templates probabilities to the end of that vector
@@ -40,21 +43,6 @@ left_corner) {
   Tile new_tile(tiles_templates_.at(id));
   std::uniform_int_distribution<> x_deviation(-20, 20);
   std::uniform_int_distribution<> y_deviation(-20, 20);
-  // for (const auto& cat : new_tile.cats) {
-  //   model_->MakeNewCat(cat.GetSize(),
-  //                      cat.GetSpeed(),
-  //                      cat.GetDrawPosition() + left_corner + left_corner
-  //                          + Point(x_deviation(random_generator),
-  //                                  y_deviation(random_generator)));
-  // }
-  // for (const auto& dog : new_tile.dogs) {
-  //   model_->MakeNewDog(dog.GetSize(),
-  //                      dog.GetSpeed(),
-  //                      dog.GetDrawPosition() + left_corner + left_corner
-  //                          + Point(x_deviation(random_generator),
-  //                                  y_deviation(random_generator)),
-  //                      dog.GetVisibilityRadius(), dog.GetWalkingSpeed());
-  // }
   for (const auto& static_object : new_tile.static_objects) {
     model_->MakeNewPortal(static_object.GetSize(),
                           (static_object.GetDrawPosition() + left_corner
@@ -71,6 +59,7 @@ left_corner) {
                 y_deviation(random_generator)));
   }
 }
+
 void Generator::ParseTiles() {
   QString path(":/resourses/tiles_templates.json");
   QFile tiles_file(path);
@@ -79,14 +68,17 @@ void Generator::ParseTiles() {
   }
   QJsonObject
       json_object = QJsonDocument::fromJson(tiles_file.readAll()).object();
+
   QJsonArray tiles = json_object["tiles"].toArray();
   int size_of_templates = tiles.size();
+
   for (int i = 0; i < size_of_templates; ++i) {
     QJsonObject tile = tiles[i].toObject();
     QJsonArray objects = tile["objects"].toArray();
     Tile new_template;
     for (int j = 0; j < objects.size(); ++j) {
       QJsonObject object = objects[j].toObject();
+
       if (object["object_type"].toString() == "cat") {
         Size size(object["size"].toDouble(), object["size"].toDouble());
         auto coordinates_array = object["point"].toArray();

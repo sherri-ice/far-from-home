@@ -1,7 +1,6 @@
 #include <algorithm>
 
 #include "../Model/model.h"
-#include "../View/progress_bar.h"
 
 namespace {
 
@@ -23,7 +22,6 @@ Model::Model() : hunger_bar_(100, 100) {
   for (auto& food : food_) {
     food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
   }
-
   hunger_bar_.SetSkin(objects_pics_["progress_bar"][0]);
 }
 
@@ -59,16 +57,15 @@ std::shared_ptr<Cat> Model::MakeNewCat(const Size& size,
                                        double speed,
                                        const Point& point) {
   cats_.push_back(std::make_shared<Cat>(size, speed, point));
-  cats_.back()->SetAnimations(animations_["cat"]);
+  QString skin = GetCatRandomSkinPath();
+  cats_.back()->SetAnimations(animations_[skin]);
   return cats_.back();
 }
 
 void Model::LoadLevel(int level) {
-  // TODO(anyone)
 }
 
 void Model::SetGameState(int) {
-  // TODO(anyone)
 }
 
 std::vector<std::shared_ptr<Food>> Model::GetFood() {
@@ -156,7 +153,8 @@ std::shared_ptr<Dog> Model::MakeNewDog(const Size& size,
                                        double walking_speed) {
   dogs_.push_back(std::make_shared<Dog>(size, speed, point, visibility_radius,
                                         walking_speed));
-  dogs_.back()->SetAnimations(animations_["dog"]);
+  QString skin = GetDogRandomSkinPath();
+  dogs_.back()->SetAnimations(animations_[skin]);
   return dogs_.back();
 }
 
@@ -168,40 +166,26 @@ std::shared_ptr<Food> Model::MakeNewFood(const Size& size, const Point& point) {
   return food_.back();
 }
 
-void Model::LoadAnimation() {
-  LoadDynamicAnimation();
-  LoadStaticAnimation();
-}
-
-void Model::LoadDynamicAnimation() {
-  Q_INIT_RESOURCE(images);
-  std::vector<QString> paths = {"cat", "dog"};
-  for (const auto& path : paths) {
-    animations_[path] = GetImagesByFramePath(":images/" + path + "/");
-  }
-}
-
 void Model::LoadStaticAnimation() {
-    Q_INIT_RESOURCE(images);
-    QString path_for_objects = ":images/objects/";
-    std::vector<QString> objects_folders = {"food", "progress_bar", "tree",
-                                            "tree_selected"};
-    for (const auto& folder : objects_folders) {
-        std::vector<QPixmap> skins;
-        for (int i = 0; i < 4; ++i) {
-            skins.emplace_back(
-                path_for_objects + "/" + folder + "/Frame " + QString::number(i)
-                + ".png");
-        }
-        objects_pics_[folder] = skins;
+  Q_INIT_RESOURCE(images);
+  QString path_for_objects = ":images/objects/";
+  std::vector<QString> objects_folders = {"food", "tree", "tree_selected",
+                                          "progress_bar"};
+  for (const auto& folder : objects_folders) {
+    std::vector<QPixmap> skins;
+    for (int i = 0; i < 4; ++i) {
+      skins.emplace_back(
+          path_for_objects + "/" + folder + "/Frame " + QString::number(i)
+              + ".png");
     }
+    objects_pics_[folder] = skins;
+  }
 }
 
 std::vector<std::vector<QPixmap>> Model::GetImagesByFramePath(
     const QString& path) const {
   std::vector<std::vector<QPixmap>> result;
-  std::vector<QString> objects_animations = {"down", "up", "left", "right",
-                                             "hiding", "back"};
+  std::vector<QString> objects_animations = {"down", "up", "left", "right"};
   for (const auto& animation : objects_animations) {
     std::vector<QPixmap> im{};
     for (int frame_number = 0; frame_number < 4; ++frame_number) {
@@ -212,7 +196,7 @@ std::vector<std::vector<QPixmap>> Model::GetImagesByFramePath(
     }
     result.emplace_back(im);
   }
-  for (int i = 0; i < 4; ++i) {
+  for (int i = 0; i < 2; ++i) {
     std::vector<QPixmap> images{};
     for (int j = 0; j < 4; ++j) {
       images.emplace_back(
@@ -221,8 +205,37 @@ std::vector<std::vector<QPixmap>> Model::GetImagesByFramePath(
     }
     result.emplace_back(images);
   }
+  objects_animations = {"send home", "dead cat"};
+  for (const auto& animation : objects_animations) {
+    std::vector<QPixmap> im{};
+    for (int frame_number = 0; frame_number < 4; ++frame_number) {
+      QPixmap current =
+          QPixmap(path + animation + "/Frame " + QString::number
+          (frame_number) + ".png");
+      im.push_back(current);
+    }
+    result.emplace_back(im);
+  }
   return result;
 }
+
+void Model::LoadAnimation() {
+  Q_INIT_RESOURCE(images);
+  std::vector<QString> paths;
+  for (int i{0}; i < 8; ++i) {
+    QString path = "../images/cats skins/" + QString::number(i) + "/";
+    paths.push_back(path);
+  }
+  for (int i{0}; i < 5; ++i) {
+    QString path = "../images/dogs skins/" + QString::number(i) + "/";
+    paths.push_back(path);
+  }
+  for (const auto& path : paths) {
+    animations_[path] = GetImagesByFramePath(path);
+  }
+  LoadStaticAnimation();
+}
+
 void Model::SetSelectedPortalSkin(std::shared_ptr<PortalObject> portal) {
   auto id = portal->GetSkinId();
   auto new_skin = objects_pics_["tree_selected"].at(id);
@@ -239,7 +252,8 @@ void Model::SetModel() {
   MakeNewCat(Size(50, 50), 10, Point());
   auto main_cat = cats_.back();
   main_cat->SetIsInGroup(true);
-  main_cat->SetAnimations(animations_["cat"]);
+  QString skin = GetCatRandomSkinPath();
+  main_cat->SetAnimations(animations_[skin]);
   player_ = new Player(main_cat);
   player_->SetViewCircle(ViewCircle(player_->GetPosition(),
                                     constants::kViewCircleDefault));
@@ -301,4 +315,18 @@ void Model::GenerateFood(const Point& player_position, double
 
 GlobalProgressBar* Model::GetProgressBar() {
   return &hunger_bar_;
+}
+
+QString Model::GetCatRandomSkinPath() {
+  std::uniform_int_distribution<> random_time(0, 7);
+  QString path = "../images/cats skins/" + QString::number(random_time
+      (random_generator_)) + "/";
+  return path;
+}
+
+QString Model::GetDogRandomSkinPath() {
+  std::uniform_int_distribution<> random_time(0, 4);
+  QString path = "../images/dogs skins/" + QString::number(random_time
+      (random_generator_)) + "/";
+  return path;
 }

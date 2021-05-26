@@ -37,6 +37,7 @@ class MovingObject : public GameObject {
   Size GetDrawSize(const Size& object_size) const override;
   void TickAnimation(int delta_time);
   AnimationState GetAnimationState() const;
+  bool IsMainCatDead() const;
 
   Point GetDestination() const;
 
@@ -48,8 +49,11 @@ class MovingObject : public GameObject {
     Size velocity_;
     static std::mt19937 random_generator_;
     Animation object_animation_;
+    bool is_ready_to_be_sent_home = false;
+    bool is_ready_to_die = false;
 
     Size saved_walking_velocity_{};
+    bool is_main_cat_dead_ = false;
     bool is_hidding_ = false;
     bool is_back_ = false;
 };

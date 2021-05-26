@@ -24,14 +24,14 @@ void Player::OrderCatsToMove(Size velocity_from_player) {
       cat->SetVelocity(velocity_from_player);
       continue;
     }
-    if (cat->GetCatState() == CatState::kIsGoingToSearch) {
-      continue;
-    }
-    if (cat->GetCatState() == CatState::kIsSearching) {
+    if (cat->GetCatState() == CatState::kIsGoingToSearch || cat->GetCatState
+        () == CatState::kIsSearching || cat->GetCatState() ==
+        CatState::kNeedsToBeSendHome || cat->GetCatState() ==
+        CatState::kReadyToBeDeleted) {
       continue;
     }
     if (cat->GetCatState() == CatState::kHasFinishedSearching) {
-      cat->SetDestination(cats_.at(0)->GetDrawPosition());
+      cat->SetDestination(cats_.at(0)->GetDrawPosition() + Point(20, 50));
       cat->SetDestinationRect(cats_.at(0)->GetRigidBody()->GetRect());
       free_cats_.push_back(cat);
       continue;
@@ -51,7 +51,8 @@ void Player::OrderCatsToMove(Size velocity_from_player) {
                                       (CatState::kIsFollowingPlayer))
             || !(cat->GetTimer().IsActive(static_cast<int>
                                           (CatState::kIsFollowingPlayer)) ||
-                (cat->IsVelocityChange(velocity_from_player)))) {
+                (cat->IsVelocityChange(velocity_from_player))) &&
+                (cat->GetCatState() != CatState::kNeedsToBeSendHome)) {
           cat->SetVelocity(velocity_from_player);
           cat->SetCatState(CatState::kIsFollowingPlayer);
         }
@@ -176,6 +177,10 @@ static_objects) {
 void Player::UpdateCatsGroup(const
                              std::vector<std::shared_ptr<Cat>>& all_cats) {
   for (auto& cat : cats_) {
+    if (cat->GetCatState() == CatState::kReadyToBeDeleted) {
+      SendCatToPortal(cat);
+      continue;
+    }
     for (auto& wild_cat : all_cats) {
       if (cat == wild_cat) {
         continue;
@@ -188,7 +193,7 @@ void Player::UpdateCatsGroup(const
       if (length < cat_group_.first_radius_ &&
           !(wild_cat->GetIsInGroup())
           && wild_cat->GetCatState() != CatState::kIsGoingToSearch &&
-          hunger_state_ != HungerState::kSevereHunger) {
+          hunger_state_ != HungerState::kSevereHunger && !wild_cat->IsDead()) {
         cats_.push_back(wild_cat);
         free_cats_.push_back(wild_cat);
         wild_cat->SetIsInGroup(true);
@@ -296,7 +301,7 @@ void Player::FeedCats(double food) {
 void Player::UpdateHunger() {
   food_saturation_ -= speed_of_hunger_;
   if (food_saturation_ < 0) {
-    // смерть кота
+    GetMainCat()->SetCatState(CatState::kIsDying);
   }
   if (food_saturation_ > max_food_saturation_) {
     food_saturation_ = max_food_saturation_;
@@ -386,4 +391,10 @@ Point Player::GenerateRandomDestination() const {
 
 void Player::DecHunger(double hunger) {
   food_saturation_ -= hunger;
+}
+
+void Player::SendCatToPortal(std::shared_ptr<Cat> cat) {
+  cat->SetIsInGroup(false);
+  cat->SetIsDead();
+  cat_group_.DecGroup();
 }
