@@ -6,7 +6,6 @@
 
 class Point {
  public:
-  // TODO(anyone): player must appear in the center of the window
   explicit Point(double x = constants::kGameWidth / 2,
                  double y = constants::kGameHeight / 2);
   Point& operator=(const Point& point);

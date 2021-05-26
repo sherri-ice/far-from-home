@@ -20,6 +20,7 @@ class Controller : public AbstractController {
   void EndGame() override;
   void Tick(int time) override;
   int GetCurrentTime() override;
+  void TickWin();
 
   Player* GetPlayer() override;
   void SetGameVolume(int volume) override;

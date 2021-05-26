@@ -20,15 +20,6 @@ bool RigidBody::IsCollide(const RigidBody& other_rigid_body) const {
 }
 
 void RigidBody::Draw(QPainter* painter, Resizer* resizer) const {
-  auto rect = GetRect();
-  auto game_size = Size(rect.width, rect.height);
-  auto window_size = resizer->GameToWindowSize(game_size);
-  auto game_coordinate = Point(rect.x, rect.y);
-  auto window_coordinates = resizer->GameToWindowCoordinate(game_coordinate);
-  painter->drawRect(static_cast<int>(window_coordinates.GetX()),
-                    static_cast<int>(window_coordinates.GetY()),
-                    static_cast<int>(window_size.GetWidth()),
-                    static_cast<int>(window_size.GetHeight()));
 }
 
 void RigidBody::SetScaleCoefficients(double coefficient_x,

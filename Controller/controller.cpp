@@ -13,6 +13,7 @@ void Controller::Tick(int time) {
   if (model_->GetPlayer()->GetMainCat()->GetCatState() == CatState::kIsDead) {
        view_->ShowDeathWindow();
   }
+  TickWin();
   TickViewCircle();
   TickPlayer(delta_time);
   CheckIfDestinationIsInsideStaticObject();
@@ -558,4 +559,9 @@ void Controller::PauseMusic() {
 
 void Controller::ResumeMusic() {
   music_player_->Resume();
+}
+void Controller::TickWin() {
+  if (model_->GetCats().size() == 1) {
+    view_->ShowWinWindow();
+  }
 }

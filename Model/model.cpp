@@ -63,11 +63,9 @@ std::shared_ptr<Cat> Model::MakeNewCat(const Size& size,
 }
 
 void Model::LoadLevel(int level) {
-  // TODO(anyone)
 }
 
 void Model::SetGameState(int) {
-  // TODO(anyone)
 }
 
 std::vector<std::shared_ptr<Food>> Model::GetFood() {
