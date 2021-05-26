@@ -24,7 +24,7 @@ View::View(AbstractController* controller,
   time_between_ticks_.start();
   controller_timer_id_ = startTimer(constants::kTimeBetweenTicks);
   view_timer_.start();
- }
+}
 
 void View::Pause() {
   // controller_->GetMusicPlayer()->StartMenuMusic();
@@ -143,7 +143,7 @@ bool View::IsOnTheScreen(const std::shared_ptr<GameObject>& object) {
   auto game_top_point = resizer_.WindowToGameCoordinate(top_point);
   Point bottom_point =
       Point(screen_rect.bottomRight().x() + width_shift, screen_rect
-      .bottomRight().y() + height_shift);
+          .bottomRight().y() + height_shift);
   auto game_bottom_point = resizer_.WindowToGameCoordinate(bottom_point);
 
   if (object_pos.GetX() < game_top_point.GetX()

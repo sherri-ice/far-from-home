@@ -1,5 +1,5 @@
-#ifndef DEATHWINDOW_H
-#define DEATHWINDOW_H
+#ifndef VIEW_DEATHWINDOW_H_
+#define VIEW_DEATHWINDOW_H_
 
 #include <QWidget>
 #include <QPushButton>
@@ -10,7 +10,7 @@ namespace Ui { class DeathWindow; }
 QT_END_NAMESPACE
 
 class DeathWindow : public QWidget {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   explicit DeathWindow(QWidget* parent = nullptr);
@@ -25,4 +25,4 @@ class DeathWindow : public QWidget {
   Ui::DeathWindow* ui;
   void SetObjectsNames();
 };
-#endif // DEATHWINDOW_H
+#endif  // VIEW_DEATHWINDOW_H_
