@@ -5,11 +5,10 @@
 #include <QGraphicsScene>
 #include <utility>
 #include <vector>
+#include <algorithm>
 
 #include "../GameObject/portal_object.h"
-#include "../Model/constants.h"
 #include "progress_bar.h"
-#include "view.h"
 
 
 View::View(AbstractController* controller,

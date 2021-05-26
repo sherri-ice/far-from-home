@@ -3,7 +3,6 @@
 std::mt19937 Player::random_generator_ = std::mt19937
     (std::chrono::system_clock::now().time_since_epoch().count());
 
-
 Player::Player(const std::shared_ptr<Cat>& cat) : cat_group_(60, 150) {
   cats_.emplace_back(cat);
 }
@@ -124,7 +123,6 @@ void Player::DismissCats() {
     cats_.at(i)->SetDestination(Point(x_destination(random_generator_),
                                       y_destination(random_generator_)));
     cats_.at(i)->SetCatState(CatState::kIsComingDestination);
-
   }
   cat_group_.DecGroup(cats_.size() - 1);
   cats_.erase(cats_.cbegin() + 1, cats_.cend());
@@ -257,7 +255,7 @@ void Player::LosingCat(Point dog_position, std::shared_ptr<Cat> cat) {
                                   }),
                    free_cats_.end());
 }
-std::shared_ptr<Cat> Player:: SendCatToSearch(const Point& portal_coordinates,
+std::shared_ptr<Cat> Player::SendCatToSearch(const Point& portal_coordinates,
                                              int search_time) {
   auto cat = free_cats_.begin();
   (*cat)->SetCatState(CatState::kIsGoingToSearch);

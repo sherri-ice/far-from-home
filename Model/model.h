@@ -82,7 +82,6 @@ class Model {
   Language lang_ = Language::kEnglish;
   std::list<std::shared_ptr<PortalObject>> static_objects_;
   std::list<std::shared_ptr<Warning>> warnings_;
-
 };
 
 #endif  // MODEL_MODEL_H_

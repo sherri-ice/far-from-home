@@ -36,6 +36,7 @@ class View : public QWidget {
 
   void ShowResultWindow(bool is_found);
   ResultWindow& GetResultWindow();
+
  private:
   int controller_timer_id_;
   QElapsedTimer time_between_ticks_;
