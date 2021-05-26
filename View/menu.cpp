@@ -23,7 +23,7 @@ void Menu::SetObjectsNames() {
   ui->settings->setObjectName(QObject::tr("settings"));
   ui->back_to_main_window->setObjectName(QObject::tr("back_to_main_window"));
   ui->restart->setObjectName(QObject::tr("restart"));
-  ui->resume->setObjectName(QObject::tr("resume"));
+  ui->resume->set ObjectName(QObject::tr("resume"));
   ui->menu->setObjectName(QObject::tr("menu"));
   ui->sound->setObjectName(QObject::tr("sound-on"));
   ui->sound_on_pause->setObjectName(QObject::tr("sound-on"));
