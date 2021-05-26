@@ -20,15 +20,12 @@ void Menu::SetObjectsNames() {
   ui->play->setObjectName(QObject::tr("play"));
   ui->exit->setObjectName(QObject::tr("exit"));
   ui->settings->setObjectName(QObject::tr("settings"));
-  ui->left_arrow->setObjectName(QObject::tr("left_arrow"));
-  ui->right_arrow->setObjectName(QObject::tr("right_arrow"));
   ui->back_to_main_window->setObjectName(QObject::tr("back_to_main_window"));
   ui->restart->setObjectName(QObject::tr("restart"));
   ui->resume->setObjectName(QObject::tr("resume"));
   ui->menu->setObjectName(QObject::tr("menu"));
   ui->sound->setObjectName(QObject::tr("sound-on"));
   ui->sound_on_pause->setObjectName(QObject::tr("sound-on"));
-  ui->cur_lang->setObjectName(QObject::tr("lang"));
 }
 
 void Menu::LoadStyleSheet() {
@@ -64,14 +61,6 @@ void Menu::Settings() {
 
 void Menu::MainMenu() {
   ui->widget->setCurrentIndex(MenuPageIndex::kStartMenu);
-}
-
-QPushButton* Menu::GetLeftArrowButton() const {
-  return ui->left_arrow;
-}
-
-QPushButton* Menu::GetRightArrowButton() const {
-  return ui->right_arrow;
 }
 
 QPushButton* Menu::GetBackButton() const {
