@@ -24,8 +24,11 @@ class ResultWindow : public QDialog {
   void Show(bool is_found);
   bool GetUserAnswer();
 
+  void LoadStyleSheets();
+
  private:
   void ConnectButtons();
+  void SetObjetsNames();
   Ui::ResultWindow* ui;
   Size size_;
 };

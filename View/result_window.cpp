@@ -1,10 +1,13 @@
 #include "result_window.h"
 #include "./ui_result_window.h"
 #include "../Model/constants.h"
+#include <QFile>
 
 ResultWindow::ResultWindow(QWidget* parent)
     : QDialog(parent), ui(new Ui::ResultWindow) {
   ui->setupUi(this);
+  SetObjetsNames();
+  LoadStyleSheets();
   ConnectButtons();
 }
 
@@ -36,6 +39,21 @@ void ResultWindow::Show(bool is_found) {
 
 bool ResultWindow::GetUserAnswer() {
   return (result() == true);
+}
+
+void ResultWindow::LoadStyleSheets() {
+  QFile file(":resourses/buttons.qss");
+  file.open(QFile::ReadOnly);
+  QString stylesheet = file.readAll();
+  setStyleSheet(stylesheet);
+}
+
+
+void ResultWindow::SetObjetsNames() {
+  setObjectName(QObject::tr("background"));
+  ui->okay_button->setObjectName(QObject::tr("okay"));
+  ui->cancel_button->setObjectName(QObject::tr("back_to_main_menu"));
+  ui->send_button->setObjectName(QObject::tr("send"));
 }
 
 
