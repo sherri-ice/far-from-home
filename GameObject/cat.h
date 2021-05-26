@@ -73,6 +73,7 @@ class Cat : public MovingObject {
   bool IsGoingToSearch() const;
   bool IsMainCat() const;
   bool HasFinishedSearch() const;
+  bool IsDying() const;
 
  private:
   bool is_in_group_{false};

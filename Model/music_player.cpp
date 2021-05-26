@@ -1,7 +1,5 @@
 #include "music_player.h"
 
-#include <QDebug>
-
 MusicPlayer::MusicPlayer()
     : main_player_(std::make_shared<QMediaPlayer>()),
       main_playlist_(std::make_shared<QMediaPlaylist>(main_player_.get())),

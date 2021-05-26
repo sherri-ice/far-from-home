@@ -209,8 +209,9 @@ void Cat::Tick(int delta_time) {
         is_ready_to_die = true;
     } else {
         SetSpeed(17);
-    velocity_ = Size(1, -1);
-  }
+        velocity_ = Size(0, -1);
+        velocity_ *= speed_ * delta_time / constants::kTimeScale;
+    }
       if (timers_.IsTimeOut(static_cast<int>(CatState::kIsDying))) {
         cat_state_ = CatState::kIsDead;
       }
@@ -328,4 +329,8 @@ void Cat::ComeHome() {
   timers_.Stop(static_cast<int>(CatState::kIsWalking));
   cat_state_ = CatState::kIsComingDestination;
   destination_ = home_position_;
+}
+
+bool Cat::IsDying() const {
+  return cat_state_ == CatState::kIsDying;
 }
