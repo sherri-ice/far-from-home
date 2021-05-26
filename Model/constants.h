@@ -6,6 +6,8 @@
 namespace constants {
 const double kEpsilon = 0.0001;
 
+const int kNumOfCats = 10;
+
 const int kGameWidth = 1600;
 const int kGameHeight = 900;
 

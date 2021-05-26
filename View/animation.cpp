@@ -1,7 +1,7 @@
 #include "animation.h"
 
 Animation::Animation(const std::vector<std::vector<QPixmap>> &frames) :
-frames_(frames), frames_rescaled_(frames) {
+    frames_(frames), frames_rescaled_(frames) {
     Reset();
 }
 

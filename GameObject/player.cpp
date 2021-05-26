@@ -97,8 +97,8 @@ void Player::OrderCatsToMove(Size velocity_from_player) {
                    free_cats_.end());
 }
 
-void Player::UpdateDogsAround(const std::list<std::shared_ptr<Dog>>& dogs)
-    const {
+void Player::UpdateDogsAround(const std::vector<std::shared_ptr<Dog>>& dogs)
+const {
   Point central_cat_position = cat_group_.central_position_;
   for (auto& dog : dogs) {
     Size distance = central_cat_position.GetVectorTo(dog->GetDrawPosition());
@@ -155,7 +155,8 @@ void Player::Tick() {
 }
 
 void Player::UpdateStaticObjectsAround(const
-                                       std::list<std::shared_ptr<PortalObject>>&
+                                       std::vector<
+                                           std::shared_ptr<PortalObject>>&
 static_objects) {
   Point cat_position;
   Size distance;
@@ -172,7 +173,8 @@ static_objects) {
   }
 }
 
-void Player::UpdateCatsGroup(const std::list<std::shared_ptr<Cat>>& all_cats) {
+void Player::UpdateCatsGroup(const
+                             std::vector<std::shared_ptr<Cat>>& all_cats) {
   for (auto& cat : cats_) {
     for (auto& wild_cat : all_cats) {
       if (cat == wild_cat) {
@@ -200,7 +202,7 @@ void Player::UpdateCatsGroup(const std::list<std::shared_ptr<Cat>>& all_cats) {
   }
 }
 
-void Player::IsReachable(const std::list<std::shared_ptr<Dog>>& dogs) {
+void Player::IsReachable(const std::vector<std::shared_ptr<Dog>>& dogs) {
   for (auto& cat : cats_) {
     bool is_reachable{false};
     for (const auto& dog : dogs) {
@@ -338,7 +340,7 @@ void Player::UpdateHunger() {
   if (hunger_state_ == HungerState::kSevereHunger) {
     hunger_state_ = HungerState::kNotHungry;
     cats_.at(0)->IncSpeed(constants::kChangeSpeedCoefficient *
-    constants::kChangeSpeedCoefficient);
+        constants::kChangeSpeedCoefficient);
   }
   if (hunger_state_ == HungerState::kMediumHunger) {
     hunger_state_ = HungerState::kNotHungry;
@@ -379,7 +381,7 @@ Point Player::GenerateRandomDestination() const {
        cat_group_.central_position_.GetY() + cat_group_.first_radius_ *
            constants::kSemiMinorCoefficient);
   return Point(x_destination(random_generator_), y_destination
-  (random_generator_));
+      (random_generator_));
 }
 
 void Player::DecHunger(double hunger) {

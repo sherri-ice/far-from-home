@@ -37,13 +37,11 @@ class Animation {
  private:
   Size picture_size_{0, 0};
 
-    //--------
-    uint animation_loops_number = 2;
-    uint current_road_ = 0;
-    uint current_frame_ = 0;
-    int wait_till_next_frame_ = 0;
-    int time_between_frames_ = 100;
-    //---------
+  uint animation_loops_number = 2;
+  uint current_road_ = 0;
+  uint current_frame_ = 0;
+  int wait_till_next_frame_ = 0;
+  int time_between_frames_ = 100;
 
   static std::mt19937 random_generator_;
 

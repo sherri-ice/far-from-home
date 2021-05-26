@@ -13,6 +13,7 @@
 #include "../Model/model.h"
 #include "menu.h"
 #include "background.h"
+#include "deathwindow.h"
 
 namespace constants {
 const double kFactorForScreen = 0.3;
@@ -41,6 +42,9 @@ class View : public QWidget {
   void ShowResultWindow(bool is_found);
   ResultWindow& GetResultWindow();
 
+  void ShowDeathWindow();
+  DeathWindow* GetDeathWindow();
+
  private:
   int controller_timer_id_;
   QElapsedTimer time_between_ticks_;
@@ -64,6 +68,7 @@ class View : public QWidget {
   void SetMenuWindow();
   void SetSettingsWindow();
   void SetPauseWindow();
+  void SetDeathWindow();
 
 
   Size player_velocity_;
@@ -74,6 +79,7 @@ class View : public QWidget {
   QVBoxLayout* layout_;
 
   ResultWindow result_window_;
+  DeathWindow* death_window_ = new DeathWindow(this);
   Background background_;
 };
 

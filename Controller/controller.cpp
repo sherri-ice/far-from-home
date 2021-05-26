@@ -77,7 +77,7 @@ void Controller::TickCats(int delta_time) {
 }
 
 void Controller::TickDogs(int delta_time) {
-  std::list<std::shared_ptr<Dog>> dogs = model_->GetDogs();
+  std::vector<std::shared_ptr<Dog>> dogs = model_->GetDogs();
   auto player = model_->GetPlayer();
   for (auto& dog : dogs) {
     if (view_->IsOnTheScreen(dog)) {
