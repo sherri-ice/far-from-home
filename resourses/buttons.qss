@@ -108,13 +108,13 @@ QPushButton#cancel {
 QPushButton#no {
     background-color: rgba(255, 255, 255, 0);
     qproperty-icon: url(":images/menu/buttons/wasnt_found.png");
-    qproperty-iconSize: 100px;
+    qproperty-iconSize: 400px;
     border: none
 }
 QPushButton#yes {
     background-color: rgba(255, 255, 255, 0);
     qproperty-icon: url(":images/menu/buttons/was_found.png");
-    qproperty-iconSize: 100px;
+    qproperty-iconSize: 400px;
     border: none
 }
 

@@ -7,6 +7,8 @@ ResultWindow::ResultWindow(QWidget* parent)
     : QDialog(parent), ui(new Ui::ResultWindow) {
   ui->setupUi(this);
   SetObjetsNames();
+  setWindowIcon(QIcon(":images/icon.ico"));
+  setWindowTitle("Far from home");
   LoadStyleSheets();
   ConnectButtons();
 }
