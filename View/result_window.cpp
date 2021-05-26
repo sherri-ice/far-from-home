@@ -52,7 +52,7 @@ void ResultWindow::LoadStyleSheets() {
 void ResultWindow::SetObjetsNames() {
   setObjectName(QObject::tr("background"));
   ui->no_text->setObjectName(QObject::tr("no"));
-  // ui->yes_tex->setObjectName(QObject::tr("no"));
+  ui->yes_text->setObjectName(QObject::tr("yes"));
   ui->okay_button->setObjectName(QObject::tr("cancel"));
   ui->cancel_button->setObjectName(QObject::tr("cancel"));
   ui->send_button->setObjectName(QObject::tr("send"));
