@@ -41,7 +41,6 @@ class Controller : public AbstractController {
   void TickViewCircle();
   void TickHunger();
   void MoveCatsAndDogs(int delta_time);
-  void TickWin();
   void CatsAndFoodIntersect();
   void CatAndStaticObjectsIntersect(const std::shared_ptr<Cat>& cat);
   void DogAndStaticObjectIntersect(const std::shared_ptr<Dog>& dog);
