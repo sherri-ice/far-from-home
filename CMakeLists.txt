@@ -54,7 +54,9 @@ set(SOURCES
         View/result_window.ui
         View/background.cpp
         View/deathwindow.cpp
-        View/deathwindow.ui)
+        View/deathwindow.ui
+        View/win_window.cpp
+        View/winwindow.ui)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 

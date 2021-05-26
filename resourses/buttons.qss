@@ -96,6 +96,10 @@ QWidget#death{
     background: rgba(139, 0, 0, 0.3);
 }
 
+QWidget#win{
+    background: rgba(11, 132, 6, 0.3);
+}
+
 QLabel#lang {
     border-image: url(":images/menu/buttons/eng.png")  0 0 0 0 stretch stretch;
 }
