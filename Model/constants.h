@@ -26,8 +26,6 @@ const double kCatRunCoefficient = 2;
 const int kMinRunAwayDistance = 100;
 const int kMaxRunAwayDistance = 500;
 
-const int kNumOfCats = 10;
-
 const double kCatGroupIncCoefficient = 1.1;
 
 const double kMediumHungerPercent = 0.4;
