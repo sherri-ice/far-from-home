@@ -12,6 +12,7 @@ View::View(AbstractController* controller,
     : controller_(controller),
       model_(std::move(model)) {
   setWindowTitle(constants::kApplicationName);
+  setWindowIcon(QIcon(":images/icon.ico"));
   resize(constants::kGameWidth, constants::kGameHeight);
   resizer_.ChangeSystem(width(), height());
   setMouseTracking(true);

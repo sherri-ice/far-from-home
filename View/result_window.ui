@@ -21,7 +21,6 @@
        <item row="0" column="0">
         <widget class="QLabel" name="yes_tex">
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Yay! Your cat has found &lt;span style=&quot; font-weight:600;&quot;&gt;the portal&lt;br/&gt;&lt;/span&gt; to &lt;span style=&quot; font-weight:600;&quot;&gt;get home!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
@@ -43,16 +42,12 @@
              <string notr="true"/>
             </property>
             <property name="text">
-             <string>Yes! Send the cat 
- to the home!</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="cancel_button">
             <property name="text">
-             <string>I want him to stay 
- for a little bit...</string>
             </property>
            </widget>
           </item>
@@ -79,8 +74,7 @@
        <item row="0" column="2">
         <widget class="QLabel" name="no_text">
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sorry, there is &lt;span style=&quot; font-weight:600;&quot;&gt;nothing&lt;/span&gt;...&lt;br/&gt;Search &lt;span style=&quot; font-weight:600;&quot;&gt;somewhere else&lt;/span&gt;!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
+          </property>
         </widget>
        </item>
        <item row="0" column="3">
