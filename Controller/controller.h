@@ -2,6 +2,7 @@
 #define CONTROLLER_CONTROLLER_H_
 
 #include <list>
+#include <map>
 #include <memory>
 
 #include "../Controller/abstract_controller.h"
@@ -27,19 +28,39 @@ class Controller : public AbstractController {
   void PauseMusic() override;
   void ResumeMusic() override;
 
+  void ScanIfObjectWereClicked(const Point& point) override;
+
  private:
   void TickPlayer(int delta_time);
   void TickCats(int time);
   void TickDogs(int delta_time);
-  void TickFood(int time);
+  void TickFood(int delta_time);
+  void TickObjects(int delta_time);
+  void TickWarnings(int delta_time);
   void TickViewCircle();
+  void TickHunger();
+  void MoveCatsAndDogs(int delta_time);
 
   void CatsAndFoodIntersect();
+  void CatAndStaticObjectsIntersect(const std::shared_ptr<Cat>& cat);
+  void DogAndStaticObjectIntersect(const std::shared_ptr<Dog>& dog);
+  void CatsAndPortalsIntersect(const std::shared_ptr<Cat>& cat);
+
+  void CheckIfDestinationIsInsideStaticObject();
+  void CheckIfDestinationIntersectsWithCat();
+
+  void DogsIntersect(const std::shared_ptr<Dog>& dog);
+  void CatsInGroupIntersect(const std::shared_ptr<Cat>& cat);
+  void WildCatsAndOtherCatsIntersect(const std::shared_ptr<Cat>& cat);
+  void MainCatIntersectsWithCats(const std::shared_ptr<Cat>& main_cat);
+  void CatsAndDogIntersect(const std::shared_ptr<Cat>& cat);
 
   int current_game_time_{0};
   std::shared_ptr<Model> model_;
   std::shared_ptr<View> view_;
   Generator map_generator_;
+  std::map<std::shared_ptr<PortalObject>, std::shared_ptr<Cat>>
+      portal_and_searching_cat_;
   std::shared_ptr<MusicPlayer> music_player_;
 };
 

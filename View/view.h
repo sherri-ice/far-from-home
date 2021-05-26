@@ -14,6 +14,10 @@
 #include "menu.h"
 #include "background.h"
 
+namespace constants {
+const double kFactorForScreen = 0.3;
+}  // namespace constants
+
 class View : public QWidget {
   Q_OBJECT
 
@@ -26,6 +30,16 @@ class View : public QWidget {
   void ClearVelocity();
   void Resize();
   void UpdateResizer(double radius, const Point& position);
+
+  Point GetCoordinatesForWarning() const;
+  double GetWidthOfScreenAsGame() const;
+  double GetHeightOfScreeAsGame()
+  const;
+
+  bool IsOnTheScreen(const std::shared_ptr<GameObject>& object);
+
+  void ShowResultWindow(bool is_found);
+  ResultWindow& GetResultWindow();
 
  private:
   int controller_timer_id_;
@@ -40,9 +54,10 @@ class View : public QWidget {
   void keyPressEvent(QKeyEvent* event) override;
   void keyReleaseEvent(QKeyEvent* event) override;
   void timerEvent(QTimerEvent* event) override;
+  void mousePressEvent(QMouseEvent* event) override;
 
-  bool IsOnTheScreen(const std::shared_ptr<GameObject>& object);
   void DrawGameObjects(QPainter* painter);
+  void DrawWarnings(QPainter* painter);
 
   void Pause();
   void SetWindows();
@@ -57,6 +72,8 @@ class View : public QWidget {
   Menu* menu_ = new Menu(this);
   bool is_sound_on_ = true;
   QVBoxLayout* layout_;
+
+  ResultWindow result_window_;
   Background background_;
 };
 

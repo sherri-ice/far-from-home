@@ -13,12 +13,14 @@
 namespace dog_constants {
 const int kTimeToRestMin = 5000;
 const int kTimeToRestMax = 7000;
-const int kTimeToWalkMin = 1500;
-const int kTimeToWalkMax = 3500;
+const int kTimeToWalkMin = 1000;
+const int kTimeToWalkMax = 2500;
 const int kTimeToComeHomeMin = 1000;
 const int kTimeToComeHomeMax = 2000;
 const int kTimesToChangeDirectionMin = 2;
 const int kTimesToChangeDirectionsMax = 5;
+const int kMinNumOfCatsToRunAway = 4;
+const int kMaxNumOfCatsToRunAway = 8;
 }  // namespace dog_constants
 
 enum class DogState {
@@ -46,7 +48,15 @@ class Dog : public MovingObject {
 
   double GetVisibilityRadius() const;
   double GetWalkingSpeed() const;
+  int GetNumOfCatsToRunAway() const;
   void SetIsMainCatCaught(bool);
+  DogState GetDogState();
+  void ComeHome();
+
+  void RunAway(const Point& cat_position);
+
+  bool IsComingHome() const;
+  bool IsMainCatCaught() const;
 
  private:
   Point home_position_;
@@ -58,6 +68,8 @@ class Dog : public MovingObject {
   double walking_speed_;
   Timer timers_;
   bool is_main_cat_caught_{false};
+  int num_of_cats_to_run_away_;
+  bool is_run_away_{false};
 
   static std::mt19937 random_generator_;
 };

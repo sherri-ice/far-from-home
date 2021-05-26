@@ -15,6 +15,10 @@ Dog::Dog(const Size& size,
                                  timers_(static_cast<int>
                                          (DogState::SIZE)) {
   destination_ = home_position_;
+  std::uniform_int_distribution<>num_of_cats_to_run_away
+                                  (dog_constants::kMinNumOfCatsToRunAway,
+                                   dog_constants::kMaxNumOfCatsToRunAway);
+  num_of_cats_to_run_away_ = num_of_cats_to_run_away(random_generator_);
   timers_.StartTimerWithRandom(dog_constants::kTimeToRestMin,
                                dog_constants::kTimeToRestMax);
 }
@@ -37,10 +41,17 @@ void Dog::Draw(QPainter* painter, Resizer* resizer) const {
                          2 * static_cast<int>(radius.GetHeight() *
                              constants::kSemiMinorCoefficient));
   }
-    painter->drawPixmap(-object_width / 2, -object_height / 2,
-                      object_width,
-                      object_height, object_animation_.GetCurrentFrame());
-    painter->restore();
+  painter->restore();
+  painter->save();
+  painter->translate(position.GetX(), position.GetY());
+  auto draw_size = GetDrawSize(size);
+
+  painter->drawPixmap(static_cast<int>(-draw_size.GetWidth() / 2),
+                      static_cast<int>(-draw_size.GetHeight() / 2),
+                      static_cast<int>(draw_size.GetWidth()),
+                      static_cast<int>(draw_size.GetHeight()),
+                      object_animation_.GetCurrentFrame());
+  painter->restore();
 }
 
 void Dog::Tick(int delta_time) {
@@ -54,13 +65,14 @@ void Dog::Tick(int delta_time) {
     dog_state_ = DogState::kChasingCat;
     velocity_ = GetRigidPosition().GetVelocityVector(destination_, delta_time
         * speed_ / constants::kTimeScale);
+    is_run_away_ = false;
   }
 
   if (is_main_cat_caught_ && (dog_state_ != DogState::kIsComingHome)) {
     dog_state_ = DogState::kIsComingHome;
     destination_ = home_position_;
-    timers_.StartTimerWithRandom(10000,
-                                 50000,
+    timers_.StartTimerWithRandom(dog_constants::kTimeToComeHomeMin,
+                                 dog_constants::kTimeToComeHomeMax,
                                  static_cast<int>(DogState::kIsComingHome));
   }
 
@@ -77,6 +89,7 @@ void Dog::Tick(int delta_time) {
             (random_generator_);
         velocity_ = Size(velocity(random_generator_), velocity
         (random_generator_));
+        saved_walking_velocity_ = velocity_;
         --change_directions_count_;
         timers_.StartTimerWithRandom(dog_constants::kTimeToWalkMin,
                                      dog_constants::kTimeToWalkMax,
@@ -90,6 +103,7 @@ void Dog::Tick(int delta_time) {
           velocity_ = Size(velocity(random_generator_), velocity
               (random_generator_));
           --change_directions_count_;
+          saved_walking_velocity_ = velocity_;
           timers_.StartTimerWithRandom(dog_constants::kTimeToWalkMin,
                                        dog_constants::kTimeToWalkMax,
                                        static_cast<int>(DogState::kIsWalking));
@@ -99,9 +113,10 @@ void Dog::Tick(int delta_time) {
           destination_ = home_position_;
         }
       }
+      velocity_ = saved_walking_velocity_;
       if (velocity_.GetLength() > constants::kEpsilon) {
         velocity_ /= velocity_.GetLength();
-        velocity_ *= delta_time * walking_speed_ / constants::kTimeScale;
+        velocity_ *= walking_speed_ * delta_time / constants::kTimeScale;
       }
       break;
     }
@@ -120,6 +135,7 @@ void Dog::Tick(int delta_time) {
         is_main_cat_caught_ = false;
       }
       if (position_ == home_position_) {
+        is_run_away_ = false;
         dog_state_ = DogState::kIsResting;
         velocity_ = Size(0, 0);
         timers_.Stop(static_cast<int>(DogState::kIsComingHome));
@@ -129,7 +145,14 @@ void Dog::Tick(int delta_time) {
                                      static_cast<int>(DogState::kIsResting));
       } else {
         velocity_ = position_.GetVelocityVector(destination_, delta_time *
-        walking_speed_ / constants::kTimeScale);
+            walking_speed_ / constants::kTimeScale);
+        if (is_run_away_) {
+          velocity_ = position_.GetVelocityVector(destination_, delta_time *
+              speed_ / constants::kTimeScale);
+        } else {
+          velocity_ = position_.GetVelocityVector(destination_, delta_time *
+              walking_speed_ / constants::kTimeScale);
+        }
       }
       break;
     }
@@ -137,9 +160,6 @@ void Dog::Tick(int delta_time) {
       break;
     }
   }
-    is_moving_ = !(dog_state_ == DogState::kIsResting);
-    object_animation_.Tick(delta_time, GetAnimation());
-    was_moving_ = is_moving_;
 }
 
 void Dog::SetIfItVisibleToPlayer(bool is_visible) {
@@ -150,10 +170,11 @@ void Dog::SetReachableCat(const std::vector<std::shared_ptr<Cat>>& cats) {
   reachable_cat_ = nullptr;
   Size min_distance = Size(visibility_radius_, visibility_radius_);
   for (const auto& cat : cats) {
-    Size cat_distance = position_.GetVectorTo(cat->GetRigidPosition());
+    Size cat_distance = GetRigidPosition().GetVectorTo(cat->GetRigidPosition());
     if (CheckIfCanSeeCat(&(*cat)) &&
         cat_distance.GetLength() < min_distance.GetLength() &&
-        (!timers_.IsActive(static_cast<int>(DogState::kIsComingHome)))) {
+        !timers_.IsActive(static_cast<int>(DogState::kIsComingHome))
+        && cat->GetCatState() != CatState::kIsSearching) {
       reachable_cat_ = &(*cat);
       min_distance = cat_distance;
     }
@@ -161,7 +182,7 @@ void Dog::SetReachableCat(const std::vector<std::shared_ptr<Cat>>& cats) {
 }
 
 bool Dog::CheckIfCanSeeCat(const Cat* cat) const {
-  return cat->GetRigidPosition().IsInEllipse(position_,
+  return cat->GetRigidPosition().IsInEllipse(GetRigidPosition(),
                                              visibility_radius_);
 }
 
@@ -179,4 +200,39 @@ double Dog::GetWalkingSpeed() const {
 
 void Dog::SetIsMainCatCaught(bool is_caught) {
   is_main_cat_caught_ = is_caught;
+}
+
+int Dog::GetNumOfCatsToRunAway() const {
+  return num_of_cats_to_run_away_;
+}
+
+void Dog::RunAway(const Point& cat_position) {
+  if (!is_run_away_) {
+    std::uniform_int_distribution<>
+        x_destination(constants::kMinRunAwayDistance,
+                      constants::kMaxRunAwayDistance);
+    SetRunAwayDestination(GetRigidPosition(), cat_position, GetRigidPosition(),
+                          x_destination(random_generator_));
+    home_position_ = destination_;
+    dog_state_ = DogState::kIsComingHome;
+    is_run_away_ = true;
+  }
+  reachable_cat_ = nullptr;
+}
+
+DogState Dog::GetDogState() {
+  return dog_state_;
+}
+
+bool Dog::IsComingHome() const {
+  return dog_state_ == DogState::kIsComingHome;
+}
+
+void Dog::ComeHome() {
+  SetDestination(home_position_);
+  dog_state_ = DogState::kIsComingHome;
+}
+
+bool Dog::IsMainCatCaught() const {
+  return is_main_cat_caught_;
 }
