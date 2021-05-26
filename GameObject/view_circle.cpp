@@ -1,5 +1,4 @@
 #include <QPainter>
-#include <iostream>
 #include "view_circle.h"
 
 const Point& ViewCircle::GetCenter() const {
@@ -31,7 +30,6 @@ void ViewCircle::Draw(QPainter* painter, Resizer* resizer) const {
                        new_size.GetWidth(),
                        new_size.GetHeight());
   painter->restore();
-
 }
 void ViewCircle::SetWantedRadius(double wanted_radius) {
   wanted_radius_ = wanted_radius;

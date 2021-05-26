@@ -31,12 +31,13 @@ class GameObject {
   void SetScaleCoefficientsInRigidBody(double coefficient_x, double
   coefficient_y);
 
-
   void SetIsDead();
   bool IsDead() const;
 
   int GetSkinId() const;
   void SetSkinId(int skin_id);
+
+  virtual Size GetDrawSize(const Size& object_size) const;
 
  protected:
   QPixmap skin_;

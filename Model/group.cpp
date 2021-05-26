@@ -1,4 +1,3 @@
-#include <iostream>
 #include "group.h"
 
 Group::Group(double first_radius, double second_radius, Point central_position)
@@ -29,6 +28,11 @@ void Group::Draw(QPainter* painter, Resizer* resizer) const {
   painter->restore();
 }
 
+void Group::IncGroup() {
+  first_radius_ *= constants::kCatGroupIncCoefficient;
+  second_radius_ *= constants::kCatGroupIncCoefficient;
+}
+
 void Group::Tick(int delta_time) {
   if (velocity_.GetLength() > constants::kEpsilon) {
     velocity_ /= velocity_.GetLength();
@@ -36,13 +40,8 @@ void Group::Tick(int delta_time) {
   }
 }
 
-void Group::Move(int delta_time) {
+void Group::Move() {
   central_position_ += velocity_;
-}
-
-void Group::IncGroup() {
-  first_radius_ *= constants::kCatGroupIncCoefficient;
-  second_radius_ *= constants::kCatGroupIncCoefficient;
 }
 
 void Group::DecGroup(int num_of_cats) {

@@ -12,12 +12,13 @@ PortalObject::PortalObject(const Size& size,
                      Point(position.GetX(),
                            position.GetY() - size.GetHeight() / 2),
                      15);
-  progress_bar_ = ProgressBar(position, size);
+  progress_bar_ = ProgressBar(position);
+  warning_.SetIfIsDrawn(false);
+  progress_bar_ = ProgressBar(position);
   std::uniform_int_distribution<>
       time(PortalConstants::kMinSearchTime, PortalConstants::kMaxSearchTime);
   search_time_ = time(random_generator_);
-  progress_bar_.SetRange(0, 100'000);
-  progress_bar_.SetTimeToBeFull(search_time_);
+  progress_bar_.SetRange(0, search_time_);
   search_timer_.Start(search_time_);
 }
 
@@ -26,9 +27,10 @@ void PortalObject::Draw(QPainter* painter, Resizer* resizer) const {
   painter->save();
   auto position = resizer->GameToWindowCoordinate(position_);
   auto size = resizer->GameToWindowSize(size_);
+  auto draw_size = GetDrawSize(size);
   painter->translate(position.GetX(), position.GetY());
-  int width = static_cast<int>(size.GetWidth());
-  int height = static_cast<int>(size.GetHeight());
+  int width = static_cast<int>(draw_size.GetWidth());
+  int height = static_cast<int>(draw_size.GetHeight());
   painter->drawPixmap(-width / 2, -height / 2, width, height, skin_);
   painter->restore();
   progress_bar_.Draw(painter, resizer);
@@ -44,7 +46,7 @@ void PortalObject::Tick(int time) {
     }
     case PortalState::kSearching: {
       if (!search_timer_.IsTimeOut()) {
-        progress_bar_.IncCurrentValue();
+        progress_bar_.IncCurrentValue(time);
         search_timer_.Tick(time);
       } else {
         state_ = PortalState::kFinishedSearch;
@@ -53,21 +55,18 @@ void PortalObject::Tick(int time) {
     }
     case PortalState::kFinishedSearch: {
       warning_.UpdateMessage("Click on a tree to see the result!");
-      state_ = PortalState::kWaitToSeeResult;
       progress_bar_.SetInvisible();
       search_timer_.Stop();
+      state_ = PortalState::kWaitToSeeResult;
       break;
     }
     case PortalState::kWaitToSeeResult: {
-      skin_ = QPixmap("../images/objects/portal.png");
       break;
     }
     case PortalState::kDefault:
     default: {
       break;
     }
-
-
   }
 }
 
@@ -98,10 +97,6 @@ void PortalObject::SetIfMessageIsShown(bool is_shown) {
   warning_.SetIfIsDrawn(is_shown);
 }
 
-void PortalObject::SetWaitState() {
-  state_ = PortalState::kWaitToSeeResult;
-}
-
 int PortalObject::GetSearchTime() const {
   return search_time_;
 }
@@ -110,14 +105,18 @@ void PortalObject::SetSearchTime(int search_time) {
   search_time_ = search_time;
 }
 
-void PortalObject::SetWaitSearchState() {
-  state_ = PortalState::kWaitToSearch;
-}
-
-bool PortalObject::HasFinished() {
+bool PortalObject::ReadyToShowResult() {
   return (state_ == PortalState::kWaitToSeeResult);
 }
 
-void PortalObject::SetCollectedState() {
-  state_ = PortalState::kCollected;
+void PortalObject::SetState(PortalState state) {
+  state_ = state;
+}
+
+bool PortalObject::IsNotificationShown() {
+  return  (state_ == PortalState::kNotificationShown);
+}
+
+void PortalObject::SetSuperSkin() {
+  skin_ = QPixmap(":images/objects/portal.png");
 }

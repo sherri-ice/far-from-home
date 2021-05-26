@@ -226,7 +226,7 @@
         <file>images/dogs skins/0/random/1/Frame 2.png</file>
         <file>images/dogs skins/0/random/1/Frame 3.png</file>
 
-                 
+
         <file>images/dogs skins/1/up/Frame 0.png</file>
         <file>images/dogs skins/1/up/Frame 1.png</file>
         <file>images/dogs skins/1/up/Frame 2.png</file>
@@ -337,6 +337,13 @@
         <file>images/objects/tree/Frame 2.png</file>
         <file>images/objects/tree/Frame 3.png</file>
 
+        <file>images/objects/tree_selected/Frame 0.png</file>
+        <file>images/objects/tree_selected/Frame 1.png</file>
+        <file>images/objects/tree_selected/Frame 2.png</file>
+        <file>images/objects/tree_selected/Frame 3.png</file>
+
+        <file>images/objects/portal.png</file>
+
         <file>images/menu/background/background.png</file>
         <file>images/menu/buttons/play.png</file>
         <file>images/menu/buttons/play_clicked.png</file>
@@ -355,5 +362,9 @@
         <file>images/menu/buttons/sound_on.png</file>
         <file>images/menu/buttons/sound_off.png</file>
 
+        <file>images/objects/progress_bar/Frame 0.png</file>
+        <file>images/objects/progress_bar/Frame 1.png</file>
+        <file>images/objects/progress_bar/Frame 2.png</file>
+        <file>images/objects/progress_bar/Frame 3.png</file>
     </qresource>
 </RCC>

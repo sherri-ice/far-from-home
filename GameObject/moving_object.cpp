@@ -99,3 +99,33 @@ AnimationState MovingObject::GetAnimationState() const {
 void MovingObject::SetAnimations(std::vector<std::vector<QPixmap>> animation) {
   object_animation_ = Animation(animation);
 }
+
+Size MovingObject::GetDrawSize(const Size& object_size) const {
+  double object_width = object_size.GetWidth();
+  double object_height = object_size.GetHeight();
+  if (object_animation_.GetCurrentFrame().width() >= object_animation_
+      .GetCurrentFrame().height()) {
+    double scale_coeff = static_cast<double>(object_animation_.GetCurrentFrame()
+        .height()) / object_animation_.GetCurrentFrame().width();
+    object_height *= scale_coeff;
+  } else {
+    double scale_coeff = static_cast<double>(object_animation_.GetCurrentFrame()
+        .width()) / object_animation_.GetCurrentFrame().height();
+    object_width *= scale_coeff;
+  }
+  return Size(object_width, object_height);
+}
+
+void MovingObject::TickAnimation(int delta_time) {
+  if (velocity_ != Size(0, 0)) {
+    is_moving_ = true;
+  } else {
+    is_moving_ = false;
+  }
+  object_animation_.Tick(delta_time, GetAnimationState());
+  was_moving_ = is_moving_;
+}
+
+Point MovingObject::GetDestination() const {
+  return destination_;
+}

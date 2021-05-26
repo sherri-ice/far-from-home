@@ -11,6 +11,7 @@
 
 #include "../Controller/abstract_controller.h"
 #include "../Model/model.h"
+#include "menu.h"
 
 namespace constants {
 const double kFactorForScreen = 0.3;
@@ -30,11 +31,15 @@ class View : public QWidget {
   void UpdateResizer(double radius, const Point& position);
 
   Point GetCoordinatesForWarning() const;
+  double GetWidthOfScreenAsGame() const;
+  double GetHeightOfScreeAsGame()
+  const;
 
   bool IsOnTheScreen(const std::shared_ptr<GameObject>& object);
 
   void ShowResultWindow(bool is_found);
   ResultWindow& GetResultWindow();
+
  private:
   int controller_timer_id_;
   QElapsedTimer time_between_ticks_;
@@ -63,11 +68,11 @@ class View : public QWidget {
   Size player_velocity_;
   std::map<int, bool> pressed_keys_;
   void resizeEvent(QResizeEvent*) override;
-
-  ResultWindow result_window_;
   Menu* menu_ = new Menu(this);
   bool is_sound_on_ = true;
   QVBoxLayout* layout_;
+
+  ResultWindow result_window_;
 };
 
 #endif  // VIEW_VIEW_H_

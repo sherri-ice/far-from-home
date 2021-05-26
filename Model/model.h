@@ -5,17 +5,13 @@
 #include <memory>
 #include <vector>
 #include <map>
-#include "../View/resizer.h"
 
 #include "../GameObject/cat.h"
 #include "../GameObject/dog.h"
 #include "../GameObject/food.h"
 #include "../GameObject/player.h"
-
-// enum GameState {
-//   kGame,
-//   kMenu
-// };
+#include "../View/global_progress_bar.h"
+#include "../View/resizer.h"
 
 enum Language {
   kRussian,
@@ -31,7 +27,7 @@ class Model {
   Player* GetPlayer();
   [[nodiscard]] std::vector<std::shared_ptr<GameObject>>
   GetDrawableGameObjects() const;
-  // void SetGameState(int game_state);
+  void SetGameState(int game_state);
   std::shared_ptr<Cat> MakeNewCat(const Size& size,
                                   double speed,
                                   const Point& point);
@@ -76,21 +72,27 @@ class Model {
   void SetCatHidingAnimation(std::shared_ptr<Cat> cat);
   void SetCatGettingOutAnimation(std::shared_ptr<Cat> cat);
 
+  void GenerateFood(const Point& player_position, double width,
+                    double height, int number_of_food);
+
+  GlobalProgressBar* GetProgressBar();
+
  private:
-    std::map<QString, std::vector<std::vector<QPixmap>>> animations_;
-    std::map<QString, std::vector<QPixmap>> objects_pics_{};
-    int current_level_ = 0;
-  // int game_state_ = GameState::kMenu;
+  std::map<QString, std::vector<std::vector<QPixmap>>> animations_;
+  std::map<QString, std::vector<QPixmap>> objects_pics_{};
+  int current_level_ = 0;
 
   std::list<std::shared_ptr<Cat>> cats_;
   Player* player_;
   std::list<std::shared_ptr<Food>> food_;
   std::list<std::shared_ptr<Dog>> dogs_;
   Language lang_ = Language::kEnglish;
-  static std::mt19937 random_generator_;
   std::list<std::shared_ptr<PortalObject>> static_objects_;
   std::list<std::shared_ptr<Warning>> warnings_;
 
+  GlobalProgressBar hunger_bar_;
+
+  static std::mt19937 random_generator_;
 };
 
 #endif  // MODEL_MODEL_H_

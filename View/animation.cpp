@@ -10,9 +10,9 @@ void Animation::Tick(int delta_time, const AnimationState& animation_state) {
   if (wait_till_next_frame_ >= 0) {
     return;
   }
-    SetCurrentRoad(animation_state);
+  SetCurrentRoad(animation_state);
   current_frame_ = (current_frame_ + 1) % 4;
-    wait_till_next_frame_ = time_between_frames_;
+  wait_till_next_frame_ = time_between_frames_;
 }
 
 void Animation::Reset() {

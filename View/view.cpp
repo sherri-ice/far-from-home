@@ -1,13 +1,10 @@
 #include <algorithm>
-
 #include <QKeyEvent>
 #include <QGraphicsScene>
 #include <utility>
 #include <vector>
 
 #include "../GameObject/portal_object.h"
-#include "../Model/constants.h"
-#include "progress_bar.h"
 #include "view.h"
 
 View::View(AbstractController* controller,
@@ -22,7 +19,6 @@ View::View(AbstractController* controller,
   layout_ = new QVBoxLayout(this);
   layout_->insertWidget(0, menu_);
   SetWindows();
-  controller->StartGame();
   show();
 
   time_between_ticks_.start();
@@ -30,7 +26,14 @@ View::View(AbstractController* controller,
   view_timer_.start();
 }
 
+void View::Pause() {
+  // controller_->GetMusicPlayer()->StartMenuMusic();
+  menu_->show();
+  menu_->Pause();
+}
+
 void View::paintEvent(QPaintEvent*) {
+  QPainter painter(this);
   if (menu_->isHidden()) {
     QPainter painter(this);
     DrawGameObjects(&painter);
@@ -90,6 +93,8 @@ void View::DrawGameObjects(QPainter* painter) {
       object->Draw(painter, &resizer_);
     }
   }
+
+  model_->GetProgressBar()->Draw(painter);
 }
 
 void View::Resize() {
@@ -97,6 +102,7 @@ void View::Resize() {
 }
 
 void View::resizeEvent(QResizeEvent*) {
+  model_->GetProgressBar()->UpdateSize(&resizer_, std::min(width(), height()));
   Resize();
 }
 
@@ -137,7 +143,7 @@ bool View::IsOnTheScreen(const std::shared_ptr<GameObject>& object) {
   auto game_top_point = resizer_.WindowToGameCoordinate(top_point);
   Point bottom_point =
       Point(screen_rect.bottomRight().x() + width_shift, screen_rect
-          .bottomRight().y() + height_shift);
+      .bottomRight().y() + height_shift);
   auto game_bottom_point = resizer_.WindowToGameCoordinate(bottom_point);
 
   if (object_pos.GetX() < game_top_point.GetX()
@@ -149,21 +155,6 @@ bool View::IsOnTheScreen(const std::shared_ptr<GameObject>& object) {
     return false;
   }
   return true;
-}
-
-void View::DrawWarnings(QPainter* painter) {
-  for (const auto& warning : model_->GetWarnings()) {
-    warning->Draw(painter, &resizer_);
-  }
-}
-
-void View::ShowResultWindow(bool is_found) {
-  result_window_.setGeometry(width() / 2, height() / 2, 150, 150);
-  result_window_.Show(is_found);
-}
-
-ResultWindow& View::GetResultWindow() {
-  return result_window_;
 }
 
 void View::SetWindows() {
@@ -194,19 +185,6 @@ void View::SetMenuWindow() {
           &QPushButton::released,
           this,
           exit_button_click);
-  // auto sound_button_click = [this]() {
-  //   if (is_sound_on_) {
-  //     // controller_->GetMusicPlayer()->Pause();
-  //     menu_.GetSoundButton()->setIcon( QIcon(":images/menu/buttons/sound_off"
-  //                                            ".png"));
-  //   } else {
-  //     // controller_->GetMusicPlayer()->Resume();
-  //     menu_.GetSoundButton()->setIcon( QIcon(
-  //         ":images/menu/buttons/sound_on.png"));
-  //   }
-  // };
-  // connect(menu_.GetSoundButton(), &QPushButton::released, this,
-  //         sound_button_click);
 }
 
 void View::SetPauseWindow() {
@@ -268,8 +246,25 @@ void View::SetSettingsWindow() {
   connect(menu_->GetSoundButton(), &QPushButton::released, this,
           sound_button_click);
 }
-void View::Pause() {
-    // controller_->GetMusicPlayer()->StartMenuMusic();
-    menu_->show();
-    menu_->Pause();
+
+void View::DrawWarnings(QPainter* painter) {
+  for (const auto& warning : model_->GetWarnings()) {
+    warning->Draw(painter, &resizer_);
   }
+}
+double View::GetWidthOfScreenAsGame() const {
+  return resizer_.WindowToGameLength(width());
+}
+
+double View::GetHeightOfScreeAsGame() const {
+  return resizer_.WindowToGameLength(height());
+}
+
+void View::ShowResultWindow(bool is_found) {
+  result_window_.setGeometry(width() / 2, height() / 2, 150, 150);
+  result_window_.Show(is_found);
+}
+
+ResultWindow& View::GetResultWindow() {
+  return result_window_;
+}

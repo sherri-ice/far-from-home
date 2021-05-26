@@ -1,34 +1,34 @@
 #include "rigid_body.h"
-#include <iostream>
-QRect RigidBody::GetRect() const {
+
+RigidBody::RigidBody(const Size* size, const Point* position) : object_size_
+    (size), object_position_(position) {
+}
+
+Rect RigidBody::GetRect() const {
   double x = object_position_->GetX() - scale_coefficient_x_ *
       object_size_->GetWidth() / 2;
   double y = object_position_->GetY() + object_size_->GetHeight() / 2 -
       scale_coefficient_y_ * object_size_->GetHeight();
-  return QRect(static_cast<int>(x), static_cast<int>(y), static_cast<int>
-  (object_size_->GetWidth() * scale_coefficient_x_), static_cast<int>
-  (object_size_->GetHeight() * scale_coefficient_y_));
+  return Rect{x, y, object_size_->GetWidth() * scale_coefficient_x_,
+              object_size_->GetHeight() * scale_coefficient_y_};
 }
 
 bool RigidBody::IsCollide(const RigidBody& other_rigid_body) const {
-  return GetRect().intersects(other_rigid_body.GetRect());
+  Rect other_rect = other_rigid_body.GetRect();
+  Rect rect = GetRect();
+  return Intersects(rect, other_rect);
 }
 
 void RigidBody::Draw(QPainter* painter, Resizer* resizer) const {
   auto rect = GetRect();
-  auto game_size = Size(rect.width(), rect.height());
+  auto game_size = Size(rect.width, rect.height);
   auto window_size = resizer->GameToWindowSize(game_size);
-  auto game_coordinate = Point(rect.x(), rect.y());
+  auto game_coordinate = Point(rect.x, rect.y);
   auto window_coordinates = resizer->GameToWindowCoordinate(game_coordinate);
-  rect.setX(window_coordinates.GetX());
-  rect.setY(window_coordinates.GetY());
-  rect.setWidth(window_size.GetWidth());
-  rect.setHeight(window_size.GetHeight());
-  painter->drawRect(rect);
-}
-
-RigidBody::RigidBody(const Size* size, const Point* position) : object_size_
-  (size), object_position_(position) {
+  painter->drawRect(static_cast<int>(window_coordinates.GetX()),
+                    static_cast<int>(window_coordinates.GetY()),
+                    static_cast<int>(window_size.GetWidth()),
+                    static_cast<int>(window_size.GetHeight()));
 }
 
 void RigidBody::SetScaleCoefficients(double coefficient_x,
@@ -44,29 +44,41 @@ Point RigidBody::GetCenterOfRigidBody() const {
 }
 
 bool RigidBody::IfCollisionWillHappen(const RigidBody&
-  other_rigid_body, const Size& velocity) const {
+  other_rigid_body, const Size& velocity, const Size& other_velocity) const {
+  auto other_new_center = other_rigid_body.GetObjectPosition() +
+      other_velocity;
+  auto other_rect = other_rigid_body.GetRectInNewPosition(other_new_center);
   Point new_center = *object_position_ + velocity;
-  double x = new_center.GetX() - scale_coefficient_x_ *
-      object_size_->GetWidth() / 2;
-  double y = new_center.GetY() + object_size_->GetHeight() / 2 -
-      scale_coefficient_y_ * object_size_->GetHeight();
-  QRect object_rect = QRect(static_cast<int>(x), static_cast<int>(y),
-                            static_cast<int>(object_size_->GetWidth() *
-                            scale_coefficient_x_), static_cast<int>
-                            (object_size_->GetHeight() * scale_coefficient_y_));
-  return object_rect.intersects(other_rigid_body.GetRect());
+  auto rect = GetRectInNewPosition(new_center);
+  return Intersects(rect, other_rect);
 }
 
-Size RigidBody::GetVelocityToAvoidCollision(const RigidBody&
-  other_rigid_body, const Size& current_velocity) {
-  QRect other_rect = other_rigid_body.GetRect();
-  auto new_border = GetBorderIfObjectIsClose(other_rect);
-  if (new_border != border_which_is_collide_ && new_border != Border::kNone) {
-    need_to_get_around_ = false;
-  } else if (need_to_get_around_) {
+bool RigidBody::Intersects(const Rect& first_rect, const Rect& second_rect) {
+  double bottom = first_rect.y + first_rect.height;
+  double right = first_rect.x + first_rect.width;
+  double other_bottom = second_rect.y + second_rect.height;
+  double other_right = second_rect.x + second_rect.width;
+  if (bottom < second_rect.y || other_bottom < first_rect.y || first_rect.x >
+      other_right || second_rect.x > right) {
+    return false;
+  }
+  return true;
+}
+
+Size RigidBody::GetVelocityToGoAround(const RigidBody& other_rigid_body,
+                                      const Size& current_velocity, const
+                                      Size& other_velocity) {
+  Rect other_rect = other_rigid_body.GetRect();
+  Border intersected_border = GetIntersectedBorder(other_rect);
+  if (intersected_border == Border::kNone) {
+    intersected_border = GetIntersectedBorderIfNone(other_rect);
+  }
+  if (intersected_border == border_which_is_collide_ &&
+  correct_saved_velocity_) {
     return saved_vector_to_get_around_;
   }
-  border_which_is_collide_ = new_border;
+  border_which_is_collide_ = intersected_border;
+  correct_saved_velocity_ = false;
   switch (border_which_is_collide_) {
     case Border::kTop: {
       if (current_velocity.GetHeight() < 0) {
@@ -92,61 +104,48 @@ Size RigidBody::GetVelocityToAvoidCollision(const RigidBody&
       }
       break;
     }
-    case Border::kNone: {
-      new_border = GetBorderIfObjectIsNotClose(other_rect);
-      if (new_border != border_which_is_collide_) {
-        need_to_get_around_ = false;
-      } else if (need_to_get_around_) {
-        return saved_vector_to_get_around_;
-      }
-      border_which_is_collide_ = new_border;
-      break;
-    }
     default: {
       break;
     }
   }
-  need_to_get_around_ = false;
-
+  correct_saved_velocity_ = true;
   switch (border_which_is_collide_) {
     case Border::kTop:
     case Border::kBottom: {
-      if (std::abs(current_velocity.GetWidth()) <
-      constants::kCheckIfVelocityIsCloseToZero) {
-        need_to_get_around_ = true;
-        if (GetCenterOfRigidBody().GetX() < other_rigid_body
-            .GetCenterOfRigidBody().GetX()) {
-          saved_vector_to_get_around_ = Size(-1, 0);
-        } else {
-          saved_vector_to_get_around_ = Size(1, 0);
-        }
-        return saved_vector_to_get_around_;
+      auto velocity = Size(1, 0);
+      if (current_velocity.GetWidth() < 0) {
+        velocity.SetWidth(-1);
       }
-      if (current_velocity.GetWidth() > 0) {
-        return Size(1, 0);
-      } else {
-        return Size(-1, 0);
+      if (border_which_is_collide_ == Border::kTop && other_velocity
+      .GetHeight() < 0 && velocity.GetWidth() * other_velocity.GetWidth() >
+      0) {
+        velocity.SetWidth(-1 * velocity.GetWidth());
       }
+      if (border_which_is_collide_ == Border::kBottom && other_velocity
+      .GetHeight() > 0 && velocity.GetWidth() * other_velocity.GetWidth() > 0) {
+        velocity.SetWidth(-1 * velocity.GetWidth());
+      }
+      saved_vector_to_get_around_ = velocity;
+      return velocity;
     }
     case Border::kLeft:
     case Border::kRight: {
-      if (std::abs(current_velocity.GetHeight()) <
-      constants::kCheckIfVelocityIsCloseToZero) {
-        need_to_get_around_ = true;
-        if (GetCenterOfRigidBody().GetY() < other_rigid_body
-            .GetCenterOfRigidBody().GetY()) {
-          saved_vector_to_get_around_ = Size(0, -1);
-        } else {
-          saved_vector_to_get_around_ = Size(0, 1);
-        }
-        return saved_vector_to_get_around_;
+      auto velocity = Size(0, 1);
+      if (current_velocity.GetHeight() < 0) {
+        velocity.SetHeight(-1);
       }
-
-      if (current_velocity.GetHeight() > 0) {
-        return Size(0, 1);
-      } else {
-        return Size(0, -1);
+      if (border_which_is_collide_ == Border::kRight && other_velocity
+      .GetWidth() > 0 && other_velocity.GetHeight() * velocity.GetHeight() >
+      0) {
+        velocity.SetHeight(-1 * velocity.GetHeight());
       }
+      if (border_which_is_collide_ == Border::kLeft && other_velocity
+      .GetWidth() < 0 && other_velocity.GetHeight() * velocity.GetHeight() >
+      0) {
+        velocity.SetHeight(-1 * velocity.GetHeight());
+      }
+      saved_vector_to_get_around_ = velocity;
+      return velocity;
     }
     default: {
       break;
@@ -155,38 +154,60 @@ Size RigidBody::GetVelocityToAvoidCollision(const RigidBody&
   return current_velocity;
 }
 
-Border RigidBody::GetBorderIfObjectIsNotClose(const QRect& other_rect) const {
-  if (GetRect().x() >= other_rect.x() + other_rect.width()) {
+Border RigidBody::GetIntersectedBorder(const Rect& other_rect) const {
+  if (GetRect().x >= other_rect.x + other_rect
+  .width) {
     return Border::kRight;
   }
-  if (GetRect().x() + GetRect().width() <= other_rect.x()) {
+  if (GetRect().x + GetRect().width <= other_rect.x) {
     return Border::kLeft;
   }
-  if (GetRect().y() + GetRect().height() <= other_rect.y()) {
+  if (GetRect().y + GetRect().height <= other_rect.y) {
     return Border::kTop;
   }
-  if (GetRect().y() >= other_rect.y() + other_rect.height()) {
+  if (GetRect().y >= other_rect.y + other_rect.height) {
     return Border::kBottom;
   }
   return Border::kNone;
 }
 
-Border RigidBody::GetBorderIfObjectIsClose(const QRect& other_rect) const {
-  if (std::abs(GetRect().y() + GetRect().height() - other_rect.y()) <
-      constants::kCheckIfBordersAreClose) {
-    return Border::kTop;
-  }
-  if (std::abs(other_rect.y() + other_rect.height() - GetRect().y()) <
-      constants::kCheckIfBordersAreClose) {
-    return Border::kBottom;
-  }
-  if (std::abs(GetRect().x() + GetRect().width() - other_rect.x()) <
-      constants::kCheckIfBordersAreClose) {
-    return Border::kLeft;
-  }
-  if (std::abs(other_rect.x() + other_rect.width() - GetRect().x()) <
-      constants::kCheckIfBordersAreClose) {
+Rect RigidBody::GetRectInNewPosition(const Point& position) const {
+  double x = position.GetX() - scale_coefficient_x_ *
+      object_size_->GetWidth() / 2;
+  double y = position.GetY() + object_size_->GetHeight() / 2 -
+      scale_coefficient_y_ * object_size_->GetHeight();
+  return Rect{x, y, object_size_->GetWidth() * scale_coefficient_x_,
+              object_size_->GetHeight() * scale_coefficient_y_};
+}
+
+bool RigidBody::IsDestinationCollideWithRect(const Rect& rect) const {
+  return Intersects(GetRect(), rect);
+}
+
+bool RigidBody::IsCollide(const Rect& other_rect) const {
+  return Intersects(GetRect(), other_rect);
+}
+
+Border RigidBody::GetIntersectedBorderIfNone(const Rect& other_rect) const {
+  if (GetRect().x + constants::kIntersectedBorder >= other_rect.x + other_rect
+      .width) {
     return Border::kRight;
   }
+  if (GetRect().x + GetRect().width <= other_rect.x +
+  constants::kIntersectedBorder) {
+    return Border::kLeft;
+  }
+  if (GetRect().y + GetRect().height <= other_rect.y +
+      constants::kIntersectedBorder) {
+    return Border::kTop;
+  }
+  if (GetRect().y + constants::kIntersectedBorder >= other_rect.y +
+  other_rect.height) {
+    return Border::kBottom;
+  }
   return Border::kNone;
+}
+
+Point RigidBody::GetObjectPosition() const {
+  return *object_position_;
 }

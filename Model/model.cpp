@@ -14,15 +14,17 @@ int GetRandomSkin() {
 }
 }  // namespace
 
-
 std::mt19937 Model::random_generator_ = std::mt19937
     (std::chrono::system_clock::now().time_since_epoch().count());
 
-Model::Model() {
+Model::Model() : hunger_bar_(100, 100) {
   LoadAnimation();
+  QFontDatabase::addApplicationFont("../resourses/font.ttf");
   for (auto& food : food_) {
     food->SetScaleCoefficientsInRigidBody(0.9, 0.9);
   }
+
+  hunger_bar_.SetSkin(objects_pics_["progress_bar"][0]);
 }
 
 Player* Model::GetPlayer() {
@@ -66,9 +68,9 @@ void Model::LoadLevel(int level) {
   // TODO(anyone)
 }
 
-// void Model::SetGameState(int) {
-//   // TODO(anyone)
-// }
+void Model::SetGameState(int) {
+  // TODO(anyone)
+}
 
 std::list<std::shared_ptr<Food>> Model::GetFood() {
   return food_;
@@ -128,6 +130,11 @@ std::shared_ptr<PortalObject> Model::MakeNewPortal(const Size& size,
   int skin_id = GetRandomSkin();
   static_objects_.back()->SetSkin(objects_pics_["tree"][skin_id]);
   static_objects_.back()->SetSkinId(skin_id);
+  if (skin_id == 2) {
+    static_objects_.back()->SetScaleCoefficientsInRigidBody(0.34, 0.3);
+  } else {
+    static_objects_.back()->SetScaleCoefficientsInRigidBody(0.3, 0.3);
+  }
   if (has_portal) {
     static_objects_.back()->SetPortal();
   }
@@ -215,17 +222,6 @@ std::vector<std::vector<QPixmap>> Model::GetImagesByFramePath(
   }
   return result;
 }
-void Model::SetSelectedPortalSkin(std::shared_ptr<PortalObject> portal) {
-  auto id = portal->GetSkinId();
-  auto new_skin = objects_pics_["tree_selected"].at(id);
-  portal->SetSkin(new_skin);
-}
-
-void Model::SetNormalPortalSkin(std::shared_ptr<PortalObject> portal) {
-  auto id = portal->GetSkinId();
-  auto new_skin = objects_pics_["tree"].at(id);
-  portal->SetSkin(new_skin);
-}
 
 void Model::LoadAnimation() {
   Q_INIT_RESOURCE(images);
@@ -244,30 +240,24 @@ void Model::LoadAnimation() {
   LoadStaticAnimation();
 }
 
-QString Model::GetCatRandomSkinPath() {
-  std::uniform_int_distribution<> random_time(0, 7);
-  QString path = "../images/cats skins/" + QString::number(random_time
-      (random_generator_)) + "/";
-  return path;
+void Model::SetSelectedPortalSkin(std::shared_ptr<PortalObject> portal) {
+  auto id = portal->GetSkinId();
+  auto new_skin = objects_pics_["tree_selected"].at(id);
+  portal->SetSkin(new_skin);
 }
 
-QString Model::GetDogRandomSkinPath() {
-  std::uniform_int_distribution<> random_time(0, 4);
-  QString path = "../images/dogs skins/" + QString::number(random_time
-      (random_generator_)) + "/";
-  return path;
+void Model::SetNormalPortalSkin(std::shared_ptr<PortalObject> portal) {
+  auto id = portal->GetSkinId();
+  auto new_skin = objects_pics_["tree"].at(id);
+  portal->SetSkin(new_skin);
 }
 
 void Model::SetModel() {
-  QFontDatabase::addApplicationFont("../resourses/font.ttf");
-  std::shared_ptr<Cat> main_cat = std::make_shared<Cat>(Size(40, 40),
-                                                        10,
-                                                        Point(0, 0));
+  MakeNewCat(Size(50, 50), 10, Point());
+  auto main_cat = cats_.back();
   main_cat->SetIsInGroup(true);
   QString skin = GetCatRandomSkinPath();
   main_cat->SetAnimations(animations_[skin]);
-  cats_.emplace_back(main_cat);
-
   player_ = new Player(main_cat);
   player_->SetViewCircle(ViewCircle(player_->GetPosition(),
                                     constants::kViewCircleDefault));
@@ -281,4 +271,52 @@ void Model::ClearModel() {
 }
 
 void Model::ChangeLanguage(Language lang) {
+}
+
+void Model::GenerateFood(const Point& player_position, double
+  window_width, double window_height, int number_of_food) {
+  double part_of_height = 0.5 * window_height;
+  double part_of_width = 0.5 * window_width;
+  double width = part_of_width + constants::kWidthForFoodGeneration;
+  double height = part_of_height + constants::kHeightForFoodGeneration;
+  std::uniform_int_distribution<> top_and_bottom_x(
+      static_cast<int>(player_position.GetX() - width),
+      static_cast<int>(player_position.GetX() + width));
+  std::uniform_int_distribution<> left_area_x(
+      static_cast<int>(player_position.GetX() - width),
+      static_cast<int>(player_position.GetX() - part_of_width));
+  std::uniform_int_distribution<> right_area_x(
+      static_cast<int>(player_position.GetX() + part_of_width),
+      static_cast<int>(player_position.GetX() + width));
+
+  std::uniform_int_distribution<> top_area_y(
+      static_cast<int>(player_position.GetY() - height),
+      static_cast<int>(player_position.GetY() - part_of_height));
+  std::uniform_int_distribution<> bottom_area_y(
+      static_cast<int>(player_position.GetY() + part_of_height),
+      static_cast<int>(player_position.GetY() + height));
+  std::uniform_int_distribution<> same_height_area(
+      static_cast<int>(player_position.GetY() - part_of_height),
+      static_cast<int>(player_position.GetY() + part_of_height));
+
+  int num_of_food_for_large_areas = number_of_food / 3;
+  int num_of_food_for_small_areas = (number_of_food -
+      num_of_food_for_large_areas * 2) / 2;
+
+  for (int i = 0; i < num_of_food_for_large_areas; ++i) {
+    MakeNewFood(Size(20, 20), Point(top_and_bottom_x(random_generator_),
+                                    top_area_y(random_generator_)));
+    MakeNewFood(Size(20, 20), Point(top_and_bottom_x(random_generator_),
+                                    bottom_area_y(random_generator_)));
+  }
+  for (int i = 0; i < num_of_food_for_small_areas; ++i) {
+    MakeNewFood(Size(20, 20), Point(left_area_x(random_generator_),
+                                    same_height_area(random_generator_)));
+    MakeNewFood(Size(20, 20), Point(right_area_x(random_generator_),
+                                    same_height_area(random_generator_)));
+  }
+}
+
+GlobalProgressBar* Model::GetProgressBar() {
+  return &hunger_bar_;
 }

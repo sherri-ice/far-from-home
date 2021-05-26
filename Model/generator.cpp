@@ -57,11 +57,10 @@ left_corner) {
     model_->MakeNewPortal(static_object.GetSize(),
                           static_object.GetDrawPosition() + left_corner,
                           "",
-                          true);
+                          false);
   }
   for (const auto& food : new_tile.food) {
-    model_->MakeNewFood(food.GetSize(), food.GetDrawPosition() + left_corner
-                        + left_corner);
+    model_->MakeNewFood(food.GetSize(), food.GetDrawPosition() + left_corner);
   }
 }
 
