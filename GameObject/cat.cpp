@@ -209,7 +209,7 @@ void Cat::Tick(int delta_time) {
         is_ready_to_die = true;
     } else {
         SetSpeed(17);
-    velocity_ = Size(0.01, -1);
+    velocity_ = Size(1, -1);
   }
       if (timers_.IsTimeOut(static_cast<int>(CatState::kIsDying))) {
         cat_state_ = CatState::kIsDead;
@@ -225,13 +225,6 @@ void Cat::Tick(int delta_time) {
       break;
     }
   }
-  if (velocity_.GetLength() > constants::kEpsilon) {
-    is_moving_ = true;
-  } else {
-    is_moving_ = false;
-  }
-  object_animation_.Tick(delta_time, GetAnimationState());
-  was_moving_ = is_moving_;
   timers_.Tick(delta_time);
 
   if (!GetIsInGroup()) {

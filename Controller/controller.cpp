@@ -11,7 +11,7 @@ void Controller::Tick(int time) {
   int delta_time = time - current_game_time_;
   current_game_time_ = time;
   if (model_->GetPlayer()->GetMainCat()->GetCatState() == CatState::kIsDead) {
-    EndGame();
+    // todo window
   }
   TickViewCircle();
   TickPlayer(delta_time);
