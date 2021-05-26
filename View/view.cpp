@@ -24,9 +24,7 @@ View::View(AbstractController* controller,
   time_between_ticks_.start();
   controller_timer_id_ = startTimer(constants::kTimeBetweenTicks);
   view_timer_.start();
-  ShowDeathWindow();
-
-}
+ }
 
 void View::Pause() {
   // controller_->GetMusicPlayer()->StartMenuMusic();

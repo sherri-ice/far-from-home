@@ -7,7 +7,7 @@ DeathWindow::DeathWindow(QWidget* parent)
   ui->setupUi(this);
   SetObjectsNames();
   LoadStyleSheets();
-  // setVisible(false);
+  setVisible(false);
   resize(constants::kGameWidth, constants::kGameHeight);
 }
 
