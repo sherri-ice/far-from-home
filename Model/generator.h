@@ -15,7 +15,7 @@ const int kGameMapWidth = 7'000;
 const int kGameMapHeight = 7'000;
 const int kTileSize = 500;
 const int kNumOfTilesTemplates = 9;
-const int kNumOfBorderTemplates = 2;
+const int kNumOfBorderTemplates = 3;
 }  // namespace constants
 
 class Generator {

@@ -15,7 +15,6 @@ class Background {
   void Draw(QPainter* painter, Resizer* resizer, const Point& center);
 
  private:
-  QPixmap background_image_ = QPixmap(":images/texture/background.png");
 };
 
 #endif  // VIEW_BACKGROUND_H_
