@@ -67,17 +67,18 @@ void Controller::TickCats(int delta_time) {
   for (auto& cat : model_->GetCats()) {
     if (view_->IsOnTheScreen(cat)) {
       cat->Tick(delta_time);
-      if (!cat->IsDying()) {
-        CatAndStaticObjectsIntersect(cat);
-        CatsAndPortalsIntersect(cat);
-        if (cat->GetIsInGroup() && !cat->IsMainCat()) {
-          CatsInGroupIntersect(cat);
-        } else if (cat->IsMainCat()) {
-          MainCatIntersectsWithCats(cat);
-        } else {
-          WildCatsAndOtherCatsIntersect(cat);
-        }
-        CatsAndDogIntersect(cat);
+      CatAndStaticObjectsIntersect(cat);
+      CatsAndPortalsIntersect(cat);
+      if (cat->GetIsInGroup() && !cat->IsMainCat()) {
+        CatsInGroupIntersect(cat);
+      } else if (cat->IsMainCat()) {
+        MainCatIntersectsWithCats(cat);
+      } else {
+        WildCatsAndOtherCatsIntersect(cat);
+      }
+      CatsAndDogIntersect(cat);
+      if (cat->IsDying()) {
+        cat->SetVelocity(Size(0, 0));
       }
       cat->TickAnimation(delta_time);
     }
@@ -95,7 +96,8 @@ void Controller::TickDogs(int delta_time) {
       DogsIntersect(dog);
       dog->TickAnimation(delta_time);
       for (auto& cat : player->GetCats()) {
-        if (dog->GetRigidBody()->IsCollide(*(cat->GetRigidBody()))) {
+        if (dog->GetRigidBody()->IsCollide(*
+        (cat->GetRigidBody()))) {
           if (cat == player->GetMainCat()) {
             player->DismissCats();
             dog->SetIsMainCatCaught(true);

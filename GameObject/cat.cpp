@@ -208,9 +208,7 @@ void Cat::Tick(int delta_time) {
                       static_cast<int>(CatState::kIsDying));
         is_ready_to_die = true;
     } else {
-        SetSpeed(17);
-        velocity_ = Size(0, -1);
-        velocity_ *= speed_ * delta_time / constants::kTimeScale;
+        velocity_ = Size(0, 0);
     }
       if (timers_.IsTimeOut(static_cast<int>(CatState::kIsDying))) {
         cat_state_ = CatState::kIsDead;

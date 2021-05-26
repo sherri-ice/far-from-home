@@ -171,7 +171,7 @@ void Dog::SetReachableCat(const std::vector<std::shared_ptr<Cat>>& cats) {
   Size min_distance = Size(visibility_radius_, visibility_radius_);
   for (const auto& cat : cats) {
     Size cat_distance = GetRigidPosition().GetVectorTo(cat->GetRigidPosition());
-    if (CheckIfCanSeeCat(&(*cat)) &&
+    if (!cat->IsDying() && CheckIfCanSeeCat(&(*cat)) &&
         cat_distance.GetLength() < min_distance.GetLength() &&
         !timers_.IsActive(static_cast<int>(DogState::kIsComingHome))
         && cat->GetCatState() != CatState::kIsSearching) {
