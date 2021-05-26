@@ -26,7 +26,8 @@ void Player::OrderCatsToMove(Size velocity_from_player) {
     }
     if (cat->GetCatState() == CatState::kIsGoingToSearch || cat->GetCatState
         () == CatState::kIsSearching || cat->GetCatState() ==
-        CatState::kNeedsToBeSendHome || cat->GetCatState() == CatState::kReadyToBeDeleted) {
+        CatState::kNeedsToBeSendHome || cat->GetCatState() ==
+        CatState::kReadyToBeDeleted) {
       continue;
     }
     if (cat->GetCatState() == CatState::kHasFinishedSearching) {

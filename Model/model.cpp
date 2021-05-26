@@ -190,12 +190,13 @@ void Model::LoadStaticAnimation() {
 std::vector<std::vector<QPixmap>> Model::GetImagesByFramePath(
     const QString& path) const {
   std::vector<std::vector<QPixmap>> result;
-  std::vector<QString> objects_animations = {"down", "up", "left", "right",};
+  std::vector<QString> objects_animations = {"down", "up", "left", "right"};
   for (const auto& animation : objects_animations) {
     std::vector<QPixmap> im{};
     for (int frame_number = 0; frame_number < 4; ++frame_number) {
       QPixmap current =
-          QPixmap(path + animation + "/Frame " + QString::number(frame_number) + ".png");
+          QPixmap(path + animation + "/Frame " + QString::number
+          (frame_number) + ".png");
       im.push_back(current);
     }
     result.emplace_back(im);
@@ -214,7 +215,8 @@ std::vector<std::vector<QPixmap>> Model::GetImagesByFramePath(
     std::vector<QPixmap> im{};
     for (int frame_number = 0; frame_number < 4; ++frame_number) {
       QPixmap current =
-          QPixmap(path + animation + "/Frame " + QString::number(frame_number) + ".png");
+          QPixmap(path + animation + "/Frame " + QString::number
+          (frame_number) + ".png");
       im.push_back(current);
     }
     result.emplace_back(im);
@@ -323,13 +325,13 @@ GlobalProgressBar* Model::GetProgressBar() {
 QString Model::GetCatRandomSkinPath() {
   std::uniform_int_distribution<> random_time(0, 7);
   QString path = "../images/cats skins/" + QString::number(random_time
-                                                               (random_generator_)) + "/";
+      (random_generator_)) + "/";
   return path;
 }
 
 QString Model::GetDogRandomSkinPath() {
   std::uniform_int_distribution<> random_time(0, 4);
   QString path = "../images/dogs skins/" + QString::number(random_time
-                                                               (random_generator_)) + "/";
+      (random_generator_)) + "/";
   return path;
 }

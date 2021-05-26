@@ -32,7 +32,6 @@ class Animation {
   void SetCurrentRoad(int road);
 
  private:
-
   uint current_road_ = 0;
   uint current_frame_ = 0;
   int wait_till_next_frame_ = 0;
