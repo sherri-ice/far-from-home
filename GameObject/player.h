@@ -32,13 +32,13 @@ class Player {
   void OrderCatsToMove(Size velocity_from_player);
   Point GenerateRandomDestination() const;
 
-  void UpdateDogsAround(const std::list<std::shared_ptr<Dog>>& dogs) const;
+  void UpdateDogsAround(const std::vector<std::shared_ptr<Dog>>& dogs) const;
 
   void UpdateStaticObjectsAround
-      (const std::list<std::shared_ptr<PortalObject>>& static_objects);
+      (const std::vector<std::shared_ptr<PortalObject>>& static_objects);
 
-  void IsReachable(const std::list<std::shared_ptr<Dog>>& dogs);
-  void UpdateCatsGroup(const std::list<std::shared_ptr<Cat>>& all_cats);
+  void IsReachable(const std::vector<std::shared_ptr<Dog>>& dogs);
+  void UpdateCatsGroup(const std::vector<std::shared_ptr<Cat>>& all_cats);
 
   void DismissCats();
   void GroupTick(int time);
