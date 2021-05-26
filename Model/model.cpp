@@ -288,9 +288,28 @@ void Model::GenerateFood(const Point& player_position, double
   int num_of_food_for_small_areas = (number_of_food -
       num_of_food_for_large_areas * 2) / 2;
 
+  double width_of_rigid_body = 20 * 0.9;
+  double height_of_rigid_body = 20 * 0.9;
+
   for (int i = 0; i < num_of_food_for_large_areas; ++i) {
-    MakeNewFood(Size(20, 20), Point(top_and_bottom_x(random_generator_),
-                                    top_area_y(random_generator_)));
+    auto first_position = Point(top_and_bottom_x(random_generator_),
+                                top_area_y(random_generator_));
+    QRect first_rect = QRect
+        (first_position.GetX() - width_of_rigid_body / 2, first_position.GetY() -
+            height_of_rigid_body / 2, width_of_rigid_body,
+            height_of_rigid_body);
+    for (const auto& static_object : static_objects_) {
+      if (StaticObjectIsInArea(static_object, player_position.GetX() - width,
+                               player_position.GetY() - height, ))
+      while (static_object->GetRigidBody()->IsInside(first_rect)) {
+        first_position = Point(top_and_bottom_x(random_generator_),
+                               top_area_y(random_generator_));
+        first_rect.setX(first_position.GetX() - width_of_rigid_body / 2);
+        first_rect.setY(first_position.GetY() - height_of_rigid_body / 2);
+      }
+    }
+
+    MakeNewFood(Size(20, 20), first_position);
     MakeNewFood(Size(20, 20), Point(top_and_bottom_x(random_generator_),
                                     bottom_area_y(random_generator_)));
   }
@@ -305,3 +324,18 @@ void Model::GenerateFood(const Point& player_position, double
 GlobalProgressBar* Model::GetProgressBar() {
   return &hunger_bar_;
 }
+
+bool Model::StaticObjectIsInArea(std::shared_ptr<PortalObject>& static_object, int
+left, int top, int right, int bottom) {
+  double x = static_object->GetRigidPosition().GetX();
+  double y = static_object->GetRigidPosition().GetY();
+  return x > left && x < right && y > top && y < bottom;
+}
+
+// Point Model::GetPositionNotIntersectedByStaticObjects(const QRect& rect) {
+//   Point result = Point(rect.x() + rect.width() / 2, rect.y() + rect.height()
+//   / 2);
+//   for (const auto& static_object : static_objects_) {
+//     while (static_objects_.)
+//   }
+// }

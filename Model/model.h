@@ -77,6 +77,9 @@ class Model {
   GlobalProgressBar* GetProgressBar();
 
  private:
+  static bool StaticObjectIsInArea(std::shared_ptr<PortalObject>& static_object, int
+  left, int top, int right, int bottom);
+
   std::map<QString, std::vector<std::vector<QPixmap>>> animations_;
   std::map<QString, std::vector<QPixmap>> objects_pics_{};
   int current_level_ = 0;

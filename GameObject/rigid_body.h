@@ -59,6 +59,8 @@ class RigidBody {
   bool IsDestinationCollideWithRect(const Rect& other_rect) const;
   Point GetObjectPosition() const;
 
+  bool IsInside(const QRect& other_rect) const;
+
  private:
   const Size* object_size_;
   const Point* object_position_;

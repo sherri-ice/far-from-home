@@ -211,3 +211,10 @@ Border RigidBody::GetIntersectedBorderIfNone(const Rect& other_rect) const {
 Point RigidBody::GetObjectPosition() const {
   return *object_position_;
 }
+
+bool RigidBody::IsInside(const QRect& other_rect) const {
+  auto rect = GetRect();
+  return rect.x <= other_rect.x() && rect.x + rect.width >= other_rect.x() +
+  other_rect.width() && rect.y <= other_rect.y() && rect.y + rect.height >=
+  other_rect.y() + other_rect.height();
+}
