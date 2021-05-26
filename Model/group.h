@@ -15,7 +15,7 @@ class Group {
 
   void Draw(QPainter* painter, Resizer* resizer) const;
   void Tick(int delta_time);
-  void Move(int delta_time);
+  void Move();
   void IncGroup();
   void DecGroup(int num_of_cats = 1);
   void SetSpeed(double speed);

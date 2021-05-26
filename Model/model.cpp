@@ -320,3 +320,9 @@ void Model::GenerateFood(const Point& player_position, double
 GlobalProgressBar* Model::GetProgressBar() {
   return &hunger_bar_;
 }
+QString Model::GetCatRandomSkinPath() {
+  return QString();
+}
+QString Model::GetDogRandomSkinPath() {
+  return QString();
+}
