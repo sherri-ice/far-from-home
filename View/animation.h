@@ -1,23 +1,24 @@
 #ifndef VIEW_ANIMATION_H_
 #define VIEW_ANIMATION_H_
 
-#include <iostream>
-#include <vector>
 #include <QPixmap>
 #include <random>
+#include <vector>
 
 #include "../Model/constants.h"
 #include "../Model/size.h"
 
 enum AnimationState {
-    kWalkDown = 0,
-    kWalkUp = 1,
-    kWalkLeft = 2,
-    kWalkRight = 3,
-    kSit = 4,
-    kLicking = 5,
-    kSleeping = 6,
-    kSiting = 7
+  kWalkDown,
+  kWalkUp,
+  kWalkLeft,
+  kWalkRight,
+  kHide,
+  kBack,
+  kSit,
+  kLicking,
+  kSiting,
+  kSleeping
 };
 
 class Animation {

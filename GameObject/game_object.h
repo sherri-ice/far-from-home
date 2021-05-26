@@ -3,6 +3,7 @@
 
 #include <QPainter>
 #include <vector>
+#include <QFontDatabase>
 #include "../GameObject/rigid_body.h"
 #include "../Model/point.h"
 #include "../Model/size.h"
@@ -25,20 +26,28 @@ class GameObject {
   virtual void SetSize(Size size);
   const Point& GetDrawPosition() const;
   Point GetRigidPosition() const;
-  RigidBody GetRigidBody() const;
+  RigidBody* GetRigidBody();
 
   void SetScaleCoefficientsInRigidBody(double coefficient_x, double
   coefficient_y);
 
+
   void SetIsDead();
   bool IsDead() const;
 
+  int GetSkinId() const;
+  void SetSkinId(int skin_id);
+
+  virtual Size GetDrawSize(const Size& object_size) const;
+
  protected:
   QPixmap skin_;
+  int skin_id_ = 0;
   Size size_ = Size(40, 40);
   Point position_;
   RigidBody rigid_body_;
   bool is_dead_{false};
+  bool is_visible_ = true;
 };
 
 #endif  // GAMEOBJECT_GAME_OBJECT_H_

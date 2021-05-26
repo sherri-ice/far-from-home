@@ -22,6 +22,7 @@ class AbstractController {
 
   virtual void Tick(int time) = 0;
   virtual int GetCurrentTime() = 0;
+  virtual void ScanIfObjectWereClicked(const Point& point) = 0;
   virtual void StartGame() = 0;
   virtual void EndGame() = 0;
 
