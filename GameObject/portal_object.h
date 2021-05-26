@@ -26,9 +26,8 @@ enum class PortalState {
 class PortalObject : public GameObject {
  public:
   PortalObject(const Size& size,
-               const Point& position,
-               const QString& skin_path);
-  ~PortalObject() = default;
+               const Point& position);
+  ~PortalObject() override = default;
 
   void SetPortal();
   void RemovePortal();
@@ -54,7 +53,6 @@ class PortalObject : public GameObject {
 
  private:
   bool has_portal_{false};
-  QString skin_path_;
   Timer search_timer_ = Timer(1);
   int search_time_{};
   ProgressBar progress_bar_;

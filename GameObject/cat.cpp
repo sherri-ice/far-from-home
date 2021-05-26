@@ -217,7 +217,7 @@ void Cat::Tick(int delta_time) {
     }
     case CatState::kIsDead: {
       timers_.Stop(static_cast<int>(CatState::kIsDying));
-      SetIsDead();
+      is_main_cat_dead_ = true;
       break;
     }
     default: {

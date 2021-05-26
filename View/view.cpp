@@ -144,7 +144,7 @@ bool View::IsOnTheScreen(const std::shared_ptr<GameObject>& object) {
   auto game_top_point = resizer_.WindowToGameCoordinate(top_point);
   Point bottom_point =
       Point(screen_rect.bottomRight().x() + width_shift, screen_rect
-      .bottomRight().y() + height_shift);
+          .bottomRight().y() + height_shift);
   auto game_bottom_point = resizer_.WindowToGameCoordinate(bottom_point);
 
   if (object_pos.GetX() < game_top_point.GetX()
@@ -162,6 +162,8 @@ void View::SetWindows() {
   SetMenuWindow();
   SetSettingsWindow();
   SetPauseWindow();
+  SetDeathWindow();
+  SetWinWindow();
 }
 
 void View::SetMenuWindow() {
@@ -199,6 +201,8 @@ void View::SetPauseWindow() {
     controller_->GetMusicPlayer()->PlayButtonSound();
     controller_->EndGame();
     controller_->StartGame();
+    death_window_->close();
+    win_window_->close();
     menu_->close();
   };
   connect(menu_->GetRestartButton(), &QPushButton::released, this,
@@ -268,4 +272,48 @@ void View::ShowResultWindow(bool is_found) {
 
 ResultWindow& View::GetResultWindow() {
   return result_window_;
+}
+
+void View::ShowDeathWindow() {
+  death_window_->show();
+}
+
+DeathWindow* View::GetDeathWindow() {
+  return death_window_;
+}
+
+void View::SetDeathWindow() {
+  auto restart_button_click = [this]() {
+    controller_->GetMusicPlayer()->PlayButtonSound();
+    controller_->EndGame();
+    controller_->StartGame();
+    menu_->close();
+  };
+  connect(death_window_->GetReplayButton(), &QPushButton::released, this,
+          restart_button_click);
+  auto menu_button_click = [this]() {
+    controller_->GetMusicPlayer()->PlayButtonSound();
+    menu_->MainMenu();
+    controller_->EndGame();
+  };
+  connect(death_window_->GetMenuButton(), &QPushButton::released, this,
+          menu_button_click);
+}
+
+void View::ShowWinWindow() {
+  win_window_->show();
+}
+
+WinWindow* View::GetWinWindow() {
+  return win_window_;
+}
+
+void View::SetWinWindow() {
+  auto menu_button_click = [this]() {
+    controller_->GetMusicPlayer()->PlayButtonSound();
+    menu_->MainMenu();
+    controller_->EndGame();
+  };
+  connect(win_window_->GetMenuButton(), &QPushButton::released, this,
+          menu_button_click);
 }

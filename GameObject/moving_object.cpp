@@ -133,3 +133,6 @@ void MovingObject::TickAnimation(int delta_time) {
 Point MovingObject::GetDestination() const {
   return destination_;
 }
+bool MovingObject::IsMainCatDead() const {
+  return is_main_cat_dead_;
+}
