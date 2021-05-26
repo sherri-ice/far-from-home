@@ -162,6 +162,7 @@ void View::SetWindows() {
   SetSettingsWindow();
   SetPauseWindow();
   SetDeathWindow();
+  SetWinWindow();
 }
 
 void View::SetMenuWindow() {
@@ -293,5 +294,23 @@ void View::SetDeathWindow() {
     controller_->EndGame();
   };
   connect(death_window_->GetMenuButton(), &QPushButton::released, this,
+          menu_button_click);
+}
+
+void View::ShowWinWindow() {
+  win_window_->show();
+}
+
+WinWindow* View::GetWinWindow() {
+  return win_window_;
+}
+
+void View::SetWinWindow() {
+  auto menu_button_click = [this]() {
+    controller_->GetMusicPlayer()->PlayButtonSound();
+    menu_->MainMenu();
+    controller_->EndGame();
+  };
+  connect(win_window_->GetMenuButton(), &QPushButton::released, this,
           menu_button_click);
 }
