@@ -201,6 +201,8 @@ void View::SetPauseWindow() {
     controller_->GetMusicPlayer()->PlayButtonSound();
     controller_->EndGame();
     controller_->StartGame();
+    death_window_->close();
+    win_window_->close();
     menu_->close();
   };
   connect(menu_->GetRestartButton(), &QPushButton::released, this,

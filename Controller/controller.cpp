@@ -1,4 +1,5 @@
 #include "controller.h"
+#include<iostream>
 
 Controller::Controller() {
   music_player_ = std::make_shared<MusicPlayer>();
@@ -10,7 +11,7 @@ void Controller::Tick(int time) {
   int delta_time = time - current_game_time_;
   current_game_time_ = time;
   if (model_->GetPlayer()->GetMainCat()->GetCatState() == CatState::kIsDead) {
-    // todo window
+       view_->ShowDeathWindow();
   }
   TickViewCircle();
   TickPlayer(delta_time);
