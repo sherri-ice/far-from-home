@@ -282,6 +282,23 @@
         }
       ]
     },
+
+    {
+      "objects": [
+        {
+          "object_type": "cat",
+          "point": [
+            {
+              "x": 250,
+              "y": 280
+            }
+          ],
+          "size": 40,
+          "speed" : 11
+        }
+      ]
+    },
+
     {
       "objects": [
         {
@@ -356,21 +373,7 @@
         }
       ]
     },
-    {
-      "objects": [
-        {
-          "object_type": "cat",
-          "point": [
-            {
-              "x": 250,
-              "y": 280
-            }
-          ],
-          "size": 40,
-          "speed" : 11
-        }
-      ]
-    },
+
     {
       "objects": [
 

@@ -30,6 +30,7 @@ class Generator {
  private:
   void GenerateTile(const Point& left_corner);
   void ParseTiles();
+  void GenerateCats();
   int GenerateId(const Point& left_corner);
   std::shared_ptr<Model> model_;
   class Tile {

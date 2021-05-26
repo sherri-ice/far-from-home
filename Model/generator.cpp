@@ -43,32 +43,31 @@ left_corner) {
   Tile new_tile(tiles_templates_.at(id));
   std::uniform_int_distribution<> x_deviation(-20, 20);
   std::uniform_int_distribution<> y_deviation(-20, 20);
-  for (const auto& cat : new_tile.cats) {
-    model_->MakeNewCat(cat.GetSize(),
-                       cat.GetSpeed(),
-                       cat.GetDrawPosition() + left_corner + left_corner
-                           + Point(x_deviation(random_generator),
-                                   y_deviation(random_generator)));
-  }
-  for (const auto& dog : new_tile.dogs) {
-    model_->MakeNewDog(dog.GetSize(),
-                       dog.GetSpeed(),
-                       dog.GetDrawPosition() + left_corner + left_corner
-                           + Point(x_deviation(random_generator),
-                                   y_deviation(random_generator)),
-                       dog.GetVisibilityRadius(), dog.GetWalkingSpeed());
-  }
+  // for (const auto& cat : new_tile.cats) {
+  //   model_->MakeNewCat(cat.GetSize(),
+  //                      cat.GetSpeed(),
+  //                      cat.GetDrawPosition() + left_corner + left_corner
+  //                          + Point(x_deviation(random_generator),
+  //                                  y_deviation(random_generator)));
+  // }
+  // for (const auto& dog : new_tile.dogs) {
+  //   model_->MakeNewDog(dog.GetSize(),
+  //                      dog.GetSpeed(),
+  //                      dog.GetDrawPosition() + left_corner + left_corner
+  //                          + Point(x_deviation(random_generator),
+  //                                  y_deviation(random_generator)),
+  //                      dog.GetVisibilityRadius(), dog.GetWalkingSpeed());
+  // }
   for (const auto& static_object : new_tile.static_objects) {
     model_->MakeNewStaticObject(static_object.GetSize(),
-                                static_object.GetDrawPosition() + left_corner
-                                + left_corner +
+                                static_object.GetDrawPosition() + left_corner +
                                 Point(x_deviation(random_generator),
                                       y_deviation(random_generator)));
   }
   for (const auto& food : new_tile.food) {
     model_->MakeNewFood(food.GetSize(), food.GetDrawPosition() + left_corner
-                        + left_corner + Point(x_deviation(random_generator),
-                                              y_deviation(random_generator)));
+                                        + Point(x_deviation(random_generator),
+                                                y_deviation(random_generator)));
   }
 }
 
@@ -146,6 +145,95 @@ void Generator::GenerateMap() {
     for (int y = -constants::kGameMapHeight; y <= constants::kGameMapHeight;
          y += constants::kTileSize) {
       GenerateTile(Point(x, y));
+    }
+  }
+  GenerateCats();
+}
+
+void Generator::GenerateCats() {
+  std::vector<int> ids{0, 1, 2, 3, 3, 1, 2, 0, 4, 4, 4, 4};
+  std::uniform_int_distribution<> x_deviation1(-4800, -2400);
+  std::uniform_int_distribution<> x_deviation2(-2400, 0);
+  std::uniform_int_distribution<> x_deviation3(0, 2400);
+  std::uniform_int_distribution<> x_deviation4(2400, 4800);
+
+  std::uniform_int_distribution<> y_deviation1(-1200, 0);
+  std::uniform_int_distribution<> y_deviation2(0, 1200);
+
+  std::uniform_int_distribution<> area(1, 8);
+
+  int x, y;
+  //чтобы первый котик был близко
+  Tile new_tile(tiles_templates_.at(4));
+  for (const auto& cat : new_tile.cats) {
+    model_->MakeNewCat(cat.GetSize(),
+                       cat.GetSpeed(),
+                       cat.GetDrawPosition());
+  }
+  for (const auto& dog : new_tile.dogs) {
+    model_->MakeNewDog(dog.GetSize(),
+                       dog.GetSpeed(),
+                       dog.GetDrawPosition(),
+                       dog.GetVisibilityRadius(), dog.GetWalkingSpeed());
+  }
+
+  for (auto id : ids) {
+    switch (area(random_generator)) {
+      case 1 : {
+        x = x_deviation1(random_generator);
+        y = y_deviation1(random_generator);
+        break;
+      }
+      case 2 : {
+        x = x_deviation2(random_generator);
+        y = y_deviation1(random_generator);
+        break;
+      }
+      case 3 : {
+        x = x_deviation3(random_generator);
+        y = y_deviation1(random_generator);
+        break;
+      }
+      case 4 : {
+        x = x_deviation4(random_generator);
+        y = y_deviation1(random_generator);
+        break;
+      }
+      case 5 : {
+        x = x_deviation1(random_generator);
+        y = y_deviation2(random_generator);
+        break;
+      }
+      case 6 : {
+        x = x_deviation2(random_generator);
+        y = y_deviation2(random_generator);
+        break;
+      }
+      case 7 : {
+        x = x_deviation3(random_generator);
+        y = y_deviation2(random_generator);
+        break;
+      }
+      case 8 : {
+        x = x_deviation4(random_generator);
+        y = y_deviation2(random_generator);
+        break;
+      }
+      default : {
+        break;
+      }
+    }
+    Tile new_tile(tiles_templates_.at(id));
+    for (const auto& cat : new_tile.cats) {
+      model_->MakeNewCat(cat.GetSize(),
+                         cat.GetSpeed(),
+                         cat.GetDrawPosition() + Point(x, y));
+    }
+    for (const auto& dog : new_tile.dogs) {
+      model_->MakeNewDog(dog.GetSize(),
+                         dog.GetSpeed(),
+                         dog.GetDrawPosition()  + Point(x, y),
+                         dog.GetVisibilityRadius(), dog.GetWalkingSpeed());
     }
   }
 }
