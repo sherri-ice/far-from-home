@@ -425,6 +425,11 @@
         <file>images/menu/buttons/rus.png</file>
         <file>images/menu/buttons/sound_on.png</file>
         <file>images/menu/buttons/sound_off.png</file>
+        <file>images/menu/buttons/send.png</file>
+        <file>images/menu/buttons/cancel.png</file>
+        <file>images/menu/buttons/was_found.png</file>
+        <file>images/menu/buttons/wasnt_found.png</file>
+        <file>images/icon.ico</file>
 
 <!--        <file>images/texture/background.png</file>-->
 
