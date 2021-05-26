@@ -163,7 +163,7 @@ void Generator::GenerateCats() {
   std::uniform_int_distribution<> area(1, 8);
 
   int x, y;
-  //чтобы первый котик был близко
+  // чтобы первый котик был близко
   Tile new_tile(tiles_templates_.at(4));
   for (const auto& cat : new_tile.cats) {
     model_->MakeNewCat(cat.GetSize(),
