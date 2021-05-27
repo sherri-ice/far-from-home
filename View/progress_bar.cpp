@@ -1,13 +1,10 @@
 #include "progress_bar.h"
 
-#include <iostream>
-
-ProgressBar::ProgressBar(const Point& center, const Size& size) {
-  center_ = center;
-  this->setWidth(constants::kWidth);
-  this->setHeight(constants::kHeight);
+ProgressBar::ProgressBar(const Point& center) {
+  this->setWidth(progress_bar_constants::kWidth);
+  this->setHeight(progress_bar_constants::kHeight);
   QPoint top_left = QPoint(center.GetX() - this->width() / 2,
-                           center.GetY() - this->height() / 2);
+                              center.GetY() - this->height() / 2);
   QPoint bottom_right = QPoint(center.GetX() + this->width() / 2,
                                center.GetY() + this->height() / 2);
   this->setTopLeft(top_left);
@@ -20,15 +17,11 @@ void ProgressBar::SetRange(int min_value, int max_value) {
   max_value_ = max_value;
 }
 
-void ProgressBar::IncCurrentValue() {
-  if (cur_value_ >= max_value_) {
-    return;
+void ProgressBar::IncCurrentValue(int delta_time) {
+  cur_value_ += delta_time;
+  if (cur_value_ > max_value_) {
+    cur_value_ = max_value_;
   }
-  cur_value_ += (max_value_ - min_value_) / time_to_be_full_;
-}
-
-bool ProgressBar::IsFull() {
-  return (cur_value_ < max_value_);
 }
 
 void ProgressBar::Draw(QPainter* painter, Resizer* resizer) const {
@@ -37,23 +30,44 @@ void ProgressBar::Draw(QPainter* painter, Resizer* resizer) const {
     auto rect = *this;
     auto game_size = Size(rect.width(), rect.height());
     auto window_size = resizer->GameToWindowSize(game_size);
-    auto game_coordinate = Point(rect.x(), rect.y() - constants::kOffset);
+    auto game_coordinate = Point(rect.x(), rect.y() -
+    progress_bar_constants::kOffset);
     auto window_coordinates = resizer->GameToWindowCoordinate(game_coordinate);
     rect.setX(window_coordinates.GetX());
     rect.setY(window_coordinates.GetY());
     rect.setWidth(window_size.GetWidth());
     rect.setHeight(window_size.GetHeight());
 
-    double
-        width =
-        static_cast<double>(rect.width()) / (max_value_ - min_value_) * 100;
-    QRect inner_rect(window_coordinates.GetX(),
-                     window_coordinates.GetY(),
-                     width * cur_value_,
-                     rect.height());
-    painter->drawRect(rect);
-    painter->fillRect(inner_rect, Qt::yellow);
+    QRect inner_rect = QRect(rect.x() + rect.width() *
+        progress_bar_constants::kGetWidthShiftCoeff, rect.y() + rect.height()
+        * progress_bar_constants::kGetHeightShiftCoeff, rect.width() *
+        progress_bar_constants::kGetInnerWidthCoeff, rect.height() *
+        progress_bar_constants::kGetInnerHeightCoeff);
+    QRect inner_small_rect = inner_rect;
+    inner_small_rect.setHeight(rect.height() *
+    progress_bar_constants::kGetInnerSmallHeightCoeff);
+
+    painter->setBrush(QBrush(blue_));
+    painter->setPen(QPen(blue_));
     painter->drawRect(inner_rect);
+    painter->setBrush(QBrush(light_blue_));
+    painter->setPen(QPen(light_blue_));
+    painter->drawRect(inner_small_rect);
+
+    double inner_width = static_cast<double>(inner_rect.width()) * cur_value_ /
+        max_value_;
+
+    inner_rect.setWidth(inner_width);
+    inner_small_rect.setWidth(inner_width);
+
+    painter->setBrush(QBrush(pink_));
+    painter->setPen(QPen(pink_));
+    painter->drawRect(inner_rect);
+    painter->setBrush(QBrush(light_pink_));
+    painter->setPen(QPen(light_pink_));
+    painter->drawRect(inner_small_rect);
+
+    painter->drawPixmap(rect.x(), rect.y(), rect.width(), rect.height(), skin_);
     painter->restore();
   }
 }
@@ -65,8 +79,3 @@ void ProgressBar::SetVisible() {
 void ProgressBar::SetInvisible() {
   is_visible_ = false;
 }
-
-void ProgressBar::SetTimeToBeFull(int time_to_be_full) {
-  time_to_be_full_ = time_to_be_full;
-}
-

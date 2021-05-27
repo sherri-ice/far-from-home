@@ -1,9 +1,9 @@
 #ifndef CONTROLLER_CONTROLLER_H_
 #define CONTROLLER_CONTROLLER_H_
 
-#include <list>
-#include <memory>
+#include <vector>
 #include <map>
+#include <memory>
 
 #include "../Controller/abstract_controller.h"
 #include "../Model/model.h"
@@ -20,6 +20,7 @@ class Controller : public AbstractController {
   void EndGame() override;
   void Tick(int time) override;
   int GetCurrentTime() override;
+  void TickWin();
 
   Player* GetPlayer() override;
   void SetGameVolume(int volume) override;
@@ -38,11 +39,24 @@ class Controller : public AbstractController {
   void TickObjects(int delta_time);
   void TickWarnings(int delta_time);
   void TickViewCircle();
-
+  void TickHunger();
+  void MoveCatsAndDogs(int delta_time);
   void CatsAndFoodIntersect();
+  void CatAndStaticObjectsIntersect(const std::shared_ptr<Cat>& cat);
+  void DogAndStaticObjectIntersect(const std::shared_ptr<Dog>& dog);
+  void CatsAndPortalsIntersect(const std::shared_ptr<Cat>& cat);
+  void CatAndDogInteraction();
+
+  void CheckIfDestinationIsInsideStaticObject();
+  void CheckIfDestinationIntersectsWithCat();
+
+  void DogsIntersect(const std::shared_ptr<Dog>& dog);
+  void CatsInGroupIntersect(const std::shared_ptr<Cat>& cat);
+  void WildCatsAndOtherCatsIntersect(const std::shared_ptr<Cat>& cat);
+  void MainCatIntersectsWithCats(const std::shared_ptr<Cat>& main_cat);
+  void CatsAndDogIntersect(const std::shared_ptr<Cat>& cat);
   void MovingAndStaticObjectsIntersect(const std::shared_ptr<MovingObject>&
   moving_object);
-  void CatsAndPortalsIntersect(const std::shared_ptr<Cat>& cat);
 
   int current_game_time_{0};
   std::shared_ptr<Model> model_;

@@ -1,5 +1,5 @@
 QWidget#background {
-    background-image: url(":images/menu/background/background.png")
+    background-image: url("../images/menu/background/background.png")
 }
 
 QPushButton#play {
@@ -92,7 +92,38 @@ QPushButton#sound-off {
     border: none
 }
 
-QLabel#lang {
-    border-image: url(":images/menu/buttons/eng.png")  0 0 0 0 stretch stretch;
+QPushButton#send {
+    background-color: rgba(255, 255, 255, 0);
+    qproperty-icon: url(":images/menu/buttons/send.png");
+    qproperty-iconSize: 100px;
+    border: none
+}
+
+QPushButton#cancel {
+    background-color: rgba(255, 255, 255, 0);
+    qproperty-icon: url(":images/menu/buttons/cancel.png");
+    qproperty-iconSize: 100px;
+    border: none
+}
+QPushButton#no {
+    background-color: rgba(255, 255, 255, 0);
+    qproperty-icon: url(":images/menu/buttons/wasnt_found.png");
+    qproperty-iconSize: 400px;
+    border: none
+}
+QPushButton#yes {
+    background-color: rgba(255, 255, 255, 0);
+    qproperty-icon: url(":images/menu/buttons/was_found.png");
+    qproperty-iconSize: 400px;
+    border: none
+}
+
+
+QWidget#death{
+    background: rgba(139, 0, 0, 0.3);
+}
+
+QWidget#win{
+    background: rgba(11, 132, 6, 0.3);
 }
 

@@ -37,29 +37,36 @@ set(SOURCES
         GameObject/game_object.cpp
         GameObject/moving_object.cpp
         GameObject/player.cpp
-        GameObject/rigid_body.cpp
-        main.cpp
-        Model/model.cpp
-        Model/size.cpp
-        Model/point.cpp
-        Model/constants.h
-        View/view.cpp
-        View/resizer.cpp
-        GameObject/view_circle.cpp
         GameObject/portal_object.cpp
-        View/progress_bar.cpp
-        View/warning.cpp
-        View/animation.cpp
+        GameObject/rigid_body.cpp
+        GameObject/view_circle.cpp
+        images.qrc
+        main.cpp
+        Model/constants.h
         Model/generator.cpp
+        Model/group.cpp
+        Model/model.cpp
+        Model/point.cpp
+        Model/size.cpp
         Model/timer.cpp
         resourses.qrc
-        images.qrc
-        Model/group.cpp
+        View/animation.cpp
+        View/global_progress_bar.cpp
+        Model/music_player.cpp
         View/menu.cpp
-        View/menu.ui Model/music_player.cpp Model/music_player.h
-        Model/group.cpp
+        View/menu.ui
+        View/progress_bar.cpp
+        View/resizer.cpp
+        View/view.cpp
+        View/warning.cpp
         View/result_window.cpp
-        View/result_window.ui)
+        View/result_window.ui
+        View/result_window.ui
+        View/background.cpp
+        View/deathwindow.cpp
+        View/deathwindow.ui
+        View/win_window.cpp
+        View/winwindow.ui)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 

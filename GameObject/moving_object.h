@@ -1,9 +1,14 @@
 #ifndef GAMEOBJECT_MOVING_OBJECT_H_
 #define GAMEOBJECT_MOVING_OBJECT_H_
 
+#include <vector>
+
 #include "../GameObject/game_object.h"
 #include "../View/animation.h"
-#include <vector>
+
+namespace constants {
+const double kCheckIfVelocityIsCloseToZero = 0.1;
+}  // namespace constants
 
 class MovingObject : public GameObject {
  public:
@@ -14,13 +19,13 @@ class MovingObject : public GameObject {
 
   Size GetVelocity() const;
 
-    void Move(int delta_time);
-
-    virtual void SetSpeed(double speed);
-    double GetSpeed() const;
-    [[nodiscard]] AnimationState GetAnimationState() const;
-    virtual void SetAnimations(std::vector<std::vector<QPixmap>>
+  void Move(int delta_time);
+  virtual void SetSpeed(double speed);
+  double GetSpeed() const;
+  virtual void SetAnimations(std::vector<std::vector<QPixmap>>
                                                   animation = {});
+
+  [[nodiscard]] AnimationState GetAnimationState() const;
   virtual void IncSpeed(double speed);
   virtual void DecSpeed(double speed);
   virtual void SetVelocity(Size velocity);
@@ -31,6 +36,13 @@ class MovingObject : public GameObject {
   bool IsVelocityChange(Size main_velocity);
   void SetDestination(const Point& destination);
 
+  Size GetDrawSize(const Size& object_size) const override;
+  void TickAnimation(int delta_time);
+  AnimationState GetAnimationState() const;
+  bool IsMainCatDead() const;
+
+  Point GetDestination() const;
+
  protected:
     Point destination_{};
     bool is_moving_ = false;
@@ -39,6 +51,11 @@ class MovingObject : public GameObject {
     Size velocity_;
     static std::mt19937 random_generator_;
     Animation object_animation_;
+    bool is_ready_to_be_sent_home = false;
+    bool is_ready_to_die = false;
+
+    Size saved_walking_velocity_{};
+    bool is_main_cat_dead_ = false;
     bool is_hidding_ = false;
     bool is_back_ = false;
 };

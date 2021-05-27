@@ -4,32 +4,30 @@ std::mt19937 PortalObject::random_generator_ = std::mt19937
     (std::chrono::system_clock::now().time_since_epoch().count());
 
 PortalObject::PortalObject(const Size& size,
-                           const Point& position,
-                           const QString& skin_path) : GameObject(size,
+                           const Point& position) : GameObject(size,
                                                                   position) {
-  skin_path_ = skin_path;
   warning_ = Warning("Click on a tree to send your cat on search",
                      Point(position.GetX(),
                            position.GetY() - size.GetHeight() / 2),
                      15);
+  progress_bar_ = ProgressBar(position);
   warning_.SetIfIsDrawn(false);
-  progress_bar_ = ProgressBar(position, size);
+  progress_bar_ = ProgressBar(position);
   std::uniform_int_distribution<>
       time(PortalConstants::kMinSearchTime, PortalConstants::kMaxSearchTime);
   search_time_ = time(random_generator_);
-  progress_bar_.SetRange(0, 100'000);
-  progress_bar_.SetTimeToBeFull(search_time_);
+  progress_bar_.SetRange(0, search_time_);
   search_timer_.Start(search_time_);
 }
 
 void PortalObject::Draw(QPainter* painter, Resizer* resizer) const {
-  rigid_body_.Draw(painter, resizer);
   painter->save();
   auto position = resizer->GameToWindowCoordinate(position_);
   auto size = resizer->GameToWindowSize(size_);
+  auto draw_size = GetDrawSize(size);
   painter->translate(position.GetX(), position.GetY());
-  int width = static_cast<int>(size.GetWidth());
-  int height = static_cast<int>(size.GetHeight());
+  int width = static_cast<int>(draw_size.GetWidth());
+  int height = static_cast<int>(draw_size.GetHeight());
   painter->drawPixmap(-width / 2, -height / 2, width, height, skin_);
   painter->restore();
   progress_bar_.Draw(painter, resizer);
@@ -45,7 +43,7 @@ void PortalObject::Tick(int time) {
     }
     case PortalState::kSearching: {
       if (!search_timer_.IsTimeOut()) {
-        progress_bar_.IncCurrentValue();
+        progress_bar_.IncCurrentValue(time);
         search_timer_.Tick(time);
       } else {
         state_ = PortalState::kFinishedSearch;

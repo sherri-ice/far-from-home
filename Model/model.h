@@ -5,12 +5,13 @@
 #include <memory>
 #include <vector>
 #include <map>
-#include "../View/resizer.h"
 
 #include "../GameObject/cat.h"
 #include "../GameObject/dog.h"
 #include "../GameObject/food.h"
 #include "../GameObject/player.h"
+#include "../View/global_progress_bar.h"
+#include "../View/resizer.h"
 
 enum Language {
   kRussian,
@@ -33,7 +34,6 @@ class Model {
 
   std::shared_ptr<PortalObject> MakeNewPortal(const Size& size,
                                               const Point& position,
-                                              const QString& skin_path,
                                               bool has_portal);
   void AddWarning(const std::shared_ptr<Warning>& warning);
 
@@ -45,11 +45,11 @@ class Model {
   std::shared_ptr<Food> MakeNewFood(const Size& size, const Point& point);
 
 
-  std::list<std::shared_ptr<Food>> GetFood();
-  std::list<std::shared_ptr<Dog>> GetDogs();
-  std::list<std::shared_ptr<Cat>> GetCats();
+  std::vector<std::shared_ptr<Food>> GetFood();
+  std::vector<std::shared_ptr<Dog>> GetDogs();
+  std::vector<std::shared_ptr<Cat>> GetCats();
 
-  std::list<std::shared_ptr<PortalObject>>& GetStaticObjects();
+  std::vector<std::shared_ptr<PortalObject>>& GetStaticObjects();
   std::vector<std::shared_ptr<Warning>> GetWarnings();
 
   void ClearObjects();
@@ -58,6 +58,8 @@ class Model {
   void LoadDynamicAnimation();
   void LoadStaticAnimation();
   void LoadAnimation();
+  static QString GetCatRandomSkinPath();
+  static QString GetDogRandomSkinPath();
 
   void ChangeLanguage(Language lang);
 
@@ -70,18 +72,26 @@ class Model {
   void SetCatHidingAnimation(std::shared_ptr<Cat> cat);
   void SetCatGettingOutAnimation(std::shared_ptr<Cat> cat);
 
+  void GenerateFood(const Point& player_position, double width,
+                    double height, int number_of_food);
+
+  GlobalProgressBar* GetProgressBar();
+
  private:
   std::map<QString, std::vector<std::vector<QPixmap>>> animations_;
   std::map<QString, std::vector<QPixmap>> objects_pics_{};
-  int current_level_ = 0;
 
-  std::list<std::shared_ptr<Cat>> cats_;
+  std::vector<std::shared_ptr<Cat>> cats_;
   Player* player_;
-  std::list<std::shared_ptr<Food>> food_;
-  std::list<std::shared_ptr<Dog>> dogs_;
+  std::vector<std::shared_ptr<Food>> food_;
+  std::vector<std::shared_ptr<Dog>> dogs_;
   Language lang_ = Language::kEnglish;
-  std::list<std::shared_ptr<PortalObject>> static_objects_;
-  std::list<std::shared_ptr<Warning>> warnings_;
+  std::vector<std::shared_ptr<PortalObject>> static_objects_;
+  std::vector<std::shared_ptr<Warning>> warnings_;
+
+  GlobalProgressBar hunger_bar_;
+
+  static std::mt19937 random_generator_;
 };
 
 #endif  // MODEL_MODEL_H_

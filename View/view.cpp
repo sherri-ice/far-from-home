@@ -16,6 +16,7 @@ View::View(AbstractController* controller,
     : controller_(controller),
       model_(std::move(model)) {
   setWindowTitle(constants::kApplicationName);
+  setWindowIcon(QIcon(":images/icon.ico"));
   resize(constants::kGameWidth, constants::kGameHeight);
   resizer_.ChangeSystem(width(), height());
   setMouseTracking(true);
@@ -46,7 +47,8 @@ void View::paintEvent(QPaintEvent*) {
 }
 
 void View::timerEvent(QTimerEvent* event) {
-  if (event->timerId() == controller_timer_id_ && menu_->isHidden()) {
+  if (event->timerId() == controller_timer_id_ && result_window_.isHidden()
+                        && menu_->isHidden()) {
     int delta_time = time_between_ticks_.elapsed();
     time_between_ticks_.restart();
     controller_->Tick(controller_->GetCurrentTime() + delta_time);
@@ -87,6 +89,7 @@ void View::keyReleaseEvent(QKeyEvent* event) {
 }
 
 void View::DrawGameObjects(QPainter* painter) {
+  background_.Draw(painter, &resizer_, controller_->GetPlayer()->GetPosition());
   controller_->GetPlayer()->GetViewCircle().Draw(painter, &resizer_);
   controller_->GetPlayer()->GetCatGroup().Draw(painter, &resizer_);
   std::vector<std::shared_ptr<GameObject>>
@@ -96,6 +99,8 @@ void View::DrawGameObjects(QPainter* painter) {
       object->Draw(painter, &resizer_);
     }
   }
+
+  model_->GetProgressBar()->Draw(painter);
 }
 
 void View::Resize() {
@@ -103,6 +108,7 @@ void View::Resize() {
 }
 
 void View::resizeEvent(QResizeEvent*) {
+  model_->GetProgressBar()->UpdateSize(&resizer_, std::min(width(), height()));
   Resize();
 }
 
@@ -161,6 +167,8 @@ void View::SetWindows() {
   SetMenuWindow();
   SetSettingsWindow();
   SetPauseWindow();
+  SetDeathWindow();
+  SetWinWindow();
 }
 
 void View::SetMenuWindow() {
@@ -185,19 +193,6 @@ void View::SetMenuWindow() {
           &QPushButton::released,
           this,
           exit_button_click);
-  // auto sound_button_click = [this]() {
-  //   if (is_sound_on_) {
-  //     // controller_->GetMusicPlayer()->Pause();
-  //     menu_.GetSoundButton()->setIcon( QIcon(":images/menu/buttons/sound_off"
-  //                                            ".png"));
-  //   } else {
-  //     // controller_->GetMusicPlayer()->Resume();
-  //     menu_.GetSoundButton()->setIcon( QIcon(
-  //         ":images/menu/buttons/sound_on.png"));
-  //   }
-  // };
-  // connect(menu_.GetSoundButton(), &QPushButton::released, this,
-  //         sound_button_click);
 }
 
 void View::SetPauseWindow() {
@@ -265,6 +260,13 @@ void View::DrawWarnings(QPainter* painter) {
     warning->Draw(painter, &resizer_);
   }
 }
+double View::GetWidthOfScreenAsGame() const {
+  return resizer_.WindowToGameLength(width());
+}
+
+double View::GetHeightOfScreeAsGame() const {
+  return resizer_.WindowToGameLength(height());
+}
 
 void View::ShowResultWindow(bool is_found) {
   result_window_.setGeometry(width() / 2, height() / 2, 150, 150);
@@ -273,4 +275,55 @@ void View::ShowResultWindow(bool is_found) {
 
 ResultWindow& View::GetResultWindow() {
   return result_window_;
+}
+
+void View::ShowDeathWindow() {
+  death_window_->show();
+}
+
+DeathWindow* View::GetDeathWindow() {
+  return death_window_;
+}
+
+void View::SetDeathWindow() {
+  auto restart_button_click = [this]() {
+    controller_->GetMusicPlayer()->PlayButtonSound();
+    controller_->EndGame();
+    controller_->StartGame();
+    death_window_->close();
+    menu_->close();
+  };
+  connect(death_window_->GetReplayButton(), &QPushButton::released, this,
+          restart_button_click);
+  auto menu_button_click = [this]() {
+    controller_->GetMusicPlayer()->PlayButtonSound();
+    death_window_->close();
+    menu_->close();
+    menu_->MainMenu();
+    menu_->show();
+    controller_->EndGame();
+  };
+  connect(death_window_->GetMenuButton(), &QPushButton::released, this,
+          menu_button_click);
+}
+
+void View::ShowWinWindow() {
+  win_window_->show();
+}
+
+WinWindow* View::GetWinWindow() {
+  return win_window_;
+}
+
+void View::SetWinWindow() {
+  auto menu_button_click = [this]() {
+    controller_->GetMusicPlayer()->PlayButtonSound();
+    win_window_->close();
+    menu_->close();
+    menu_->MainMenu();
+    menu_->show();
+    controller_->EndGame();
+  };
+  connect(win_window_->GetMenuButton(), &QPushButton::released, this,
+          menu_button_click);
 }

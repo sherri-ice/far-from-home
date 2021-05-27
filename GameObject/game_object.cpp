@@ -1,7 +1,6 @@
-#include "game_object.h"
-
 #include <vector>
-#include <iostream>
+
+#include "game_object.h"
 
 GameObject::GameObject(const Size& size, const Point& position)
     : size_(size), position_(position) {
@@ -55,7 +54,6 @@ Point GameObject::GetRigidPosition() const {
 
 void GameObject::Draw(QPainter* painter, Resizer* resizer) const {
   if (is_visible_) {
-    rigid_body_.Draw(painter, resizer);
     painter->save();
     auto position = resizer->GameToWindowCoordinate(position_);
     auto size = resizer->GameToWindowSize(size_);
@@ -77,4 +75,17 @@ int GameObject::GetSkinId() const {
 
 void GameObject::SetSkinId(int skin_id) {
   skin_id_ = skin_id;
+}
+
+Size GameObject::GetDrawSize(const Size& object_size) const {
+  double object_width = object_size.GetWidth();
+  double object_height = object_size.GetHeight();
+  if (skin_.width() >= skin_.height()) {
+    double scale_coeff = static_cast<double>(skin_.height()) / skin_.width();
+    object_height *= scale_coeff;
+  } else {
+    double scale_coeff = static_cast<double>(skin_.width()) / skin_.height();
+    object_width *= scale_coeff;
+  }
+  return Size(object_width, object_height);
 }

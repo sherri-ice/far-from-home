@@ -1,96 +1,395 @@
 <!DOCTYPE RCC>
 <RCC version="1.0">
     <qresource>
-        <file>images/cat/up/Frame 0.png</file>
-        <file>images/cat/up/Frame 1.png</file>
-        <file>images/cat/up/Frame 2.png</file>
-        <file>images/cat/up/Frame 3.png</file>
+        <file>images/cats skins/0/up/Frame 0.png</file>
+        <file>images/cats skins/0/up/Frame 1.png</file>
+        <file>images/cats skins/0/up/Frame 2.png</file>
+        <file>images/cats skins/0/up/Frame 3.png</file>
+        <file>images/cats skins/0/down/Frame 0.png</file>
+        <file>images/cats skins/0/down/Frame 1.png</file>
+        <file>images/cats skins/0/down/Frame 2.png</file>
+        <file>images/cats skins/0/down/Frame 3.png</file>
+        <file>images/cats skins/0/right/Frame 0.png</file>
+        <file>images/cats skins/0/right/Frame 1.png</file>
+        <file>images/cats skins/0/right/Frame 2.png</file>
+        <file>images/cats skins/0/right/Frame 3.png</file>
+        <file>images/cats skins/0/left/Frame 0.png</file>
+        <file>images/cats skins/0/left/Frame 1.png</file>
+        <file>images/cats skins/0/left/Frame 2.png</file>
+        <file>images/cats skins/0/left/Frame 3.png</file>
+        <file>images/cats skins/0/random/0/Frame 0.png</file>
+        <file>images/cats skins/0/random/0/Frame 1.png</file>
+        <file>images/cats skins/0/random/0/Frame 2.png</file>
+        <file>images/cats skins/0/random/0/Frame 3.png</file>
+        <file>images/cats skins/0/random/1/Frame 0.png</file>
+        <file>images/cats skins/0/random/1/Frame 1.png</file>
+        <file>images/cats skins/0/random/1/Frame 2.png</file>
+        <file>images/cats skins/0/random/1/Frame 3.png</file>
+        <file>images/cats skins/0/send home/Frame 0.png</file>
+        <file>images/cats skins/0/send home/Frame 1.png</file>
+        <file>images/cats skins/0/send home/Frame 2.png</file>
+        <file>images/cats skins/0/send home/Frame 3.png</file>
+        <file>images/cats skins/0/dead cat/Frame 0.png</file>
+        <file>images/cats skins/0/dead cat/Frame 1.png</file>
+        <file>images/cats skins/0/dead cat/Frame 2.png</file>
+        <file>images/cats skins/0/dead cat/Frame 3.png</file>
 
-        <file>images/cat/down/Frame 0.png</file>
-        <file>images/cat/down/Frame 1.png</file>
-        <file>images/cat/down/Frame 2.png</file>
-        <file>images/cat/down/Frame 3.png</file>
+        <file>images/cats skins/1/up/Frame 0.png</file>
+        <file>images/cats skins/1/up/Frame 1.png</file>
+        <file>images/cats skins/1/up/Frame 2.png</file>
+        <file>images/cats skins/1/up/Frame 3.png</file>
+        <file>images/cats skins/1/down/Frame 0.png</file>
+        <file>images/cats skins/1/down/Frame 1.png</file>
+        <file>images/cats skins/1/down/Frame 2.png</file>
+        <file>images/cats skins/1/down/Frame 3.png</file>
+        <file>images/cats skins/1/right/Frame 0.png</file>
+        <file>images/cats skins/1/right/Frame 1.png</file>
+        <file>images/cats skins/1/right/Frame 2.png</file>
+        <file>images/cats skins/1/right/Frame 3.png</file>
+        <file>images/cats skins/1/left/Frame 0.png</file>
+        <file>images/cats skins/1/left/Frame 1.png</file>
+        <file>images/cats skins/1/left/Frame 2.png</file>
+        <file>images/cats skins/1/left/Frame 3.png</file>
+        <file>images/cats skins/1/random/0/Frame 0.png</file>
+        <file>images/cats skins/1/random/0/Frame 1.png</file>
+        <file>images/cats skins/1/random/0/Frame 2.png</file>
+        <file>images/cats skins/1/random/0/Frame 3.png</file>
+        <file>images/cats skins/1/random/1/Frame 0.png</file>
+        <file>images/cats skins/1/random/1/Frame 1.png</file>
+        <file>images/cats skins/1/random/1/Frame 2.png</file>
+        <file>images/cats skins/1/random/1/Frame 3.png</file>
+        <file>images/cats skins/1/send home/Frame 0.png</file>
+        <file>images/cats skins/1/send home/Frame 1.png</file>
+        <file>images/cats skins/1/send home/Frame 2.png</file>
+        <file>images/cats skins/1/send home/Frame 3.png</file>
+        <file>images/cats skins/1/dead cat/Frame 0.png</file>
+        <file>images/cats skins/1/dead cat/Frame 1.png</file>
+        <file>images/cats skins/1/dead cat/Frame 2.png</file>
+        <file>images/cats skins/1/dead cat/Frame 3.png</file>
 
-        <file>images/cat/right/Frame 0.png</file>
-        <file>images/cat/right/Frame 1.png</file>
-        <file>images/cat/right/Frame 2.png</file>
-        <file>images/cat/right/Frame 3.png</file>
+        <file>images/cats skins/2/up/Frame 0.png</file>
+        <file>images/cats skins/2/up/Frame 1.png</file>
+        <file>images/cats skins/2/up/Frame 2.png</file>
+        <file>images/cats skins/2/up/Frame 3.png</file>
+        <file>images/cats skins/2/down/Frame 0.png</file>
+        <file>images/cats skins/2/down/Frame 1.png</file>
+        <file>images/cats skins/2/down/Frame 2.png</file>
+        <file>images/cats skins/2/down/Frame 3.png</file>
+        <file>images/cats skins/2/right/Frame 0.png</file>
+        <file>images/cats skins/2/right/Frame 1.png</file>
+        <file>images/cats skins/2/right/Frame 2.png</file>
+        <file>images/cats skins/2/right/Frame 3.png</file>
+        <file>images/cats skins/2/left/Frame 0.png</file>
+        <file>images/cats skins/2/left/Frame 1.png</file>
+        <file>images/cats skins/2/left/Frame 2.png</file>
+        <file>images/cats skins/2/left/Frame 3.png</file>
+        <file>images/cats skins/2/random/0/Frame 0.png</file>
+        <file>images/cats skins/2/random/0/Frame 1.png</file>
+        <file>images/cats skins/2/random/0/Frame 2.png</file>
+        <file>images/cats skins/2/random/0/Frame 3.png</file>
+        <file>images/cats skins/2/random/1/Frame 0.png</file>
+        <file>images/cats skins/2/random/1/Frame 1.png</file>
+        <file>images/cats skins/2/random/1/Frame 2.png</file>
+        <file>images/cats skins/2/random/1/Frame 3.png</file>
+        <file>images/cats skins/2/send home/Frame 0.png</file>
+        <file>images/cats skins/2/send home/Frame 1.png</file>
+        <file>images/cats skins/2/send home/Frame 2.png</file>
+        <file>images/cats skins/2/send home/Frame 3.png</file>
+        <file>images/cats skins/2/dead cat/Frame 0.png</file>
+        <file>images/cats skins/2/dead cat/Frame 1.png</file>
+        <file>images/cats skins/2/dead cat/Frame 2.png</file>
+        <file>images/cats skins/2/dead cat/Frame 3.png</file>
 
-        <file>images/cat/left/Frame 0.png</file>
-        <file>images/cat/left/Frame 1.png</file>
-        <file>images/cat/left/Frame 2.png</file>
-        <file>images/cat/left/Frame 3.png</file>
+        <file>images/cats skins/3/up/Frame 0.png</file>
+        <file>images/cats skins/3/up/Frame 1.png</file>
+        <file>images/cats skins/3/up/Frame 2.png</file>
+        <file>images/cats skins/3/up/Frame 3.png</file>
+        <file>images/cats skins/3/down/Frame 0.png</file>
+        <file>images/cats skins/3/down/Frame 1.png</file>
+        <file>images/cats skins/3/down/Frame 2.png</file>
+        <file>images/cats skins/3/down/Frame 3.png</file>
+        <file>images/cats skins/3/right/Frame 0.png</file>
+        <file>images/cats skins/3/right/Frame 1.png</file>
+        <file>images/cats skins/3/right/Frame 2.png</file>
+        <file>images/cats skins/3/right/Frame 3.png</file>
+        <file>images/cats skins/3/left/Frame 0.png</file>
+        <file>images/cats skins/3/left/Frame 1.png</file>
+        <file>images/cats skins/3/left/Frame 2.png</file>
+        <file>images/cats skins/3/left/Frame 3.png</file>
+        <file>images/cats skins/3/random/0/Frame 0.png</file>
+        <file>images/cats skins/3/random/0/Frame 1.png</file>
+        <file>images/cats skins/3/random/0/Frame 2.png</file>
+        <file>images/cats skins/3/random/0/Frame 3.png</file>
+        <file>images/cats skins/3/random/1/Frame 0.png</file>
+        <file>images/cats skins/3/random/1/Frame 1.png</file>
+        <file>images/cats skins/3/random/1/Frame 2.png</file>
+        <file>images/cats skins/3/random/1/Frame 3.png</file>
+        <file>images/cats skins/3/send home/Frame 0.png</file>
+        <file>images/cats skins/3/send home/Frame 1.png</file>
+        <file>images/cats skins/3/send home/Frame 2.png</file>
+        <file>images/cats skins/3/send home/Frame 3.png</file>
+        <file>images/cats skins/3/dead cat/Frame 0.png</file>
+        <file>images/cats skins/3/dead cat/Frame 1.png</file>
+        <file>images/cats skins/3/dead cat/Frame 2.png</file>
+        <file>images/cats skins/3/dead cat/Frame 3.png</file>
 
-        <file>images/cat/hiding/Frame 0.png</file>
-        <file>images/cat/hiding/Frame 1.png</file>
-        <file>images/cat/hiding/Frame 2.png</file>
-        <file>images/cat/hiding/Frame 3.png</file>
+        <file>images/cats skins/4/up/Frame 0.png</file>
+        <file>images/cats skins/4/up/Frame 1.png</file>
+        <file>images/cats skins/4/up/Frame 2.png</file>
+        <file>images/cats skins/4/up/Frame 3.png</file>
+        <file>images/cats skins/4/down/Frame 0.png</file>
+        <file>images/cats skins/4/down/Frame 1.png</file>
+        <file>images/cats skins/4/down/Frame 2.png</file>
+        <file>images/cats skins/4/down/Frame 3.png</file>
+        <file>images/cats skins/4/right/Frame 0.png</file>
+        <file>images/cats skins/4/right/Frame 1.png</file>
+        <file>images/cats skins/4/right/Frame 2.png</file>
+        <file>images/cats skins/4/right/Frame 3.png</file>
+        <file>images/cats skins/4/left/Frame 0.png</file>
+        <file>images/cats skins/4/left/Frame 1.png</file>
+        <file>images/cats skins/4/left/Frame 2.png</file>
+        <file>images/cats skins/4/left/Frame 3.png</file>
+        <file>images/cats skins/4/random/0/Frame 0.png</file>
+        <file>images/cats skins/4/random/0/Frame 1.png</file>
+        <file>images/cats skins/4/random/0/Frame 2.png</file>
+        <file>images/cats skins/4/random/0/Frame 3.png</file>
+        <file>images/cats skins/4/random/1/Frame 0.png</file>
+        <file>images/cats skins/4/random/1/Frame 1.png</file>
+        <file>images/cats skins/4/random/1/Frame 2.png</file>
+        <file>images/cats skins/4/random/1/Frame 3.png</file>
+        <file>images/cats skins/4/send home/Frame 0.png</file>
+        <file>images/cats skins/4/send home/Frame 1.png</file>
+        <file>images/cats skins/4/send home/Frame 2.png</file>
+        <file>images/cats skins/4/send home/Frame 3.png</file>
+        <file>images/cats skins/4/dead cat/Frame 0.png</file>
+        <file>images/cats skins/4/dead cat/Frame 1.png</file>
+        <file>images/cats skins/4/dead cat/Frame 2.png</file>
+        <file>images/cats skins/4/dead cat/Frame 3.png</file>
 
-        <file>images/cat/back/Frame 0.png</file>
-        <file>images/cat/back/Frame 1.png</file>
-        <file>images/cat/back/Frame 2.png</file>
-        <file>images/cat/back/Frame 3.png</file>
+        <file>images/cats skins/5/up/Frame 0.png</file>
+        <file>images/cats skins/5/up/Frame 1.png</file>
+        <file>images/cats skins/5/up/Frame 2.png</file>
+        <file>images/cats skins/5/up/Frame 3.png</file>
+        <file>images/cats skins/5/down/Frame 0.png</file>
+        <file>images/cats skins/5/down/Frame 1.png</file>
+        <file>images/cats skins/5/down/Frame 2.png</file>
+        <file>images/cats skins/5/down/Frame 3.png</file>
+        <file>images/cats skins/5/right/Frame 0.png</file>
+        <file>images/cats skins/5/right/Frame 1.png</file>
+        <file>images/cats skins/5/right/Frame 2.png</file>
+        <file>images/cats skins/5/right/Frame 3.png</file>
+        <file>images/cats skins/5/left/Frame 0.png</file>
+        <file>images/cats skins/5/left/Frame 1.png</file>
+        <file>images/cats skins/5/left/Frame 2.png</file>
+        <file>images/cats skins/5/left/Frame 3.png</file>
+        <file>images/cats skins/5/random/0/Frame 0.png</file>
+        <file>images/cats skins/5/random/0/Frame 1.png</file>
+        <file>images/cats skins/5/random/0/Frame 2.png</file>
+        <file>images/cats skins/5/random/0/Frame 3.png</file>
+        <file>images/cats skins/5/random/1/Frame 0.png</file>
+        <file>images/cats skins/5/random/1/Frame 1.png</file>
+        <file>images/cats skins/5/random/1/Frame 2.png</file>
+        <file>images/cats skins/5/random/1/Frame 3.png</file>
+        <file>images/cats skins/5/send home/Frame 0.png</file>
+        <file>images/cats skins/5/send home/Frame 1.png</file>
+        <file>images/cats skins/5/send home/Frame 2.png</file>
+        <file>images/cats skins/5/send home/Frame 3.png</file>
+        <file>images/cats skins/5/dead cat/Frame 0.png</file>
+        <file>images/cats skins/5/dead cat/Frame 1.png</file>
+        <file>images/cats skins/5/dead cat/Frame 2.png</file>
+        <file>images/cats skins/5/dead cat/Frame 3.png</file>
 
-        <file>images/cat/random/0/Frame 0.png</file>
-        <file>images/cat/random/0/Frame 1.png</file>
-        <file>images/cat/random/0/Frame 2.png</file>
-        <file>images/cat/random/0/Frame 3.png</file>
+        <file>images/cats skins/6/up/Frame 0.png</file>
+        <file>images/cats skins/6/up/Frame 1.png</file>
+        <file>images/cats skins/6/up/Frame 2.png</file>
+        <file>images/cats skins/6/up/Frame 3.png</file>
+        <file>images/cats skins/6/down/Frame 0.png</file>
+        <file>images/cats skins/6/down/Frame 1.png</file>
+        <file>images/cats skins/6/down/Frame 2.png</file>
+        <file>images/cats skins/6/down/Frame 3.png</file>
+        <file>images/cats skins/6/right/Frame 0.png</file>
+        <file>images/cats skins/6/right/Frame 1.png</file>
+        <file>images/cats skins/6/right/Frame 2.png</file>
+        <file>images/cats skins/6/right/Frame 3.png</file>
+        <file>images/cats skins/6/left/Frame 0.png</file>
+        <file>images/cats skins/6/left/Frame 1.png</file>
+        <file>images/cats skins/6/left/Frame 2.png</file>
+        <file>images/cats skins/6/left/Frame 3.png</file>
+        <file>images/cats skins/6/random/0/Frame 0.png</file>
+        <file>images/cats skins/6/random/0/Frame 1.png</file>
+        <file>images/cats skins/6/random/0/Frame 2.png</file>
+        <file>images/cats skins/6/random/0/Frame 3.png</file>
+        <file>images/cats skins/6/random/1/Frame 0.png</file>
+        <file>images/cats skins/6/random/1/Frame 1.png</file>
+        <file>images/cats skins/6/random/1/Frame 2.png</file>
+        <file>images/cats skins/6/random/1/Frame 3.png</file>
+        <file>images/cats skins/6/send home/Frame 0.png</file>
+        <file>images/cats skins/6/send home/Frame 1.png</file>
+        <file>images/cats skins/6/send home/Frame 2.png</file>
+        <file>images/cats skins/6/send home/Frame 3.png</file>
+        <file>images/cats skins/6/dead cat/Frame 0.png</file>
+        <file>images/cats skins/6/dead cat/Frame 1.png</file>
+        <file>images/cats skins/6/dead cat/Frame 2.png</file>
+        <file>images/cats skins/6/dead cat/Frame 3.png</file>
 
-        <file>images/cat/random/1/Frame 0.png</file>
-        <file>images/cat/random/1/Frame 1.png</file>
-        <file>images/cat/random/1/Frame 2.png</file>
-        <file>images/cat/random/1/Frame 3.png</file>
+        <file>images/cats skins/7/up/Frame 0.png</file>
+        <file>images/cats skins/7/up/Frame 1.png</file>
+        <file>images/cats skins/7/up/Frame 2.png</file>
+        <file>images/cats skins/7/up/Frame 3.png</file>
+        <file>images/cats skins/7/down/Frame 0.png</file>
+        <file>images/cats skins/7/down/Frame 1.png</file>
+        <file>images/cats skins/7/down/Frame 2.png</file>
+        <file>images/cats skins/7/down/Frame 3.png</file>
+        <file>images/cats skins/7/right/Frame 0.png</file>
+        <file>images/cats skins/7/right/Frame 1.png</file>
+        <file>images/cats skins/7/right/Frame 2.png</file>
+        <file>images/cats skins/7/right/Frame 3.png</file>
+        <file>images/cats skins/7/left/Frame 0.png</file>
+        <file>images/cats skins/7/left/Frame 1.png</file>
+        <file>images/cats skins/7/left/Frame 2.png</file>
+        <file>images/cats skins/7/left/Frame 3.png</file>
+        <file>images/cats skins/7/random/0/Frame 0.png</file>
+        <file>images/cats skins/7/random/0/Frame 1.png</file>
+        <file>images/cats skins/7/random/0/Frame 2.png</file>
+        <file>images/cats skins/7/random/0/Frame 3.png</file>
+        <file>images/cats skins/7/random/1/Frame 0.png</file>
+        <file>images/cats skins/7/random/1/Frame 1.png</file>
+        <file>images/cats skins/7/random/1/Frame 2.png</file>
+        <file>images/cats skins/7/random/1/Frame 3.png</file>
+        <file>images/cats skins/7/send home/Frame 0.png</file>
+        <file>images/cats skins/7/send home/Frame 1.png</file>
+        <file>images/cats skins/7/send home/Frame 2.png</file>
+        <file>images/cats skins/7/send home/Frame 3.png</file>
+        <file>images/cats skins/7/dead cat/Frame 0.png</file>
+        <file>images/cats skins/7/dead cat/Frame 1.png</file>
+        <file>images/cats skins/7/dead cat/Frame 2.png</file>
+        <file>images/cats skins/7/dead cat/Frame 3.png</file>
 
-        <file>images/cat/random/2/Frame 0.png</file>
-        <file>images/cat/random/2/Frame 1.png</file>
-        <file>images/cat/random/2/Frame 2.png</file>
-        <file>images/cat/random/2/Frame 3.png</file>
+        <file>images/dogs skins/0/up/Frame 0.png</file>
+        <file>images/dogs skins/0/up/Frame 1.png</file>
+        <file>images/dogs skins/0/up/Frame 2.png</file>
+        <file>images/dogs skins/0/up/Frame 3.png</file>
+        <file>images/dogs skins/0/down/Frame 0.png</file>
+        <file>images/dogs skins/0/down/Frame 1.png</file>
+        <file>images/dogs skins/0/down/Frame 2.png</file>
+        <file>images/dogs skins/0/down/Frame 3.png</file>
+        <file>images/dogs skins/0/right/Frame 0.png</file>
+        <file>images/dogs skins/0/right/Frame 1.png</file>
+        <file>images/dogs skins/0/right/Frame 2.png</file>
+        <file>images/dogs skins/0/right/Frame 3.png</file>
+        <file>images/dogs skins/0/left/Frame 0.png</file>
+        <file>images/dogs skins/0/left/Frame 1.png</file>
+        <file>images/dogs skins/0/left/Frame 2.png</file>
+        <file>images/dogs skins/0/left/Frame 3.png</file>
+        <file>images/dogs skins/0/random/0/Frame 0.png</file>
+        <file>images/dogs skins/0/random/0/Frame 1.png</file>
+        <file>images/dogs skins/0/random/0/Frame 2.png</file>
+        <file>images/dogs skins/0/random/0/Frame 3.png</file>
+        <file>images/dogs skins/0/random/1/Frame 0.png</file>
+        <file>images/dogs skins/0/random/1/Frame 1.png</file>
+        <file>images/dogs skins/0/random/1/Frame 2.png</file>
+        <file>images/dogs skins/0/random/1/Frame 3.png</file>
 
-<!--        <file>images/cat/random/3/Frame 0.png</file>-->
-<!--        <file>images/cat/random/3/Frame 1.png</file>-->
-<!--        <file>images/cat/random/3/Frame 2.png</file>-->
-<!--        <file>images/cat/random/3/Frame 3.png</file>-->
 
-        <file>images/dog/up/Frame 0.png</file>
-        <file>images/dog/up/Frame 1.png</file>
-        <file>images/dog/up/Frame 2.png</file>
-        <file>images/dog/up/Frame 3.png</file>
+        <file>images/dogs skins/1/up/Frame 0.png</file>
+        <file>images/dogs skins/1/up/Frame 1.png</file>
+        <file>images/dogs skins/1/up/Frame 2.png</file>
+        <file>images/dogs skins/1/up/Frame 3.png</file>
+        <file>images/dogs skins/1/down/Frame 0.png</file>
+        <file>images/dogs skins/1/down/Frame 1.png</file>
+        <file>images/dogs skins/1/down/Frame 2.png</file>
+        <file>images/dogs skins/1/down/Frame 3.png</file>
+        <file>images/dogs skins/1/right/Frame 0.png</file>
+        <file>images/dogs skins/1/right/Frame 1.png</file>
+        <file>images/dogs skins/1/right/Frame 2.png</file>
+        <file>images/dogs skins/1/right/Frame 3.png</file>
+        <file>images/dogs skins/1/left/Frame 0.png</file>
+        <file>images/dogs skins/1/left/Frame 1.png</file>
+        <file>images/dogs skins/1/left/Frame 2.png</file>
+        <file>images/dogs skins/1/left/Frame 3.png</file>
+        <file>images/dogs skins/1/random/0/Frame 0.png</file>
+        <file>images/dogs skins/1/random/0/Frame 1.png</file>
+        <file>images/dogs skins/1/random/0/Frame 2.png</file>
+        <file>images/dogs skins/1/random/0/Frame 3.png</file>
+        <file>images/dogs skins/1/random/1/Frame 0.png</file>
+        <file>images/dogs skins/1/random/1/Frame 1.png</file>
+        <file>images/dogs skins/1/random/1/Frame 2.png</file>
+        <file>images/dogs skins/1/random/1/Frame 3.png</file>
 
-        <file>images/dog/down/Frame 0.png</file>
-        <file>images/dog/down/Frame 1.png</file>
-        <file>images/dog/down/Frame 2.png</file>
-        <file>images/dog/down/Frame 3.png</file>
+        <file>images/dogs skins/2/up/Frame 0.png</file>
+        <file>images/dogs skins/2/up/Frame 1.png</file>
+        <file>images/dogs skins/2/up/Frame 2.png</file>
+        <file>images/dogs skins/2/up/Frame 3.png</file>
+        <file>images/dogs skins/2/down/Frame 0.png</file>
+        <file>images/dogs skins/2/down/Frame 1.png</file>
+        <file>images/dogs skins/2/down/Frame 2.png</file>
+        <file>images/dogs skins/2/down/Frame 3.png</file>
+        <file>images/dogs skins/2/right/Frame 0.png</file>
+        <file>images/dogs skins/2/right/Frame 1.png</file>
+        <file>images/dogs skins/2/right/Frame 2.png</file>
+        <file>images/dogs skins/2/right/Frame 3.png</file>
+        <file>images/dogs skins/2/left/Frame 0.png</file>
+        <file>images/dogs skins/2/left/Frame 1.png</file>
+        <file>images/dogs skins/2/left/Frame 2.png</file>
+        <file>images/dogs skins/2/left/Frame 3.png</file>
+        <file>images/dogs skins/2/random/0/Frame 0.png</file>
+        <file>images/dogs skins/2/random/0/Frame 1.png</file>
+        <file>images/dogs skins/2/random/0/Frame 2.png</file>
+        <file>images/dogs skins/2/random/0/Frame 3.png</file>
+        <file>images/dogs skins/2/random/1/Frame 0.png</file>
+        <file>images/dogs skins/2/random/1/Frame 1.png</file>
+        <file>images/dogs skins/2/random/1/Frame 2.png</file>
+        <file>images/dogs skins/2/random/1/Frame 3.png</file>
 
-        <file>images/dog/right/Frame 0.png</file>
-        <file>images/dog/right/Frame 1.png</file>
-        <file>images/dog/right/Frame 2.png</file>
-        <file>images/dog/right/Frame 3.png</file>
+        <file>images/dogs skins/3/up/Frame 0.png</file>
+        <file>images/dogs skins/3/up/Frame 1.png</file>
+        <file>images/dogs skins/3/up/Frame 2.png</file>
+        <file>images/dogs skins/3/up/Frame 3.png</file>
+        <file>images/dogs skins/3/down/Frame 0.png</file>
+        <file>images/dogs skins/3/down/Frame 1.png</file>
+        <file>images/dogs skins/3/down/Frame 2.png</file>
+        <file>images/dogs skins/3/down/Frame 3.png</file>
+        <file>images/dogs skins/3/right/Frame 0.png</file>
+        <file>images/dogs skins/3/right/Frame 1.png</file>
+        <file>images/dogs skins/3/right/Frame 2.png</file>
+        <file>images/dogs skins/3/right/Frame 3.png</file>
+        <file>images/dogs skins/3/left/Frame 0.png</file>
+        <file>images/dogs skins/3/left/Frame 1.png</file>
+        <file>images/dogs skins/3/left/Frame 2.png</file>
+        <file>images/dogs skins/3/left/Frame 3.png</file>
+        <file>images/dogs skins/3/random/0/Frame 0.png</file>
+        <file>images/dogs skins/3/random/0/Frame 1.png</file>
+        <file>images/dogs skins/3/random/0/Frame 2.png</file>
+        <file>images/dogs skins/3/random/0/Frame 3.png</file>
+        <file>images/dogs skins/3/random/1/Frame 0.png</file>
+        <file>images/dogs skins/3/random/1/Frame 1.png</file>
+        <file>images/dogs skins/3/random/1/Frame 2.png</file>
+        <file>images/dogs skins/3/random/1/Frame 3.png</file>
 
-        <file>images/dog/left/Frame 0.png</file>
-        <file>images/dog/left/Frame 1.png</file>
-        <file>images/dog/left/Frame 2.png</file>
-        <file>images/dog/left/Frame 3.png</file>
-
-        <file>images/dog/random/0/Frame 0.png</file>
-        <file>images/dog/random/0/Frame 1.png</file>
-        <file>images/dog/random/0/Frame 2.png</file>
-        <file>images/dog/random/0/Frame 3.png</file>
-
-        <file>images/dog/random/1/Frame 0.png</file>
-        <file>images/dog/random/1/Frame 1.png</file>
-        <file>images/dog/random/1/Frame 2.png</file>
-        <file>images/dog/random/1/Frame 3.png</file>
-
-        <file>images/dog/random/2/Frame 0.png</file>
-        <file>images/dog/random/2/Frame 1.png</file>
-        <file>images/dog/random/2/Frame 2.png</file>
-        <file>images/dog/random/2/Frame 3.png</file>
-
-        <file>images/dog/random/3/Frame 0.png</file>
-        <file>images/dog/random/3/Frame 1.png</file>
-        <file>images/dog/random/3/Frame 2.png</file>
-        <file>images/dog/random/3/Frame 3.png</file>
-
+        <file>images/dogs skins/4/up/Frame 0.png</file>
+        <file>images/dogs skins/4/up/Frame 1.png</file>
+        <file>images/dogs skins/4/up/Frame 2.png</file>
+        <file>images/dogs skins/4/up/Frame 3.png</file>
+        <file>images/dogs skins/4/down/Frame 0.png</file>
+        <file>images/dogs skins/4/down/Frame 1.png</file>
+        <file>images/dogs skins/4/down/Frame 2.png</file>
+        <file>images/dogs skins/4/down/Frame 3.png</file>
+        <file>images/dogs skins/4/right/Frame 0.png</file>
+        <file>images/dogs skins/4/right/Frame 1.png</file>
+        <file>images/dogs skins/4/right/Frame 2.png</file>
+        <file>images/dogs skins/4/right/Frame 3.png</file>
+        <file>images/dogs skins/4/left/Frame 0.png</file>
+        <file>images/dogs skins/4/left/Frame 1.png</file>
+        <file>images/dogs skins/4/left/Frame 2.png</file>
+        <file>images/dogs skins/4/left/Frame 3.png</file>
+        <file>images/dogs skins/4/random/0/Frame 0.png</file>
+        <file>images/dogs skins/4/random/0/Frame 1.png</file>
+        <file>images/dogs skins/4/random/0/Frame 2.png</file>
+        <file>images/dogs skins/4/random/0/Frame 3.png</file>
+        <file>images/dogs skins/4/random/1/Frame 0.png</file>
+        <file>images/dogs skins/4/random/1/Frame 1.png</file>
+        <file>images/dogs skins/4/random/1/Frame 2.png</file>
+        <file>images/dogs skins/4/random/1/Frame 3.png</file>
 
         <file>images/objects/food/Frame 0.png</file>
         <file>images/objects/food/Frame 1.png</file>
@@ -126,6 +425,17 @@
         <file>images/menu/buttons/rus.png</file>
         <file>images/menu/buttons/sound_on.png</file>
         <file>images/menu/buttons/sound_off.png</file>
+        <file>images/menu/buttons/send.png</file>
+        <file>images/menu/buttons/cancel.png</file>
+        <file>images/menu/buttons/was_found.png</file>
+        <file>images/menu/buttons/wasnt_found.png</file>
+        <file>images/icon.ico</file>
 
+<!--        <file>images/texture/background.png</file>-->
+
+        <file>images/objects/progress_bar/Frame 0.png</file>
+        <file>images/objects/progress_bar/Frame 1.png</file>
+        <file>images/objects/progress_bar/Frame 2.png</file>
+        <file>images/objects/progress_bar/Frame 3.png</file>
     </qresource>
 </RCC>
