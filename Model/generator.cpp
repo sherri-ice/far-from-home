@@ -56,7 +56,6 @@ left_corner) {
   for (const auto& static_object : new_tile.static_objects) {
     model_->MakeNewPortal(static_object.GetSize(),
                           static_object.GetDrawPosition() + left_corner,
-                          "",
                           false);
   }
   for (const auto& food : new_tile.food) {

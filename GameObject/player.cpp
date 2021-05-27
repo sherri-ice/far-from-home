@@ -276,16 +276,6 @@ void Player::LosingCat(Point dog_position, const std::shared_ptr<Cat>& cat) {
                                     return !(cat->GetIsInGroup());
                                   }),
                    free_cats_.end());
-                             [](const std::shared_ptr<Cat>& cat) {
-                               return !(cat->GetIsInGroup());
-                             }),
-              cats_.end());
-
-  free_cats_.erase(std::remove_if(free_cats_.begin(), free_cats_.end(),
-                                  [](const std::shared_ptr<Cat>& cat) {
-                                    return !(cat->GetIsInGroup());
-                                  }),
-                   free_cats_.end());
 }
 
 std::shared_ptr<Cat> Player::SendCatToSearch(const Point& portal_coordinates,

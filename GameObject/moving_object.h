@@ -38,7 +38,6 @@ class MovingObject : public GameObject {
 
   Size GetDrawSize(const Size& object_size) const override;
   void TickAnimation(int delta_time);
-  AnimationState GetAnimationState() const;
   bool IsMainCatDead() const;
 
   Point GetDestination() const;

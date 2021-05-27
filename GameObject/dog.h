@@ -58,7 +58,6 @@ class Dog : public MovingObject {
   bool IsComingHome() const;
   bool IsMainCatCaught() const;
 
-  void ComeHome();
 
  private:
   Point home_position_;

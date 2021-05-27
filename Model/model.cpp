@@ -147,38 +147,6 @@ std::vector<std::shared_ptr<Warning>> Model::GetWarnings() {
   return result;
 }
 
-std::vector<std::shared_ptr<PortalObject>>& Model::GetStaticObjects() {
-  return static_objects_;
-}
-
-std::shared_ptr<PortalObject> Model::MakeNewPortal(const Size& size,
-                                                   const Point& position,
-                                                   const QString& skin_path,
-                                                   bool has_portal) {
-  static_objects_.push_back(std::make_shared<PortalObject>(size,
-                                                           position,
-                                                           skin_path));
-  int skin_id = GetRandomSkin();
-  static_objects_.back()->SetSkin(objects_pics_["tree"][skin_id]);
-  static_objects_.back()->SetSkinId(skin_id);
-  if (has_portal) {
-    static_objects_.back()->SetPortal();
-  }
-  return static_objects_.back();
-}
-
-void Model::AddWarning(const std::shared_ptr<Warning>& warning) {
-  warnings_.emplace_back(warning);
-}
-
-std::vector<std::shared_ptr<Warning>> Model::GetWarnings() {
-  std::vector<std::shared_ptr<Warning>> result;
-  for (const auto& warning : warnings_) {
-    result.push_back(warning);
-  }
-  return result;
-}
-
 std::shared_ptr<Dog> Model::MakeNewDog(const Size& size,
                                        double speed,
                                        const Point& point,
