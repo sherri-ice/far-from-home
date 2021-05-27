@@ -154,22 +154,6 @@ void Cat::Tick(int delta_time) {
           speed_ / constants::kTimeScale);
       break;
     }
-    case CatState::kIsSearching: {
-      if (!timers_.IsActive(static_cast<int>(CatState::kIsSearching))) {
-        timers_.Start(searching_time_,
-                      static_cast<int>(CatState::kIsSearching));
-        is_hidding_ = true;
-      } else {
-        is_hidding_ = false;
-        is_visible_ = false;
-      }
-      if (timers_.IsTimeOut(static_cast<int>(CatState::kIsSearching))) {
-        cat_state_ = CatState::kHasFinishedSearching;
-        is_visible_ = true;
-        is_back_ = true;
-      }
-      break;
-    }
     case CatState::kHasFinishedSearching: {
       timers_.Stop(static_cast<int>(CatState::kIsSearching));
       is_back_ = false;
@@ -197,8 +181,24 @@ void Cat::Tick(int delta_time) {
       }
       break;
     }
-    case CatState::kReadyToBeDeleted: {
-      timers_.Stop(static_cast<int>(CatState::kNeedsToBeSendHome));
+    case CatState::kIsSearching: {
+      if (!timers_.IsActive(static_cast<int>(CatState::kIsSearching))) {
+        timers_.Start(searching_time_,
+                      static_cast<int>(CatState::kIsSearching));
+        is_hidding_ = true;
+      } else {
+        is_hidding_ = false;
+        is_visible_ = false;
+      }
+      if (timers_.IsTimeOut(static_cast<int>(CatState::kIsSearching))) {
+        cat_state_ = CatState::kHasFinishedSearching;
+        is_visible_ = true;
+        is_back_ = true;
+        case CatState::kReadyToBeDeleted: {
+          timers_.Stop(static_cast<int>(CatState::kNeedsToBeSendHome));
+          break;
+        }
+      }
       break;
     }
     case CatState::kIsDying: {
@@ -206,9 +206,9 @@ void Cat::Tick(int delta_time) {
         timers_.Start(death_time_,
                       static_cast<int>(CatState::kIsDying));
         is_ready_to_die = true;
-    } else {
+      } else {
         velocity_ = Size(0, 0);
-    }
+      }
       if (timers_.IsTimeOut(static_cast<int>(CatState::kIsDying))) {
         cat_state_ = CatState::kIsDead;
       }
@@ -232,6 +232,7 @@ void Cat::Tick(int delta_time) {
     }
   }
 }
+
 
 bool Cat::GetIsInGroup() const {
   return is_in_group_;

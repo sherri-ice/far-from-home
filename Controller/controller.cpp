@@ -24,6 +24,11 @@ void Controller::Tick(int time) {
   CatAndDogInteraction();
   TickCats(delta_time);
   TickDogs(delta_time);
+  TickFood(delta_time);
+  TickObjects(delta_time);
+  TickWarnings(delta_time);
+
+  TickViewCircle();
   MoveCatsAndDogs(delta_time);
   TickObjects(delta_time);
   TickWarnings(delta_time);
@@ -544,19 +549,15 @@ void Controller::EndGame() {
   model_->ClearModel();
   current_game_time_ = 0;
 }
-
 void Controller::SetGameVolume(int volume) {
   music_player_->SetVolume(volume);
 }
-
 std::shared_ptr<MusicPlayer> Controller::GetMusicPlayer() {
   return music_player_;
 }
-
 void Controller::PauseMusic() {
   music_player_->Pause();
 }
-
 void Controller::ResumeMusic() {
   music_player_->Resume();
 }

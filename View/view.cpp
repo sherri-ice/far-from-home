@@ -1,11 +1,15 @@
-#include <algorithm>
+#include "view.h"
+#include "../Model/constants.h"
+
 #include <QKeyEvent>
 #include <QGraphicsScene>
 #include <utility>
 #include <vector>
+#include <algorithm>
 
 #include "../GameObject/portal_object.h"
-#include "view.h"
+#include "progress_bar.h"
+
 
 View::View(AbstractController* controller,
            std::shared_ptr<Model> model)
@@ -145,7 +149,7 @@ bool View::IsOnTheScreen(const std::shared_ptr<GameObject>& object) {
   auto game_top_point = resizer_.WindowToGameCoordinate(top_point);
   Point bottom_point =
       Point(screen_rect.bottomRight().x() + width_shift, screen_rect
-          .bottomRight().y() + height_shift);
+      .bottomRight().y() + height_shift);
   auto game_bottom_point = resizer_.WindowToGameCoordinate(bottom_point);
 
   if (object_pos.GetX() < game_top_point.GetX()
@@ -213,6 +217,23 @@ void View::SetPauseWindow() {
   };
   connect(menu_->GetMenuButton(), &QPushButton::released, this,
           menu_button_click);
+  auto sound_button_click = [this]() {
+    controller_->GetMusicPlayer()->PlayButtonSound();
+    if (menu_->GetSoundOnPauseButton()->objectName()
+        == QObject::tr("sound-on")) {
+      menu_->GetSoundButton()->setObjectName(QObject::tr("sound-off"));
+      menu_->GetSoundOnPauseButton()->setObjectName(QObject::tr("sound-off"));
+      menu_->LoadStyleSheet();
+      controller_->GetMusicPlayer()->SetVolume(0);
+    } else {
+      menu_->GetSoundButton()->setObjectName(QObject::tr("sound-on"));
+      menu_->GetSoundOnPauseButton()->setObjectName(QObject::tr("sound-on"));
+      menu_->LoadStyleSheet();
+      controller_->GetMusicPlayer()->SetVolume(100);
+    }
+  };
+  connect(menu_->GetSoundOnPauseButton(), &QPushButton::released, this,
+          sound_button_click);
 }
 
 void View::SetSettingsWindow() {

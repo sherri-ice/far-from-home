@@ -6,283 +6,128 @@
           "object_type": "cat",
           "point": [
             {
-              "x": -250,
-              "y": -250
-            }
-          ],
-          "speed": 8,
-          "size": 35
-        },
-        {
-          "object_type": "dog",
-          "point": [
-            {
-              "x": -250,
-              "y": -170
-            }
-          ],
-          "size": 60,
-          "speed": 7.5,
-          "visibility_radius": 80,
-          "walking_speed" : 1.8
-        },
-        {
-          "object_type": "dog",
-          "point": [
-            {
-              "x": -330,
-              "y": -310
-            }
-          ],
-          "size": 60,
-          "speed": 7.5,
-          "visibility_radius": 80,
-          "walking_speed" : 1.9
-        },
-        {
-          "object_type": "dog",
-          "point": [
-            {
-              "x": -190,
-              "y": -300
-            }
-          ],
-          "size": 60,
-          "speed": 8.5,
-          "visibility_radius": 70,
-          "walking_speed" : 2
-        }
-      ]
-    },
-
-    {
-      "objects": [
-        {
-          "object_type": "cat",
-          "point": [
-            {
-              "x": 100,
-              "y": 100
-            }
-          ],
-          "speed": 7,
-          "size": 45
-        },
-        {
-          "object_type": "cat",
-          "point": [
-            {
-              "x": 140,
-              "y": 140
-            }
-          ],
-          "speed": 9,
-          "size": 30
-        },
-        {
-          "object_type": "dog",
-          "point": [
-            {
-              "x": 150,
-              "y": 30
-            }
-          ],
-          "size": 70,
-          "speed": 8.5,
-          "visibility_radius": 80,
-          "walking_speed" : 2.8
-        },
-        {
-          "object_type": "dog",
-          "point": [
-            {
-              "x": 35,
-              "y": 20
-            }
-          ],
-          "size": 65,
-          "speed": 7.5,
-          "visibility_radius": 80,
-          "walking_speed" : 3.8
-        },
-        {
-          "object_type": "dog",
-          "point": [
-            {
-              "x": 10,
-              "y": 110
-            }
-          ],
-          "size": 70,
-          "speed": 8.5,
-          "visibility_radius": 80,
-          "walking_speed" : 2.8
-        },
-        {
-          "object_type": "dog",
-          "point": [
-            {
-              "x": 220,
-              "y": 130
-            }
-          ],
-          "size": 60,
-          "speed": 8.5,
-          "visibility_radius": 80,
-          "walking_speed" : 2.8
-        },
-        {
-          "object_type": "dog",
-          "point": [
-            {
-              "x": 110,
-              "y": 190
-            }
-          ],
-          "size": 60,
-          "speed": 8.5,
-          "visibility_radius": 70,
-          "walking_speed" : 2.8
-        }
-      ]
-    },
-
-    {
-      "objects": [
-        {
-          "object_type": "cat",
-          "point": [
-            {
-              "x": 300,
-              "y": 300
-            }
-          ],
-          "speed": 8,
-          "size": 35
-        },
-        {
-          "object_type": "dog",
-          "point": [
-            {
-              "x": 310,
-              "y": 400
-            }
-          ],
-          "size": 60,
-          "speed": 7.5,
-          "visibility_radius": 90,
-          "walking_speed" : 1.8
-        },
-        {
-          "object_type": "dog",
-          "point": [
-            {
-              "x": 210,
-              "y": 310
-            }
-          ],
-          "size": 60,
-          "speed": 7.5,
-          "visibility_radius": 70,
-          "walking_speed" : 1.9
-        },
-        {
-          "object_type": "dog",
-          "point": [
-            {
-              "x": 390,
-              "y": 290
-            }
-          ],
-          "size": 60,
-          "speed": 8.5,
-          "visibility_radius": 80,
-          "walking_speed" : 2
-        },
-        {
-          "object_type": "dog",
-          "point": [
-            {
-              "x": 280,
-              "y": 200
-            }
-          ],
-          "size": 60,
-          "speed": 8.5,
-          "visibility_radius": 80,
-          "walking_speed" : 2
-        }
-      ]
-    },
-
-    {
-      "objects": [
-        {
-          "object_type": "cat",
-          "point": [
-            {
               "x": 250,
               "y": 250
             }
           ],
-          "speed": 9,
+          "speed": 10,
           "size": 40
         },
         {
           "object_type": "dog",
           "point": [
             {
-              "x": 310,
-              "y": 190
+              "x": 180,
+              "y": 250
             }
           ],
           "size": 60,
           "speed": 7.5,
-          "visibility_radius": 80,
-          "walking_speed" : 1.8
+          "visibility_radius": 50,
+          "walking_speed" : 1.75
         },
         {
           "object_type": "dog",
           "point": [
             {
-              "x": 190,
-              "y": 190
+              "x": 250,
+              "y": 180
             }
           ],
           "size": 60,
           "speed": 7.5,
-          "visibility_radius": 70,
-          "walking_speed" : 1.9
+          "visibility_radius": 50,
+          "walking_speed" : 1.75
         },
         {
           "object_type": "dog",
           "point": [
             {
-              "x": 310,
-              "y": 310
+              "x": 320,
+              "y": 250
             }
           ],
           "size": 60,
-          "speed": 8.5,
-          "visibility_radius": 80,
-          "walking_speed" : 2
+          "speed": 7.5,
+          "visibility_radius": 50,
+          "walking_speed" : 1.75
         },
         {
           "object_type": "dog",
           "point": [
             {
-              "x": 190,
-              "y": 310
+              "x": 250,
+              "y": 320
             }
           ],
           "size": 60,
-          "speed": 9.5,
-          "visibility_radius": 90,
-          "walking_speed" : 2.5
+          "speed": 7.5,
+          "visibility_radius": 50,
+          "walking_speed" : 1.75
         }
       ]
     },
-
+    {
+      "objects": [
+        {
+          "object_type": "static_object",
+          "point": [
+            {
+              "x": 0,
+              "y": 0
+            }
+          ],
+          "size": 100
+        },
+        {
+          "object_type": "dog",
+          "point": [
+            {
+              "x": 0,
+              "y": 90
+            }
+          ],
+          "size": 40,
+          "speed": 7.5,
+          "visibility_radius": 70,
+          "walking_speed" : 1.75
+        },
+        {
+          "object_type": "food",
+          "point": [
+            {
+              "x": 0,
+              "y": 50
+            }
+          ],
+          "size": 20
+        }
+      ]
+    },
+    {
+      "objects": [
+        {
+          "object_type": "static_object",
+          "point": [
+            {
+              "x": 250,
+              "y": 250
+            }
+          ],
+          "size": 200
+        },
+        {
+          "object_type": "food",
+          "point": [
+            {
+              "x": 250,
+              "y": 280
+            }
+          ],
+          "size": 20
+        }
+      ]
+    },
     {
       "objects": [
         {
@@ -293,87 +138,11 @@
               "y": 280
             }
           ],
-          "size": 40,
-          "speed" : 11
+          "size": 20,
+          "speed" : 10
         }
       ]
     },
-
-    {
-      "objects": [
-        {
-          "object_type": "static_object",
-          "point": [
-            {
-              "x": 0,
-              "y": 0
-            }
-          ],
-          "size": 300
-        },
-        {
-          "object_type": "dog",
-          "point": [
-            {
-              "x": -80,
-              "y": 160
-            }
-          ],
-          "size": 50,
-          "speed": 6.5,
-          "visibility_radius": 70,
-          "walking_speed" : 1.75
-        },
-        {
-          "object_type": "dog",
-          "point": [
-            {
-              "x": 100,
-              "y": 170
-            }
-          ],
-          "size": 70,
-          "speed": 9.5,
-          "visibility_radius": 80,
-          "walking_speed" : 3.75
-        },
-        {
-          "object_type": "food",
-          "point": [
-            {
-              "x": -20,
-              "y": 200
-            }
-          ],
-          "size": 25
-        }
-      ]
-    },
-    {
-      "objects": [
-        {
-          "object_type": "static_object",
-          "point": [
-            {
-              "x": 250,
-              "y": 250
-            }
-          ],
-          "size": 300
-        },
-        {
-          "object_type": "food",
-          "point": [
-            {
-              "x": 280,
-              "y": 460
-            }
-          ],
-          "size": 25
-        }
-      ]
-    },
-
     {
       "objects": [
 
@@ -389,91 +158,7 @@
               "y": 0
             }
           ],
-          "size": 340
-        },
-        {
-          "object_type": "static_object",
-          "point": [
-            {
-              "x": 200,
-              "y": 0
-            }
-          ],
-          "size": 400
-        },
-        {
-          "object_type": "static_object",
-          "point": [
-            {
-              "x": 350,
-              "y": 0
-            }
-          ],
-          "size": 330
-        },
-        {
-          "object_type": "static_object",
-          "point": [
-            {
-              "x": 500,
-              "y": 0
-            }
-          ],
-          "size": 300
-        },
-        {
-          "object_type": "static_object",
-          "point": [
-            {
-              "x": 600,
-              "y": 0
-            }
-          ],
-          "size": 360
-        },
-        {
-          "object_type": "static_object",
-          "point": [
-            {
-              "x": 250,
-              "y": 250
-            }
-          ],
-          "size": 300
-        }
-      ]
-    },
-    {
-      "objects": [
-        {
-          "object_type": "static_object",
-          "point": [
-            {
-              "x": 0,
-              "y": 0
-            }
-          ],
-          "size": 390
-        },
-        {
-          "object_type": "static_object",
-          "point": [
-            {
-              "x": 0,
-              "y": 130
-            }
-          ],
-          "size": 400
-        },
-        {
-          "object_type": "static_object",
-          "point": [
-            {
-              "x": -100,
-              "y": 0
-            }
-          ],
-          "size": 310
+          "size": 100
         },
         {
           "object_type": "static_object",
@@ -483,7 +168,7 @@
               "y": 0
             }
           ],
-          "size": 330
+          "size": 50
         },
         {
           "object_type": "static_object",
@@ -493,109 +178,101 @@
               "y": 0
             }
           ],
-          "size": 360
+          "size": 110
         },
         {
           "object_type": "static_object",
           "point": [
             {
-              "x": 500,
+              "x": 300,
+              "y": 0
+            }
+          ],
+          "size": 90
+        },
+        {
+          "object_type": "static_object",
+          "point": [
+            {
+              "x": 400,
               "y": 0
             }
           ],
           "size": 350
+        },
+        {
+          "object_type": "static_object",
+          "point": [
+            {
+              "x": 250,
+              "y": 250
+            }
+          ],
+          "size": 400
         }
-      ],
+      ]
+    },
+    {
       "objects": [
         {
           "object_type": "static_object",
           "point": [
             {
-              "x": 50,
-              "y": 120
+              "x": 0,
+              "y": 0
             }
           ],
-          "size": 100
+          "size": 80
         },
         {
           "object_type": "static_object",
           "point": [
             {
-              "x": 100,
-              "y": 120
+              "x": 0,
+              "y": 100
             }
           ],
-          "size": 100
-        },
-        {
-          "object_type": "static_object",
-          "point": [
-            {
-              "x": 150,
-              "y": 120
-            }
-          ],
-          "size": 100
+          "size": 500
         },
         {
           "object_type": "static_object",
           "point": [
             {
               "x": 200,
-              "y": 120
+              "y": 0
             }
           ],
-          "size": 100
+          "size": 80
         },
         {
           "object_type": "static_object",
           "point": [
             {
-              "x": 20,
-              "y": 90
+              "x": 300,
+              "y": 0
             }
           ],
-          "size": 100
+          "size": 80
         },
         {
           "object_type": "static_object",
           "point": [
             {
-              "x": 70,
-              "y": 90
+              "x": 400,
+              "y": 0
             }
           ],
-          "size": 100
+          "size": 80
         },
         {
           "object_type": "static_object",
           "point": [
             {
-              "x": 120,
-              "y": 90
+              "x": 500,
+              "y": 0
             }
           ],
-          "size": 100
-        },
-        {
-          "object_type": "static_object",
-          "point": [
-            {
-              "x": 170,
-              "y": 90
-            }
-          ],
-          "size": 100
-        },
-        {
-          "object_type": "static_object",
-          "point": [
-            {
-              "x": 220,
-              "y": 90
-            }
-          ],
-          "size": 100
+          "size": 80
         }
       ]
     }

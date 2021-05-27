@@ -8,7 +8,6 @@
 #include <memory>
 #include <vector>
 #include <utility>
-// #include "GameObject/abstract_projectile.h"
 
 enum MainMusic {
   kMenuMusic,

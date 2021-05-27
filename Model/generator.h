@@ -14,7 +14,7 @@ namespace constants {
 const int kGameMapWidth = 7'000;
 const int kGameMapHeight = 7'000;
 const int kTileSize = 500;
-const int kNumOfTilesTemplates = 10;
+const int kNumOfTilesTemplates = 7;
 const int kNumOfBorderTemplates = 2;
 }  // namespace constants
 
@@ -29,7 +29,6 @@ class Generator {
  private:
   void GenerateTile(const Point& left_corner);
   void ParseTiles();
-  void GenerateCats();
   int GenerateId(const Point& left_corner);
   std::shared_ptr<Model> model_;
   class Tile {

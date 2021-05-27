@@ -58,6 +58,7 @@ class Dog : public MovingObject {
   bool IsComingHome() const;
   bool IsMainCatCaught() const;
 
+
  private:
   Point home_position_;
   double visibility_radius_;

@@ -55,6 +55,7 @@ class Model {
   void ClearObjects();
   void ClearModel();
 
+  void LoadDynamicAnimation();
   void LoadStaticAnimation();
   void LoadAnimation();
   static QString GetCatRandomSkinPath();
@@ -79,7 +80,6 @@ class Model {
  private:
   std::map<QString, std::vector<std::vector<QPixmap>>> animations_;
   std::map<QString, std::vector<QPixmap>> objects_pics_{};
-  int current_level_ = 0;
 
   std::vector<std::shared_ptr<Cat>> cats_;
   Player* player_;

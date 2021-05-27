@@ -36,7 +36,6 @@ class Player {
 
   void UpdateStaticObjectsAround
       (const std::vector<std::shared_ptr<PortalObject>>& static_objects);
-
   void IsReachable(const std::vector<std::shared_ptr<Dog>>& dogs);
   void UpdateCatsGroup(const std::vector<std::shared_ptr<Cat>>& all_cats);
 
@@ -74,7 +73,6 @@ class Player {
   std::vector<std::shared_ptr<Cat>> free_cats_;
 
   double visibility_radius_{200};
-
   double food_saturation_;
   double speed_of_hunger_;
   int max_food_saturation_{100};

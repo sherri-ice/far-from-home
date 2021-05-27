@@ -24,6 +24,8 @@ class MovingObject : public GameObject {
   double GetSpeed() const;
   virtual void SetAnimations(std::vector<std::vector<QPixmap>>
                                                   animation = {});
+
+  [[nodiscard]] AnimationState GetAnimationState() const;
   virtual void IncSpeed(double speed);
   virtual void DecSpeed(double speed);
   virtual void SetVelocity(Size velocity);
@@ -36,7 +38,6 @@ class MovingObject : public GameObject {
 
   Size GetDrawSize(const Size& object_size) const override;
   void TickAnimation(int delta_time);
-  AnimationState GetAnimationState() const;
   bool IsMainCatDead() const;
 
   Point GetDestination() const;

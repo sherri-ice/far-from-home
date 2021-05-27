@@ -1,6 +1,7 @@
 #include <algorithm>
 
 #include "../Model/model.h"
+#include "../View/progress_bar.h"
 
 namespace {
 
