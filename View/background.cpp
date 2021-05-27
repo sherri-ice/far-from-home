@@ -1,7 +1,5 @@
 #include "background.h"
 
-#include <QDebug>
-
 void Background::Draw(QPainter* painter,
                       Resizer* resizer,
                       const Point& center) {

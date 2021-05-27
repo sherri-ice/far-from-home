@@ -255,6 +255,9 @@ void Controller::CatsAndPortalsIntersect(const std::shared_ptr<Cat>& cat) {
         case CatState::kHasFinishedSearching: {
           break;
         }
+        default: {
+          break;
+        }
       }
     }
   }
@@ -455,7 +458,8 @@ void Controller::MainCatIntersectsWithCats(const std::shared_ptr<Cat>&
                                                             GetVelocity(),
                                                             cat_velocity);
       if (cat->GetIsInGroup()) {
-        cat->SetVelocity(main_cat->GetVelocity());
+        main_cat->SetVelocity(new_velocity * main_cat->GetVelocity()
+        .GetLength());
       } else if (main_cat->GetVelocity() != new_velocity) {
         main_cat->SetVelocity(new_velocity * main_cat->GetVelocity()
         .GetLength());

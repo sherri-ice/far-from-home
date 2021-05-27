@@ -34,7 +34,7 @@ class Model {
 
   std::shared_ptr<PortalObject> MakeNewPortal(const Size& size,
                                               const Point& position,
-                                              bool has_portal);
+                                              bool has_portal = true);
   void AddWarning(const std::shared_ptr<Warning>& warning);
 
   std::shared_ptr<Dog> MakeNewDog(const Size& size,
