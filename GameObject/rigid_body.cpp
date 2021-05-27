@@ -206,11 +206,12 @@ Point RigidBody::GetObjectPosition() const {
   return *object_position_;
 }
 
-Border RigidBody::GetIntersectedBorderForCollision(const Rect& other_rect) const {
+Border RigidBody::GetIntersectedBorderForCollision(const Rect& other_rect)
+    const {
   Size vector = GetCenterOfRigidBody().GetVectorTo(Point(other_rect.x +
       other_rect.width / 2, other_rect.y + other_rect.height / 2));
   if (std::abs(vector.GetHeight()) + constants::kEpsilon < std::abs(vector
-                                                                        .GetWidth())) {
+      .GetWidth())) {
     if (vector.GetHeight() > 0) {
       return Border::kBottom;
     } else {
