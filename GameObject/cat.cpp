@@ -87,6 +87,7 @@ void Cat::Tick(int delta_time) {
           is_reachable_cat_ = false;
           DecSpeed(constants::kCatRunCoefficient);
         }
+        is_run_away_ = false;
         cat_state_ = CatState::kIsResting;
         velocity_ = Size(0, 0);
         timers_.StartTimerWithRandom(constants::kTimeToRestMin,
