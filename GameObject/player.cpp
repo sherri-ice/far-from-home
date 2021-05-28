@@ -90,11 +90,10 @@ void Player::OrderCatsToMove(Size velocity_from_player) {
     }
   }
 
-  cats_.erase(std::remove_if(cats_.begin(), cats_.end(),
-                             [](const std::shared_ptr<Cat>& cat) {
-                               return (!(cat->GetIsInGroup()) || cat == nullptr);
-                             }),
-              cats_.end());
+  cats_.erase(std::remove_if(cats_.begin(), cats_.end(), [](const
+  std::shared_ptr<Cat>& cat) {
+    return (!(cat->GetIsInGroup()) || cat == nullptr);
+  }), cats_.end());
   free_cats_.erase(std::remove_if(free_cats_.begin(),
                                               free_cats_.end(),
                                   [](const std::shared_ptr<Cat>& cat) {
@@ -199,7 +198,8 @@ void Player::UpdateCatsGroup(const
       if (length < cat_group_.first_radius_ &&
             !(wild_cat->GetIsInGroup())
             && wild_cat->GetCatState() != CatState::kIsGoingToSearch &&
-            hunger_state_ != HungerState::kSevereHunger && !wild_cat->IsDead()) {
+            hunger_state_ != HungerState::kSevereHunger && !wild_cat->IsDead
+            ()) {
         cats_.push_back(wild_cat);
         free_cats_.push_back(wild_cat);
         wild_cat->SetIsInGroup(true);

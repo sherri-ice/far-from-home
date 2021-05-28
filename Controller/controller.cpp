@@ -67,7 +67,6 @@ void Controller::StartGame() {
       true,
       true,
       3000));
-
 }
 
 Player* Controller::GetPlayer() {
@@ -95,9 +94,7 @@ void Controller::TickPlayer(int delta_time) {
 void Controller::TickCats(int delta_time) {
   for (auto& cat : model_->GetCats()) {
     if (view_->IsOnTheScreen(cat)) {
-
       cat->Tick(delta_time);
-
       CatAndStaticObjectsIntersect(cat);
       CatsAndPortalsIntersect(cat);
       if (cat->GetIsInGroup() && !cat->IsMainCat()) {
@@ -402,14 +399,10 @@ void Controller::CatsInGroupIntersect(const std::shared_ptr<Cat>& cat) {
   auto rigid_body = cat->GetRigidBody();
   auto main_cat = model_->GetPlayer()->GetMainCat();
   if (!cat->HasFinishedSearch() && rigid_body->IfCollisionWillHappen(*
-                                                                         (main_cat->GetRigidBody()),
-                                                                     cat->GetVelocity(),
-                                                                     main_cat->GetVelocity())) {
+  (main_cat->GetRigidBody()), cat->GetVelocity(), main_cat->GetVelocity())) {
     auto new_velocity = rigid_body->GetVelocityToGoAround(*
-                                                              (main_cat->GetRigidBody()),
-                                                          cat->GetVelocity(),
-                                                          main_cat->GetVelocity
-                                                              ());
+        (main_cat->GetRigidBody()), cat->GetVelocity(), main_cat->GetVelocity
+        ());
     cat->SetVelocity(new_velocity * cat->GetVelocity().GetLength());
   }
   auto cats = model_->GetPlayer()->GetCats();
@@ -461,10 +454,8 @@ cat) {
     if (view_->IsOnTheScreen(other_cat) && other_cat != cat &&
         rigid_body->IfCollisionWillHappen(*other_cat_rigid_body,
                                           current_velocity)) {
-      auto new_velocity = rigid_body->GetVelocityToGoAround(*
-                                                                other_cat_rigid_body,
-                                                            current_velocity,
-                                                            other_cat_velocity);
+      auto new_velocity = rigid_body->GetVelocityToGoAround
+          (*other_cat_rigid_body, current_velocity, other_cat_velocity);
       if (cat->IsComingDestination() &&
           other_cat_rigid_body->IsDestinationCollideWithRect
               (rigid_body->GetRectInNewPosition(cat->GetDestination())) &&
