@@ -1,4 +1,5 @@
 #include "player.h"
+#include <iostream>
 
 std::mt19937 Player::random_generator_ = std::mt19937
     (std::chrono::system_clock::now().time_since_epoch().count());
@@ -14,6 +15,7 @@ std::vector<std::shared_ptr<Cat>> Player::GetCats() const {
 }
 
 void Player::OrderCatsToMove(Size velocity_from_player) {
+  std::cout << "order cats begin\n";
   cat_group_.velocity_ = velocity_from_player;
   Point cat_position;
   std::uniform_real_distribution<> velocity(-1, 1);
@@ -51,8 +53,7 @@ void Player::OrderCatsToMove(Size velocity_from_player) {
                                       (CatState::kIsFollowingPlayer))
             || !(cat->GetTimer().IsActive(static_cast<int>
                                           (CatState::kIsFollowingPlayer)) ||
-                (cat->IsVelocityChange(velocity_from_player))) &&
-                (cat->GetCatState() != CatState::kNeedsToBeSendHome)) {
+                (cat->IsVelocityChange(velocity_from_player)))) {
           cat->SetVelocity(velocity_from_player);
           cat->SetCatState(CatState::kIsFollowingPlayer);
         }
@@ -88,14 +89,17 @@ void Player::OrderCatsToMove(Size velocity_from_player) {
 
   cats_.erase(std::remove_if(cats_.begin(), cats_.end(),
                              [](const std::shared_ptr<Cat>& cat) {
-                               return !(cat->GetIsInGroup());
+                               return (!(cat->GetIsInGroup()) || cat == nullptr);
                              }),
               cats_.end());
-  free_cats_.erase(std::remove_if(free_cats_.begin(), free_cats_.end(),
+  free_cats_.erase(std::remove_if(free_cats_.begin(),
+                                              free_cats_.end(),
                                   [](const std::shared_ptr<Cat>& cat) {
-                                    return !(cat->GetIsInGroup());
+                                    return (!(cat->GetIsInGroup()) || cat ==
+                                        nullptr);
                                   }),
                    free_cats_.end());
+  std::cout << "order cats end\n";
 }
 
 void Player::UpdateDogsAround(const std::vector<std::shared_ptr<Dog>>& dogs)
@@ -176,15 +180,20 @@ static_objects) {
 
 void Player::UpdateCatsGroup(const
                              std::vector<std::shared_ptr<Cat>>& all_cats) {
+  std::cout << "upgrade cats begin\n";
   for (auto& cat : cats_) {
-    if (cat->GetCatState() == CatState::kReadyToBeDeleted) {
+    if (cat != nullptr && cat->GetCatState() == CatState::kReadyToBeDeleted) {
+      std::cout << "before send\n";
       SendCatToPortal(cat);
+      std::cout<<"after send\n";
       continue;
     }
+    std::cout << "after first for\n";
     for (auto& wild_cat : all_cats) {
       if (cat == wild_cat) {
         continue;
       }
+      std::cout << "after second for\n";
       auto length = cat_group_.central_position_.
           GetVectorTo(wild_cat->GetRigidPosition()).GetLength();
       if (wild_cat->GetIsRunAway()) {
@@ -203,8 +212,10 @@ void Player::UpdateCatsGroup(const
         max_food_saturation_ += constants::kMaxFoodSaturation;
         cat_group_.IncGroup();
       }
+      std::cout << "after first if\n";
     }
   }
+  std::cout << "upgrade cats end\n";
 }
 
 void Player::IsReachable(const std::vector<std::shared_ptr<Dog>>& dogs) {
@@ -226,6 +237,7 @@ void Player::IsReachable(const std::vector<std::shared_ptr<Dog>>& dogs) {
       cat->SetIsReachable(false);
     }
   }
+
 }
 
 const Group& Player::GetCatGroup() const {
@@ -393,8 +405,11 @@ void Player::DecHunger(double hunger) {
   food_saturation_ -= hunger;
 }
 
-void Player::SendCatToPortal(std::shared_ptr<Cat> cat) {
+void Player::SendCatToPortal(const std::shared_ptr<Cat>& cat) {
+  std::cout << cat << '\n';
   cat->SetIsInGroup(false);
+  std::cout << "after set is in group\n";
   cat->SetIsDead();
   cat_group_.DecGroup();
+  std::cout << "after everythg in send\n";
 }
