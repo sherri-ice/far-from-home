@@ -80,9 +80,11 @@ void Controller::TickPlayer(int delta_time) {
   view_->ClearVelocity();
   player->IsReachable(model_->GetDogs());
   player->UpdateCatsGroup(model_->GetCats());
+
   if (!(player->GetMainCat()->IsDying())) {
     player->OrderCatsToMove(player_velocity);
   }
+
   player->UpdateDogsAround(model_->GetDogs());
   player->UpdateStaticObjectsAround(model_->GetStaticObjects());
   if (!(player->GetMainCat()->IsDying())) {
@@ -93,7 +95,9 @@ void Controller::TickPlayer(int delta_time) {
 void Controller::TickCats(int delta_time) {
   for (auto& cat : model_->GetCats()) {
     if (view_->IsOnTheScreen(cat)) {
+
       cat->Tick(delta_time);
+
       CatAndStaticObjectsIntersect(cat);
       CatsAndPortalsIntersect(cat);
       if (cat->GetIsInGroup() && !cat->IsMainCat()) {

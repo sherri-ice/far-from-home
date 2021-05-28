@@ -56,8 +56,7 @@ void Player::OrderCatsToMove(Size velocity_from_player) {
                                       (CatState::kIsFollowingPlayer))
             || !(cat->GetTimer().IsActive(static_cast<int>
                                           (CatState::kIsFollowingPlayer)) ||
-                (cat->IsVelocityChange(velocity_from_player) &&
-                    cat->GetCatState() != CatState::kNeedsToBeSendHome))) {
+                (cat->IsVelocityChange(velocity_from_player)))) {
           cat->SetVelocity(velocity_from_player);
           cat->SetCatState(CatState::kIsFollowingPlayer);
         }
@@ -93,12 +92,14 @@ void Player::OrderCatsToMove(Size velocity_from_player) {
 
   cats_.erase(std::remove_if(cats_.begin(), cats_.end(),
                              [](const std::shared_ptr<Cat>& cat) {
-                               return !(cat->GetIsInGroup());
+                               return (!(cat->GetIsInGroup()) || cat == nullptr);
                              }),
               cats_.end());
-  free_cats_.erase(std::remove_if(free_cats_.begin(), free_cats_.end(),
+  free_cats_.erase(std::remove_if(free_cats_.begin(),
+                                              free_cats_.end(),
                                   [](const std::shared_ptr<Cat>& cat) {
-                                    return !(cat->GetIsInGroup());
+                                    return (!(cat->GetIsInGroup()) || cat ==
+                                        nullptr);
                                   }),
                    free_cats_.end());
 }
@@ -181,8 +182,8 @@ static_objects) {
 
 void Player::UpdateCatsGroup(const
                              std::vector<std::shared_ptr<Cat>>& all_cats) {
-  for (auto &cat : cats_) {
-    if (cat->GetCatState() == CatState::kReadyToBeDeleted) {
+  for (auto& cat : cats_) {
+    if (cat != nullptr && cat->GetCatState() == CatState::kReadyToBeDeleted) {
       SendCatToPortal(cat);
       continue;
     }
@@ -397,7 +398,7 @@ void Player::DecHunger(double hunger) {
   food_saturation_ -= hunger;
 }
 
-void Player::SendCatToPortal(std::shared_ptr<Cat> cat) {
+void Player::SendCatToPortal(const std::shared_ptr<Cat>& cat) {
   cat->SetIsInGroup(false);
   cat->SetIsDead();
   cat_group_.DecGroup();
