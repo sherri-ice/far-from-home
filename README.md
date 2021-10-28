@@ -5,7 +5,7 @@ Help kittens get home!
 
 ## Gameplay
 ### Menu
-![](/home/sherri.ice/Pictures/menu.jpg)
+![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/Screenshot%20from%202021-10-28%2009-00-13.png)
 
 ### Kittens
 ####Main kitten:
