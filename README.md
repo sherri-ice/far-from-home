@@ -5,11 +5,14 @@ Help kittens get home!
 
 ## Gameplay
 ### Menu
+
 ![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/Screenshot%20from%202021-10-28%2009-00-13.png)
 
 ### Kittens
 ####Main kitten:
+
 ![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/kitten.jpg)
+
 You can navigate your cat using _keyboard arrows._
 
 ####Collect kittens:
@@ -19,7 +22,9 @@ You can navigate your cat using _keyboard arrows._
 
 
 Your cat has visibility area in code:
+
 ![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/radius.jpg)
+
 Inside circle defines trigger border for cats: if kitten came up close than 
 it will be added to _group_.
 
@@ -49,11 +54,14 @@ Death screen:
 
 ### Food
 To increase your health you can eat some delicious food!
+
 ![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/food.jpg)
 
 ### Enemies
 #### Dog
+
 ![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/dog.jpg)
+
 Despite its cuties it's your enemy!
 
 If dog detects you it will attack. 
@@ -62,6 +70,7 @@ Dog attack causes health decreasing. And all group cats get scared and run away!
 ### Portals
 
 They are hidden in trees. To send your cat to search click on tree.
+
 ![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/portak.jpg)
 
 ### Map
