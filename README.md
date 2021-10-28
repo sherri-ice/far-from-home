@@ -1,19 +1,27 @@
 # Far from home
 
-## About game
-Help kittens get home!
+## About the game
+You are playing on behalf of the cat, who got lost in the woods. The forest you 
+got into is not that simple - in some trees there are hidden portals which
+can bring you home. Ofcourse you are not alone in that forest: there are other 
+cats too (and not only them). Your main goal is to find them and bring into your
+pack (group of cats), because only this way you can send them to different trees in order to find portals. You
+will win the game, when you manage to send all lost kittens back to their homes 
+and stay alive during the process.
 
 ## Gameplay
 ### Menu
 
 ![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/Screenshot%20from%202021-10-28%2009-00-13.png)
 
+To pause the game and enter menu press 'Space'.
+
 ### Kittens
 #### Main kitten:
 
 ![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/kitten.jpg)
 
-You can navigate your cat using _keyboard arrows._
+You can navigate your cat using keys _WASD._
 
 #### Collect kittens:
 
@@ -21,39 +29,46 @@ You can navigate your cat using _keyboard arrows._
 ![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/kittens.jpg)
 
 
-Your cat has visibility area in code:
+You can't see it while playing, but your main cat actually has special visibility
+area:
 
 ![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/radius.jpg)
 
-Inside circle defines trigger border for cats: if kitten came up close than 
-it will be added to _group_.
+Inner circle defines trigger border for cats: if kitten came up close to this 
+area then it will be added to the _group_.
 
-Outside circle defines _the group border_: kittens can move freely in group 
-boarder.
+Outer circle defines _the group border_: kittens can move freely inside the group 
+border.
 
-If kitten gone out of group border _it leaves the group._
+If kitten gone out of the group border _it leaves the group._
+
+Also borders of these areas grow depending on the number of cats in your pack. 
 
 ### Health
-Cat has health. Indicator is in the top of the screen:
+Cat has health. Indicator is at the top of the screen:
 
 ![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/full.jpg)
 
-It decreases due to game process:
+Health decreases during game process. You will get the first warning when only 40% 
+of health is left:
 
 ![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/middle_health.jpg)
 
 
- If no health left you will die :(
+ If you've got only 15% of health left, you will get last warning and all cats in
+ your group will leave you:
 
 ![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/no_healtj.jpg)
 
-Death screen:
+If no health left you will die :(
 
 ![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/die.jpg)
 
 
 ### Food
-To increase your health you can eat some delicious food!
+To increase your health you can eat some delicious food! Be aware: with time
+some food can be spoiled and actually decrease your health. Don't worry fresh 
+food is also generated with time.
 
 ![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/food.jpg)
 
@@ -62,20 +77,25 @@ To increase your health you can eat some delicious food!
 
 ![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/dog.jpg)
 
-Despite its cuties it's your enemy!
+Despite it looks so cute, it's your enemy!
 
-If dog detects you it will attack. 
-Dog attack causes health decreasing. And all group cats get scared and run away!
+If dog detects you, it will attack. 
+Dog attack causes health decreasing. If the dog attacks some cat in your group, 
+you will lose this cat.
+And if the dog attacked the main cat, all group cats will get scared and will 
+run away!
 
 ### Portals
 
-They are hidden in trees. To send your cat to search click on tree.
+They are hidden inside the trees. To send your cat on search click on the tree.
 
 ![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/portak.jpg)
 
 ### Map
 
 [comment]: <> (By pressing key `Q` and)
+
+You can zoom in and zoom out the map using keys 'Q' and 'E'.
 
 ## Build
 
@@ -103,5 +123,8 @@ Also, you should specify Qt libraries which are used:
 ## Dev notes
 
 [comment]: <> (Coming soon)
+
+The whole project is written on C++ according to Google Code Style.
+
 #
 Game was designed by **"Bez-bab"** team as university project.
