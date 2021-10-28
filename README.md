@@ -9,17 +9,17 @@ Help kittens get home!
 
 ### Kittens
 ####Main kitten:
-![](/home/sherri.ice/Pictures/kitten.jpg)
+![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/kitten.jpg)
 You can navigate your cat using _keyboard arrows._
 
 ####Collect kittens:
 
 
-![](/home/sherri.ice/Pictures/kittens.jpg)
+![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/kittens.jpg)
 
 
 Your cat has visibility area in code:
-![](/home/sherri.ice/Pictures/radius.jpg)
+![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/radius.jpg)
 Inside circle defines trigger border for cats: if kitten came up close than 
 it will be added to _group_.
 
@@ -31,29 +31,29 @@ If kitten gone out of group border _it leaves the group._
 ### Health
 Cat has health. Indicator is in the top of the screen:
 
-![](/home/sherri.ice/Downloads/full.jpg)
+![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/full.jpg)
 
 It decreases due to game process:
 
-![](/home/sherri.ice/Downloads/middle_health.jpg)
+![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/middle_health.jpg)
 
 
  If no health left you will die :(
 
-![](/home/sherri.ice/Downloads/no_healtj.jpg)
+![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/no_healtj.jpg)
 
 Death screen:
 
-![](/home/sherri.ice/Downloads/die.jpg)
+![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/die.jpg)
 
 
 ### Food
 To increase your health you can eat some delicious food!
-![](/home/sherri.ice/Pictures/food.jpg)
+![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/food.jpg)
 
 ### Enemies
 #### Dog
-![](/home/sherri.ice/Pictures/dog.jpg)
+![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/dog.jpg)
 Despite its cuties it's your enemy!
 
 If dog detects you it will attack. 
@@ -62,7 +62,7 @@ Dog attack causes health decreasing. And all group cats get scared and run away!
 ### Portals
 
 They are hidden in trees. To send your cat to search click on tree.
-![](/home/sherri.ice/Pictures/portak.jpg)
+![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/portak.jpg)
 
 ### Map
 
