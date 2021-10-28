@@ -64,6 +64,9 @@ Size RigidBody::GetVelocityToGoAround(const RigidBody& other_rigid_body,
   if (intersected_border == Border::kNone) {
     intersected_border = GetIntersectedBorderIfNone(other_rect);
   }
+  if (intersected_border == Border::kNone) {
+    intersected_border = GetIntersectedBorderForCollision(other_rect);
+  }
   if (intersected_border == border_which_is_collide_ &&
   correct_saved_velocity_) {
     return saved_vector_to_get_around_;
@@ -201,4 +204,24 @@ Border RigidBody::GetIntersectedBorderIfNone(const Rect& other_rect) const {
 
 Point RigidBody::GetObjectPosition() const {
   return *object_position_;
+}
+
+Border RigidBody::GetIntersectedBorderForCollision(const Rect& other_rect)
+    const {
+  Size vector = GetCenterOfRigidBody().GetVectorTo(Point(other_rect.x +
+      other_rect.width / 2, other_rect.y + other_rect.height / 2));
+  if (std::abs(vector.GetHeight()) + constants::kEpsilon < std::abs(vector
+      .GetWidth())) {
+    if (vector.GetHeight() > 0) {
+      return Border::kBottom;
+    } else {
+      return Border::kTop;
+    }
+  } else {
+    if (vector.GetWidth() > 0) {
+      return Border::kRight;
+    } else {
+      return Border::kLeft;
+    }
+  }
 }

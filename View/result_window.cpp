@@ -1,7 +1,8 @@
+#include <QFile>
+
 #include "result_window.h"
 #include "./ui_result_window.h"
 #include "../Model/constants.h"
-#include <QFile>
 
 ResultWindow::ResultWindow(QWidget* parent)
     : QDialog(parent), ui(new Ui::ResultWindow) {

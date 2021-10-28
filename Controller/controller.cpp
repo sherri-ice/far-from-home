@@ -10,7 +10,7 @@ void Controller::Tick(int time) {
   int delta_time = time - current_game_time_;
   current_game_time_ = time;
   if (model_->GetPlayer()->GetMainCat()->GetCatState() == CatState::kIsDead) {
-       view_->ShowDeathWindow();
+    view_->ShowDeathWindow();
   }
   TickWin();
   TickViewCircle();
@@ -43,6 +43,30 @@ void Controller::StartGame() {
   map_generator_.GenerateMap();
   current_game_time_ = 0;
   music_player_->StartGameMusic();
+  model_->AddWarning(std::make_shared<Warning>(
+      "Pause on space key",
+      view_->
+          GetCoordinatesForWarning(),
+      32,
+      true,
+      true,
+      3000));
+  model_->AddWarning(std::make_shared<Warning>(
+      "Movement: arrows",
+      view_->
+          GetCoordinatesForWarning(),
+      32,
+      true,
+      true,
+      3000));
+  model_->AddWarning(std::make_shared<Warning>(
+      "Zoom in/out: key 'Q', key 'E'",
+      view_->
+          GetCoordinatesForWarning(),
+      32,
+      true,
+      true,
+      3000));
 }
 
 Player* Controller::GetPlayer() {
@@ -55,9 +79,11 @@ void Controller::TickPlayer(int delta_time) {
   view_->ClearVelocity();
   player->IsReachable(model_->GetDogs());
   player->UpdateCatsGroup(model_->GetCats());
+
   if (!(player->GetMainCat()->IsDying())) {
     player->OrderCatsToMove(player_velocity);
   }
+
   player->UpdateDogsAround(model_->GetDogs());
   player->UpdateStaticObjectsAround(model_->GetStaticObjects());
   if (!(player->GetMainCat()->IsDying())) {
@@ -99,7 +125,7 @@ void Controller::TickDogs(int delta_time) {
       dog->TickAnimation(delta_time);
       for (auto& cat : player->GetCats()) {
         if (dog->GetRigidBody()->IsCollide(*
-        (cat->GetRigidBody()))) {
+                                               (cat->GetRigidBody()))) {
           if (cat == player->GetMainCat()) {
             player->DismissCats();
             dog->SetIsMainCatCaught(true);
@@ -174,10 +200,11 @@ void Controller::ScanIfObjectWereClicked(const Point& point) {
           continue;
         }
         if (view_->GetResultWindow().GetUserAnswer()) {
-          portal_and_searching_cat_[object]->SetCatState
+          GetPlayer()->GetLastAddedCat()->SetCatState
               (CatState::kNeedsToBeSendHome);
-        } else {
-          portal_and_searching_cat_[object]->SetCatState
+        } else if (GetPlayer()->GetLastAddedCat()->GetCatState()
+            != CatState::kIsGoingToSearch) {
+          GetPlayer()->GetLastAddedCat()->SetCatState
               (CatState::kIsFollowingPlayer);
         }
         if (object->HasPortal()) {
@@ -187,8 +214,8 @@ void Controller::ScanIfObjectWereClicked(const Point& point) {
         continue;
       } else if (!object->IsCollected()
           && model_->GetPlayer()->NotOnlyMainCat()) {
-            auto cat = model_->GetPlayer()->SendCatToSearch
-                (object->GetRigidPosition(), object->GetSearchTime(), object
+        auto cat = model_->GetPlayer()->SendCatToSearch
+            (object->GetRigidPosition(), object->GetSearchTime(), object
                 ->GetRigidBody()->GetRect());
         portal_and_searching_cat_[object] = cat;
       } else if (object->IsCollected()) {
@@ -253,6 +280,10 @@ void Controller::CatsAndPortalsIntersect(const std::shared_ptr<Cat>& cat) {
           break;
         }
         case CatState::kHasFinishedSearching: {
+          portal_and_searching_cat_.erase(static_object);
+          break;
+        }
+        default: {
           break;
         }
       }
@@ -265,11 +296,11 @@ void Controller::TickHunger() {
   player->UpdateHunger();
   model_->GetProgressBar()->SetMaxValue(player->GetMaxFoodSaturation());
   model_->GetProgressBar()->UpdateCurrentValue(static_cast<int>
-    (player->GetFoodSaturation()));
+                                               (player->GetFoodSaturation()));
   if (player->IfNeedToShowFirstWarning()) {
     model_->AddWarning(std::make_shared<Warning>("Your cat is hungry!",
                                                  view_->
-                                                 GetCoordinatesForWarning(),
+                                                     GetCoordinatesForWarning(),
                                                  32,
                                                  true,
                                                  true,
@@ -283,7 +314,7 @@ void Controller::TickHunger() {
                                                  "hungry!!! Go on and feed "
                                                  "him!!!",
                                                  view_->
-                                                 GetCoordinatesForWarning(),
+                                                     GetCoordinatesForWarning(),
                                                  32,
                                                  true,
                                                  true,
@@ -304,8 +335,8 @@ void Controller::CheckIfDestinationIsInsideStaticObject() {
       for (const auto& static_object : static_objects) {
         if (view_->IsOnTheScreen(static_object)) {
           while (static_object->GetRigidBody()->IsDestinationCollideWithRect
-          (player_cats.at(i)->GetRigidBody()->GetRectInNewPosition
-          (destination))) {
+              (player_cats.at(i)->GetRigidBody()->GetRectInNewPosition
+                  (destination))) {
             destination = player->GenerateRandomDestination();
           }
           player_cats.at(i)->SetDestination(destination);
@@ -330,9 +361,9 @@ void Controller::DogsIntersect(const std::shared_ptr<Dog>& dog) {
         Size new_velocity = rigid_body->GetVelocityToGoAround
             (*dog_rigid_body, current_velocity, other_dog_velocity);
         if (dog->IsComingHome() &&
-        dog_rigid_body->IsDestinationCollideWithRect
-        (rigid_body->GetRectInNewPosition(dog->GetDestination())) &&
-        other_dog_velocity.GetLength() > constants::kEpsilon) {
+            dog_rigid_body->IsDestinationCollideWithRect
+                (rigid_body->GetRectInNewPosition(dog->GetDestination())) &&
+            other_dog_velocity.GetLength() > constants::kEpsilon) {
           new_velocity = Size(0, 0);
         }
         if (current_velocity != new_velocity) {
@@ -346,15 +377,15 @@ void Controller::DogsIntersect(const std::shared_ptr<Dog>& dog) {
     auto cat_rigid_body = cat->GetRigidBody();
     auto cat_velocity = cat->GetVelocity();
     if (view_->IsOnTheScreen(cat) && (!cat->GetIsInGroup() ||
-    (cat->GetIsInGroup() && dog->IsMainCatCaught())) &&
-    rigid_body->IfCollisionWillHappen(*cat_rigid_body,
-                                      current_velocity)) {
+        (cat->GetIsInGroup() && dog->IsMainCatCaught())) &&
+        rigid_body->IfCollisionWillHappen(*cat_rigid_body,
+                                          current_velocity)) {
       auto new_velocity = rigid_body->GetVelocityToGoAround(*cat_rigid_body,
                                                             current_velocity,
                                                             cat_velocity);
       if (dog->IsComingHome() && cat_rigid_body->IsDestinationCollideWithRect
-      (rigid_body->GetRectInNewPosition(dog->GetDestination())) &&
-      cat_velocity.GetLength() > constants::kEpsilon) {
+          (rigid_body->GetRectInNewPosition(dog->GetDestination())) &&
+          cat_velocity.GetLength() > constants::kEpsilon) {
         new_velocity = Size(0, 0);
       }
       if (current_velocity != new_velocity) {
@@ -380,7 +411,7 @@ void Controller::CatsInGroupIntersect(const std::shared_ptr<Cat>& cat) {
     auto other_cat_rigid_body = cats.at(i)->GetRigidBody();
     auto other_cat_velocity = cats.at(i)->GetVelocity();
     if (cat != cats.at(i) && rigid_body->IfCollisionWillHappen
-    (*other_cat_rigid_body, current_velocity, other_cat_velocity)) {
+        (*other_cat_rigid_body, current_velocity, other_cat_velocity)) {
       auto new_velocity = rigid_body->GetVelocityToGoAround
           (*other_cat_rigid_body, current_velocity, other_cat_velocity);
       if (current_velocity != new_velocity) {
@@ -399,8 +430,8 @@ void Controller::CheckIfDestinationIntersectsWithCat() {
       for (const auto& cat : player_cats) {
         if (cat != player_cats.at(i)) {
           while (cat->GetRigidBody()->IsDestinationCollideWithRect
-          (player_cats.at(i)->GetRigidBody()->GetRectInNewPosition
-          (destination))) {
+              (player_cats.at(i)->GetRigidBody()->GetRectInNewPosition
+                  (destination))) {
             destination = player->GenerateRandomDestination();
           }
           player_cats.at(i)->SetDestination(destination);
@@ -411,7 +442,7 @@ void Controller::CheckIfDestinationIntersectsWithCat() {
 }
 
 void Controller::WildCatsAndOtherCatsIntersect(const std::shared_ptr<Cat>&
-    cat) {
+cat) {
   if (cat->GetVelocity().GetLength() < constants::kEpsilon) {
     return;
   }
@@ -420,16 +451,15 @@ void Controller::WildCatsAndOtherCatsIntersect(const std::shared_ptr<Cat>&
     auto current_velocity = cat->GetVelocity();
     auto other_cat_rigid_body = other_cat->GetRigidBody();
     auto other_cat_velocity = other_cat->GetVelocity();
-    if (view_->IsOnTheScreen(other_cat)  && other_cat != cat &&
-    rigid_body->IfCollisionWillHappen(*other_cat_rigid_body,
-                                      current_velocity)) {
-      auto new_velocity = rigid_body->GetVelocityToGoAround(*
-          other_cat_rigid_body, current_velocity,
-          other_cat_velocity);
+    if (view_->IsOnTheScreen(other_cat) && other_cat != cat &&
+        rigid_body->IfCollisionWillHappen(*other_cat_rigid_body,
+                                          current_velocity)) {
+      auto new_velocity = rigid_body->GetVelocityToGoAround
+          (*other_cat_rigid_body, current_velocity, other_cat_velocity);
       if (cat->IsComingDestination() &&
-      other_cat_rigid_body->IsDestinationCollideWithRect
-      (rigid_body->GetRectInNewPosition(cat->GetDestination())) &&
-      other_cat_velocity.GetLength() > constants::kEpsilon) {
+          other_cat_rigid_body->IsDestinationCollideWithRect
+              (rigid_body->GetRectInNewPosition(cat->GetDestination())) &&
+          other_cat_velocity.GetLength() > constants::kEpsilon) {
         new_velocity = Size(0, 0);
       }
       if (current_velocity != new_velocity) {
@@ -440,25 +470,26 @@ void Controller::WildCatsAndOtherCatsIntersect(const std::shared_ptr<Cat>&
 }
 
 void Controller::MainCatIntersectsWithCats(const std::shared_ptr<Cat>&
-    main_cat) {
+main_cat) {
   auto rigid_body = main_cat->GetRigidBody();
   auto cats = model_->GetCats();
   for (auto& cat : cats) {
     auto cat_velocity = cat->GetVelocity();
     auto cat_rigid_body = cat->GetRigidBody();
     if (main_cat != cat && view_->IsOnTheScreen(cat) &&
-    rigid_body->IfCollisionWillHappen(*cat_rigid_body,
-                                      main_cat->GetVelocity(),
-                                      cat_velocity)) {
+        rigid_body->IfCollisionWillHappen(*cat_rigid_body,
+                                          main_cat->GetVelocity(),
+                                          cat_velocity)) {
       auto new_velocity = rigid_body->GetVelocityToGoAround(*cat_rigid_body,
                                                             main_cat->
-                                                            GetVelocity(),
+                                                                GetVelocity(),
                                                             cat_velocity);
       if (cat->GetIsInGroup()) {
-        cat->SetVelocity(main_cat->GetVelocity());
+        main_cat->SetVelocity(new_velocity * main_cat->GetVelocity()
+            .GetLength());
       } else if (main_cat->GetVelocity() != new_velocity) {
         main_cat->SetVelocity(new_velocity * main_cat->GetVelocity()
-        .GetLength());
+            .GetLength());
       }
     }
   }
@@ -481,12 +512,13 @@ void Controller::CatAndStaticObjectsIntersect(const std::shared_ptr<Cat>& cat) {
   auto rigid_body = cat->GetRigidBody();
   for (const auto& static_object : model_->GetStaticObjects()) {
     if (rigid_body->IfCollisionWillHappen(*
-    (static_object->GetRigidBody()), cat->GetVelocity())) {
+                                              (static_object->GetRigidBody()),
+                                          cat->GetVelocity())) {
       Size new_velocity = cat->GetRigidBody()
           ->GetVelocityToGoAround(*(static_object->GetRigidBody()),
                                   cat->GetVelocity());
       if (cat->IsGoingToSearch() && cat->GetDestinationRect() ==
-      static_object->GetRigidBody()->GetRect()) {
+          static_object->GetRigidBody()->GetRect()) {
         return;
       }
       if (new_velocity != cat->GetVelocity()) {
@@ -501,7 +533,7 @@ void Controller::DogAndStaticObjectIntersect(const std::shared_ptr<Dog>& dog) {
   auto rigid_body = dog->GetRigidBody();
   for (const auto& static_object : model_->GetStaticObjects()) {
     if (rigid_body->IfCollisionWillHappen(*(static_object->GetRigidBody()),
-                                              dog->GetVelocity())) {
+                                          dog->GetVelocity())) {
       Size new_velocity = dog->GetRigidBody()
           ->GetVelocityToGoAround(*(static_object->GetRigidBody()),
                                   dog->GetVelocity());
@@ -523,7 +555,7 @@ void Controller::CatsAndDogIntersect(const std::shared_ptr<Cat>& cat) {
     auto dog_rigid_body = dog->GetRigidBody();
     auto dog_velocity = dog->GetVelocity();
     if (view_->IsOnTheScreen(dog) &&
-    rigid_body->IfCollisionWillHappen(*dog_rigid_body, current_velocity)) {
+        rigid_body->IfCollisionWillHappen(*dog_rigid_body, current_velocity)) {
       auto new_velocity = rigid_body->GetVelocityToGoAround(*dog_rigid_body,
                                                             current_velocity,
                                                             dog_velocity);
@@ -571,7 +603,7 @@ void Controller::CatAndDogInteraction() {
   for (auto dog : model_->GetDogs()) {
     for (auto cat : model_->GetCats()) {
       double length = cat->GetRigidPosition().GetVectorTo
-                        (dog->GetRigidPosition()).GetLength();
+          (dog->GetRigidPosition()).GetLength();
       if (!cat->GetIsInGroup() && length < dog->GetVisibilityRadius()) {
         cat->ComeHome();
         dog->ComeHome();

@@ -1,7 +1,7 @@
+#include <QFile>
+
 #include "win_window.h"
 #include "./ui_winwindow.h"
-
-#include <QFile>
 
 WinWindow::WinWindow(QWidget* parent)
     : QWidget(parent), ui(new Ui::WinWindow) {

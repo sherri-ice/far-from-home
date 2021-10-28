@@ -1,6 +1,7 @@
+#include <QFile>
+
 #include "deathwindow.h"
 #include "./ui_deathwindow.h"
-#include <QFile>
 
 DeathWindow::DeathWindow(QWidget* parent)
     : QWidget(parent), ui(new Ui::DeathWindow) {

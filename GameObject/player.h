@@ -52,7 +52,9 @@ class Player {
   void LosingCat(Point dog_position, const std::shared_ptr<Cat>& cat);
   std::shared_ptr<Cat> SendCatToSearch(const Point& portal_coordinates, int
   search_time, const Rect& portal_rect);
-    void SendCatToPortal(std::shared_ptr<Cat> cat);
+    void SendCatToPortal(const std::shared_ptr<Cat>& cat);
+
+  const std::shared_ptr<Cat>& GetLastAddedCat();
 
   void Tick();
   bool NotOnlyMainCat();
