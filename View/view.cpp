@@ -61,16 +61,16 @@ void View::keyPressEvent(QKeyEvent* event) {
 }
 
 Size View::GetPlayerVelocity() {
-  if (pressed_keys_[Qt::Key_Up]) {
+  if (pressed_keys_[Qt::Key_W]) {
     player_velocity_ += Size(0, -1);
   }
-  if (pressed_keys_[Qt::Key_Down]) {
+  if (pressed_keys_[Qt::Key_S]) {
     player_velocity_ += Size(0, 1);
   }
-  if (pressed_keys_[Qt::Key_Left]) {
+  if (pressed_keys_[Qt::Key_A]) {
     player_velocity_ += Size(-1, 0);
   }
-  if (pressed_keys_[Qt::Key_Right]) {
+  if (pressed_keys_[Qt::Key_D]) {
     player_velocity_ += Size(1, 0);
   }
   return player_velocity_;

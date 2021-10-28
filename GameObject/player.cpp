@@ -172,6 +172,7 @@ static_objects) {
       distance = cat_position.GetVectorTo(static_object->GetRigidPosition());
       if (distance.GetLength() < visibility_radius_) {
         static_object->SetIfMessageIsShown(true);
+        break;
       } else {
         static_object->SetIfMessageIsShown(false);
       }
