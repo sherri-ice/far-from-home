@@ -9,13 +9,13 @@ Help kittens get home!
 ![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/Screenshot%20from%202021-10-28%2009-00-13.png)
 
 ### Kittens
-####Main kitten:
+#### Main kitten:
 
 ![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/kitten.jpg)
 
 You can navigate your cat using _keyboard arrows._
 
-####Collect kittens:
+#### Collect kittens:
 
 
 ![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/kittens.jpg)
