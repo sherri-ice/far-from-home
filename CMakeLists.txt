@@ -14,6 +14,19 @@ if (MINGW)
 else (MINGW)
     set(THREADS_OPTION "-pthread")
 endif (MINGW)
+
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+
+set(CMAKE_PREFIX_PATH "~/Qt/5.12.11/gcc_64/lib/cmake/Qt5/")
+
+find_package(Qt5 REQUIRED COMPONENTS Core Gui OpenGL)
+
+set(REQUIRED_LIBS Core Gui Widgets Multimedia MultimediaWidgets)
+set(REQUIRED_LIBS_QUALIFIED Qt5::Core Qt5::Gui Qt5::Widget Qt5::Multimedia)
+set(CMAKE_PREFIX_PATH )
 set(QT_VERSION 5)
 set(REQUIRED_LIBS Core Gui Widgets Multimedia MultimediaWidgets)
 set(REQUIRED_LIBS_QUALIFIED Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Multimedia Qt5::MultimediaWidgets)

@@ -52,7 +52,7 @@ bool Size::operator!=(Size rhs) const {
 }
 
 std::pair<double, double> Size::GetSize() {
-  return std::pair(width_, height_);
+  return std::pair<double, double>(width_, height_);
 }
 
 double Size::GetLength() const {
