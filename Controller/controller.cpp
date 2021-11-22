@@ -84,8 +84,8 @@ void Controller::TickPlayer(int delta_time) {
     player->OrderCatsToMove(player_velocity);
   }
 
-  player->UpdateDogsAround(model_->GetDogs());
-  player->UpdateStaticObjectsAround(model_->GetStaticObjects());
+  player->UpdateDogsAround(GetDogsOnScreen());
+  player->UpdateStaticObjectsAround(GetStaticObjectsOnScreen());
   if (!(player->GetMainCat()->IsDying())) {
     player->GroupTick(delta_time);
   }
@@ -610,4 +610,24 @@ void Controller::CatAndDogInteraction() {
       }
     }
   }
+}
+
+std::vector<std::shared_ptr<PortalObject>> Controller::GetStaticObjectsOnScreen() {
+  std::vector<std::shared_ptr<PortalObject>> static_objects_on_screen;
+  for (const auto& static_object : model_->GetStaticObjects()) {
+    if (view_->IsOnTheScreen(static_object)) {
+      static_objects_on_screen.push_back(static_object);
+    }
+  }
+  return static_objects_on_screen;
+}
+
+std::vector<std::shared_ptr<Dog>> Controller::GetDogsOnScreen() {
+  std::vector<std::shared_ptr<Dog>> dogs_on_screen;
+  for (const auto& dog : model_->GetDogs()) {
+    if (view_->IsOnTheScreen(dog)) {
+      dogs_on_screen.push_back(dog);
+    }
+  }
+  return dogs_on_screen;
 }
