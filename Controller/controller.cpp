@@ -612,9 +612,10 @@ void Controller::CatAndDogInteraction() {
   }
 }
 
-std::vector<std::shared_ptr<PortalObject>> Controller::GetStaticObjectsOnScreen() {
+std::vector<std::shared_ptr<PortalObject>>
+                                      Controller::GetStaticObjectsOnScreen() {
   std::vector<std::shared_ptr<PortalObject>> static_objects_on_screen;
-  for (const auto& static_object : model_->GetStaticObjects()) {
+  for (const auto& static_object: model_->GetStaticObjects()) {
     if (view_->IsOnTheScreen(static_object)) {
       static_objects_on_screen.push_back(static_object);
     }
