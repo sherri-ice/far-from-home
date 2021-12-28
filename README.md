@@ -1,6 +1,16 @@
 # Far from home
 
-## About the game
+# Table of contents
+1. [Introduction](#introduction)
+    1. [About the game](#about)
+    2. [Dev notes](#devnotes)
+    3. [Developers](#developers)
+2. [Gameplay](#gameplay)
+3. [Build](#build)
+
+# Introduction <a name="introduction"></a>
+
+## About the game <a name="about"></a>
 You are playing on behalf of the cat, who got lost in the woods. The forest you 
 got into is not that simple - in some trees there are hidden portals which
 can bring you home. Ofcourse you are not alone in that forest: there are other 
@@ -9,7 +19,15 @@ pack (group of cats), because only this way you can send them to different trees
 will win the game, when you manage to send all lost kittens back to their homes 
 and stay alive during the process.
 
-## Gameplay
+## Dev notes <a name="devnotes"></a>
+
+The whole project is written on C++ according to Google Code Style.
+Code checked by cpplint.
+
+## Developers <a name="developers"></a>
+Game was designed by **"Bez-bab"** team (@sherri-ice, @yanapush, @shine-bright-like-a-diamand, @polimakruseva) as university project.
+
+## Gameplay <a name="gameplay"></a>
 ### Menu
 
 ![](https://github.com/sherri-ice/far-from-home/blob/readme/images/markdown/Screenshot%20from%202021-10-28%2009-00-13.png)
@@ -97,13 +115,13 @@ They are hidden inside the trees. To send your cat on search click on the tree.
 
 You can zoom in and zoom out the map using keys 'Q' and 'E'.
 
-## Build
+# Build <a name="build"></a>
 
-###Required libs:
+##Required libs:
 
 [Qt 5](https://www.qt.io/ "Qt's homepage")
 
-###  CMakeList
+##  CMakeList
 You should specify your _Qt 5_ place:
 
 `set(CMAKE_PREFIX_PATH "~/your/path/to/qt/Qt5/")`
@@ -120,11 +138,3 @@ Also, you should specify Qt libraries which are used:
 
 [CMakeLists.txt Example](https://www.qt.io/ "CMakeLists.txt Example")
 
-## Dev notes
-
-[comment]: <> (Coming soon)
-
-The whole project is written on C++ according to Google Code Style.
-
-#
-Game was designed by **"Bez-bab"** team as university project.
